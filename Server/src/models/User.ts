@@ -1,5 +1,5 @@
-import e from "express";
 import mongoose, { Schema, Document } from "mongoose";
+import bcrypt from "bcrypt";
 
 enum subscribedPlan {
   FREE = "free",
@@ -13,12 +13,13 @@ export interface IUser extends Document {
   lastName: string;
   email: string;
   password: string;
-  verification_code: number;
+  verification_code?: string;
+  verification_code_ExpiresAt: Date;
   emailVerified: boolean;
   lastLogin: Date;
   refreshToken: string;
-  resetPasswordToken: string;
-  resetPasswordExpiresAt: Date;
+  resetPasswordToken?: string | undefined;
+  resetPasswordExpiresAt?: Date | undefined;
   isSubscribed: boolean;
   subscribedPlan: subscribedPlan;
   preferences: {
@@ -41,10 +42,11 @@ const userSchema = new Schema<IUser>({
     index: true,
   },
   password: { type: String, required: true },
-  verification_code: { type: Number, required: false },
+  verification_code: { type: String, required: false },
+  verification_code_ExpiresAt: { type: Date, required: false },
   emailVerified: { type: Boolean, default: false, required: true },
-  lastLogin: { type: Date, required: true },
-  refreshToken: { type: String, required: true },
+  lastLogin: { type: Date, required: false },
+  refreshToken: { type: String, required: false }, //have to change this to true
   resetPasswordToken: { type: String, required: false },
   resetPasswordExpiresAt: { type: Date, required: false },
   isSubscribed: { type: Boolean, default: false, required: true },
@@ -63,11 +65,40 @@ const userSchema = new Schema<IUser>({
   updatedAt: { type: Date, default: Date.now, required: true },
 });
 
-userSchema.pre("save", function (next) {
-  const now = new Date();
-  this.updatedAt = now;
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
+
+// userSchema.methods.comparePassword = async function (
+//   candidatePassword: string
+// ) {
+//   return await bcrypt.compare(candidatePassword, this.password);
+// };
+
+// userSchema.methods.generateVerificationCode = function () {
+//   this.verification_code = Math.floor(100000 + Math.random() * 900000);
+// };
+
+// userSchema.methods.generateRefreshToken = function () {
+//   return jwt.sign({ _id: this._id }, process.env.REFRESH_TOKEN_SECRET!, {
+//     expiresIn: "7d",
+//   });
+// };
+
+// userSchema.methods.generateAccessToken = function () {
+//   return jwt.sign(
+//     {
+//       _id: this._id,
+//       firstName: this.firstName,
+//       email: this.email,
+//       isSubscribed: this.isSubscribed,
+//       subscribedPlan: this.subscribedPlan,
+//     },
+//     process.env.ACCESS_TOKEN_SECRET!
+//   );
+// };
 
 const User = mongoose.model<IUser>("User", userSchema);
 
