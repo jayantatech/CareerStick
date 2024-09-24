@@ -2,13 +2,34 @@ import mongoose, { Schema, Document } from "mongoose";
 
 // Define interfaces for the schema
 interface ISocialLinks {
-  linkedIn?: string;
-  github?: string;
-  stackOverflow?: string;
-  personalWebsite?: string;
-  twitter?: string;
-  medium?: string;
-  devTo?: string;
+  linkedIn?: {
+    url: string;
+    username: string;
+  };
+  github?: {
+    url: string;
+    username: string;
+  };
+  stackOverflow?: {
+    url: string;
+    username: string;
+  };
+  personalWebsite?: {
+    url: string;
+    username: string;
+  };
+  twitter?: {
+    url: string;
+    username: string;
+  };
+  medium?: {
+    url: string;
+    username: string;
+  };
+  devTo?: {
+    url: string;
+    username: string;
+  };
 }
 
 enum LanguageProficiency {
@@ -160,6 +181,7 @@ interface ICustomSection {
 
 interface IResumeVersion {
   versionId: mongoose.Schema.Types.ObjectId;
+  submittedResumeInfo: mongoose.Schema.Types.ObjectId;
   versionTitle: string;
   isPrime: boolean;
   personalInfo: IPersonalInfo;
@@ -178,13 +200,21 @@ interface IResumeVersion {
   openSourceContributions?: IOpenSourceContribution[];
   customSections?: ICustomSection[];
 }
-
+enum CreationMethodEnum {
+  AI_ASSISTED = "AI-assisted",
+  USER_CREATED = "User-created",
+  ATS_PARSED = "ATS-parsed",
+  MANUAL_ENTRY = "Manual-entry",
+  IMPORTED = "Imported",
+  TEMPLATE_BASED = "Template-based",
+  THIRD_PARTY_TOOL = "Third-party-tool",
+}
 interface IResume extends Document {
   userId: mongoose.Schema.Types.ObjectId;
   resumeTitle: string;
   targetJobTitle: string;
   resumeSettingsId: mongoose.Schema.Types.ObjectId;
-  creationMethod: string;
+  creationMethod: CreationMethodEnum;
   currentVersion: string;
   versions: IResumeVersion[];
   atsCompatibilityScore: number;
@@ -211,11 +241,20 @@ const ResumeSchema: Schema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "ResumeSettings",
   },
-  creationMethod: { type: String, required: true },
+  creationMethod: {
+    type: String,
+    enum: Object.values(CreationMethodEnum),
+    required: true,
+  },
   currentVersion: { type: String, required: true },
   versions: [
     {
       versionId: { type: mongoose.Schema.Types.ObjectId, required: true },
+      submittedResumeInfo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserSubmittedResume",
+        required: true,
+      },
       versionTitle: { type: String, required: true },
       isPrime: { type: Boolean, required: true },
       personalInfo: {
@@ -229,13 +268,34 @@ const ResumeSchema: Schema = new Schema({
           country: { type: String, required: true },
         },
         socialLinks: {
-          linkedIn: { type: String },
-          github: { type: String },
-          stackOverflow: { type: String },
-          personalWebsite: { type: String },
-          twitter: { type: String },
-          medium: { type: String },
-          devTo: { type: String },
+          linkedIn: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          github: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          stackOverflow: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          personalWebsite: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          twitter: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          medium: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
+          devTo: {
+            url: { type: String, required: true },
+            username: { type: String, required: true },
+          },
         },
         languages: [
           {

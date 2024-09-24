@@ -5,7 +5,7 @@ const jwtRefreshTokenSecret = process.env.JWT_REFRESH_SECRET as string;
 
 const generateAccessToken = (payload: any) => {
   return jwt.sign(payload, jwtAccessTokenSecret!, {
-    expiresIn: "3d",
+    expiresIn: "4h",
   });
 };
 
@@ -15,4 +15,17 @@ const generateRefreshToken = (payload: any) => {
   });
 };
 
-export { generateAccessToken, generateRefreshToken };
+const verifyAccessToken = (token: string) => {
+  return jwt.verify(token, jwtAccessTokenSecret!);
+};
+
+const verifyRefreshToken = (token: string) => {
+  return jwt.verify(token, jwtRefreshTokenSecret!);
+};
+
+export {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+};
