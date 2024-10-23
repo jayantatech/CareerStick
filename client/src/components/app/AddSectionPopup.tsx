@@ -263,7 +263,7 @@ const AddSectionPopup: React.FC<AddSectionPopupProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-40 overflow-hidden transition-opacity duration-[3s] ${
+      className={`fixed inset-0 z-40 overflow-hidden transition-opacity  ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClickOutside}

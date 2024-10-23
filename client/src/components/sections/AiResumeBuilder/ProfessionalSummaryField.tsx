@@ -1,35 +1,127 @@
+// import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";
+// import { TextareaField } from "@/components/inputComponents/TextareaField";
+// import FloatingLabelInput from "@/components/inputComponents/TextInputField";
+// import SectionTitle from "@/components/SectionTitle";
+// import React, { useState } from "react";
+// import { BsChatRightTextFill } from "react-icons/bs";
+
+// const ProfessionalSummaryField = () => {
+//   const [summaryText, setSummaryText] = useState("");
+
+//   const handleSummarySelect = (text: any) => {
+//     setSummaryText(text);
+//   };
+//   return (
+//     <>
+//       <SectionTitle label="Professional Summary" />
+
+//       <div className="flex flex-col gap-4 py-1">
+//         <div className="flex justify-between items-start gap-4 relative">
+//           <TextareaField
+//             placeholder="Example: I have over 2 years of experience in software development, specializing in full-stack development with a focus on building scalable web applications, etc."
+//             onChange={(e) => setSummaryText(e.target.value)}
+//             value={summaryText}
+//           />
+//           <AIGeneratedSummaryDropdown onSelect={handleSummarySelect} />
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default ProfessionalSummaryField;
+"use client";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import debounce from "lodash/debounce";
 import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";
 import { TextareaField } from "@/components/inputComponents/TextareaField";
-import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import SectionTitle from "@/components/SectionTitle";
-import React, { useState } from "react";
-import { BsChatRightTextFill } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { updateProfessionalSummary } from "@/lib/store/slices/resumeSlice";
 
-const ProfessionalSummaryField = () => {
-  const [summaryText, setSummaryText] = useState("");
+const ProfessionalSummaryField: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const reduxSummary = useAppSelector(
+    (state) => state.resume.professionalSummary.summaryText
+  );
 
-  const handleSummarySelect = (text: any) => {
-    setSummaryText(text);
-  };
+  // Local state for smooth updates
+  const [localSummary, setLocalSummary] = useState(reduxSummary);
+
+  // Sync local state with Redux when Redux state changes
+  useEffect(() => {
+    setLocalSummary(reduxSummary);
+  }, [reduxSummary]);
+
+  // Debounced function to update Redux
+  const debouncedUpdateRedux = useMemo(
+    () =>
+      debounce((value: string) => {
+        dispatch(updateProfessionalSummary({ summaryText: value }));
+      }, 1000),
+    [dispatch]
+  );
+
+  // Cleanup debounce on unmount
+  useEffect(() => {
+    return () => {
+      debouncedUpdateRedux.cancel();
+    };
+  }, [debouncedUpdateRedux]);
+
+  // Handle text changes with local state and debounced Redux updates
+  const handleSummaryChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newValue = e.target.value;
+      setLocalSummary(newValue);
+      debouncedUpdateRedux(newValue);
+    },
+    [debouncedUpdateRedux]
+  );
+
+  // Handle AI-generated summary selection
+  const handleSummarySelect = useCallback(
+    (text: string) => {
+      setLocalSummary(text);
+      dispatch(updateProfessionalSummary({ summaryText: text }));
+    },
+    [dispatch]
+  );
+
+  // Memoize the textarea component
+  const TextArea = useMemo(
+    () => (
+      <TextareaField
+        placeholder="Example: I have over 2 years of experience in software development, specializing in full-stack development with a focus on building scalable web applications, etc."
+        onChange={handleSummaryChange}
+        value={localSummary}
+      />
+    ),
+    [localSummary, handleSummaryChange]
+  );
+
+  // Memoize the AI dropdown component
+  const AIDropdown = useMemo(
+    () => <AIGeneratedSummaryDropdown onSelect={handleSummarySelect} />,
+    [handleSummarySelect]
+  );
+
   return (
-    <>
+    <div className="w-full">
       <SectionTitle label="Professional Summary" />
 
       <div className="flex flex-col gap-4 py-1">
         <div className="flex justify-between items-start gap-4 relative">
-          <TextareaField
-            placeholder="Example: I have over 2 years of experience in software development, specializing in full-stack development with a focus on building scalable web applications, etc."
-            onChange={(e) => setSummaryText(e.target.value)}
-            value={summaryText}
-          />
-          <AIGeneratedSummaryDropdown onSelect={handleSummarySelect} />
+          {TextArea}
+          {AIDropdown}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default ProfessionalSummaryField;
+// Memoize the entire component
+export default React.memo(ProfessionalSummaryField);
 
 //working code
 // import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";

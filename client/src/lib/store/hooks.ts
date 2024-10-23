@@ -34,3 +34,29 @@ export interface ResumeState {
   isLoading: boolean;
   error: string | null;
 }
+
+// types.ts
+export interface MonthYearDate {
+  month: string;
+  year: string;
+}
+
+export interface JobExperience {
+  id: string;
+  jobTitle: string;
+  company: string;
+  startDate: MonthYearDate;
+  endDate: MonthYearDate;
+  isCurrentJob: boolean;
+  location: string;
+  description: string;
+}
+
+export interface ResumeState {
+  jobIndustry: JobIndustryData;
+  personalInfo: PersonalInformation;
+  professionalSummary: ProfessionalSummary;
+  workExperience: JobExperience[];
+  isLoading: boolean;
+  error: null | string;
+}
