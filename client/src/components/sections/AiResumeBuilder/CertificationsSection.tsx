@@ -1,13 +1,26 @@
 "use client";
-import React, { useState } from "react";
+interface Certificate {
+  id: string;
+  name: string;
+  issuingOrganization: string;
+  issueDate: { month: string; year: string };
+  expirationDate: { month: string; year: string };
+  credentialId: string;
+  verificationUrl: string;
+  description: string;
+  isNeverExpires: boolean;
+}
+
+import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import debounce from "lodash/debounce";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PlusCircle, Trash2, GripVertical } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { GripVertical } from "lucide-react";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import {
   DndContext,
@@ -31,18 +44,12 @@ import AddButton from "@/components/AddButton";
 import SectionTitle from "@/components/SectionTitle";
 import SubSectionTitle from "@/components/SubSectionTitle";
 import TrashIconComponent from "@/components/TrashIconComponent";
-
-interface Certification {
-  id: string;
-  name: string;
-  issuingOrganization: string;
-  issueDate: { month: string; year: string };
-  expirationDate: { month: string; year: string };
-  credentialId: string;
-  url: string;
-  description: string;
-  isNeverExpires: boolean;
-}
+import {
+  addCertificate,
+  updateCertificate,
+  deleteCertificate,
+  reorderCertificates,
+} from "@/lib/store/slices/resumeSlice";
 
 interface MonthYearPickerProps {
   labelFirst: string;
@@ -52,13 +59,13 @@ interface MonthYearPickerProps {
   disabled?: boolean;
 }
 
-const MonthYearPicker = ({
+const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
   labelFirst,
   labelSecond,
   value,
   onChange,
   disabled = false,
-}: MonthYearPickerProps) => {
+}) => {
   const months = [
     { value: "January", label: "January" },
     { value: "February", label: "February" },
@@ -113,21 +120,42 @@ const MonthYearPicker = ({
   );
 };
 
-const SortableCertificationItem = ({
+interface SortableCertificationItemProps {
+  certification: Certificate;
+  onDelete: (id: string) => void;
+  onChange: (id: string, field: keyof Certificate, value: any) => void;
+}
+
+const SortableCertificationItem: React.FC<SortableCertificationItemProps> = ({
   certification,
   onDelete,
   onChange,
-}: {
-  certification: Certification;
-  onDelete: (id: string) => void;
-  onChange: (id: string, field: keyof Certification, value: any) => void;
 }) => {
+  const [localCertification, setLocalCertification] = useState(certification);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: certification.id });
+    useSortable({
+      id: certification.id,
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  };
+
+  useEffect(() => {
+    setLocalCertification(certification);
+  }, [certification]);
+
+  const debouncedReduxUpdate = useCallback(
+    debounce((field: keyof Certificate, value: any) => {
+      onChange(certification.id, field, value);
+    }, 1000),
+    [certification.id, onChange]
+  );
+
+  const handleChange = (field: keyof Certificate, value: any) => {
+    setLocalCertification((prev) => ({ ...prev, [field]: value }));
+    debouncedReduxUpdate(field, value);
   };
 
   return (
@@ -145,30 +173,24 @@ const SortableCertificationItem = ({
               />
               <div className="text-left">
                 <div className="font-semibold font-heading text-gray-500">
-                  {certification.name || "New Certification"}
-                  {certification.issuingOrganization
-                    ? ` by ${certification.issuingOrganization}`
+                  {localCertification.name || "New Certification"}
+                  {localCertification.issuingOrganization
+                    ? ` by ${localCertification.issuingOrganization}`
                     : ""}
                 </div>
                 <div className="text-sm text-gray-500">
-                  {certification.issueDate.month && certification.issueDate.year
-                    ? `Issued: ${certification.issueDate.month} ${certification.issueDate.year}`
+                  {localCertification.issueDate.month &&
+                  localCertification.issueDate.year
+                    ? `Issued: ${localCertification.issueDate.month} ${localCertification.issueDate.year}`
                     : "Issue Date"}{" "}
-                  {!certification.isNeverExpires &&
-                    certification.expirationDate.month &&
-                    certification.expirationDate.year &&
-                    `- Expires: ${certification.expirationDate.month} ${certification.expirationDate.year}`}
-                  {certification.isNeverExpires && "- No Expiration"}
+                  {!localCertification.isNeverExpires &&
+                    localCertification.expirationDate.month &&
+                    localCertification.expirationDate.year &&
+                    `- Expires: ${localCertification.expirationDate.month} ${localCertification.expirationDate.year}`}
+                  {localCertification.isNeverExpires && "- No Expiration"}
                 </div>
               </div>
             </div>
-            {/* <Trash2
-              className="h-4 w-4 text-gray-500 cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(certification.id);
-              }}
-            /> */}
             <TrashIconComponent onDelete={() => onDelete(certification.id)} />
           </div>
         </AccordionTrigger>
@@ -179,9 +201,9 @@ const SortableCertificationItem = ({
                 label="Certification Name"
                 inputType="text"
                 inputClassName="border-gray-300"
-                value={certification.name}
+                value={localCertification.name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(certification.id, "name", e.target.value)
+                  handleChange("name", e.target.value)
                 }
               />
             </div>
@@ -190,13 +212,9 @@ const SortableCertificationItem = ({
                 label="Issuing Organization"
                 inputType="text"
                 inputClassName="border-gray-300"
-                value={certification.issuingOrganization}
+                value={localCertification.issuingOrganization}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(
-                    certification.id,
-                    "issuingOrganization",
-                    e.target.value
-                  )
+                  handleChange("issuingOrganization", e.target.value)
                 }
               />
             </div>
@@ -205,28 +223,22 @@ const SortableCertificationItem = ({
             <MonthYearPicker
               labelFirst="Issue Month"
               labelSecond="Issue Year"
-              value={certification.issueDate}
-              onChange={(value: any) =>
-                onChange(certification.id, "issueDate", value)
-              }
+              value={localCertification.issueDate}
+              onChange={(value) => handleChange("issueDate", value)}
             />
             <MonthYearPicker
               labelFirst="Expiration Month"
               labelSecond="Expiration Year"
-              value={certification.expirationDate}
-              onChange={(value: any) =>
-                onChange(certification.id, "expirationDate", value)
-              }
-              disabled={certification.isNeverExpires}
+              value={localCertification.expirationDate}
+              onChange={(value) => handleChange("expirationDate", value)}
+              disabled={localCertification.isNeverExpires}
             />
           </div>
           <div className="flex items-center">
             <input
               type="checkbox"
-              checked={certification.isNeverExpires}
-              onChange={(e) =>
-                onChange(certification.id, "isNeverExpires", e.target.checked)
-              }
+              checked={localCertification.isNeverExpires}
+              onChange={(e) => handleChange("isNeverExpires", e.target.checked)}
               className="mr-2"
             />
             <label>This certification does not expire</label>
@@ -237,9 +249,9 @@ const SortableCertificationItem = ({
                 label="Credential ID"
                 inputType="text"
                 inputClassName="border-gray-300"
-                value={certification.credentialId}
+                value={localCertification.credentialId}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(certification.id, "credentialId", e.target.value)
+                  handleChange("credentialId", e.target.value)
                 }
               />
             </div>
@@ -248,27 +260,20 @@ const SortableCertificationItem = ({
                 label="Verification URL"
                 inputType="text"
                 inputClassName="border-gray-300"
-                value={certification.url}
+                value={localCertification.verificationUrl}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(certification.id, "url", e.target.value)
+                  handleChange("verificationUrl", e.target.value)
                 }
               />
             </div>
           </div>
           <div className="relative">
-            {/* <h4 className="font-heading font-semibold text-[14px] text-gray-900">
-              Certification Description
-            </h4> */}
             <SubSectionTitle label="Certification Description" />
-            {/* <p className="font-body font-normal text-[15px] text-gray-500 pb-2">
-              Describe the skills and knowledge validated by this certification,
-              and how it enhances your professional expertise.
-            </p> */}
             <TextareaField
               placeholder="Example: Advanced certification in cloud architecture, covering deployment, security, and optimization of cloud infrastructure. Demonstrates expertise in designing scalable and resilient cloud solutions."
-              value={certification.description}
+              value={localCertification.description}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                onChange(certification.id, "description", e.target.value)
+                handleChange("description", e.target.value)
               }
             />
           </div>
@@ -278,20 +283,17 @@ const SortableCertificationItem = ({
   );
 };
 
-const CertificationsSection = () => {
-  const [certifications, setCertifications] = useState<Certification[]>([
-    {
-      id: "default-certification",
-      name: "",
-      issuingOrganization: "",
-      issueDate: { month: "", year: "" },
-      expirationDate: { month: "", year: "" },
-      credentialId: "",
-      url: "",
-      description: "",
-      isNeverExpires: false,
-    },
-  ]);
+interface RootState {
+  resume: {
+    certificate: Certificate[];
+  };
+}
+
+const CertificationsSection: React.FC = () => {
+  const dispatch = useDispatch();
+  const certificates = useSelector(
+    (state: RootState) => state.resume.certificate
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -300,103 +302,100 @@ const CertificationsSection = () => {
     })
   );
 
+  // Add a default certification if none exists
+  useEffect(() => {
+    // Only add default if certificates array is completely empty
+    if (!certificates || certificates.length === 0) {
+      const defaultCertification: Certificate = {
+        id: `certification-${Date.now()}`,
+        name: "",
+        issuingOrganization: "",
+        issueDate: { month: "", year: "" },
+        expirationDate: { month: "", year: "" },
+        credentialId: "",
+        verificationUrl: "",
+        description: "",
+        isNeverExpires: false,
+      };
+
+      // Use a ref to ensure this only runs once
+      const timeoutId = setTimeout(() => {
+        dispatch(addCertificate(defaultCertification));
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
+
   const addNewCertification = () => {
-    const newCertification: Certification = {
+    const newCertification: Certificate = {
       id: `certification-${Date.now()}`,
       name: "",
       issuingOrganization: "",
       issueDate: { month: "", year: "" },
       expirationDate: { month: "", year: "" },
       credentialId: "",
-      url: "",
+      verificationUrl: "",
       description: "",
       isNeverExpires: false,
     };
-    setCertifications([...certifications, newCertification]);
+    dispatch(addCertificate(newCertification));
   };
 
   const handleInputChange = (
     id: string,
-    field: keyof Certification,
+    field: keyof Certificate,
     value: any
   ) => {
-    setCertifications(
-      certifications.map((cert) =>
-        cert.id === id
-          ? {
-              ...cert,
-              [field]: value,
-              ...(field === "isNeverExpires" && value
-                ? { expirationDate: { month: "", year: "" } }
-                : {}),
-            }
-          : cert
-      )
-    );
+    dispatch(updateCertificate({ id, field, value }));
   };
 
-  const deleteCertification = (id: string) => {
-    setCertifications(certifications.filter((cert) => cert.id !== id));
+  const deleteCertificationHandler = (id: string) => {
+    // Prevent deleting if it's the last certification
+    if (certificates.length > 1) {
+      dispatch(deleteCertificate(id));
+    }
   };
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setCertifications((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+      const oldIndex = certificates.findIndex((cert) => cert.id === active.id);
+      const newIndex = certificates.findIndex((cert) => cert.id === over.id);
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      dispatch(reorderCertificates({ oldIndex, newIndex }));
     }
   };
 
   return (
     <div className="w-full h-auto">
-      {/* <h3 className="font-heading font-semibold text-[16px] text-black pb-[2px]">
-        Certifications
-      </h3> */}
       <SectionTitle label="Certifications" />
-      {/* <p className="font-body font-normal text-[15px] text-gray-500 mb-4">
-        List your professional certifications, including details about the
-        issuing organization, validity dates, and the skills they validate. This
-        helps demonstrate your expertise and commitment to professional
-        development.
-      </p> */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={certifications.map((cert) => cert.id)}
+          items={certificates.map((cert) => cert.id)}
           strategy={verticalListSortingStrategy}
         >
           <Accordion
             type="multiple"
             className="w-full space-y-2"
-            defaultValue={["default-certification"]}
+            defaultValue={certificates.map((cert) => cert.id)}
           >
-            {certifications.map((certification) => (
+            {certificates.map((certification) => (
               <SortableCertificationItem
                 key={certification.id}
                 certification={certification}
-                onDelete={deleteCertification}
+                onDelete={deleteCertificationHandler}
                 onChange={handleInputChange}
               />
             ))}
           </Accordion>
         </SortableContext>
       </DndContext>
-      {/* <Button
-        onClick={addNewCertification}
-        variant="outline"
-        className="mt-4 flex items-center text-primary hover:text-primary-dark"
-      >
-        <PlusCircle className="mr-2" />
-        Add New Certification
-      </Button> */}
       <AddButton label="Add New Certification" onClick={addNewCertification} />
     </div>
   );

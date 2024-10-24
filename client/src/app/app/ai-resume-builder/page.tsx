@@ -361,7 +361,7 @@ const AiResumeBuilder: React.FC = () => {
   const [selectedSections, setSelectedSections] = useState<SelectedSections>(
     () =>
       SECTION_CONFIG.reduce(
-        (acc: any, section: any) => ({
+        (acc, section) => ({
           ...acc,
           [section.id]: section.defaultSelected || false,
         }),
@@ -389,7 +389,7 @@ const AiResumeBuilder: React.FC = () => {
       <div className="flex-1 overflow-y-auto">
         <div className="flex">
           {/* Left section */}
-          <div ref={leftSectionRef} className="w-[46%] p-4 px-6">
+          <div ref={leftSectionRef} className="w-[40%] p-4 px-6">
             <div className="mb-3">
               <div className="bg-blue-50 border border-blue-100 rounded mb-4 p-3">
                 <p className="text-[15px] font-body text-blue-800">
@@ -474,7 +474,7 @@ const AiResumeBuilder: React.FC = () => {
           </div>
 
           {/* Right section */}
-          <div className="w-[54%] bg-gray-500 sticky top-0 h-[calc(100vh-63px)]">
+          <div className="w-[60%] bg-gray-500 sticky top-0 h-[calc(100vh-63px)]">
             <div className="w-full h-[450px]"></div>
           </div>
         </div>
