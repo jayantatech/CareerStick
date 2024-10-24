@@ -1,6 +1,5 @@
 import AppHeader from "@/components/AppHeader";
 import React from "react";
-import { MdAdd } from "react-icons/md";
 
 const ResumeCard = () => (
   <div className="w-full max-w-[450px] h-[668px] bg-white border border-gray-200 rounded shadow-md p-3 m-4 cursor-pointer">

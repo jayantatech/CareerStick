@@ -12,12 +12,12 @@ export default function AIGeneratedSummaryDropdown({
   onSelect,
   summaries,
 }: {
-  onSelect: (text: any) => void;
+  onSelect: (text: string) => void;
   summaries: string[];
 }) {
   const [open, setOpen] = useState(false);
 
-  const handleSelect = (text: any) => {
+  const handleSelect = (text: string) => {
     onSelect(text);
     setOpen(false);
   };

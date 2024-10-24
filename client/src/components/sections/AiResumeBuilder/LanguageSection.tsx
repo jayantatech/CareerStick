@@ -277,10 +277,288 @@
 // };
 
 // export default LanguageSection;
+// // LanguageSection.tsx
+// "use client";
+// import React, { useState, useCallback } from "react";
+// import { useDispatch } from "react-redux";
+// import debounce from "lodash/debounce";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "@/components/ui/accordion";
+// import { GripVertical } from "lucide-react";
+// import FloatingLabelInput from "@/components/inputComponents/TextInputField";
+// import FloatingLabelSelect from "@/components/SelectFieldComponent";
+// import {
+//   DndContext,
+//   closestCenter,
+//   KeyboardSensor,
+//   PointerSensor,
+//   useSensor,
+//   useSensors,
+// } from "@dnd-kit/core";
+// import {
+//   arrayMove,
+//   SortableContext,
+//   sortableKeyboardCoordinates,
+//   useSortable,
+//   verticalListSortingStrategy,
+// } from "@dnd-kit/sortable";
+// import { CSS } from "@dnd-kit/utilities";
+// import AddButton from "@/components/AddButton";
+// import SectionTitle from "@/components/SectionTitle";
+// import TrashIconComponent from "@/components/TrashIconComponent";
+// // import {
+// //   addLanguage,
+// //   updateLanguage,
+// //   deleteLanguage,
+// //   reorderLanguages,
+// // } from "../../";
+// // addLanguage
+// // import { RootState } from "../store"; // Adjust the import path according to your store location
+// import {
+//   addLanguage,
+//   updateLanguage,
+//   deleteLanguage,
+//   reorderLanguages,
+// } from "@/lib/store/slices/resumeSlice";
+// import { useAppSelector } from "@/lib/store/hooks";
+
+// interface Language {
+//   id: string;
+//   name: string;
+//   proficiency: string;
+//   isCustom: boolean;
+// }
+
+// const languageOptions = [
+//   // Popular Indian Languages
+//   { value: "english", label: "English" },
+//   { value: "hindi", label: "Hindi" },
+//   { value: "bengali", label: "Bengali" },
+//   { value: "punjabi", label: "Punjabi" },
+//   { value: "telugu", label: "Telugu" },
+//   { value: "tamil", label: "Tamil" },
+//   { value: "marathi", label: "Marathi" },
+//   { value: "gujarati", label: "Gujarati" },
+//   { value: "urdu", label: "Urdu" },
+//   { value: "malayalam", label: "Malayalam" },
+//   { value: "kannada", label: "Kannada" },
+//   { value: "odia", label: "Odia" },
+//   { value: "assamese", label: "Assamese" },
+//   { value: "sanskrit", label: "Sanskrit" },
+
+//   // Most Popular Languages in the U.S.
+//   { value: "spanish", label: "Spanish" },
+//   { value: "chinese", label: "Chinese" }, // includes Mandarin & Cantonese
+//   { value: "tagalog", label: "Tagalog" }, // Filipino
+//   { value: "vietnamese", label: "Vietnamese" },
+//   { value: "french", label: "French" },
+//   { value: "arabic", label: "Arabic" },
+//   { value: "korean", label: "Korean" },
+//   { value: "german", label: "German" },
+//   { value: "russian", label: "Russian" },
+//   { value: "portuguese", label: "Portuguese" },
+//   { value: "italian", label: "Italian" },
+//   { value: "japanese", label: "Japanese" },
+//   { value: "polish", label: "Polish" },
+//   { value: "persian", label: "Persian" }, // Farsi
+// ];
+
+// const proficiencyOptions = [
+//   { value: "beginner", label: "Beginner" },
+//   { value: "intermediate", label: "Intermediate" },
+//   { value: "advanced", label: "Advanced" },
+//   { value: "native", label: "Native" },
+// ];
+
+// const SortableLanguageItem = ({
+//   language,
+//   onDelete,
+//   onChange,
+// }: {
+//   language: Language;
+//   onDelete: (id: string) => void;
+//   onChange: (id: string, field: keyof Language, value: string) => void;
+// }) => {
+//   const { attributes, listeners, setNodeRef, transform, transition } =
+//     useSortable({ id: language.id });
+
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition,
+//   };
+
+//   // Local state for immediate UI updates
+//   const [localLanguage, setLocalLanguage] = useState(language);
+
+//   // Debounced function to update Redux
+//   const debouncedOnChange = useCallback(
+//     debounce((id: string, field: keyof Language, value: string) => {
+//       onChange(id, field, value);
+//     }, 1000),
+//     []
+//   );
+
+//   // Handle local state change and debounced Redux update
+//   const handleChange = (field: keyof Language, value: string) => {
+//     setLocalLanguage((prev) => ({ ...prev, [field]: value }));
+//     debouncedOnChange(language.id, field, value);
+//   };
+
+//   return (
+//     <div ref={setNodeRef} style={style} {...attributes}>
+//       <AccordionItem
+//         value={language.id}
+//         className="border rounded overflow-hidden mb-2"
+//       >
+//         <AccordionTrigger className="px-3 py-2 hover:no-underline hover:bg-gray-50 h-[52px] rounded">
+//           <div className="flex justify-between items-center w-full">
+//             <div className="flex items-center">
+//               <GripVertical
+//                 className="h-5 w-5 text-gray-400 mr-2 cursor-move"
+//                 {...listeners}
+//               />
+//               <div className="text-left">
+//                 <div className="font-semibold font-heading text-gray-500 capitalize">
+//                   {localLanguage.name || "New Language"}
+//                 </div>
+//                 <div className="text-sm text-gray-500">
+//                   {localLanguage.proficiency}
+//                 </div>
+//               </div>
+//             </div>
+//             <TrashIconComponent onDelete={() => onDelete(language.id)} />
+//           </div>
+//         </AccordionTrigger>
+//         <AccordionContent className="px-4 py-2 space-y-4">
+//           <div className="w-full h-auto flex gap-2">
+//             <div className="w-1/2">
+//               {localLanguage.isCustom ? (
+//                 <FloatingLabelInput
+//                   label="Custom Language"
+//                   inputType="text"
+//                   inputClassName="border-gray-300"
+//                   value={localLanguage.name}
+//                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+//                     handleChange("name", e.target.value)
+//                   }
+//                 />
+//               ) : (
+//                 <FloatingLabelSelect
+//                   label="Language"
+//                   options={languageOptions}
+//                   value={localLanguage.name}
+//                   onChange={(value) => {
+//                     if (value === "custom") {
+//                       handleChange("isCustom", "true");
+//                       handleChange("name", "");
+//                     } else {
+//                       handleChange("name", value);
+//                     }
+//                   }}
+//                 />
+//               )}
+//             </div>
+//             <div className="w-1/2">
+//               <FloatingLabelSelect
+//                 label="Proficiency"
+//                 options={proficiencyOptions}
+//                 value={localLanguage.proficiency}
+//                 onChange={(value) => handleChange("proficiency", value)}
+//               />
+//             </div>
+//           </div>
+//         </AccordionContent>
+//       </AccordionItem>
+//     </div>
+//   );
+// };
+
+// const LanguageSection = () => {
+//   const dispatch = useDispatch();
+//   const languages = useAppSelector((state) => state.resume.languages);
+
+//   const sensors = useSensors(
+//     useSensor(PointerSensor),
+//     useSensor(KeyboardSensor, {
+//       coordinateGetter: sortableKeyboardCoordinates,
+//     })
+//   );
+
+//   const addNewLanguage = () => {
+//     const newLanguage: Language = {
+//       id: `language-${Date.now()}`,
+//       name: "",
+//       proficiency: "",
+//       isCustom: false,
+//     };
+//     dispatch(addLanguage(newLanguage));
+//   };
+
+//   const handleInputChange = (
+//     id: string,
+//     field: keyof Language,
+//     value: string
+//   ) => {
+//     dispatch(updateLanguage({ id, field, value }));
+//   };
+
+//   const handleDelete = (id: string) => {
+//     dispatch(deleteLanguage(id));
+//   };
+
+//   const handleDragEnd = (event: any) => {
+//     const { active, over } = event;
+
+//     if (active.id !== over.id) {
+//       const oldIndex = languages.findIndex((item) => item.id === active.id);
+//       const newIndex = languages.findIndex((item) => item.id === over.id);
+
+//       dispatch(reorderLanguages({ oldIndex, newIndex }));
+//     }
+//   };
+
+//   return (
+//     <div className="w-full h-auto">
+//       <SectionTitle label="Languages" />
+//       <DndContext
+//         sensors={sensors}
+//         collisionDetection={closestCenter}
+//         onDragEnd={handleDragEnd}
+//       >
+//         <SortableContext
+//           items={languages.map((lang) => lang.id)}
+//           strategy={verticalListSortingStrategy}
+//         >
+//           <Accordion
+//             type="multiple"
+//             className="w-full space-y-2"
+//             defaultValue={["default-language"]}
+//           >
+//             {languages.map((language) => (
+//               <SortableLanguageItem
+//                 key={language.id}
+//                 language={language}
+//                 onDelete={handleDelete}
+//                 onChange={handleInputChange}
+//               />
+//             ))}
+//           </Accordion>
+//         </SortableContext>
+//       </DndContext>
+//       <AddButton label="Add New Language" onClick={addNewLanguage} />
+//     </div>
+//   );
+// };
+
+// export default LanguageSection;
 // LanguageSection.tsx
 "use client";
 import React, { useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import debounce from "lodash/debounce";
 import {
   Accordion,
@@ -298,9 +576,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
@@ -310,14 +588,6 @@ import { CSS } from "@dnd-kit/utilities";
 import AddButton from "@/components/AddButton";
 import SectionTitle from "@/components/SectionTitle";
 import TrashIconComponent from "@/components/TrashIconComponent";
-// import {
-//   addLanguage,
-//   updateLanguage,
-//   deleteLanguage,
-//   reorderLanguages,
-// } from "../../";
-// addLanguage
-// import { RootState } from "../store"; // Adjust the import path according to your store location
 import {
   addLanguage,
   updateLanguage,
@@ -333,7 +603,18 @@ interface Language {
   isCustom: boolean;
 }
 
-const languageOptions = [
+interface LanguageOption {
+  value: string;
+  label: string;
+}
+
+interface SortableLanguageItemProps {
+  language: Language;
+  onDelete: (id: string) => void;
+  onChange: (id: string, field: keyof Language, value: string) => void;
+}
+
+const languageOptions: LanguageOption[] = [
   // Popular Indian Languages
   { value: "english", label: "English" },
   { value: "hindi", label: "Hindi" },
@@ -367,21 +648,16 @@ const languageOptions = [
   { value: "persian", label: "Persian" }, // Farsi
 ];
 
-const proficiencyOptions = [
+const proficiencyOptions: LanguageOption[] = [
   { value: "beginner", label: "Beginner" },
   { value: "intermediate", label: "Intermediate" },
   { value: "advanced", label: "Advanced" },
   { value: "native", label: "Native" },
 ];
-
-const SortableLanguageItem = ({
+const SortableLanguageItem: React.FC<SortableLanguageItemProps> = ({
   language,
   onDelete,
   onChange,
-}: {
-  language: Language;
-  onDelete: (id: string) => void;
-  onChange: (id: string, field: keyof Language, value: string) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: language.id });
@@ -391,18 +667,22 @@ const SortableLanguageItem = ({
     transition,
   };
 
-  // Local state for immediate UI updates
-  const [localLanguage, setLocalLanguage] = useState(language);
+  const [localLanguage, setLocalLanguage] = useState<Language>(language);
 
-  // Debounced function to update Redux
+  // Inline function for useCallback to fix the dependency warning
   const debouncedOnChange = useCallback(
-    debounce((id: string, field: keyof Language, value: string) => {
-      onChange(id, field, value);
-    }, 1000),
-    []
+    (id: string, field: keyof Language, value: string) => {
+      const debouncedUpdate = debounce(
+        (id: string, field: keyof Language, value: string) => {
+          onChange(id, field, value);
+        },
+        1000
+      );
+      debouncedUpdate(id, field, value);
+    },
+    [onChange]
   );
 
-  // Handle local state change and debounced Redux update
   const handleChange = (field: keyof Language, value: string) => {
     setLocalLanguage((prev) => ({ ...prev, [field]: value }));
     debouncedOnChange(language.id, field, value);
@@ -477,7 +757,7 @@ const SortableLanguageItem = ({
   );
 };
 
-const LanguageSection = () => {
+const LanguageSection: React.FC = () => {
   const dispatch = useDispatch();
   const languages = useAppSelector((state) => state.resume.languages);
 
@@ -510,12 +790,12 @@ const LanguageSection = () => {
     dispatch(deleteLanguage(id));
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       const oldIndex = languages.findIndex((item) => item.id === active.id);
-      const newIndex = languages.findIndex((item) => item.id === over.id);
+      const newIndex = languages.findIndex((item) => item.id === over?.id);
 
       dispatch(reorderLanguages({ oldIndex, newIndex }));
     }

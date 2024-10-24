@@ -11,7 +11,7 @@ interface Certificate {
   isNeverExpires: boolean;
 }
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import debounce from "lodash/debounce";
 import {
@@ -29,9 +29,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
@@ -123,7 +123,7 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
 interface SortableCertificationItemProps {
   certification: Certificate;
   onDelete: (id: string) => void;
-  onChange: (id: string, field: keyof Certificate, value: any) => void;
+  onChange: (id: string, field: keyof Certificate, value: string) => void;
 }
 
 const SortableCertificationItem: React.FC<SortableCertificationItemProps> = ({
@@ -147,15 +147,34 @@ const SortableCertificationItem: React.FC<SortableCertificationItemProps> = ({
   }, [certification]);
 
   const debouncedReduxUpdate = useCallback(
-    debounce((field: keyof Certificate, value: any) => {
-      onChange(certification.id, field, value);
-    }, 1000),
+    (
+      field: keyof Certificate,
+      value: string | boolean | { month: string; year: string }
+    ) => {
+      onChange(certification.id, field, value as string);
+    },
     [certification.id, onChange]
   );
 
-  const handleChange = (field: keyof Certificate, value: any) => {
+  // Create a memoized debounced function
+  const debouncedUpdate = useMemo(
+    () => debounce(debouncedReduxUpdate, 1000),
+    [debouncedReduxUpdate]
+  );
+
+  // Cleanup the debounced function on unmount
+  useEffect(() => {
+    return () => {
+      debouncedUpdate.cancel();
+    };
+  }, [debouncedUpdate]);
+
+  const handleChange = (
+    field: keyof Certificate,
+    value: string | boolean | { month: string; year: string }
+  ) => {
     setLocalCertification((prev) => ({ ...prev, [field]: value }));
-    debouncedReduxUpdate(field, value);
+    debouncedUpdate(field, value);
   };
 
   return (
@@ -325,7 +344,7 @@ const CertificationsSection: React.FC = () => {
 
       return () => clearTimeout(timeoutId);
     }
-  }, []);
+  }, [certificates, dispatch]);
 
   const addNewCertification = () => {
     const newCertification: Certificate = {
@@ -345,7 +364,7 @@ const CertificationsSection: React.FC = () => {
   const handleInputChange = (
     id: string,
     field: keyof Certificate,
-    value: any
+    value: string
   ) => {
     dispatch(updateCertificate({ id, field, value }));
   };
@@ -357,12 +376,12 @@ const CertificationsSection: React.FC = () => {
     }
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       const oldIndex = certificates.findIndex((cert) => cert.id === active.id);
-      const newIndex = certificates.findIndex((cert) => cert.id === over.id);
+      const newIndex = certificates.findIndex((cert) => cert.id === over?.id);
 
       dispatch(reorderCertificates({ oldIndex, newIndex }));
     }

@@ -1,6 +1,5 @@
 import AppHeader from "@/components/AppHeader";
 import React from "react";
-import { MdAdd } from "react-icons/md";
 
 const Dashboard = () => {
   return (

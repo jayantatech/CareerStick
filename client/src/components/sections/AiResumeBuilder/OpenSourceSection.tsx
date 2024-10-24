@@ -1,5 +1,5 @@
 // "use client";
-// import React, { useState } from "react";
+// import React, { useState, useCallback, useEffect } from "react";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -31,6 +31,25 @@
 // import SectionTitle from "@/components/SectionTitle";
 // import SubSectionTitle from "@/components/SubSectionTitle";
 // import TrashIconComponent from "@/components/TrashIconComponent";
+
+// // import { useDispatch, useSelector } from "react-redux";
+// import debounce from "lodash/debounce";
+// // import {
+// // setOpenSourceContributions,
+// // updateOpenSourceContribution,
+// // addOpenSourceContribution,
+// // deleteOpenSourceContribution,
+// // reorderOpenSourceContributions,
+// // } from "@";
+
+// import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+// import {
+//   setOpenSourceContributions,
+//   updateOpenSourceContribution,
+//   addOpenSourceContribution,
+//   deleteOpenSourceContribution,
+//   reorderOpenSourceContributions,
+// } from "@/lib/store/slices/resumeSlice";
 
 // interface OpenSourceContribution {
 //   id: string;
@@ -428,27 +447,43 @@
 // };
 
 // const OpenSourceSection = () => {
-//   const [contributions, setContributions] = useState<OpenSourceContribution[]>([
-//     {
-//       id: "default-contribution",
-//       projectName: "",
-//       role: "",
-//       technologies: [],
-//       description: "",
-//       contributions: "",
-//       links: [],
-//       startDate: { month: "", year: "" },
-//       endDate: { month: "", year: "" },
-//       isOngoing: false,
-//     },
-//   ]);
+//   const dispatch = useAppDispatch();
+//   const reduxContributions = useAppSelector(
+//     (state) => state.resume.openSourceContributions
+//   );
+//   const [localContributions, setLocalContributions] =
+//     useState<OpenSourceContribution[]>(reduxContributions);
 
-// const sensors = useSensors(
-//   useSensor(PointerSensor),
-//   useSensor(KeyboardSensor, {
-//     coordinateGetter: sortableKeyboardCoordinates,
-//   })
-// );
+//   // Initialize with redux data on mount
+//   useEffect(() => {
+//     if (reduxContributions.length > 0) {
+//       setLocalContributions(reduxContributions);
+//     }
+//   }, []);
+
+//   // Debounced function to update Redux
+//   const debouncedUpdateRedux = useCallback(
+//     debounce((newContributions: OpenSourceContribution[]) => {
+//       dispatch(setOpenSourceContributions(newContributions));
+//     }, 1000),
+//     []
+//   );
+
+//   // Update both local state and Redux when contributions change
+//   const updateContributions = useCallback(
+//     (newContributions: OpenSourceContribution[]) => {
+//       setLocalContributions(newContributions);
+//       debouncedUpdateRedux(newContributions);
+//     },
+//     [debouncedUpdateRedux]
+//   );
+
+//   const sensors = useSensors(
+//     useSensor(PointerSensor),
+//     useSensor(KeyboardSensor, {
+//       coordinateGetter: sortableKeyboardCoordinates,
+//     })
+//   );
 
 //   const addNewContribution = () => {
 //     const newContribution: OpenSourceContribution = {
@@ -463,13 +498,15 @@
 //       endDate: { month: "", year: "" },
 //       isOngoing: false,
 //     };
-//     setContributions([...contributions, newContribution]);
+//     const updatedContributions = [...localContributions, newContribution];
+//     updateContributions(updatedContributions);
 //   };
 
 //   const handleDelete = (id: string) => {
-//     setContributions(
-//       contributions.filter((contribution) => contribution.id !== id)
+//     const updatedContributions = localContributions.filter(
+//       (contribution) => contribution.id !== id
 //     );
+//     updateContributions(updatedContributions);
 //   };
 
 //   const handleChange = (
@@ -477,25 +514,31 @@
 //     field: keyof OpenSourceContribution,
 //     value: any
 //   ) => {
-//     setContributions(
-//       contributions.map((contribution) =>
-//         contribution.id === id
-//           ? { ...contribution, [field]: value }
-//           : contribution
-//       )
+//     const updatedContributions = localContributions.map((contribution) =>
+//       contribution.id === id
+//         ? { ...contribution, [field]: value }
+//         : contribution
 //     );
+//     updateContributions(updatedContributions);
 //   };
 
 //   const handleDragEnd = (event: any) => {
 //     const { active, over } = event;
 
 //     if (active.id !== over.id) {
-//       setContributions((items) => {
-//         const oldIndex = items.findIndex((item) => item.id === active.id);
-//         const newIndex = items.findIndex((item) => item.id === over.id);
+//       const oldIndex = localContributions.findIndex(
+//         (item) => item.id === active.id
+//       );
+//       const newIndex = localContributions.findIndex(
+//         (item) => item.id === over.id
+//       );
 
-//         return arrayMove(items, oldIndex, newIndex);
-//       });
+//       const reorderedContributions = arrayMove(
+//         localContributions,
+//         oldIndex,
+//         newIndex
+//       );
+//       updateContributions(reorderedContributions);
 //     }
 //   };
 
@@ -509,11 +552,11 @@
 //         onDragEnd={handleDragEnd}
 //       >
 //         <SortableContext
-//           items={contributions.map((item) => item.id)}
+//           items={localContributions.map((item) => item.id)}
 //           strategy={verticalListSortingStrategy}
 //         >
 //           <Accordion type="single" collapsible className="w-full">
-//             {contributions.map((contribution) => (
+//             {localContributions.map((contribution) => (
 //               <SortableOpenSourceItem
 //                 key={contribution.id}
 //                 contribution={contribution}
@@ -525,14 +568,6 @@
 //         </SortableContext>
 //       </DndContext>
 
-//       {/* <Button
-//         onClick={addNewContribution}
-//         variant="outline"
-//         className="w-full flex items-center justify-center gap-2 mt-4"
-//       >
-//         <PlusCircle className="h-4 w-4" />
-//         Add New Open Source Contribution
-//       </Button> */}
 //       <AddButton label="Add New Contribution" onClick={addNewContribution} />
 //     </div>
 //   );
@@ -540,14 +575,14 @@
 
 // export default OpenSourceSection;
 "use client";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PlusCircle, Trash2, GripVertical, X } from "lucide-react";
+import { Trash2, GripVertical, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { TextareaField } from "@/components/inputComponents/TextareaField";
@@ -559,6 +594,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -573,24 +609,9 @@ import SectionTitle from "@/components/SectionTitle";
 import SubSectionTitle from "@/components/SubSectionTitle";
 import TrashIconComponent from "@/components/TrashIconComponent";
 
-// import { useDispatch, useSelector } from "react-redux";
-import debounce from "lodash/debounce";
-// import {
-// setOpenSourceContributions,
-// updateOpenSourceContribution,
-// addOpenSourceContribution,
-// deleteOpenSourceContribution,
-// reorderOpenSourceContributions,
-// } from "@";
-
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import {
-  setOpenSourceContributions,
-  updateOpenSourceContribution,
-  addOpenSourceContribution,
-  deleteOpenSourceContribution,
-  reorderOpenSourceContributions,
-} from "@/lib/store/slices/resumeSlice";
+import { setOpenSourceContributions } from "@/lib/store/slices/resumeSlice";
+import { debounce } from "lodash";
 
 interface OpenSourceContribution {
   id: string;
@@ -609,6 +630,9 @@ interface Skill {
   id: string;
   name: string;
 }
+
+type ContributionField = keyof OpenSourceContribution;
+type ContributionValue<T extends ContributionField> = OpenSourceContribution[T];
 
 const predefinedSkills: Skill[] = [
   { id: "skill-1", name: "Git" },
@@ -699,10 +723,10 @@ const SortableOpenSourceItem = ({
 }: {
   contribution: OpenSourceContribution;
   onDelete: (id: string) => void;
-  onChange: (
+  onChange: <T extends ContributionField>(
     id: string,
-    field: keyof OpenSourceContribution,
-    value: any
+    field: T,
+    value: ContributionValue<T>
   ) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -789,13 +813,6 @@ const SortableOpenSourceItem = ({
                 </div>
               </div>
             </div>
-            {/* <Trash2
-              className="h-4 w-4 text-gray-500 cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(contribution.id);
-              }}
-            /> */}
             <TrashIconComponent onDelete={() => onDelete(contribution.id)} />
           </div>
         </AccordionTrigger>
@@ -900,9 +917,6 @@ const SortableOpenSourceItem = ({
             <label>I am currently contributing to this project</label>
           </div>
           <div>
-            {/* <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2">
-              Project Description
-            </h4> */}
             <SubSectionTitle label="Project Description" />
             <TextareaField
               placeholder="Describe the open source project, its goals, and its impact..."
@@ -913,11 +927,7 @@ const SortableOpenSourceItem = ({
             />
           </div>
           <div>
-            {/* <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2">
-              Your Contributions
-            </h4> */}
             <SubSectionTitle label="Your Contributions" />
-
             <TextareaField
               placeholder="Detail your specific contributions, PRs, issues resolved, and impact on the project..."
               value={contribution.contributions}
@@ -927,9 +937,6 @@ const SortableOpenSourceItem = ({
             />
           </div>
           <div>
-            {/* <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2">
-              Project Links
-            </h4> */}
             <SubSectionTitle
               label="Project Links"
               className={` ${contribution.links.length > 0 ? "mb-[12px]" : ""}`}
@@ -967,14 +974,6 @@ const SortableOpenSourceItem = ({
                 </Button>
               </div>
             ))}
-            {/* <Button
-              onClick={addNewLink}
-              variant="outline"
-              className="mt-2 flex items-center text-primary hover:text-primary-dark"
-            >
-              <PlusCircle className="mr-2" />
-              Add New Link
-            </Button> */}
             <AddButton
               label="Add New Link"
               onClick={addNewLink}
@@ -995,28 +994,39 @@ const OpenSourceSection = () => {
   const [localContributions, setLocalContributions] =
     useState<OpenSourceContribution[]>(reduxContributions);
 
-  // Initialize with redux data on mount
+  // Create memoized debounced dispatch function
+  const debouncedDispatch = useMemo(
+    () =>
+      debounce(
+        (contributions: OpenSourceContribution[]) => {
+          dispatch(setOpenSourceContributions(contributions));
+        },
+        1000,
+        { maxWait: 2000 }
+      ),
+    [dispatch]
+  );
+
+  // Cleanup debounced function on unmount
+  useEffect(() => {
+    return () => {
+      debouncedDispatch.cancel();
+    };
+  }, [debouncedDispatch]);
+
   useEffect(() => {
     if (reduxContributions.length > 0) {
       setLocalContributions(reduxContributions);
     }
-  }, []);
-
-  // Debounced function to update Redux
-  const debouncedUpdateRedux = useCallback(
-    debounce((newContributions: OpenSourceContribution[]) => {
-      dispatch(setOpenSourceContributions(newContributions));
-    }, 1000),
-    []
-  );
+  }, [reduxContributions]);
 
   // Update both local state and Redux when contributions change
   const updateContributions = useCallback(
     (newContributions: OpenSourceContribution[]) => {
       setLocalContributions(newContributions);
-      debouncedUpdateRedux(newContributions);
+      debouncedDispatch(newContributions);
     },
-    [debouncedUpdateRedux]
+    [debouncedDispatch]
   );
 
   const sensors = useSensors(
@@ -1026,7 +1036,7 @@ const OpenSourceSection = () => {
     })
   );
 
-  const addNewContribution = () => {
+  const addNewContribution = useCallback(() => {
     const newContribution: OpenSourceContribution = {
       id: `contribution-${Date.now()}`,
       projectName: "",
@@ -1039,49 +1049,57 @@ const OpenSourceSection = () => {
       endDate: { month: "", year: "" },
       isOngoing: false,
     };
-    const updatedContributions = [...localContributions, newContribution];
-    updateContributions(updatedContributions);
-  };
+    updateContributions([...localContributions, newContribution]);
+  }, [localContributions, updateContributions]);
 
-  const handleDelete = (id: string) => {
-    const updatedContributions = localContributions.filter(
-      (contribution) => contribution.id !== id
-    );
-    updateContributions(updatedContributions);
-  };
-
-  const handleChange = (
-    id: string,
-    field: keyof OpenSourceContribution,
-    value: any
-  ) => {
-    const updatedContributions = localContributions.map((contribution) =>
-      contribution.id === id
-        ? { ...contribution, [field]: value }
-        : contribution
-    );
-    updateContributions(updatedContributions);
-  };
-
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      const oldIndex = localContributions.findIndex(
-        (item) => item.id === active.id
+  const handleDelete = useCallback(
+    (id: string) => {
+      const updatedContributions = localContributions.filter(
+        (contribution) => contribution.id !== id
       );
-      const newIndex = localContributions.findIndex(
-        (item) => item.id === over.id
-      );
+      updateContributions(updatedContributions);
+    },
+    [localContributions, updateContributions]
+  );
 
-      const reorderedContributions = arrayMove(
-        localContributions,
-        oldIndex,
-        newIndex
+  const handleChange = useCallback(
+    <T extends ContributionField>(
+      id: string,
+      field: T,
+      value: ContributionValue<T>
+    ) => {
+      const updatedContributions = localContributions.map((contribution) =>
+        contribution.id === id
+          ? { ...contribution, [field]: value }
+          : contribution
       );
-      updateContributions(reorderedContributions);
-    }
-  };
+      updateContributions(updatedContributions);
+    },
+    [localContributions, updateContributions]
+  );
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+
+      if (active.id !== over?.id) {
+        const oldIndex = localContributions.findIndex(
+          (item) => item.id === active.id
+        );
+        const newIndex = localContributions.findIndex(
+          (item) => item.id === over?.id
+        );
+
+        const reorderedContributions = arrayMove(
+          localContributions,
+          oldIndex,
+          newIndex
+        );
+        updateContributions(reorderedContributions);
+      }
+    },
+    [localContributions, updateContributions]
+  );
 
   return (
     <div className="w-full h-auto">

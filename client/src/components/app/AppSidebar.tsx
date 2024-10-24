@@ -7,11 +7,11 @@ import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowDown,
 } from "react-icons/md";
-import { RiDashboardFill, RiMoneyRupeeCircleFill } from "react-icons/ri";
+import { RiDashboardFill } from "react-icons/ri";
 import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
 import { PiReadCvLogoFill } from "react-icons/pi";
 import { SiCodemagic } from "react-icons/si";
-import { FaUserCheck, FaCoins, FaCrown } from "react-icons/fa";
+import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
 import { VscHubot } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
