@@ -342,7 +342,7 @@ import PersonalInformationFields from "@/components/sections/AiResumeBuilder/Per
 import ProfessionalSummaryField from "@/components/sections/AiResumeBuilder/ProfessionalSummaryField";
 import WorkExperienceFields from "@/components/sections/AiResumeBuilder/WorkExperienceFields";
 import EducationSection from "@/components/sections/AiResumeBuilder/EducationSection";
-import AppHeader from "@/components/AppHeader";
+// import AppHeader from "@/components/AppHeader";
 
 import SelectSkillsSection from "@/components/sections/AiResumeBuilder/SelectSkillsSection";
 import ProjectsSection from "@/components/sections/AiResumeBuilder/AddProjectsSection";
@@ -356,7 +356,8 @@ import AddSectionPopup, {
 } from "@/components/app/AddSectionPopup";
 import { useAppSelector } from "@/lib/store/hooks";
 import PortfolioAndSocialLinks from "@/components/sections/AiResumeBuilder/PortfolioAndSocialLinks";
-import ResumePreview from "@/components/sections/resumes/ResumePreview";
+// import ResumePreview from "@/components/sections/resumes/ResumePreview";
+import ResumeView from "@/components/sections/resumes/ResumeView";
 
 const AiResumeBuilder: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -486,12 +487,22 @@ const AiResumeBuilder: React.FC = () => {
           </div>
 
           {/* Right section */}
-          <div className="w-[60%] m-desktop:w-[57%] bg-gray-500 sticky max-lg:hidden top-0 h-screen">
+          <div className="w-[60%] m-desktop:w-[57%] bg-slate-500 sticky max-lg:hidden top-0 h-screen">
             {/* <div className="w-full h-[450px]"></div> */}
 
-            <div className="">
+            {/* <div className="">
               <ResumePreview />
-            </div>
+            </div> */}
+            {/* <div className="w-full h-full bg-red-200 flex items-center justify-center">
+              <div className="w-[550px] h-auto bg-blue-200">
+                <div className="w-[550px] h-[774px] bg-red-300"></div>
+                <button className="w-full h-[48px] mt-2 bg-yellow-500 rounded font-heading font-semibold">
+                  {" "}
+                  Generate{" "}
+                </button>
+              </div>
+            </div> */}
+            <ResumeView />
           </div>
         </div>
       </div>

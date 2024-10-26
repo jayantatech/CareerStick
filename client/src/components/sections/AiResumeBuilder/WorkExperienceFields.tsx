@@ -152,7 +152,7 @@ interface SortableExperienceItemProps {
 }
 
 const SortableExperienceItem: React.FC<SortableExperienceItemProps> =
-  React.memo(({ experience, onDelete, onChange }) => {
+  React.memo(({ experience, onDelete }) => {
     const [localState, setLocalState] = useState<JobExperience>(experience);
     const dispatch = useAppDispatch();
 

@@ -50,7 +50,7 @@ const navItems: NavItem[] = [
 ];
 const AppSidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState(navItems[0].path);
+  // const [activeItem, setActiveItem] = useState(navItems[0].path);
   const router = useRouter();
 
   const toggleSidebar = () => {
@@ -58,15 +58,15 @@ const AppSidebar = () => {
   };
 
   const handleNavItemClick = (path: string) => {
-    setActiveItem(path);
+    // setActiveItem(path);
     router.push(path);
   };
 
   const pathname = usePathname();
 
-  const isActive = (path: string) => {
-    return pathname === path;
-  };
+  // const isActive = (path: string) => {
+  //   return pathname === path;
+  // };
 
   return (
     <div

@@ -462,7 +462,11 @@ const SortableAwardItem = ({
 }: {
   award: Award;
   onDelete: (id: string) => void;
-  onChange: (id: string, field: keyof Award, value: any) => void;
+  onChange: (
+    id: string,
+    field: keyof Award,
+    value: string | boolean | { month: string; year: string }
+  ) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: award.id });
@@ -601,7 +605,11 @@ const AwardsSection = () => {
     dispatch(addAward(newAward));
   };
 
-  const handleInputChange = (id: string, field: keyof Award, value: any) => {
+  const handleInputChange = (
+    id: string,
+    field: keyof Award,
+    value: string | boolean | { month: string; year: string }
+  ) => {
     const updatedAwards = localAwards.map((award) =>
       award.id === id ? { ...award, [field]: value } : award
     );
