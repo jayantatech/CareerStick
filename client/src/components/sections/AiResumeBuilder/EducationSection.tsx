@@ -589,8 +589,8 @@ const SortableEducationItem: React.FC<SortableEducationItemProps> = React.memo(
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-4 py-2 space-y-4">
-            <div className="w-full h-auto flex gap-2">
-              <div className="w-1/2">
+            <div className="w-full h-auto flex gap-2 max-md:gap-3 max-md:flex-col">
+              <div className="w-1/2 max-md:w-full">
                 <FloatingLabelInput
                   label="Degree"
                   inputType="text"
@@ -599,7 +599,7 @@ const SortableEducationItem: React.FC<SortableEducationItemProps> = React.memo(
                   onChange={(e) => handleChange("degree", e.target.value)}
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-1/2 max-md:w-full">
                 <FloatingLabelInput
                   label="School/College Name"
                   inputType="text"
@@ -610,7 +610,7 @@ const SortableEducationItem: React.FC<SortableEducationItemProps> = React.memo(
               </div>
             </div>
 
-            <div className="flex space-x-4 w-full h-[48px]">
+            <div className="flex min-m-desktop:space-x-4 w-full  max-m-desktop:flex-col flex-row  max-m-desktop:h-auto  gap-y-3 xl:gap-2">
               <MonthYearPicker
                 labelFirst="Start Month"
                 labelSecond="Start Year"

@@ -553,9 +553,9 @@ const SortableCustomSectionItem = ({
             <TrashIconComponent onDelete={() => onDelete(section.id)} />
           </div>
         </AccordionTrigger>
-        <AccordionContent className="px-4 py-2 space-y-4">
-          <div className="w-full h-auto flex gap-2">
-            <div className="w-1/2">
+        <AccordionContent className="px-4 py-2 space-y-4 ">
+          <div className="w-full h-auto flex  max-md:flex-col gap-2 max-md:gap-3 ">
+            <div className="w-1/2 max-md:w-full">
               <FloatingLabelInput
                 label="Section Title"
                 inputType="text"
@@ -566,7 +566,7 @@ const SortableCustomSectionItem = ({
                 }
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-1/2 max-md:w-full">
               <FloatingLabelInput
                 label="Subtitle (Optional)"
                 inputType="text"
@@ -579,7 +579,7 @@ const SortableCustomSectionItem = ({
             </div>
           </div>
 
-          <div className="flex space-x-4 w-full h-[48px]">
+          <div className="flex min-m-desktop:space-x-4 w-full  max-m-desktop:flex-col flex-row  max-m-desktop:h-auto  gap-y-3 xl:gap-2">
             <MonthYearPicker
               labelFirst="Start Month"
               labelSecond="Start Year"

@@ -200,7 +200,7 @@ const SortableProjectItem = ({
                 </Button>
               ))}
             </div>
-            <div className="flex gap-2 mb-2 mt-2">
+            <div className="flex gap-2 mb-2 mt-2 max-md:flex-col max-md:h-auto">
               <div className="flex-grow">
                 <FloatingLabelInput
                   label="Add Custom Technology"
@@ -210,7 +210,7 @@ const SortableProjectItem = ({
               </div>
               <Button
                 onClick={handleCustomSkillAdd}
-                className="w-[140px] h-[40px] rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
+                className="w-[140px] h-[40px] max-md:w-full rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
               >
                 Add
               </Button>

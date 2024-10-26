@@ -26,9 +26,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import AddButton from "../AddButton";
-import SectionTitle from "../SectionTitle";
-import TrashIconComponent from "../TrashIconComponent";
+// import AddButton from "../AddButton";
+
+// import SectionTitle from "../SectionTitle";
+
+// import TrashIconComponent from "../TrashIconComponent";
+
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import {
   addSocialLink,
@@ -36,6 +39,9 @@ import {
   reorderSocialLinks,
   updateSocialLink,
 } from "@/lib/store/slices/resumeSlice";
+import AddButton from "@/components/AddButton";
+import SectionTitle from "@/components/SectionTitle";
+import TrashIconComponent from "@/components/TrashIconComponent";
 
 interface SocialLink {
   id: string;

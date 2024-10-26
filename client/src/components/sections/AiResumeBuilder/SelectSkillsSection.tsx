@@ -253,10 +253,10 @@ const SelectSkillsSection: React.FC = () => {
             </div>
 
             <div className="mb-4">
-              <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2">
+              <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2 max-md:mb-3">
                 Custom Skill
               </h4>
-              <div className="flex gap-2">
+              <div className="flex gap-2 max-md:flex-col max-md:h-auto ">
                 <div className="flex-grow">
                   <FloatingLabelInput
                     label="Add Custom Skill"
@@ -266,7 +266,7 @@ const SelectSkillsSection: React.FC = () => {
                 </div>
                 <Button
                   onClick={handleCustomSkillAdd}
-                  className="w-[140px] h-[40px] rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
+                  className="w-[140px] h-[40px] max-md:w-full rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
                 >
                   Add
                 </Button>

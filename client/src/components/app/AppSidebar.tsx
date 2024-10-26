@@ -14,7 +14,7 @@ import { SiCodemagic } from "react-icons/si";
 import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
 import { VscHubot } from "react-icons/vsc";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavItem {
   icon: React.ElementType;
@@ -61,9 +61,16 @@ const AppSidebar = () => {
     setActiveItem(path);
     router.push(path);
   };
+
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    return pathname === path;
+  };
+
   return (
     <div
-      className={`h-full bg-white transition-all py-4 duration-300 ease-in-out border-r z-50  ${
+      className={`h-full bg-white transition-all relative py-4 duration-300 ease-in-out border-r z-50  ${
         isExpanded ? "w-[244px]" : "w-[68px]"
       }`}
     >
@@ -98,32 +105,16 @@ const AppSidebar = () => {
           )}
         </div>
       </div>
-      {/* <div className="w-full h-auto min-h-[366px] bg-grdeen-400 mt-6 flex flex-col gap-[6px]">
-        {navItems.map((item, index) => (
-          <div
-            key={index}
-            className="w-full h-[40px] bg-[#00a264] text-[#fff] cursor-pointer flex items-center justify-start px-2 gap-1 font-body rounded overflow-hidden"
-          >
-            <item.icon className="text-[19px] flex-shrink-0" />
-            <span
-              className={`font-semibold text-[16px] whitespace-nowrap transition-all duration-300 ease-in-out ${
-                isExpanded ? "opacity-100" : "opacity-0 w-0"
-              }`}
-            >
-              {item.label}
-            </span>
-          </div>
-        ))}
-      </div> */}
-      <div className="w-full h-auto min-h-[366px] mt-4 flex transition-all duration-75 ease-in-out flex-col  gap-[6px] px-4">
+
+      <div className="w-full h-auto min-h-[366px]  mt-4 flex transition-all duration-75 ease-in-out flex-col  gap-[6px] px-4">
         {navItems.map((item, index) => (
           <div
             key={index}
             className={`w-full h-[40px] cursor-pointer flex items-center  text-black justify-start px-2 gap-1 font-body rounded overflow-hidden ${
-              activeItem === item.path
+              pathname === item.path
                 ? "bg-secondary text-primary"
                 : "bg-transparent hover:bg-[#F1F1F1]"
-            }`}
+            } `}
             onClick={() => handleNavItemClick(item.path)}
           >
             <item.icon className="text-[19px] flex-shrink-0" />
@@ -137,7 +128,8 @@ const AppSidebar = () => {
           </div>
         ))}
       </div>
-      <div className="w-full h-auto py-1 bg-blude-400 gap-1 mt-[340px] px-4">
+      {/* <div className="w-full h-auto py-1 bg-blue-400 gap-1 mt-[340px] px-4"> */}
+      <div className="w-full h-auto py-1  gap-1 absolute bottom-6 px-4">
         <div
           className={`w-full h-[58px]  border-gray-200 flex items-center justify-between rounded ${
             isExpanded ? "px-[6px] bg-secondary border" : "px-0"

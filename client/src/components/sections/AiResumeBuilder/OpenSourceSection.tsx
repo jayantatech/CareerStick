@@ -816,25 +816,31 @@ const SortableOpenSourceItem = ({
             <TrashIconComponent onDelete={() => onDelete(contribution.id)} />
           </div>
         </AccordionTrigger>
-        <AccordionContent className="px-4 py-2 space-y-4">
-          <FloatingLabelInput
-            label="Project Name"
-            inputType="text"
-            inputClassName="border-gray-300"
-            value={contribution.projectName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(contribution.id, "projectName", e.target.value)
-            }
-          />
-          <FloatingLabelInput
-            label="Your Role"
-            inputType="text"
-            inputClassName="border-gray-300"
-            value={contribution.role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(contribution.id, "role", e.target.value)
-            }
-          />
+        <AccordionContent className="px-4 py-2 space-y-3">
+          <div className="w-full h-auto flex flex-row gap-2 max-md:flex-col max-md:gap-3 ">
+            <div className="w-1/2 max-md:w-full">
+              <FloatingLabelInput
+                label="Project Name"
+                inputType="text"
+                inputClassName="border-gray-300"
+                value={contribution.projectName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onChange(contribution.id, "projectName", e.target.value)
+                }
+              />
+            </div>
+            <div className="w-1/2 max-md:w-full">
+              <FloatingLabelInput
+                label="Your Role"
+                inputType="text"
+                inputClassName="border-gray-300"
+                value={contribution.role}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onChange(contribution.id, "role", e.target.value)
+                }
+              />
+            </div>
+          </div>
           <div>
             <h4 className="font-heading font-semibold text-[14px] text-gray-900 mb-2">
               Technologies & Skills Used
@@ -856,7 +862,7 @@ const SortableOpenSourceItem = ({
                 </Button>
               ))}
             </div>
-            <div className="flex gap-2 mb-2 mt-2">
+            <div className="flex gap-2 mb-2 mt-2 max-md:flex-col max-md:h-auto">
               <div className="flex-grow">
                 <FloatingLabelInput
                   label="Add Custom Technology/Skill"
@@ -866,7 +872,7 @@ const SortableOpenSourceItem = ({
               </div>
               <Button
                 onClick={handleCustomSkillAdd}
-                className="w-[140px] h-[40px] rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
+                className="w-[140px] h-[40px] max-md:w-full rounded text-white font-heading hover:scale-[.98] transition-all duration-150 text-[15px]"
               >
                 Add
               </Button>
@@ -888,7 +894,7 @@ const SortableOpenSourceItem = ({
               ))}
             </div>
           </div>
-          <div className="flex space-x-4 w-full h-[48px]">
+          <div className="flex min-m-desktop:space-x-4 w-full  max-m-desktop:flex-col flex-row  max-m-desktop:h-auto  gap-y-3 xl:gap-2">
             <MonthYearPicker
               labelFirst="Start Month"
               labelSecond="Start Year"

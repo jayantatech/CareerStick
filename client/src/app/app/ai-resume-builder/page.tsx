@@ -343,7 +343,7 @@ import ProfessionalSummaryField from "@/components/sections/AiResumeBuilder/Prof
 import WorkExperienceFields from "@/components/sections/AiResumeBuilder/WorkExperienceFields";
 import EducationSection from "@/components/sections/AiResumeBuilder/EducationSection";
 import AppHeader from "@/components/AppHeader";
-import PortfolioAndSocialLinks from "@/components/sections/PortfolioAndSocialLinks";
+
 import SelectSkillsSection from "@/components/sections/AiResumeBuilder/SelectSkillsSection";
 import ProjectsSection from "@/components/sections/AiResumeBuilder/AddProjectsSection";
 import LanguageSection from "@/components/sections/AiResumeBuilder/LanguageSection";
@@ -355,6 +355,8 @@ import AddSectionPopup, {
   SECTION_CONFIG,
 } from "@/components/app/AddSectionPopup";
 import { useAppSelector } from "@/lib/store/hooks";
+import PortfolioAndSocialLinks from "@/components/sections/AiResumeBuilder/PortfolioAndSocialLinks";
+import ResumePreview from "@/components/sections/resumes/ResumePreview";
 
 const AiResumeBuilder: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -382,100 +384,114 @@ const AiResumeBuilder: React.FC = () => {
     // Add your resume generation logic here
   };
 
+  const activeSections = useAppSelector((state) => state.resumeActiveSection);
+
+  console.log("The activeSections are ", activeSections);
+
   return (
     <div className="flex flex-col h-screen">
-      <AppHeader title="AI Resume Builder" />
+      {/* <AppHeader title="AI Resume Builder" /> */}
 
       <div className="flex-1 overflow-y-auto">
         <div className="flex">
           {/* Left section */}
-          <div ref={leftSectionRef} className="w-[40%] p-4 px-6">
-            <div className="mb-3">
-              <div className="bg-blue-50 border border-blue-100 rounded mb-4 p-3">
-                <p className="text-[15px] font-body text-blue-800">
-                  <span className="font-bold">Note: </span> you are the user of
-                  careerstick.com so enter your basic info and let our
-                  StickBotLite AI Model help you to get a professional resume
-                </p>
+          <div
+            ref={leftSectionRef}
+            className=" max-m-desktop:w-[48%] m-desktop:w-[43%] max-lg:w-full "
+          >
+            <div className="w-full h-[63px] bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+            <div className="p-4 px-6">
+              <div className="mb-3">
+                <div className="bg-blue-50 border border-blue-100 rounded mb-4 p-3">
+                  <p className="text-[15px] font-body text-blue-800">
+                    <span className="font-bold">Note: </span> you are the user
+                    of careerstick.com so enter your basic info and let our
+                    StickBotLite AI Model help you to get a professional resume
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="mb-3">
-              <JobIndustryFields />
-            </div>
+              <div className="mb-3">
+                <JobIndustryFields />
+              </div>
 
-            <div className="mb-4">
-              <PersonalInformationFields />
-            </div>
+              <div className="mb-4">
+                <PersonalInformationFields />
+              </div>
 
-            <div className="pb-4">
-              <ProfessionalSummaryField />
-            </div>
+              <div className="pb-4">
+                <ProfessionalSummaryField />
+              </div>
 
-            <div className="pb-4">
-              <WorkExperienceFields />
-            </div>
+              <div className="pb-4">
+                <WorkExperienceFields />
+              </div>
 
-            <div className="pb-4">
-              <EducationSection />
-            </div>
+              <div className="pb-4">
+                <EducationSection />
+              </div>
 
-            <div className="pb-4">
-              <PortfolioAndSocialLinks />
-            </div>
+              <div className="pb-4">
+                <PortfolioAndSocialLinks />
+              </div>
 
-            <div className="pb-4">
-              <SelectSkillsSection />
-            </div>
+              <div className="pb-4">
+                <SelectSkillsSection />
+              </div>
 
-            <div className="pb-4">
-              <ProjectsSection />
-            </div>
+              <div className="pb-4">
+                <ProjectsSection />
+              </div>
 
-            <div className="pb-4">
-              <LanguageSection />
-            </div>
+              <div className="pb-4">
+                <LanguageSection />
+              </div>
 
-            <div className="pb-4">
-              <CertificationsSection />
-            </div>
+              <div className="pb-4">
+                <CertificationsSection />
+              </div>
 
-            <div className="pb-4">
-              <AwardsSection />
-            </div>
+              <div className="pb-4">
+                <AwardsSection />
+              </div>
 
-            <div className="pb-4">
-              <OpenSourceSection />
-            </div>
+              <div className="pb-4">
+                <OpenSourceSection />
+              </div>
 
-            <div className="pb-4">
-              <CustomSections />
-            </div>
+              <div className="pb-4">
+                <CustomSections />
+              </div>
 
-            {/* Bottom buttons */}
-            <div className="w-full space-y-2 mb-4">
-              <button
-                onClick={() => setIsPopupOpen(true)}
-                className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
-              >
-                <span className="font-heading font-semibold text-black">
-                  Add Section
-                </span>
-              </button>
-              <button
-                onClick={handleGenerateResume}
-                className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
-              >
-                <VscHubot className="text-[28px] text-white mr-1" />
-                <span className="font-heading font-semibold text-white">
-                  Generate Resume
-                </span>
-              </button>
+              {/* Bottom buttons */}
+              <div className="w-full space-y-2 mb-4">
+                <button
+                  onClick={() => setIsPopupOpen(true)}
+                  className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
+                >
+                  <span className="font-heading font-semibold text-black">
+                    Add Section
+                  </span>
+                </button>
+                <button
+                  onClick={handleGenerateResume}
+                  className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
+                >
+                  <VscHubot className="text-[28px] text-white mr-1" />
+                  <span className="font-heading font-semibold text-white">
+                    Generate Resume
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Right section */}
-          <div className="w-[60%] bg-gray-500 sticky top-0 h-[calc(100vh-63px)]">
-            <div className="w-full h-[450px]"></div>
+          <div className="w-[60%] m-desktop:w-[57%] bg-gray-500 sticky max-lg:hidden top-0 h-screen">
+            {/* <div className="w-full h-[450px]"></div> */}
+
+            <div className="">
+              <ResumePreview />
+            </div>
           </div>
         </div>
       </div>
@@ -492,189 +508,3 @@ const AiResumeBuilder: React.FC = () => {
 };
 
 export default AiResumeBuilder;
-
-// components/AddSectionPopup.tsx
-// [Previous AddSectionPopup component code remains the same]
-
-// // constants.ts
-// [Previous constants code remains the same]
-
-// working code
-// "use client";
-// // types.ts
-// export interface Section {
-//   id: string;
-//   title: string;
-//   icon: React.ElementType;
-//   defaultSelected?: boolean;
-//   required?: boolean;
-//   order?: number;
-// }
-
-// export interface SelectedSections {
-//   [key: string]: boolean;
-// }
-
-// // components/AiResumeBuilder/index.tsx
-
-// import React, { useState, useRef } from "react";
-// import { VscHubot } from "react-icons/vsc";
-// import JobIndustryFields from "@/components/sections/AiResumeBuilder/JobIndustryFields";
-// import PersonalInformationFields from "@/components/sections/AiResumeBuilder/PersonalInformationFields";
-// import ProfessionalSummaryField from "@/components/sections/AiResumeBuilder/ProfessionalSummaryField";
-// import WorkExperienceFields from "@/components/sections/AiResumeBuilder/WorkExperienceFields";
-// import EducationSection from "@/components/sections/AiResumeBuilder/EducationSection";
-// import AppHeader from "@/components/AppHeader";
-// import PortfolioAndSocialLinks from "@/components/sections/PortfolioAndSocialLinks";
-// import SelectSkillsSection from "@/components/sections/AiResumeBuilder/SelectSkillsSection";
-// import ProjectsSection from "@/components/sections/AiResumeBuilder/AddProjectsSection";
-// import LanguageSection from "@/components/sections/AiResumeBuilder/LanguageSection";
-// import CertificationsSection from "@/components/sections/AiResumeBuilder/CertificationsSection";
-// import AwardsSection from "@/components/sections/AiResumeBuilder/AwardsSection";
-// import OpenSourceSection from "@/components/sections/AiResumeBuilder/OpenSourceSection";
-// import CustomSections from "@/components/sections/AiResumeBuilder/CustomSections";
-// // import AddSectionPopup from "./AddSectionPopup";
-// // AddSectionPopup
-// // import { SECTION_CONFIG } from "./constants";
-// // SECTION_CONFIG
-// // import type { SelectedSections } from "./types";
-// // SelectedSections
-// import AddSectionPopup, {
-//   SECTION_CONFIG,
-// } from "@/components/app/AddSectionPopup";
-
-// const AiResumeBuilder: React.FC = () => {
-//   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-//   const [selectedSections, setSelectedSections] = useState<SelectedSections>(
-//     () =>
-//       SECTION_CONFIG.reduce(
-//         (acc: any, section: any) => ({
-//           ...acc,
-//           [section.id]: section.defaultSelected || false,
-//         }),
-//         {}
-//       )
-//   );
-
-//   const leftSectionRef = useRef<HTMLDivElement>(null);
-
-//   const handleSaveSections = (sections: SelectedSections): void => {
-//     setSelectedSections(sections);
-//     console.log("Updated sections:", sections);
-//   };
-
-//   return (
-//     <div className="flex flex-col h-screen">
-//       <AppHeader title="AI Resume Builder" />
-
-//       <div className="flex-1 overflow-y-auto">
-//         <div className="flex">
-//           {/* Left section */}
-//           <div ref={leftSectionRef} className="w-[46%] p-4 px-6">
-//             <div className="mb-3">
-//               <div className="w-full min-h-[76px] bg-lightprimany border rounded mb-3 mt-1 p-2">
-//                 <p className="text-[15px] font-body">
-//                   <span className="font-bold">Note:</span> you are the user of
-//                   careerstick.com so enter your basic info and let our
-//                   StickBotLite AI Model help you to get a professional resume
-//                 </p>
-//               </div>
-//             </div>
-
-//             <div className="mb-3">
-//               <JobIndustryFields />
-//             </div>
-
-//             <div className="mb-4">
-//               <PersonalInformationFields />
-//             </div>
-
-//             <div className="pb-4">
-//               <ProfessionalSummaryField />
-//             </div>
-
-//             <div className="pb-4">
-//               <WorkExperienceFields />
-//             </div>
-
-//             <div className="pb-4">
-//               <EducationSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <PortfolioAndSocialLinks />
-//             </div>
-
-//             <div className="pb-4">
-//               <SelectSkillsSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <ProjectsSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <LanguageSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <CertificationsSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <AwardsSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <OpenSourceSection />
-//             </div>
-
-//             <div className="pb-4">
-//               <CustomSections />
-//             </div>
-
-//             {/* Bottom buttons */}
-//             <div className="w-full space-y-2 mb-4">
-//               <button
-//                 onClick={() => setIsPopupOpen(true)}
-//                 className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
-//               >
-//                 <span className="font-heading font-semibold text-black">
-//                   Add Section
-//                 </span>
-//               </button>
-
-//               <button className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150">
-//                 <VscHubot className="text-[28px] text-white mr-1" />
-//                 <span className="font-heading font-semibold text-white">
-//                   Generate Resume
-//                 </span>
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Right section */}
-//           <div className="w-[54%] bg-gray-500 sticky top-0 h-[calc(100vh-63px)]">
-//             <div className="w-full h-[450px]"></div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <AddSectionPopup
-//         isOpen={isPopupOpen}
-//         onClose={() => setIsPopupOpen(false)}
-//         onSave={handleSaveSections}
-//         parentRef={leftSectionRef}
-//         initialSelectedSections={selectedSections}
-//       />
-//     </div>
-//   );
-// };
-
-// export default AiResumeBuilder;
-
-// // components/AddSectionPopup.tsx
-// // [Previous AddSectionPopup component code remains the same]
-
-// // // constants.ts
-// // [Previous constants code remains the same]

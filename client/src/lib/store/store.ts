@@ -1,10 +1,11 @@
 // store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import resumeReducer from "./slices/resumeSlice";
-
+import activeResumeSectionSlice from "./slices/activeResumeSectionClice";
 export const store = configureStore({
   reducer: {
     resume: resumeReducer,
+    resumeActiveSection: activeResumeSectionSlice,
   },
 });
 
