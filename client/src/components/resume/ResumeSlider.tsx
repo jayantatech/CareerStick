@@ -265,8 +265,73 @@
 
 // export default ResumeSlider;
 
+// "use client";
+
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious,
+// } from "@/components/ui/carousel";
+// import dynamic from "next/dynamic";
+// import React from "react";
+// import { useAppSelector } from "@/lib/store/hooks";
+
+// const PDFWrapper = dynamic(() => import("./PDFWrapper"), { ssr: false });
+
+// const ResumeSlider = () => {
+//   const [currentPage, setCurrentPage] = React.useState<number>(1);
+//   const resumeData = useAppSelector((state) => state.resume);
+//   // const resumeData = demoResumeData;
+
+//   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
+//     ssr: false,
+//     loading: () => (
+//       <button
+//         disabled
+//         className="w-auto px-3 py-1 rounded-sm font-heading text-[16px] h-full bg-primary/50 text-white"
+//       >
+//         Loading...
+//       </button>
+//     ),
+//   });
+
+//   return (
+//     <Carousel
+//       className="relative aspect-[1/1.41] mt-8 rounded"
+//       onSelect={(index) => setCurrentPage(+index + 1)}
+//     >
+//       <div className="w-[340px] h-[34px] absolute right-0 -top-10 z-10 flex items-center justify-end">
+//         <DownloadPDFComponent data={resumeData} />
+//       </div>
+
+//       <CarouselContent>
+//         {Array.from({ length: 1 }).map((_, index) => (
+//           <CarouselItem key={index}>
+//             <div className="aspect-[1/1.41] bg-white rounded shadow-sm">
+//               <PDFWrapper data={resumeData} />
+//             </div>
+//           </CarouselItem>
+//         ))}
+//       </CarouselContent>
+
+//       <div className="absolute left-0 -top-10 flex items-center gap-2">
+//         <CarouselPrevious className="relative left-0 top-0 rounded-sm h-[24px]" />
+//         <p className="font-heading px-2 py-0.5 rounded text-[14px] bg-slate-200">
+//           Page {currentPage}
+//         </p>
+//         <CarouselNext className="relative left-0 top-0 rounded-sm h-[24px]" />
+//       </div>
+//     </Carousel>
+//   );
+// };
+
+// export default ResumeSlider;
+
 "use client";
 
+import React, { memo } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -275,15 +340,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import dynamic from "next/dynamic";
-import React from "react";
 import { useAppSelector } from "@/lib/store/hooks";
 
-const PDFWrapper = dynamic(() => import("./PDFWrapper"), { ssr: false });
+const PDFWrapper = dynamic(() => import("./PDFWrapper"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-red-500 animate-pulse" />,
+});
 
-const ResumeSlider = () => {
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
+const ResumeSlider = memo(() => {
+  // const [currentPage, setCurrentPage] = useState<number>(1);
   const resumeData = useAppSelector((state) => state.resume);
-  // const resumeData = demoResumeData;
+
+  // const handlePageChange = useCallback((index: number) => {
+  //   setCurrentPage(index + 1);
+  // }, []);
 
   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
     ssr: false,
@@ -300,31 +370,30 @@ const ResumeSlider = () => {
   return (
     <Carousel
       className="relative aspect-[1/1.41] mt-8 rounded"
-      onSelect={(index) => setCurrentPage(+index + 1)}
+      // onSelect={handlePageChange}
     >
       <div className="w-[340px] h-[34px] absolute right-0 -top-10 z-10 flex items-center justify-end">
         <DownloadPDFComponent data={resumeData} />
       </div>
 
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="aspect-[1/1.41] bg-white rounded shadow-sm">
-              <PDFWrapper data={resumeData} />
-            </div>
-          </CarouselItem>
-        ))}
+        <CarouselItem>
+          <div className="aspect-[1/1.41] bg-white rounded shadow-sm">
+            <PDFWrapper data={resumeData} />
+          </div>
+        </CarouselItem>
       </CarouselContent>
 
       <div className="absolute left-0 -top-10 flex items-center gap-2">
         <CarouselPrevious className="relative left-0 top-0 rounded-sm h-[24px]" />
         <p className="font-heading px-2 py-0.5 rounded text-[14px] bg-slate-200">
-          Page {currentPage}
+          {/* Page {currentPage} */}
         </p>
         <CarouselNext className="relative left-0 top-0 rounded-sm h-[24px]" />
       </div>
     </Carousel>
   );
-};
+});
 
+ResumeSlider.displayName = "ResumeSlider";
 export default ResumeSlider;

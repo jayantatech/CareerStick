@@ -54,7 +54,7 @@ const PDFWrapper = ({ data }: { data: ResumeState }) => {
       className="w-full h-full border-none bg-white"
       showToolbar={false}
       height={"100%"}
-      width={"812px"}
+      width={"900px"}
       style={{ backgroundColor: "white" }}
     >
       <ResumePDF data={data} />

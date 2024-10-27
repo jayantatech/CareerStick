@@ -357,7 +357,8 @@ import AddSectionPopup, {
 import { useAppSelector } from "@/lib/store/hooks";
 import PortfolioAndSocialLinks from "@/components/sections/AiResumeBuilder/PortfolioAndSocialLinks";
 // import ResumePreview from "@/components/sections/resumes/ResumePreview";
-import ResumeView from "@/components/sections/resumes/ResumeView";
+// import ResumeView from "@/components/sections/resumes/ResumeView";
+import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
 
 const AiResumeBuilder: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -385,9 +386,7 @@ const AiResumeBuilder: React.FC = () => {
     // Add your resume generation logic here
   };
 
-  const activeSections = useAppSelector((state) => state.resumeActiveSection);
-
-  console.log("The activeSections are ", activeSections);
+  // const activeSections = useAppSelector((state) => state.resumeActiveSection);
 
   return (
     <div className="flex flex-col h-screen">
@@ -398,7 +397,7 @@ const AiResumeBuilder: React.FC = () => {
           {/* Left section */}
           <div
             ref={leftSectionRef}
-            className=" max-m-desktop:w-[48%] m-desktop:w-[43%] max-lg:w-full "
+            className=" max-m-desktop:w-[48%] m-desktop:w-[38%] max-lg:w-full "
           >
             <div className="w-full h-[63px] bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
             <div className="p-4 px-6">
@@ -487,13 +486,13 @@ const AiResumeBuilder: React.FC = () => {
           </div>
 
           {/* Right section */}
-          <div className="w-[60%] m-desktop:w-[57%] bg-slate-500 sticky max-lg:hidden top-0 h-screen">
-            {/* <div className="w-full h-[450px]"></div> */}
+          {/* <div className="w-[60%] m-desktop:w-[60%] bg-slate-500 max-lg:hidden left-0 top-0 h-[1840px]"> */}
+          {/* <div className="w-full h-[450px]"></div> */}
 
-            {/* <div className="">
+          {/* <div className="">
               <ResumePreview />
             </div> */}
-            {/* <div className="w-full h-full bg-red-200 flex items-center justify-center">
+          {/* <div className="w-full h-full bg-red-200 flex items-center justify-center">
               <div className="w-[550px] h-auto bg-blue-200">
                 <div className="w-[550px] h-[774px] bg-red-300"></div>
                 <button className="w-full h-[48px] mt-2 bg-yellow-500 rounded font-heading font-semibold">
@@ -502,7 +501,19 @@ const AiResumeBuilder: React.FC = () => {
                 </button>
               </div>
             </div> */}
-            <ResumeView />
+          {/* <ResumeView /> */}
+          {/* <ResumeViewTwo /> */}
+          {/* </div> */}
+          {/* </div> */}
+          <div className="relative w-[60%] m-desktop:w-[62%]  max-lg:hidden">
+            <div
+              className="sticky top-0 overflow-y-auto custom-scrollbar bg-slate-500"
+              style={{ maxHeight: "calc(100vh)" }}
+            >
+              <div className=" min-h-screen max-h-[2040px] ">
+                <ResumeViewTwo />
+              </div>
+            </div>
           </div>
         </div>
       </div>
