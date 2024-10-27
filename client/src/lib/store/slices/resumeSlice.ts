@@ -415,7 +415,19 @@ const initialState: ResumeState = {
   ],
   selectedSkills: [],
   customSkills: [],
-  certificate: [],
+  certificate: [
+    {
+      id: "default-certificate",
+      name: "",
+      issuingOrganization: "",
+      issueDate: { month: "", year: "" },
+      expirationDate: { month: "", year: "" },
+      credentialId: "",
+      verificationUrl: "",
+      description: "",
+      isNeverExpires: false,
+    },
+  ],
   awards: [
     {
       id: "default-award",

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { memo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +13,12 @@ import { useAppSelector } from "@/lib/store/hooks";
 
 const PDFWrapper = dynamic(() => import("./PDFWrapper"), {
   ssr: false,
-  loading: () => <div className="w-full h-full bg-red-500 animate-pulse" />,
+  loading: () => (
+    <div className="w-full h-full relative">
+      <Skeleton className="w-full h-full  bg-slate-100" />,
+    </div>
+  ),
+  // loading: () => <div className="w-full h-full bg-white animate-pulse" />,
 });
 
 const ResumeSliderTwo = memo(() => {
@@ -22,17 +29,17 @@ const ResumeSliderTwo = memo(() => {
   //   setCurrentPage(index + 1);
   // }, []);
 
-  //   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
-  //     ssr: false,
-  //     loading: () => (
-  //       <button
-  //         disabled
-  //         className="w-auto px-3 py-1 rounded-sm font-heading text-[16px] h-full bg-primary/50 text-white"
-  //       >
-  //         Loading...
-  //       </button>
-  //     ),
-  //   });
+  // const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
+  //   ssr: false,
+  //   loading: () => (
+  //     <button
+  //       disabled
+  //       className="w-auto px-3 py-1 rounded-sm font-heading text-[16px] h-full bg-primary/50 text-white"
+  //     >
+  //       Loading...
+  //     </button>
+  //   ),
+  // });
 
   return (
     <Carousel

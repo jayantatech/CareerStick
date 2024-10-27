@@ -109,21 +109,20 @@ import React, { memo, useState, useEffect } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePDF from "../sections/resumes/ResumePreview";
 import { ResumeState } from "@/lib/store/slices/resumeSlice";
+import { MdOutlineCloudDownload } from "react-icons/md";
 
 const LoadingButton = memo(() => (
-  <button
-    disabled
-    className="w-auto px-3 py-1 rounded-sm font-heading text-[16px] h-full bg-primary/50 text-white"
-  >
+  <button disabled className=" font-semibold">
     Loading...
   </button>
 ));
 LoadingButton.displayName = "LoadingButton";
 
 const DownloadButton = memo(() => (
-  <button className="w-auto px-3 py-1 rounded-sm font-heading text-[16px] h-full bg-primary text-white hover:bg-primary/90 transition-colors">
-    Download Resume
-  </button>
+  <div className="flex items-center gap-1">
+    <MdOutlineCloudDownload className="text-[20px] -mt-0.5" />
+    <span className="font-heading font-semibold text-[16px]">Download</span>
+  </div>
 ));
 DownloadButton.displayName = "DownloadButton";
 
