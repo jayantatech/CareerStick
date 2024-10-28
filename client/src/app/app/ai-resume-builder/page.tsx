@@ -372,6 +372,8 @@ import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
 // import { LuLayoutPanelLeft } from "react-icons/lu";
 import SelectResumeSlider from "@/components/resume/SelectResumeSlider";
 import ResumeFeatureBox from "@/components/resume/ResumeFeatureBox";
+import FontAndDesignSection from "@/components/resume/FontAndDesignSection";
+import ATSOptimizationBox from "@/components/resume/ATSOptimizationBox";
 
 const AiResumeBuilder: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -525,76 +527,48 @@ const AiResumeBuilder: React.FC = () => {
             >
               <div className=" min-h-screen max-h-[2040px] bg-grddeen-500 flex flex-row ">
                 <ResumeViewTwo />
-                {/* <div className="w-[230px]  h-[330px] rounded p-2 bg-white top-8 sticky right-2 flex flex-col gap-1">
-                  <div className="p-1.5 border rounded flex flex-col gap-1.5">
-                    <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
-                      <MdOutlineCloudDownload className="text-[20px] -mt-0.5" />
-                      <span className="font-heading font-semibold text-[16px]">
-                        Download
-                      </span>
-                    </div>
-                    <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
-                      <VscHubot className="text-[22px] -mt-0.5" />
-
-                      <span className="font-heading font-semibold text-[16px]">
-                        AI Generate
-                      </span>
-                    </div>
-                  </div>
-                  <div className="w-full h-auto py-1 bg-redd-200 mt-1 p-1.5 border gap-2 rounded">
-                    <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
-                      <LuLayoutPanelLeft className="text-[18px] -mt-0.5" />
-
-                      <span className="font-heading font-semibold text-[15px]">
-                        Templates
-                      </span>
-                    </div>
-
-                    <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
-                      <MdOutlineDesignServices className="text-[18px] -mt-0.5" />
-
-                      <span className="font-heading font-semibold text-[15px]">
-                        Design & Font
-                      </span>
-                    </div>
-                    <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
-                      <MdOutlineVerified className="text-[18px] -mt-0.5" />
-
-                      <span className="font-heading font-semibold text-[15px]">
-                        ATS Optimization
-                      </span>
-                    </div>
-                    <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
-                      <LuLayoutPanelLeft className="text-[18px] -mt-0.5" />
-
-                      <span className="font-heading font-semibold text-[15px]">
-                        AI Generate
-                      </span>
-                    </div>
-                  </div>
-                  <div className="w-full h-auto py-1 bg-redd-200 mt-1 p-1.5 border gap-1.5 rounded flex flex-col items-center justify-center">
-                    <div className="w-full h-auto  cursor-pointer text-gray-700 text-s flex items-center justify-between hover:border-primary hover:text-primary  gap-1">
-                      <div className="w-[26px] h-[26px] flex items-center justify-center border rounded">
-                        <FaAngleLeft className="text-[22px] " />
-                      </div>
-                      <div className=" h-[26px] w-[86px] px-2 bg-white border flex items-center justify-center rounded">
-                        <span className="font-heading font-semibold text-[15px]">
-                          page 1
-                        </span>
-                      </div>
-                      <div className="w-[26px] h-[26px] flex items-center justify-center border rounded">
-                        <FaAngleRight className="text-[22px] " />
-                      </div>
-                    </div>
-                    <button className="w-full h-[26px] border-primary  rounded font-heading flex items-center justify-center font-[14px] border bg-primary text-white ">
-                      Set Main Resume
-                    </button>
-                  </div>
-                </div> */}
                 <ResumeFeatureBox />
               </div>
-              {/* <div className=" w-[calc(100%-4%)] p-2  rounded h-[280px] bg-red-300 sticky bottom-10 left-8 z-50"></div> */}
+              {/* <div className="w-[280px] h-[480px] bg-fuchsia-500 fixed right-9 bottom-10 rounded p-3">
+                <div className="w-full h-[80px] bg-sky-400">
+                  <span className="font-heading text-[13px]">
+                    FONT SIZE: EXTRA LARGE
+                  </span>
+                </div>
+                <div className="w-full h-[88px] bg-red-300"></div>
+              </div> */}
+              <FontAndDesignSection />
               <SelectResumeSlider />
+              <ATSOptimizationBox />
+              {/* <div className="w-[680px] h-[404px] fixed bottom-4 rounded right-9 bg-white border shadow-lg p-3">
+                <div className="absolute -top-10 bg-gray-200 border right-0 w-[36px] h-[36px] rounded  text-black hover:bg-gray-300 flex items-center justify-center cursor-pointer">
+                  <MdOutlineClose className="text-[23px]" />
+                </div>
+                <div className="bg-blue-50 border border-blue-100 rounded mb-3 p-3">
+                  <p className="text-[15px] font-body text-blue-800">
+                    <span className="font-bold">Note: </span> you are the user
+                    of careerstick.com so enter your basic info and let our
+                    StickBotLite AI Model help you to get a professional resume
+                  </p>
+                </div>
+                <FloatingLabelInput
+                  value=""
+                  label="Enter your targeted job title "
+                />
+                <div className=" mt-2">
+                  <textarea
+                    maxLength={4000}
+                    className="w-full h-[190px] p-2 font-body font-semibold pb-2 text-gray-900 rounded border focus:ring-1 focus:ring-primary focus:outline-none resize-none overflow-y-auto custom-scrollbar"
+                    placeholder="Copy and Paste your targeted job description"
+                    // value={localState.description}
+                    // onChange={(e) => handleChange("description", e.target.value)}
+                  />
+                </div>
+                <button className="w-full h-[40px] mt-2 bg-primary text-white rounded font-heading font-semibold">
+                  Optimize for ATS
+                </button>
+              </div>
+              */}
             </div>
           </div>
         </div>

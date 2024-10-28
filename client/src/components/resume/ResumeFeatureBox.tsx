@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { setTemplateBoxState } from "@/lib/store/slices/resumeFeatureState";
+import {
+  setATSOptimizationBoxState,
+  setDesignAndFontBoxState,
+  setTemplateBoxState,
+} from "@/lib/store/slices/resumeFeatureState";
 import dynamic from "next/dynamic";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
@@ -9,9 +13,28 @@ import { VscHubot } from "react-icons/vsc";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
+  const resumeFeatureState = useAppSelector(
+    (state) => state.resumeFeatureState
+  );
 
   const dispatch = useAppDispatch();
 
+  const handleDesignAndFontBoxOpenState = () => {
+    dispatch(setTemplateBoxState(false));
+    dispatch(setATSOptimizationBoxState(false));
+    dispatch(setDesignAndFontBoxState(true));
+  };
+  const handleTemplateBoxOpenState = () => {
+    dispatch(setDesignAndFontBoxState(false));
+    dispatch(setATSOptimizationBoxState(false));
+    dispatch(setTemplateBoxState(true));
+  };
+
+  const handleATSOptimizationBoxOpenState = () => {
+    dispatch(setTemplateBoxState(false));
+    dispatch(setDesignAndFontBoxState(false));
+    dispatch(setATSOptimizationBoxState(true));
+  };
   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
     ssr: false,
     loading: () => (
@@ -31,7 +54,7 @@ const ResumeFeatureBox = () => {
           </span> */}
           <DownloadPDFComponent data={resumeData} />
         </div>
-        <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
+        <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1 ">
           <VscHubot className="text-[22px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[16px]">
@@ -41,31 +64,55 @@ const ResumeFeatureBox = () => {
       </div>
       <div className="w-full h-auto py-1 bg-redd-200 mt-1 p-1.5 border gap-2 rounded">
         <div
-          className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1"
-          onClick={() => dispatch(setTemplateBoxState(true))}
+          className={`w-full h-auto py-[3px] mb-0.5 mt-0.5 rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+            resumeFeatureState.templateBoxState
+              ? "border-primary text-primary shadow-"
+              : "text-gray-700 border-transparent"
+          }`}
+          onClick={() => handleTemplateBoxOpenState()}
         >
-          <LuLayoutPanelLeft className="text-[18px] -mt-0.5" />
+          <LuLayoutPanelLeft className="text-[18px]" />
 
           <span className="font-heading font-semibold text-[15px]">
             Templates
           </span>
         </div>
 
-        <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
+        <div
+          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+            resumeFeatureState.designAndFontBoxState
+              ? "border-primary text-primary shadow"
+              : "text-gray-700 border-transparent"
+          }`}
+          onClick={() => handleDesignAndFontBoxOpenState()}
+        >
           <MdOutlineDesignServices className="text-[18px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[15px]">
             Design & Font
           </span>
         </div>
-        <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
+        <div
+          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+            resumeFeatureState.ATSOptimizationBoxState
+              ? "border-primary text-primary shadow"
+              : "text-gray-700 border-transparent"
+          }`}
+          onClick={() => handleATSOptimizationBoxOpenState()}
+        >
           <MdOutlineVerified className="text-[18px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[15px]">
             ATS Optimization
           </span>
         </div>
-        <div className="w-full h-auto py-1 rounded cursor-pointer text-gray-700 text-s flex items-center border border-transparent justify-start hover:border hover:border-primary hover:text-primary p-1.5 gap-1">
+        <div
+          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+            resumeFeatureState.templateBoxState
+              ? "border-primary text-primary shadow"
+              : "text-gray-700 border-transparent"
+          }`}
+        >
           <LuLayoutPanelLeft className="text-[18px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[15px]">
