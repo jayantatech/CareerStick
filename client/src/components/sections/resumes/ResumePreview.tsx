@@ -668,6 +668,7 @@ const getSocialIcon = (platform: string) => {
 };
 
 const ResumePDF = ({ data }: { data: ResumeState }) => {
+  console.log("Rendering ResumeOne template");
   // Placeholder text for empty fields
   const placeholderText = {
     name: data.personalInfo.firstName || "Enter your name",

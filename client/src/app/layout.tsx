@@ -59,6 +59,7 @@ import localFont from "next/font/local";
 import { Lora, Merriweather, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { TemplateProvider } from "@/context/TemplateContext";
 
 // Local fonts
 const geistSans = localFont({
@@ -129,7 +130,9 @@ export default function RootLayout({
           antialiased
         `}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <TemplateProvider>{children}</TemplateProvider>
+        </Providers>
       </body>
     </html>
   );
