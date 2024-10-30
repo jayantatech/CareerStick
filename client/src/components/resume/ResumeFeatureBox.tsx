@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import {
+  setAISuggestionBoxState,
   setATSOptimizationBoxState,
   setDesignAndFontBoxState,
   setTemplateBoxState,
@@ -10,6 +11,8 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { MdOutlineDesignServices, MdOutlineVerified } from "react-icons/md";
 import { VscHubot } from "react-icons/vsc";
+import { BiSelectMultiple } from "react-icons/bi";
+import { TbWindowMinimize } from "react-icons/tb";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
@@ -22,18 +25,28 @@ const ResumeFeatureBox = () => {
   const handleDesignAndFontBoxOpenState = () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setATSOptimizationBoxState(false));
+    dispatch(setAISuggestionBoxState(false));
     dispatch(setDesignAndFontBoxState(true));
   };
   const handleTemplateBoxOpenState = () => {
     dispatch(setDesignAndFontBoxState(false));
     dispatch(setATSOptimizationBoxState(false));
+    dispatch(setAISuggestionBoxState(false));
     dispatch(setTemplateBoxState(true));
   };
 
   const handleATSOptimizationBoxOpenState = () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setDesignAndFontBoxState(false));
+    dispatch(setAISuggestionBoxState(false));
+
     dispatch(setATSOptimizationBoxState(true));
+  };
+  const handleAISuggestionBoxOpenState = () => {
+    dispatch(setTemplateBoxState(false));
+    dispatch(setDesignAndFontBoxState(false));
+    dispatch(setATSOptimizationBoxState(false));
+    dispatch(setAISuggestionBoxState(true));
   };
   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
     ssr: false,
@@ -45,12 +58,13 @@ const ResumeFeatureBox = () => {
   });
 
   return (
-    <div className="w-[230px] select-none  h-[330px] rounded p-2 bg-white top-8 sticky right-2 flex flex-col gap-1">
+    <div className="min-w-[200px] w-[200px]  select-none  h-[330px] rounded p-2 bg-white top-8 sticky right-2 flex flex-col gap-1">
+      {/* <div className="w-full h-[40px] bg-fuchsia-300"></div> */}
       <div className="p-1.5 border rounded flex flex-col gap-1.5">
         <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
-          {/* <MdOutlineCloudDownload className="text-[20px] -mt-0.5" />
+          {/* <MdOutlineCloudDowynload className="text-[20px] -mt-0.5" />
           <span className="font-heading font-semibold text-[16px]">
-            Download
+          Download
           </span> */}
           <DownloadPDFComponent data={resumeData} />
         </div>
@@ -108,15 +122,16 @@ const ResumeFeatureBox = () => {
         </div>
         <div
           className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
-            resumeFeatureState.templateBoxState
+            resumeFeatureState.AISuggestionBoxState
               ? "border-primary text-primary shadow"
               : "text-gray-700 border-transparent"
           }`}
+          onClick={() => handleAISuggestionBoxOpenState()}
         >
-          <LuLayoutPanelLeft className="text-[18px] -mt-0.5" />
+          <BiSelectMultiple className="text-[18px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[15px]">
-            AI Generate
+            AI Suggestions
           </span>
         </div>
       </div>

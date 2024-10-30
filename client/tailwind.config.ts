@@ -16,9 +16,11 @@ const config: Config = {
         "l-laptop": "1050px", // Large laptops
         "xl-laptop": "1200px", // Extra-large laptops
         tablet: "960px", // Larger tablets
-        "l-tablet": "1024px", // Tablets in landscape mode
-        "m-desktop": "1440px", // Desktops and large screens
-        "xl-desktop": "1680px", // Extra-large desktops
+        "l-tablet": "1028px", // Tablets in landscape mode
+        "u-s-desktop": "1288px", // Larger desktops
+        "s-desktop": "1380px", // Small desktops
+        "m-desktop": "1448px", // Desktops and large screens
+        "xl-desktop": "1688px", // Extra-large desktops
         "ultra-desktop": "1920px", // Ultra-wide screens
         "4k-desktop": "2560px", // 4K screens
         "5k-desktop": "3200px", // 5K screens

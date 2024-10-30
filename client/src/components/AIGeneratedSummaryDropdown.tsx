@@ -11,9 +11,11 @@ import { BsChatRightTextFill } from "react-icons/bs";
 export default function AIGeneratedSummaryDropdown({
   onSelect,
   summaries,
+  className,
 }: {
   onSelect: (text: string) => void;
   summaries: string[];
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,7 +29,9 @@ export default function AIGeneratedSummaryDropdown({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center gap-2 absolute bottom-3 right-2"
+          className={`flex items-center gap-2 absolute bottom-3 right-2 ${
+            className ? className : ""
+          }`}
         >
           <BsChatRightTextFill />
           AI Generated Summary

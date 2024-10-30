@@ -207,7 +207,7 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
 
   return (
     <PDFViewer
-      className="w-full h-full border-none bg-white"
+      className="w-full h-full border-none aspect-[1/1.41] bg-white"
       showToolbar={false}
       height={"100%"}
       width={"900px"}

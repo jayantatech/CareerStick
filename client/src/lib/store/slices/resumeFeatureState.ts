@@ -4,12 +4,14 @@ interface resumeFeatureState {
   templateBoxState: boolean;
   designAndFontBoxState: boolean;
   ATSOptimizationBoxState: boolean;
+  AISuggestionBoxState: boolean;
 }
 
 const initialState: resumeFeatureState = {
   templateBoxState: false,
   designAndFontBoxState: false,
   ATSOptimizationBoxState: false,
+  AISuggestionBoxState: false,
 };
 
 const resumeFeatureSlice = createSlice({
@@ -25,6 +27,9 @@ const resumeFeatureSlice = createSlice({
     setATSOptimizationBoxState: (state, action: PayloadAction<boolean>) => {
       state.ATSOptimizationBoxState = action.payload;
     },
+    setAISuggestionBoxState: (state, action: PayloadAction<boolean>) => {
+      state.AISuggestionBoxState = action.payload;
+    },
   },
 });
 
@@ -32,6 +37,7 @@ export const {
   setTemplateBoxState,
   setDesignAndFontBoxState,
   setATSOptimizationBoxState,
+  setAISuggestionBoxState,
 } = resumeFeatureSlice.actions;
 
 export default resumeFeatureSlice.reducer;

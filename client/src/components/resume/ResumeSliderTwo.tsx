@@ -25,10 +25,10 @@ const ResumeSliderTwo = memo(() => {
   const resumeData = useAppSelector((state) => state.resume);
 
   return (
-    <Carousel className="relative  w-[800px] h-[1128px] rounded ">
+    <Carousel className="relative  w-full h-[1086px]  max-xl-desktop:h-[973px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] rounded max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] max-l-tablet:w-[480px] max-l-tablet:h-[677px] ">
       <CarouselContent className="">
         <CarouselItem>
-          <div className=" w-[800px] h-[1128px] bg-white rounded shadow-sm ">
+          <div className=" w-full h-[1086px] aspect-[1/1.41] max-xl-desktop:h-[973px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] bg-white rounded shadow-sm max-l-tablet:w-[480px] max-l-tablet:h-[677px] ">
             <PDFWrapper data={resumeData} />
           </div>
         </CarouselItem>
