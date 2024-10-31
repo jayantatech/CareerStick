@@ -62,9 +62,10 @@ const LeftSection = () => {
     <>
       <div
         ref={leftSectionRef}
-        className=" max-m-desktop:w-[48%] m-desktop:w-[36%] max-lg:w-full select-none "
+        className=" max-m-desktop:w-[48%] m-desktop:w-[36%] max-lg:w-full select-none max-md:mb-12 "
       >
-        <div className="w-full h-[63px] bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+        <div className="w-full h-[63px] max-md:hidden bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+
         <div className="p-4 px-6">
           <div className="mb-3">
             <div className="bg-blue-50 border border-blue-100 rounded mb-4 p-3">

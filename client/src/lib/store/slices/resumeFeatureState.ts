@@ -5,6 +5,10 @@ interface resumeFeatureState {
   designAndFontBoxState: boolean;
   ATSOptimizationBoxState: boolean;
   AISuggestionBoxState: boolean;
+  mobileTemplateBoxState: boolean;
+  mobileDesignAndFontBoxState: boolean;
+  mobileATSOptimizationBoxState: boolean;
+  mobileAISuggestionBoxState: boolean;
 }
 
 const initialState: resumeFeatureState = {
@@ -12,6 +16,10 @@ const initialState: resumeFeatureState = {
   designAndFontBoxState: false,
   ATSOptimizationBoxState: false,
   AISuggestionBoxState: false,
+  mobileTemplateBoxState: false,
+  mobileDesignAndFontBoxState: false,
+  mobileATSOptimizationBoxState: false,
+  mobileAISuggestionBoxState: false,
 };
 
 const resumeFeatureSlice = createSlice({
@@ -30,6 +38,21 @@ const resumeFeatureSlice = createSlice({
     setAISuggestionBoxState: (state, action: PayloadAction<boolean>) => {
       state.AISuggestionBoxState = action.payload;
     },
+    setMobileTemplateBoxState: (state, action: PayloadAction<boolean>) => {
+      state.mobileTemplateBoxState = action.payload;
+    },
+    setMobileDesignAndFontBoxState: (state, action: PayloadAction<boolean>) => {
+      state.mobileDesignAndFontBoxState = action.payload;
+    },
+    setMobileATSOptimizationBoxState: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.mobileATSOptimizationBoxState = action.payload;
+    },
+    setMobileAISuggestionBoxState: (state, action: PayloadAction<boolean>) => {
+      state.mobileAISuggestionBoxState = action.payload;
+    },
   },
 });
 
@@ -38,6 +61,10 @@ export const {
   setDesignAndFontBoxState,
   setATSOptimizationBoxState,
   setAISuggestionBoxState,
+  setMobileTemplateBoxState,
+  setMobileDesignAndFontBoxState,
+  setMobileATSOptimizationBoxState,
+  setMobileAISuggestionBoxState,
 } = resumeFeatureSlice.actions;
 
 export default resumeFeatureSlice.reducer;

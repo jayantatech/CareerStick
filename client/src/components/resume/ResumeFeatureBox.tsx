@@ -12,7 +12,6 @@ import { LuLayoutPanelLeft } from "react-icons/lu";
 import { MdOutlineDesignServices, MdOutlineVerified } from "react-icons/md";
 import { VscHubot } from "react-icons/vsc";
 import { BiSelectMultiple } from "react-icons/bi";
-import { TbWindowMinimize } from "react-icons/tb";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);

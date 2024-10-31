@@ -12,27 +12,7 @@ export interface SelectedSections {
   [key: string]: boolean;
 }
 
-import React, { useState, useRef } from "react";
-import { VscHubot } from "react-icons/vsc";
-import JobIndustryFields from "@/components/sections/AiResumeBuilder/JobIndustryFields";
-import PersonalInformationFields from "@/components/sections/AiResumeBuilder/PersonalInformationFields";
-import ProfessionalSummaryField from "@/components/sections/AiResumeBuilder/ProfessionalSummaryField";
-import WorkExperienceFields from "@/components/sections/AiResumeBuilder/WorkExperienceFields";
-import EducationSection from "@/components/sections/AiResumeBuilder/EducationSection";
-// import AppHeader from "@/components/AppHeader";
-
-import SelectSkillsSection from "@/components/sections/AiResumeBuilder/SelectSkillsSection";
-import ProjectsSection from "@/components/sections/AiResumeBuilder/AddProjectsSection";
-import LanguageSection from "@/components/sections/AiResumeBuilder/LanguageSection";
-import CertificationsSection from "@/components/sections/AiResumeBuilder/CertificationsSection";
-import AwardsSection from "@/components/sections/AiResumeBuilder/AwardsSection";
-import OpenSourceSection from "@/components/sections/AiResumeBuilder/OpenSourceSection";
-import CustomSections from "@/components/sections/AiResumeBuilder/CustomSections";
-import AddSectionPopup, {
-  SECTION_CONFIG,
-} from "@/components/app/AddSectionPopup";
-import { useAppSelector } from "@/lib/store/hooks";
-import PortfolioAndSocialLinks from "@/components/sections/AiResumeBuilder/PortfolioAndSocialLinks";
+import React from "react";
 
 import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
 
@@ -42,33 +22,35 @@ import FontAndDesignSection from "@/components/resume/FontAndDesignSection";
 import ATSOptimizationBox from "@/components/resume/ATSOptimizationBox";
 import AISuggestionsBox from "@/components/resume/AISuggestionsBox";
 import LeftSection from "@/components/sections/AiResumeBuilder/home/LeftSection";
-import { TbWindowMinimize } from "react-icons/tb";
+import SmallScreenResumeView from "@/components/resume/SmallScreenResumeView";
+import AppHeader from "@/components/AppHeader";
+import { setMobilePreview } from "@/lib/store/slices/activeResumeSectionClice";
+import { useAppDispatch } from "@/lib/store/hooks";
 
 const AiResumeBuilder: React.FC = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedSections, setSelectedSections] = useState<SelectedSections>(
-    () =>
-      SECTION_CONFIG.reduce(
-        (acc, section) => ({
-          ...acc,
-          [section.id]: section.defaultSelected || false,
-        }),
-        {}
-      )
-  );
+  const dispatch = useAppDispatch();
+  // const [selectedSections, setSelectedSections] = useState<SelectedSections>(
+  //   () =>
+  //     SECTION_CONFIG.reduce(
+  //       (acc, section) => ({
+  //         ...acc,
+  //         [section.id]: section.defaultSelected || false,
+  //       }),
+  //       {}
+  //     )
+  // );
 
-  const leftSectionRef = useRef<HTMLDivElement>(null);
-  const resumeData = useAppSelector((state) => state.resume);
+  // const resumeData = useAppSelector((state) => state.resume);
 
-  const handleSaveSections = (sections: SelectedSections): void => {
-    setSelectedSections(sections);
-    console.log("Updated sections:", sections);
-  };
+  // const handleSaveSections = (sections: SelectedSections): void => {
+  //   setSelectedSections(sections);
+  //   console.log("Updated sections:", sections);
+  // };
 
-  const handleGenerateResume = () => {
-    console.log("Complete Resume Data:", resumeData);
-    // Add your resume generation logic here
-  };
+  // const handleGenerateResume = () => {
+  //   console.log("Complete Resume Data:", resumeData);
+  //   // Add your resume generation logic here
+  // };
 
   // const activeSections = useAppSelector((state) => state.resumeActiveSection);
 
@@ -77,98 +59,81 @@ const AiResumeBuilder: React.FC = () => {
       {/* <AppHeader title="AI Resume Builder" /> */}
 
       <div className="flex-1 overflow-y-auto">
-        <div className="flex">
+        <div className="flex max-md:flex-col ">
           {/* Left section */}
-          {/* <div
-            ref={leftSectionRef}
-            className=" max-m-desktop:w-[48%] m-desktop:w-[36%] max-lg:w-full select-none "
-          >
-            <div className="w-full h-[63px] bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
-            <div className="p-4 px-6">
-              <div className="mb-3">
-                <div className="bg-blue-50 border border-blue-100 rounded mb-4 p-3">
-                  <p className="text-[15px] font-body text-blue-800">
-                    <span className="font-bold">Note: </span> you are the user
-                    of careerstick.com so enter your basic info and let our
-                    StickBotLite AI Model help you to get a professional resume
-                  </p>
+          <div className="w-full h-[63px] md:hidden bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+
+          <LeftSection />
+          <SmallScreenResumeView />
+          {/* <div className="w-full h-full absolute top-0 left-0 z-50 mb-1 bg-[#8b97b1]">
+            <div className="w-full h-[72px] bg-black p-4 flex relative items-center justify-center">
+              <div className="w-[40px] h-[40px] py-1 absolute top-4 right-2 rounded cursor-pointer  text-white  flex items-center justify-center">
+                <IoClose className="text-[26px]" />
+              </div>
+              <div className="w-auto gap-2 h-auto p-1.5 flex items-center justify-between rounded border bg-white">
+                <button className="w-auto min-w-[160px] rounded px-3 font-heading font-semibold h-[40px] bg-primary text-white">
+                  Download
+                </button>
+                <div className="w-[40px] h-[40px] py-1 rounded cursor-pointer bg-primary text-white border flex items-center justify-center">
+                  <MdMoreHoriz className="text-[22px]" />
                 </div>
               </div>
-              <div className="mb-3">
-                <JobIndustryFields />
-              </div>
+            </div>
+            <div className="w-full h-[560px] bg-fuchsia-400">
 
-              <div className="mb-4">
-                <PersonalInformationFields />
+            </div>
+            <div className="w-full h-[104px] bg-white border-t flex-shrink-0 fixed bottom-0 left-0 p-3 flex items-center justify-between gap-3">
+              <div className="w-auto h-auto flex items-center justify-center flex-col  gap-0.5 rounded">
+                <div className="w-[44px] h-[44px] bg-white border shadow-sm flex items-center justify-center rounded">
+                  <LuLayoutPanelLeft className="text-[28px]" />
+                </div>
+                <span className="font-heading font-semibold text-[13px]">
+                  Template
+                </span>
               </div>
-
-              <div className="pb-4">
-                <ProfessionalSummaryField />
+              <div className="w-auto h-auto flex items-center justify-center flex-col  gap-0.5 rounded">
+                <div className="w-[44px] h-[44px] bg-white border shadow-sm flex items-center justify-center rounded">
+                  <MdOutlineDesignServices className="text-[28px]" />
+                </div>
+                <span className="font-heading font-semibold text-[13px]">
+                  Design
+                </span>
               </div>
-
-              <div className="pb-4">
-                <WorkExperienceFields />
+              <div className="w-auto h-auto flex items-center justify-center flex-col  gap-0.5 rounded">
+                <div className="w-[44px] h-[44px] bg-white border shadow-sm flex items-center justify-center rounded">
+                  <MdOutlineVerified className="text-[28px]" />
+                </div>
+                <span className="font-heading font-semibold text-[13px]">
+                  ATS Fix
+                </span>
               </div>
-
-              <div className="pb-4">
-                <EducationSection />
+              <div className="w-auto h-auto flex items-center justify-center flex-col gap-0.5 rounded">
+                <div className="w-[44px] h-[44px] bg-white border shadow-sm flex items-center justify-center rounded">
+                  <BiSelectMultiple className="text-[28px]" />
+                </div>
+                <span className="font-heading font-semibold text-[13px]">
+                  AI Fix
+                </span>
               </div>
-
-              <div className="pb-4">
-                <PortfolioAndSocialLinks />
-              </div>
-
-              <div className="pb-4">
-                <SelectSkillsSection />
-              </div>
-
-              <div className="pb-4">
-                <ProjectsSection />
-              </div>
-
-              <div className="pb-4">
-                <LanguageSection />
-              </div>
-
-              <div className="pb-4">
-                <CertificationsSection />
-              </div>
-
-              <div className="pb-4">
-                <AwardsSection />
-              </div>
-
-              <div className="pb-4">
-                <OpenSourceSection />
-              </div>
-
-              <div className="pb-4">
-                <CustomSections />
-              </div>
-
-              <div className="w-full space-y-2 mb-4">
-                <button
-                  onClick={() => setIsPopupOpen(true)}
-                  className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
-                >
-                  <span className="font-heading font-semibold text-black">
-                    Add Section
-                  </span>
-                </button>
-                <button
-                  onClick={handleGenerateResume}
-                  className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
-                >
-                  <VscHubot className="text-[28px] text-white mr-1" />
-                  <span className="font-heading font-semibold text-white">
-                    Generate Resume
-                  </span>
-                </button>
+              <div className="w-auto h-auto flex items-center justify-center flex-col  gap-0.5 rounded">
+                <div className="w-[44px] h-[44px] bg-white border shadow-sm flex items-center justify-center rounded">
+                  <LuLayoutPanelLeft className="text-[28px]" />
+                </div>
+                <span className="font-heading font-semibold text-[13px]">
+                  Template
+                </span>
               </div>
             </div>
           </div> */}
-          <LeftSection />
-          <div className="w-full h-[63px] bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+
+          <div className="w-full md:hidden h-[63px] bg-white shadow-md border flex-shrink-0 fixed bottom-0 left-0 z-20 p-4 flex items-center justify-center">
+            <button
+              onClick={() => dispatch(setMobilePreview(true))}
+              className="w-full h-[40px] rounded bg-primary text-white text-center flex items-center justify-center"
+            >
+              Preview & Download
+            </button>
+          </div>
 
           <div className="relative w-[60%] m-desktop:w-[64%]  max-lg:hidden ">
             <div

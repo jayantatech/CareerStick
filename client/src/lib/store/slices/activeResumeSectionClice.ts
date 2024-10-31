@@ -17,6 +17,7 @@ interface ActiveResumeSectionState {
   customSections: boolean;
   isLoading: boolean;
   error: string | null;
+  mobilePreview: boolean;
 }
 
 const initialState: ActiveResumeSectionState = {
@@ -36,6 +37,7 @@ const initialState: ActiveResumeSectionState = {
   customSections: false,
   isLoading: false,
   error: null,
+  mobilePreview: false,
 };
 
 const activeResumeSectionSlice = createSlice({
@@ -90,6 +92,9 @@ const activeResumeSectionSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+    setMobilePreview: (state, action: PayloadAction<boolean>) => {
+      state.mobilePreview = action.payload;
+    },
   },
 });
 
@@ -110,6 +115,7 @@ export const {
   setCustomSections,
   setIsLoading,
   setError,
+  setMobilePreview,
 } = activeResumeSectionSlice.actions;
 
 export default activeResumeSectionSlice.reducer;

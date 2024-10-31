@@ -4,7 +4,6 @@ import {
   MdOutlineAutoFixOff,
   MdOutlineClose,
 } from "react-icons/md";
-import FloatingLabelInput from "../inputComponents/TextInputField";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { setAISuggestionBoxState } from "@/lib/store/slices/resumeFeatureState";
 
