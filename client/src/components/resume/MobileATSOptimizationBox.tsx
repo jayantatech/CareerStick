@@ -2,10 +2,7 @@ import React from "react";
 import { MdOutlineClose } from "react-icons/md";
 import FloatingLabelInput from "../inputComponents/TextInputField";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import {
-  setATSOptimizationBoxState,
-  setMobileATSOptimizationBoxState,
-} from "@/lib/store/slices/resumeFeatureState";
+import { setMobileATSOptimizationBoxState } from "@/lib/store/slices/resumeFeatureState";
 
 const MobileATSOptimizationBox = () => {
   const isATSOptimizationBoxOpenState = useAppSelector(

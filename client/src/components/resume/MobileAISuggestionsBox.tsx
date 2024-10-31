@@ -5,10 +5,7 @@ import {
   MdOutlineClose,
 } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import {
-  setAISuggestionBoxState,
-  setMobileAISuggestionBoxState,
-} from "@/lib/store/slices/resumeFeatureState";
+import { setMobileAISuggestionBoxState } from "@/lib/store/slices/resumeFeatureState";
 
 const MobileAISuggestionsBox = () => {
   const isAISuggestionBoxOpen = useAppSelector(

@@ -1,20 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import {
-  setMobileDesignAndFontBoxState,
-  setMobileTemplateBoxState,
-  setTemplateBoxState,
-} from "@/lib/store/slices/resumeFeatureState";
+import { setMobileTemplateBoxState } from "@/lib/store/slices/resumeFeatureState";
 import { setCurrentTemplate } from "@/lib/store/slices/templateChangeSlice";
 import { useState } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { cn } from "@/lib/utils";
-import { IoClose } from "react-icons/io5";
 import { MdOutlineClose } from "react-icons/md";
 
 const MobileTemplateSelector = () => {
