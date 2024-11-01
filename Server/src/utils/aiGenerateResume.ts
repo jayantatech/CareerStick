@@ -186,7 +186,7 @@ const resumeJSONSchema = {
 
 // Function to generate resume using OpenAI's chat API
 async function aiGenerateResume(prompt: string) {
-  console.log("OpenAI API Key:", process.env.OPENAI_API_KEY!);
+  // console.log("OpenAI API Key:", process.env.OPENAI_API_KEY!);
 
   try {
     // Call OpenAI's chat completion API

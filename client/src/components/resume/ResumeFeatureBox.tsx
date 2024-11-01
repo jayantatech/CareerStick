@@ -15,9 +15,16 @@ import { BiSelectMultiple } from "react-icons/bi";
 // import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
 import api from "@/lib/api";
 import {
-  updateJobIndustry,
-  updatePersonalInfo,
+  // updateJobIndustry,
+  // updatePersonalInfo,
+  // updateProfessionalSummary,
+  // updateJobIndustry,
+  // updatePersonalInfo,
+  // updateProfessionalSummary,
+
   updateProfessionalSummary,
+  updatePersonalInfo,
+  updateJobIndustry,
 } from "@/lib/store/slices/resumeSlice";
 
 const ResumeFeatureBox = () => {
@@ -74,6 +81,7 @@ const ResumeFeatureBox = () => {
       const response = await api.post("/ai/generate-resume", {
         prompt: userSubmittedInfo,
         instruction: "Make it easy to read and professional",
+        jobIndustry: userSubmittedInfo.jobIndustry,
       });
       console.log("response.data from server", response.data);
       const resumeData = JSON.parse(
@@ -81,8 +89,23 @@ const ResumeFeatureBox = () => {
       );
       console.log("resumeData new one", resumeData);
       dispatch(updateJobIndustry(resumeData.jobIndustry));
-      dispatch(updatePersonalInfo(resumeData.updatePersonalInfo));
-      dispatch(updateProfessionalSummary(resumeData.updateProfessionalSummary));
+      dispatch(
+        updatePersonalInfo({
+          firstName: resumeData.personalInfo.name,
+          lastName: "",
+          email: resumeData.personalInfo.email,
+          phone: resumeData.personalInfo.phoneNumber,
+          city: "",
+          country: "",
+          address: "",
+          postalCode: "",
+        })
+      );
+      dispatch(
+        updateProfessionalSummary({
+          summaryText: resumeData.personalInfo.summary,
+        })
+      );
       console.log("redux data after saving ", userSubmittedInfo);
       return {
         success: true,
