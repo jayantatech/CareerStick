@@ -165,9 +165,9 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(true);
   // const { setCurrentTemplate, currentTemplate } = useTemplate();
-  const currentTemplate = useAppSelector(
-    (state) => state.templateSlice.currentTemplate
-  );
+  // const currentTemplate = useAppSelector(
+  //   (state) => state.templateSlice.currentTemplate
+  // );
   const ResumeFeatureBoxState = useAppSelector(
     (state) => state.resumeFeatureState
   );
@@ -242,33 +242,54 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
 
   return (
     <div
-      className={`w-[calc(100%-4%)]  p-4 rounded bg-white/95 border backdrop-blur-sm shadow-lg sticky bottom-10 left-8 z-50 transition-all duration-300 ${className} ${
+      className={`w-[calc(100%-5%)] max-lg:hidden   rounded bg-white/95 border backdrop-blur-sm shadow-lg sticky bottom-10 left-7 z-50 transition-all duration-300 ${className} ${
         ResumeFeatureBoxState.templateBoxState ? "block" : "hidden"
       }`}
     >
       <div className="relative ">
-        {selectedTemplate !== null && (
-          <button
-            className="absolute -top-12 flex items-center text-[14px] bg-white text-black px-1 h-[24px] rounded right-8 z-10"
-            onClick={() => setIsExpanded(false)}
-          >
-            <LuChevronLeft className="text-[16px] mt-0.5" />
-            Collapse
-          </button>
-        )}
-        <div>
-          <span>{currentTemplate}</span>
+        <div className="w-full flex justify-between items-center py-2 px-3 border-b select-none">
+          <span className="font-heading text-[15px]">Select Template</span>
+          <div className="flex gap-2  items-center justify-center">
+            {selectedTemplate !== null && (
+              <button
+                className=" flex rounded items-center text-[14px] border text-black px-1 h-[24px]  right-8 z-10"
+                onClick={() => setIsExpanded(false)}
+              >
+                <LuChevronLeft className="text-[16px] mt-0.5" />
+                Collapse
+              </button>
+            )}
+            <button
+              onClick={handleCloseClick}
+              className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100"
+            >
+              <MdOutlineClose className="text-[20px]" />
+            </button>
+          </div>
         </div>
-        <button
+
+        {/* <div>
+          <span>{currentTemplate}</span>
+        </div> */}
+        {/* <button
           className="absolute -top-12 flex items-center text-[14px] bg-white text-black px-1 h-[24px] rounded right-0 z-10 hover:bg-gray-200"
           onClick={handleCloseClick}
         >
           <MdOutlineClose className="text-[16px]" />
-        </button>
-        <Carousel className="w-full">
-          <CarouselContent className="-ml-4 py-2 ">
+        </button> */}
+
+        <Carousel
+          className="w-full p-2"
+          opts={{
+            align: "center",
+          }}
+        >
+          <CarouselContent className=" py-2 px-2 ">
             {Array.from({ length: 10 }).map((_, index) => (
-              <CarouselItem key={index} className="pl-4 basis-1/5 md:basis-1/5">
+              <CarouselItem
+                key={index}
+                className="pl-6 basis-1/5 md:basis-1/5 "
+              >
                 <div
                   className="p-1 transition-all duration-200 hover:scale-105 select-none cursor-pointer"
                   onClick={(e) => handleTemplateClick(index, e)}
@@ -287,8 +308,8 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute -left-4 hover:scale-105 transition-transform" />
-          <CarouselNext className="absolute -right-4 hover:scale-105 transition-transform" />
+          <CarouselPrevious className="absolute left-1 hover:scale-105 rounded h-[40px] w-[20px] transition-transform" />
+          <CarouselNext className="absolute right-2 hover:scale-105 h-[40px] w-[20px] rounded transition-transform" />
         </Carousel>
       </div>
     </div>

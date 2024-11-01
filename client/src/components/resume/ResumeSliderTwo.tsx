@@ -25,10 +25,10 @@ const ResumeSliderTwo = memo(() => {
   const resumeData = useAppSelector((state) => state.resume);
 
   return (
-    <Carousel className="relative  w-full h-[1086px]  max-xl-desktop:h-[973px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] rounded max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] max-l-tablet:w-[480px] max-l-tablet:h-[677px] ">
+    <Carousel className="relative  w-full lg:h-[1086px] aspect-[1/1.41] max-xl-desktop:h-[973px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] rounded max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] max-l-tablet:w-[480px] max-l-tablet:h-[677px] max-md:w-[340px] max-md:h-[480px] max-md:bg-red-600">
       <CarouselContent className="">
         <CarouselItem>
-          <div className=" w-full h-[1086px] aspect-[1/1.41] max-xl-desktop:h-[973px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] bg-white rounded shadow-sm max-l-tablet:w-[480px] max-l-tablet:h-[677px] ">
+          <div className=" w-full h-[1086px] aspect-[1/1.41] max-xl-desktop:h-[973px] max-s-desktop:w-[520px] max-s-desktop:h-[733px] max-m-desktop:h-[818px] max-m-desktop:w-[580px] max-u-s-desktop:h-[705px] max-u-s-desktop:w-[500px] bg-white rounded shadow-sm max-l-tablet:w-[480px] max-l-tablet:h-[677px] max-md:w-[340px] max-md:h-[480px] ">
             <PDFWrapper data={resumeData} />
           </div>
         </CarouselItem>

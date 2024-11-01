@@ -37,7 +37,7 @@ const MobileFontAndDesignSection = () => {
         </button>
       </div>
 
-      <div className="w-full h-[240px] rounded p-2 overflow-y-auto  custom-scrollbar">
+      <div className="w-full h-[260px] rounded p-3 overflow-y-auto  custom-scrollbar">
         <div className="w-full h-auto rounded border flex gap-2 p-1 font-heading">
           <button className="w-1/2 h-[36px] rounded border bg-white text-[15px]">
             Reset

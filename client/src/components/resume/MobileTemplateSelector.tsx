@@ -23,7 +23,7 @@ const MobileTemplateSelector = () => {
 
   return (
     <div
-      className={`w-full h-[330px] bg-white border absolute  bottom-[94px] left-0 border-t flex-col z-50 items-center justify-center gap-2 rounded-t-md  ${
+      className={`w-full max-md:h-[330px] h-auto  bg-white border absolute  bottom-[94px] left-0 border-t flex-col z-50 items-center justify-center gap-2 rounded-t-md  ${
         isMobileTemplateBoxActive ? "block" : "hidden"
       }`}
     >
@@ -48,7 +48,7 @@ const MobileTemplateSelector = () => {
             {Array.from({ length: 6 }).map((_, index) => (
               <CarouselItem
                 key={index}
-                className="pl-2 basis-1/2 sm:basis-1/3 h-full select-none"
+                className="pl-2 basis-1/2 max-lg:max-w-[186px] max-md:basis-1/2 max-lg:basis-1/4 max-s-laptop:w-[280px]   max-l-laptop:w-[250px] h-full select-none"
               >
                 <div
                   className="h-full p-1 transition-all duration-200 select-none cursor-pointer"
@@ -56,7 +56,7 @@ const MobileTemplateSelector = () => {
                 >
                   <div
                     className={cn(
-                      "h-full aspect-[1/1.4] scale-95 bg-white rounded-lg border flex items-center justify-center overflow-hidden",
+                      "h-full aspect-[1/1.4] max-lg:max-w-[186px]  scale-95 bg-white rounded-lg border flex items-center justify-center overflow-hidden",
                       "hover:shadow-md transition-shadow duration-200",
                       selectedTemplate === index &&
                         "ring-2 ring-primary border-primary"

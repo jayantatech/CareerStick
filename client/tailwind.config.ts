@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       screens: {
         "xs-laptop": "600px", // Small laptops (12-13 inches)
-        "s-laptop": "768px", // Smaller laptops (14 inches)
+        "s-laptop": "777px", // Smaller laptops (14 inches)
         "m-laptop": "900px", // Medium laptops (15.6 inches)
         "l-laptop": "1050px", // Large laptops
         "xl-laptop": "1200px", // Extra-large laptops

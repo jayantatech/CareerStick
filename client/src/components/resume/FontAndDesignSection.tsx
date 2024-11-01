@@ -22,18 +22,29 @@ const FontAndDesignSection = () => {
 
   return (
     <div
-      className={`bg-white border shadow-md fixed right-9 bottom-7 rounded  py-2.5 ${
+      className={`bg-white border shadow-md fixed max-lg:hidden  right-9 bottom-7 rounded   ${
         isActive ? "block" : "hidden"
       }`}
     >
-      <button
+      {/* <button
         className="absolute  -left-16 flex items-center justify-center text-[14px] bg-gray-200 border w-[44px] h-[44px] bottom-1/2   px-1  rounded right-0 z-40 text-black hover:bg-gray-400"
         onClick={() => handleClose()}
       >
         <MdOutlineClose className="text-[28px]" />
-      </button>
+      </button> */}
+      <div className="w-full flex justify-between items-center p-2  border-b select-none">
+        <span className="font-heading text-[15px]">Design Settings</span>
+        <div className="flex gap-2  items-center justify-center">
+          <button
+            onClick={() => handleClose()}
+            className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100"
+          >
+            <MdOutlineClose className="text-[20px]" />
+          </button>
+        </div>
+      </div>
       {/* <div className="w-full h-[28px]"></div> */}
-      <div className=" px-2.5 w-[280px] h-[410px]   custom-scrollbar overflow-y-auto">
+      <div className=" px-2.5 w-[280px] h-[410px] select-none mt-2 custom-scrollbar overflow-y-auto">
         <div className="w-full h-auto mb-2 p-1.5  rounded border">
           <span className="font-heading text-[13px]">
             FONT SIZE: EXTRA LARGE

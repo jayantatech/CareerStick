@@ -41,10 +41,12 @@ const AiResumeBuilder: React.FC = () => {
           <LeftSection />
           <SmallScreenResumeView />
 
-          <div className="w-full md:hidden h-[63px] bg-white shadow-md border flex-shrink-0 fixed bottom-0 left-0 z-20 p-4 flex items-center justify-center">
+          <div
+            className={`w-full max-lg:flex hidden h-[63px] bg-white shadow-md border flex-shrink-0 fixed bottom-0 left-0 z-20 p-4  items-center justify-center`}
+          >
             <button
               onClick={() => dispatch(setMobilePreview(true))}
-              className="w-full h-[40px] rounded bg-primary text-white text-center flex items-center justify-center"
+              className={`w-full h-[40px] rounded bg-primary text-white text-center flex items-center justify-center`}
             >
               Preview & Download
             </button>

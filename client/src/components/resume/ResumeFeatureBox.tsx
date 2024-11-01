@@ -12,6 +12,13 @@ import { LuLayoutPanelLeft } from "react-icons/lu";
 import { MdOutlineDesignServices, MdOutlineVerified } from "react-icons/md";
 import { VscHubot } from "react-icons/vsc";
 import { BiSelectMultiple } from "react-icons/bi";
+// import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
+import api from "@/lib/api";
+import {
+  updateJobIndustry,
+  updatePersonalInfo,
+  updateProfessionalSummary,
+} from "@/lib/store/slices/resumeSlice";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
@@ -56,6 +63,40 @@ const ResumeFeatureBox = () => {
     ),
   });
 
+  const userSubmittedInfo = useAppSelector((state) => state.resume);
+  // const dispatch = useAppDispatch();
+
+  const handleAIResumeGenerate = async () => {
+    console.log("they clicked generate resume");
+
+    if (!userSubmittedInfo) return;
+    try {
+      const response = await api.post("/ai/generate-resume", {
+        prompt: userSubmittedInfo,
+        instruction: "Make it easy to read and professional",
+      });
+      console.log("response.data from server", response.data);
+      const resumeData = JSON.parse(
+        response.data.data.replace("```json\n", "").replace("\n```", "")
+      );
+      console.log("resumeData new one", resumeData);
+      dispatch(updateJobIndustry(resumeData.jobIndustry));
+      dispatch(updatePersonalInfo(resumeData.updatePersonalInfo));
+      dispatch(updateProfessionalSummary(resumeData.updateProfessionalSummary));
+      console.log("redux data after saving ", userSubmittedInfo);
+      return {
+        success: true,
+        message: "Resume generated successfully",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Internal server error",
+        error: error,
+      };
+    }
+  };
+
   return (
     <div className="min-w-[200px] w-[200px]  select-none  h-[330px] rounded p-2 bg-white top-8 sticky right-2 flex flex-col gap-1">
       {/* <div className="w-full h-[40px] bg-fuchsia-300"></div> */}
@@ -67,7 +108,10 @@ const ResumeFeatureBox = () => {
           </span> */}
           <DownloadPDFComponent data={resumeData} />
         </div>
-        <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1 ">
+        <div
+          className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1 "
+          onClick={() => handleAIResumeGenerate()}
+        >
           <VscHubot className="text-[22px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[16px]">

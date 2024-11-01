@@ -20,6 +20,9 @@ import MobileATSOptimizationBox from "./MobileATSOptimizationBox";
 import MobileAISuggestionsBox from "./MobileAISuggestionsBox";
 import { VscHubot } from "react-icons/vsc";
 import { setMobilePreview } from "@/lib/store/slices/activeResumeSectionClice";
+import ResumeSliderTwo from "./ResumeSliderTwo";
+// import ResumeViewTwo from "../sections/resumes/ResumeViewTwo";
+import dynamic from "next/dynamic";
 
 const SmallScreenResumeView = () => {
   const resumeFeatureState = useAppSelector(
@@ -28,6 +31,7 @@ const SmallScreenResumeView = () => {
   const isMobileResumeViewActive = useAppSelector(
     (state) => state.resumeActiveSection.mobilePreview
   );
+  const resumeData = useAppSelector((state) => state.resume);
 
   const dispatch = useAppDispatch();
 
@@ -79,33 +83,42 @@ const SmallScreenResumeView = () => {
     dispatch(setMobilePreview(false));
   };
 
+  const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
+    ssr: false,
+    loading: () => (
+      <button disabled className=" font-semibold">
+        Loading...
+      </button>
+    ),
+  });
+
   return (
     <>
       <div
-        className={`w-full md:hidden  h-full absolute top-0 left-0 z-50 mb-1 bg-[#8b97b1] ${
+        className={`w-full lg:hidden  h-full absolute top-0 left-0 z-50 mb-1 bg-[#8b97b1] ${
           isMobileResumeViewActive ? "block" : "hidden"
         }`}
       >
-        <div
-          className="w-full h-[72px] bg-black p-4 flex relative items-center justify-center"
-          onClick={() => handleResumeViewClose()}
-        >
-          <div className="w-[40px] h-[40px] py-1 absolute top-4 right-2 rounded cursor-pointer  text-white  flex items-center justify-center">
+        <div className="w-full h-[72px] bg-black p-4 flex relative items-center justify-center">
+          <div
+            className="w-[40px] h-[40px] py-1 absolute top-4 right-2 rounded cursor-pointer  text-white  flex items-center justify-center"
+            onClick={() => handleResumeViewClose()}
+          >
             <IoClose className="text-[26px]" />
           </div>
           <div className="w-auto gap-2 h-auto p-1.5 flex items-center justify-between rounded border bg-white">
-            <button className="w-auto min-w-[160px] rounded px-3 font-heading font-semibold h-[40px] bg-primary text-white">
-              Download
-            </button>
+            <div className="w-auto min-w-[160px] rounded px-3 font-heading font-semibold flex items-center justify-center h-[40px] bg-primary text-white">
+              <DownloadPDFComponent data={resumeData} />
+            </div>
             <div className="w-[40px] h-[40px] py-1 rounded cursor-pointer bg-primary text-white border flex items-center justify-center">
               <MdMoreHoriz className="text-[22px]" />
             </div>
           </div>
         </div>
-        <div className="w-full h-[460px] bg-amber-200 z-10">
+        <div className="w-full h-[520px] max-md:mt-0 max-lg:mt-28 z-10 flex items-center justify-center">
           {/* <div className="w-320px h-[451px] bg-fuchsia-600"> */}
           {/* <ResumeViewTwo /> */}
-          {/* <ResumeSliderTwo /> */}
+          <ResumeSliderTwo />
           {/* </div> */}
         </div>
         <MobileTemplateSelector />

@@ -209,8 +209,8 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
     <PDFViewer
       className="w-full h-full border-none aspect-[1/1.41] bg-white"
       showToolbar={false}
-      height={"100%"}
-      width={"900px"}
+      // height={"100%"}
+      // width={"900px"}
       style={{ backgroundColor: "white" }}
     >
       <TemplateComponent data={data} />
