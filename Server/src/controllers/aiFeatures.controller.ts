@@ -33,9 +33,10 @@ import { aiGenerateResume } from "../utils/aiGenerateResume"; // Import utility 
 
 // Controller function to handle resume generation
 const generateResume = async (req: Request, res: Response) => {
+  console.log("they sent the data form client");
   try {
     const { prompt, instruction } = req.body; // Extract prompt and instruction from the request body
-
+    console.log("prompt data from client", prompt, instruction);
     // Validate that both prompt and instruction are present
     if (!prompt || !instruction) {
       return res.status(400).json({
@@ -52,7 +53,7 @@ const generateResume = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Resume generated successfully",
-      generatedResumeData: generatedResume,
+      data: generatedResume,
     });
   } catch (error: any) {
     // Handle any errors and return a 500 response
