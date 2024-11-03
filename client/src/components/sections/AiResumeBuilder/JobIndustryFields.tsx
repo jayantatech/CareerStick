@@ -128,6 +128,14 @@ const JobIndustryFields = () => {
     experience: reduxJobIndustry.experience || "",
   });
 
+  useEffect(() => {
+    setLocalJobIndustry({
+      industry: reduxJobIndustry.industry || "",
+      targetJob: reduxJobIndustry.targetJob || "",
+      experience: reduxJobIndustry.experience || "",
+    });
+  }, [reduxJobIndustry]);
+
   // Debounced function to update Redux store
   const debouncedUpdateRedux = useMemo(
     () =>

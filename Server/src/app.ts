@@ -1,6 +1,7 @@
 import express from "express";
 import userAuthRoutes from "./routes/userRoutes";
 import aiFeaturesRoutes from "./routes/aiFeaturesRoutes";
+import resumeRoutes from "./routes/resumeRoutes";
 import dotenv from "dotenv";
 import cookie from "cookie-parser";
 import helmet from "helmet";
@@ -43,6 +44,7 @@ app.use(cookie());
 app.use("/api/v1/auth", userAuthRoutes);
 // app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/ai", aiFeaturesRoutes);
+app.use("/api/v1/resume", resumeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

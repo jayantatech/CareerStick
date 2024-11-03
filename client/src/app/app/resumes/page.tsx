@@ -1,4 +1,7 @@
+"use client";
 import AppHeader from "@/components/AppHeader";
+import api from "@/lib/api";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ResumeCard = () => (
@@ -19,7 +22,15 @@ const EmptyResumeCard = () => (
 
 const MyResume = () => {
   const resumes = Array(10).fill(null); // Assuming 12 resumes for this example
-
+  const router = useRouter();
+  const buttonClickHandler = async () => {
+    const response = await api.post("/resume/create-resume", {
+      userId: "66f0f6c9ab622475728d85f7",
+    });
+    if (response.data.success) {
+      router.push(`/app/resumes/${response.data.resumeId}`);
+    }
+  };
   return (
     <div className="flex flex-col h-screen">
       {/* <div className="bg-secondary min-h-screen w-full"> */}
@@ -35,7 +46,12 @@ const MyResume = () => {
           </div>
         </div>
       </div> */}
-      <AppHeader title="My Resumes" buttonText="Create Resume" iconName="add" />
+      <AppHeader
+        title="My Resumes"
+        buttonText="Create Resume"
+        iconName="add"
+        onButtonClick={() => buttonClickHandler()}
+      />
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 overflow-y-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 gap-y-2 items-center justify-items-center">
           {resumes.length === 0 ? (

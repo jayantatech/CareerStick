@@ -136,7 +136,127 @@ export interface ResumeState {
   isLoading: boolean;
   error: string | null;
 }
-
+const initialState: ResumeState = {
+  jobIndustry: {
+    industry: "",
+    targetJob: "",
+    experience: "",
+  },
+  personalInfo: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    city: "",
+    country: "",
+    address: "",
+    postalCode: "",
+    photo: null,
+  },
+  professionalSummary: {
+    summaryText: "",
+  },
+  workExperience: [
+    {
+      id: "default-job",
+      jobTitle: "",
+      company: "",
+      startDate: { month: "", year: "" },
+      endDate: { month: "", year: "" },
+      isCurrentJob: false,
+      location: "",
+      description: "",
+    },
+  ],
+  education: [
+    {
+      id: "default-education",
+      degree: "",
+      school: "",
+      startDate: { month: "", year: "" },
+      endDate: { month: "", year: "" },
+      isCurrentlyStudying: false,
+      location: "",
+      description: "",
+    },
+  ],
+  socialLinks: [
+    {
+      id: "default-link",
+      platform: "",
+      url: "",
+    },
+  ],
+  projects: [
+    {
+      id: "default-project",
+      title: "",
+      technologies: [],
+      role: "",
+      contributions: "",
+      links: [],
+    },
+  ],
+  languages: [
+    {
+      id: "default-language",
+      name: "",
+      proficiency: "",
+      isCustom: false,
+    },
+  ],
+  selectedSkills: [],
+  customSkills: [],
+  certificate: [
+    {
+      id: "default-certificate",
+      name: "",
+      issuingOrganization: "",
+      issueDate: { month: "", year: "" },
+      expirationDate: { month: "", year: "" },
+      credentialId: "",
+      verificationUrl: "",
+      description: "",
+      isNeverExpires: false,
+    },
+  ],
+  awards: [
+    {
+      id: "default-award",
+      name: "",
+      issuer: "",
+      date: { month: "", year: "" },
+      description: "",
+    },
+  ],
+  openSourceContributions: [
+    {
+      id: "default-contribution",
+      projectName: "",
+      role: "",
+      technologies: [],
+      description: "",
+      contributions: "",
+      links: [],
+      startDate: { month: "", year: "" },
+      endDate: { month: "", year: "" },
+      isOngoing: false,
+    },
+  ],
+  customSections: [
+    {
+      id: "default-section",
+      title: "",
+      subtitle: "",
+      description: "",
+      startDate: { month: "", year: "" },
+      endDate: { month: "", year: "" },
+      isPresent: false,
+    },
+  ],
+  isLoading: false,
+  error: null,
+};
 // Initial State
 // const initialState: ResumeState = {
 //   jobIndustry: {
@@ -344,127 +464,6 @@ export interface ResumeState {
 //   isLoading: false,
 //   error: null,
 // };
-const initialState: ResumeState = {
-  jobIndustry: {
-    industry: "",
-    targetJob: "",
-    experience: "",
-  },
-  personalInfo: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    city: "",
-    country: "",
-    address: "",
-    postalCode: "",
-    photo: null,
-  },
-  professionalSummary: {
-    summaryText: "",
-  },
-  workExperience: [
-    {
-      id: "default-job",
-      jobTitle: "",
-      company: "",
-      startDate: { month: "", year: "" },
-      endDate: { month: "", year: "" },
-      isCurrentJob: false,
-      location: "",
-      description: "",
-    },
-  ],
-  education: [
-    {
-      id: "default-education",
-      degree: "",
-      school: "",
-      startDate: { month: "", year: "" },
-      endDate: { month: "", year: "" },
-      isCurrentlyStudying: false,
-      location: "",
-      description: "",
-    },
-  ],
-  socialLinks: [
-    {
-      id: "default-link",
-      platform: "",
-      url: "",
-    },
-  ],
-  projects: [
-    {
-      id: "default-project",
-      title: "",
-      technologies: [],
-      role: "",
-      contributions: "",
-      links: [],
-    },
-  ],
-  languages: [
-    {
-      id: "default-language",
-      name: "",
-      proficiency: "",
-      isCustom: false,
-    },
-  ],
-  selectedSkills: [],
-  customSkills: [],
-  certificate: [
-    {
-      id: "default-certificate",
-      name: "",
-      issuingOrganization: "",
-      issueDate: { month: "", year: "" },
-      expirationDate: { month: "", year: "" },
-      credentialId: "",
-      verificationUrl: "",
-      description: "",
-      isNeverExpires: false,
-    },
-  ],
-  awards: [
-    {
-      id: "default-award",
-      name: "",
-      issuer: "",
-      date: { month: "", year: "" },
-      description: "",
-    },
-  ],
-  openSourceContributions: [
-    {
-      id: "default-contribution",
-      projectName: "",
-      role: "",
-      technologies: [],
-      description: "",
-      contributions: "",
-      links: [],
-      startDate: { month: "", year: "" },
-      endDate: { month: "", year: "" },
-      isOngoing: false,
-    },
-  ],
-  customSections: [
-    {
-      id: "default-section",
-      title: "",
-      subtitle: "",
-      description: "",
-      startDate: { month: "", year: "" },
-      endDate: { month: "", year: "" },
-      isPresent: false,
-    },
-  ],
-  isLoading: false,
-  error: null,
-};
 
 // Slice Definition
 const resumeSlice = createSlice({

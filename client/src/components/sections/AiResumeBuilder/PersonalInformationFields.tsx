@@ -251,6 +251,21 @@ const PersonalInformationFields = () => {
     postalCode: reduxPersonalInfo.postalCode || "",
     photo: null,
   });
+
+  useEffect(() => {
+    setPersonalInfo({
+      firstName: reduxPersonalInfo.firstName || "",
+      lastName: reduxPersonalInfo.lastName || "",
+      email: reduxPersonalInfo.email || "",
+      phone: reduxPersonalInfo.phone || "",
+      city: reduxPersonalInfo.city || "",
+      country: reduxPersonalInfo.country || "",
+      address: reduxPersonalInfo.address || "",
+      postalCode: reduxPersonalInfo.postalCode || "",
+      photo: null,
+    });
+  }, [reduxPersonalInfo]);
+
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   // Create debouncedUpdateRedux inside the component to properly track dependencies

@@ -14,7 +14,7 @@ import { SiCodemagic } from "react-icons/si";
 import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
 import { VscHubot } from "react-icons/vsc";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 interface NavItem {
   icon: React.ElementType;
@@ -27,12 +27,12 @@ const navItems: NavItem[] = [
   {
     icon: BsFillFileEarmarkPdfFill,
     label: "My Resume",
-    path: "/app/my-resume",
+    path: "/app/resumes",
   },
   {
     icon: PiReadCvLogoFill,
     label: "AI Resume Builder",
-    path: "/app/ai-resume-builder",
+    path: "/app/resumes/67265e09cb4c21fd26043c06",
   },
   {
     icon: SiCodemagic,
@@ -68,6 +68,7 @@ const AppSidebar = () => {
   //   return pathname === path;
   // };
 
+  console.log("pathname", pathname);
   return (
     <div
       className={`h-full bg-white transition-all relative py-4 duration-300 ease-in-out border-r z-50  ${

@@ -121,7 +121,7 @@ const ResumeFeatureBox = () => {
   };
 
   return (
-    <div className="min-w-[200px] w-[200px]  select-none  h-[330px] rounded p-2 bg-white top-8 sticky right-2 flex flex-col gap-1">
+    <div className="min-w-[200px] w-[200px]  select-none  h-[330px] rounded p-2 bg-white top-8  sticky right-2 flex flex-col gap-1">
       {/* <div className="w-full h-[40px] bg-fuchsia-300"></div> */}
       <div className="p-1.5 border rounded flex flex-col gap-1.5">
         <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
