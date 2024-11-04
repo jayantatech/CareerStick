@@ -356,8 +356,12 @@ const WorkExperienceSection: React.FC = () => {
     (event: DragEndEvent) => {
       const { active, over } = event;
       if (active.id !== over?.id) {
-        const oldIndex = experiences.findIndex((item) => item.id === active.id);
-        const newIndex = experiences.findIndex((item) => item.id === over?.id);
+        const oldIndex = experiences.findIndex(
+          (item: any) => item.id === active.id
+        );
+        const newIndex = experiences.findIndex(
+          (item: any) => item.id === over?.id
+        );
         dispatch(reorderWorkExperience({ oldIndex, newIndex }));
       }
     },

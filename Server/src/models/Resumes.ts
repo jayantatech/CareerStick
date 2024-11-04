@@ -823,274 +823,326 @@
 // export default Resume;
 
 import mongoose, { Schema, Document } from "mongoose";
+import {
+  CreationMethodEnum,
+  IResume,
+  LanguageProficiency,
+  TemplateNameEnum,
+} from "../types/resumeTypes";
 
 // Define interfaces for the schema
-interface ISocialLinks {
-  linkedIn?: {
-    url: string;
-    username: string;
-  };
-  github?: {
-    url: string;
-    username: string;
-  };
-  stackOverflow?: {
-    url: string;
-    username: string;
-  };
-  personalWebsite?: {
-    url: string;
-    username: string;
-  };
-  twitter?: {
-    url: string;
-    username: string;
-  };
-  medium?: {
-    url: string;
-    username: string;
-  };
-  devTo?: {
-    url: string;
-    username: string;
-  };
-}
+// interface ISocialLinks {
+//   linkedIn?: {
+//     url: string;
+//     username: string;
+//   };
+//   github?: {
+//     url: string;
+//     username: string;
+//   };
+//   stackOverflow?: {
+//     url: string;
+//     username: string;
+//   };
+//   personalWebsite?: {
+//     url: string;
+//     username: string;
+//   };
+//   twitter?: {
+//     url: string;
+//     username: string;
+//   };
+//   medium?: {
+//     url: string;
+//     username: string;
+//   };
+//   devTo?: {
+//     url: string;
+//     username: string;
+//   };
+// }
 
-enum LanguageProficiency {
-  Native = "Native",
-  Fluent = "Fluent",
-  Conversational = "Conversational",
-  Beginner = "Beginner",
-}
+// interface ISocialLinks {
+//   platform: String;
+//   url: String;
+//   username: String;
+// }
 
-interface ILanguage {
-  language: string;
-  proficiency?: LanguageProficiency;
-  certifications?: string[];
-}
-interface ITargetedJobAndIndustry {
-  industry: string;
-  targetJob: string;
-  experience: string;
-}
+// enum LanguageProficiency {
+//   Native = "Native",
+//   Fluent = "Fluent",
+//   Conversational = "Conversational",
+//   Beginner = "Beginner",
+// }
 
-interface IPersonalInfo {
-  name: string;
-  phoneNumber: string;
-  email: string;
-  location?: {
-    city: string;
-    state?: string;
-    country: string;
-  };
-  socialLinks: ISocialLinks;
-  languages: ILanguage[];
-  summary: string;
-  image?: string;
-  visaStatus: string;
-}
+// interface ILanguage {
+//   language: string;
+//   proficiency?: LanguageProficiency;
+//   certifications?: string[];
+// }
+// interface ITargetedJobAndIndustry {
+//   industry: string;
+//   targetJob: string;
+//   experience: string;
+// }
 
-interface IWorkExperienceProject {
-  name: string;
-  description: string;
-  role: string;
-  technologies: string[];
-  achievements: string[];
-}
+// interface IPersonalInfo {
+//   name: string;
+//   phoneNumber: string;
+//   email: string;
+//   location?: {
+//     city: string;
+//     state?: string;
+//     country: string;
+//   };
+//   summary: string;
+//   image?: string;
+//   visaStatus: string;
+// }
 
-interface IWorkExperience {
-  jobTitle: string;
-  company: string;
-  jobType: string;
-  location: {
-    city: string;
-    state: string;
-    country: string;
-    workplaceType: string;
-  };
-  startDate: {
-    month: string;
-    year: string;
-  };
-  endDate?: {
-    month: string;
-    year: string;
-  };
-  isCurrentJob: boolean;
-  responsibilities?: string[];
-  achievements?: string[];
-  technologies?: string[];
-  projects?: IWorkExperienceProject[];
-}
+// interface IWorkExperienceProject {
+//   name: string;
+//   description: string;
+//   role: string;
+//   technologies: string[];
+//   achievements: string[];
+// }
 
-interface IEducation {
-  degree: string;
-  institution: string;
-  location?: {
-    city: string;
-    state: string;
-    country: string;
-  };
-  startDate: {
-    month: string;
-    year: string;
-  };
-  endDate?: {
-    month: string;
-    year: string;
-  };
-  isCurrentlyStudying: boolean;
-  gpa?: number;
-  relevantCourses?: string[];
-  projects?: string[];
-  honors?: string[];
-  activities?: string[];
-}
+// interface IWorkExperience {
+//   jobTitle: string;
+//   company: string;
+//   jobType: string;
+//   location: {
+//     city: string;
+//     state: string;
+//     country: string;
+//     workplaceType: string;
+//   };
+//   startDate: {
+//     month: string;
+//     year: string;
+//   };
+//   endDate?: {
+//     month: string;
+//     year: string;
+//   };
+//   isCurrentJob: boolean;
+//   responsibilities?: string[];
+//   achievements?: string[];
+//   technologies?: string[];
+//   projects?: IWorkExperienceProject[];
+// }
 
-interface ICertification {
-  name: string;
-  issuingOrganization: string;
-  issueDate: {
-    month: string;
-    year: string;
-  };
-  expirationDate?: {
-    month: string;
-    year: string;
-  };
-  isNeverExpires: boolean;
-  verificationUrl: string;
-  description: string;
-  credentialId: string;
-  skills: string[];
-}
+// interface IEducation {
+//   degree: string;
+//   institution: string;
+//   location?: {
+//     city: string;
+//     state: string;
+//     country: string;
+//   };
+//   startDate: {
+//     month: string;
+//     year: string;
+//   };
+//   endDate?: {
+//     month: string;
+//     year: string;
+//   };
+//   isCurrentlyStudying: boolean;
+//   gpa?: number;
+//   relevantCourses?: string[];
+//   projects?: string[];
+//   honors?: string[];
+//   activities?: string[];
+// }
 
-interface IProject {
-  title: string;
-  description: string;
-  role?: string;
-  startDate?: Date;
-  endDate?: Date | string;
-  technologies?: string[];
-  achievements?: string[];
-  url?: string;
-  mediaLinks?: string[];
-}
+// interface ICertification {
+//   name: string;
+//   issuingOrganization: string;
+//   issueDate: {
+//     month: string;
+//     year: string;
+//   };
+//   expirationDate?: {
+//     month: string;
+//     year: string;
+//   };
+//   isNeverExpires: boolean;
+//   verificationUrl: string;
+//   description: string;
+//   credentialId: string;
+//   skills: string[];
+// }
 
-interface ISkill {
-  category: string;
-  skills: {
-    name: string;
-    proficiency: string;
-    yearsOfExperience: number;
-    lastUsed: Date;
-  }[];
-}
+// interface IProject {
+//   title: string;
+//   contributions: string;
+//   role?: string;
+//   startDate?: Date;
+//   endDate?: Date | string;
+//   technologies?: string[];
+//   achievements?: string[];
+//   links?: { platform: string; url: string }[];
+//   mediaLinks?: string[];
+// }
 
-interface IAchievement {
-  title: string;
-  description: string;
-  date: Date;
-  url?: string;
-}
+// interface ISkill {
+//   name: string;
+//   proficiency: string;
+//   yearsOfExperience: number;
+//   lastUsed: Date;
+// }
+// // interface ISkill {
+// //   category: string;
+// // skills: {
+// //   name: string;
+// //   proficiency: string;
+// //   yearsOfExperience: number;
+// //   lastUsed: Date;
+// // }[];
+// // }
 
-interface IPublication {
-  title: string;
-  publishedIn: string;
-  date: Date;
-  url: string;
-  description: string;
-}
+// interface IAchievement {
+//   title: string;
+//   description: string;
+//   date: Date;
+//   url?: string;
+// }
 
-interface IVolunteerExperience {
-  organization: string;
-  role: string;
-  startDate: Date;
-  endDate?: Date | string;
-  description: string;
-  skills: string[];
-}
+// interface IPublication {
+//   title: string;
+//   publishedIn: string;
+//   date: Date;
+//   url: string;
+//   description: string;
+// }
 
-interface IAward {
-  name: string;
-  issuingOrganization: string;
-  date: Date;
-  description: string;
-}
+// interface IVolunteerExperience {
+//   organization: string;
+//   role: string;
+//   startDate: Date;
+//   endDate?: Date | string;
+//   description: string;
+//   skills: string[];
+// }
 
-interface IOpenSourceContribution {
-  projectName: string;
-  url: string;
-  description: string;
-  startDate: Date;
-  endDate?: Date | string;
-}
+// interface IAward {
+//   name: string;
+//   issuingOrganization: string;
+//   date: {
+//     month: string;
+//     year: string;
+//   };
+//   description: string;
+// }
 
-interface ICustomSection {
-  title: string;
-  content: string[];
-}
+// // interface IOpenSourceContribution {
+// //   projectName: string;
+// //   url: string;
+// //   description: string;
+// //   startDate: Date;
+// //   endDate?: Date | string;
+// // }
 
-enum CreationMethodEnum {
-  AI_ASSISTED = "AI-assisted",
-  USER_CREATED = "User-created",
-  ATS_PARSED = "ATS-parsed",
-  MANUAL_ENTRY = "Manual-entry",
-  IMPORTED = "Imported",
-  TEMPLATE_BASED = "Template-based",
-  THIRD_PARTY_TOOL = "Third-party-tool",
-}
+// interface IOpenSourceContribution {
+//   projectName: string;
+//   role: string;
+//   technologies: string[];
+//   description: string;
+//   contributions: string;
+//   links: {
+//     platform: string;
+//     url: string;
+//   }[];
+//   startDate: {
+//     month: string;
+//     year: string;
+//   };
+//   endDate: {
+//     month: string;
+//     year: string;
+//   };
+//   isOngoing: boolean;
+// }
 
-enum TemplateNameEnum {
-  Default = "Default",
-  ProfessionalLook = "Professional Look",
-  CreativeStyle = "Creative Style",
-  ExecutiveFlair = "Executive Flair",
-  ModernClean = "Modern Clean",
-  TechFocus = "Tech Focus",
-  ClassicStyle = "Classic Style",
-  BoldDesign = "Bold Design",
-  FreshStart = "Fresh Start",
-  PolishedProfile = "Polished Profile",
-  GraduateBoost = "Graduate Boost",
-}
+// interface ICustomSection {
+//   title: string;
+//   subtitle: string;
+//   description: string;
+//   startDate: {
+//     month: string;
+//     year: string;
+//   };
+//   endDate?: {
+//     month: string;
+//     year: string;
+//   };
+//   isPresent: boolean;
+// }
 
-interface IResume extends Document {
-  userId: mongoose.Schema.Types.ObjectId;
-  resumeTitle: string;
-  targetJobTitle: string;
-  resumeSettingsId: mongoose.Schema.Types.ObjectId;
-  creationMethod: CreationMethodEnum;
-  targetedJobAndIndustry: ITargetedJobAndIndustry;
-  personalInfo: IPersonalInfo;
-  workExperience?: IWorkExperience[];
-  education?: IEducation[];
-  certifications?: ICertification[];
-  projects?: IProject[];
-  skills?: {
-    technicalSkills: ISkill[];
-    softSkills: string[];
-  };
-  achievements?: IAchievement[];
-  publications?: IPublication[];
-  volunteerExperience?: IVolunteerExperience[];
-  awards?: IAward[];
-  openSourceContributions?: IOpenSourceContribution[];
-  customSections?: ICustomSection[];
-  atsCompatibilityScore: number;
-  keywords: string[];
-  templateName: TemplateNameEnum;
-  isPremiumTemplate: boolean;
-  lastAtsAnalysisDate: Date;
-  visibility: string;
-  resumeFile?: {
-    url: string;
-    format: string;
-    generatedDate: Date;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-}
+// enum CreationMethodEnum {
+//   AI_ASSISTED = "AI-assisted",
+//   USER_CREATED = "User-created",
+//   ATS_PARSED = "ATS-parsed",
+//   MANUAL_ENTRY = "Manual-entry",
+//   IMPORTED = "Imported",
+//   TEMPLATE_BASED = "Template-based",
+//   THIRD_PARTY_TOOL = "Third-party-tool",
+// }
+
+// enum TemplateNameEnum {
+//   Default = "Default",
+//   ProfessionalLook = "Professional Look",
+//   CreativeStyle = "Creative Style",
+//   ExecutiveFlair = "Executive Flair",
+//   ModernClean = "Modern Clean",
+//   TechFocus = "Tech Focus",
+//   ClassicStyle = "Classic Style",
+//   BoldDesign = "Bold Design",
+//   FreshStart = "Fresh Start",
+//   PolishedProfile = "Polished Profile",
+//   GraduateBoost = "Graduate Boost",
+// }
+
+// interface IResume extends Document {
+//   userId: mongoose.Schema.Types.ObjectId;
+//   resumeTitle: string;
+//   targetJobTitle: string;
+//   resumeSettingsId: mongoose.Schema.Types.ObjectId;
+//   creationMethod: CreationMethodEnum;
+//   targetedJobAndIndustry: ITargetedJobAndIndustry;
+//   personalInfo: IPersonalInfo;
+//   socialLinks: ISocialLinks[];
+//   languages: ILanguage[];
+//   workExperience?: IWorkExperience[];
+//   education?: IEducation[];
+//   certifications?: ICertification[];
+//   projects?: IProject[];
+//   skills?: {
+//     technicalSkills: ISkill[];
+//     softSkills: string[];
+//   };
+//   achievements?: IAchievement[];
+//   publications?: IPublication[];
+//   volunteerExperience?: IVolunteerExperience[];
+//   awards?: IAward[];
+//   openSourceContributions?: IOpenSourceContribution[];
+//   customSections?: ICustomSection[];
+//   atsCompatibilityScore: number;
+//   keywords: string[];
+//   templateName: TemplateNameEnum;
+//   isPremiumTemplate: boolean;
+//   lastAtsAnalysisDate: Date;
+//   visibility: string;
+//   resumeFile?: {
+//     url: string;
+//     format: string;
+//     generatedDate: Date;
+//   };
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
 const ResumeSchema: Schema = new Schema<IResume>({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
@@ -1121,50 +1173,58 @@ const ResumeSchema: Schema = new Schema<IResume>({
       state: { type: String, required: false },
       country: { type: String, required: false },
     },
-    socialLinks: {
-      linkedIn: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      github: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      stackOverflow: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      personalWebsite: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      twitter: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      medium: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-      devTo: {
-        url: { type: String, required: false },
-        username: { type: String, required: false },
-      },
-    },
-    languages: [
-      {
-        language: { type: String, required: false },
-        proficiency: {
-          type: String,
-          enum: Object.values(LanguageProficiency),
-          required: false,
-        },
-        certifications: [{ type: String }],
-      },
-    ],
+    // socialLinks: {
+    //   linkedIn: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   github: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   stackOverflow: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   personalWebsite: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   twitter: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   medium: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    //   devTo: {
+    //     url: { type: String, required: false },
+    //     username: { type: String, required: false },
+    //   },
+    // },
+
     summary: { type: String, required: false },
     visaStatus: { type: String, required: false },
   },
+  languages: [
+    {
+      language: { type: String, required: false },
+      proficiency: {
+        type: String,
+        enum: Object.values(LanguageProficiency),
+        required: false,
+      },
+      certifications: [{ type: String }],
+    },
+  ],
+  socialLinks: [
+    {
+      platform: { type: String, required: false },
+      url: { type: String, required: false },
+      username: { type: String, required: false, default: "" },
+    },
+  ],
   workExperience: [
     {
       jobTitle: { type: String },
@@ -1228,28 +1288,23 @@ const ResumeSchema: Schema = new Schema<IResume>({
   projects: [
     {
       title: { type: String, required: false },
-      description: { type: String, required: false },
+      contributions: { type: String, required: false },
       role: { type: String },
-      startDate: { type: Date },
-      endDate: { type: Schema.Types.Mixed },
+      startDate: { month: { type: String }, year: { type: String } },
+      endDate: { month: { type: String }, year: { type: String } },
       technologies: [{ type: String }],
       achievements: [{ type: String }],
-      url: { type: String },
+      links: [{ platform: { type: String }, url: { type: String } }],
       mediaLinks: [{ type: String }],
     },
   ],
   skills: {
     technicalSkills: [
       {
-        category: { type: String, required: false },
-        skills: [
-          {
-            name: { type: String, required: false },
-            proficiency: { type: String, required: false },
-            yearsOfExperience: { type: Number, required: false },
-            lastUsed: { type: Date, required: false },
-          },
-        ],
+        name: { type: String, required: false },
+        proficiency: { type: String, required: false },
+        yearsOfExperience: { type: Number, required: false },
+        lastUsed: { type: Date, required: false },
       },
     ],
     softSkills: [{ type: String }],
@@ -1285,23 +1340,62 @@ const ResumeSchema: Schema = new Schema<IResume>({
     {
       name: { type: String, required: false },
       issuingOrganization: { type: String, required: false },
-      date: { type: Date, required: false },
+      date: { month: { type: String }, year: { type: String } },
       description: { type: String, required: false },
     },
   ],
+  // openSourceContributions: [
+  //   {
+  //     projectName: { type: String, required: false },
+  //     url: { type: String, required: false },
+  //     description: { type: String, required: false },
+  //     startDate: { type: Date, required: false },
+  //     endDate: { type: Schema.Types.Mixed },
+  //   },
+  // ],
   openSourceContributions: [
     {
       projectName: { type: String, required: false },
-      url: { type: String, required: false },
-      description: { type: String, required: false },
-      startDate: { type: Date, required: false },
-      endDate: { type: Schema.Types.Mixed },
+      role: { type: String, default: "" },
+      technologies: [{ type: String }],
+      description: { type: String, default: "" },
+      contributions: { type: String, default: "" },
+      links: [
+        {
+          platform: { type: String, required: false },
+          url: { type: String, required: false },
+        },
+      ],
+      startDate: { month: { type: String }, year: { type: String } },
+      endDate: { month: { type: String }, year: { type: String } },
+      isOngoing: { type: Boolean, default: false },
     },
   ],
+  //   [
+  //     {
+  //         "id": "default-section",
+  //         "title": "jay bisws",
+  //         "subtitle": "this is ok jay",
+  //         "description": "This is the way to get better and it is the way to ",
+  //         "startDate": {
+  //             "month": "March",
+  //             "year": "2017"
+  //         },
+  //         "endDate": {
+  //             "month": "March",
+  //             "year": "2023"
+  //         },
+  //         "isPresent": false
+  //     }
+  // ]
   customSections: [
     {
       title: { type: String, required: false },
-      content: [{ type: String, required: false }],
+      subtitle: { type: String, required: false },
+      description: { type: String, required: false },
+      startDate: { month: { type: String }, year: { type: String } },
+      endDate: { month: { type: String }, year: { type: String } },
+      isPresent: { type: Boolean, default: false },
     },
   ],
   atsCompatibilityScore: { type: Number, required: false },

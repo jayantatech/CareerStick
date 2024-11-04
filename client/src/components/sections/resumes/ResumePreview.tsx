@@ -668,7 +668,7 @@ const getSocialIcon = (platform: string) => {
 };
 
 const ResumePDF = ({ data }: { data: ResumeState }) => {
-  console.log("Rendering ResumeOne template");
+  // console.log("Rendering ResumeOne template");
   // Placeholder text for empty fields
   const placeholderText = {
     name: data.personalInfo.firstName || "Enter your name",
@@ -828,10 +828,10 @@ const ResumePDF = ({ data }: { data: ResumeState }) => {
                   </Text>
                   <View style={styles.dateLocation}>
                     <Text>
-                      {edu.startDate.month} {edu.startDate.year} -{" "}
+                      {edu.startDate?.month} {edu.startDate?.year} -{" "}
                       {edu.isCurrentlyStudying
                         ? "Present"
-                        : `${edu.endDate.month} ${edu.endDate.year}`}
+                        : `${edu.endDate?.month} ${edu.endDate?.year}`}
                     </Text>
                   </View>
                   {edu.description && (

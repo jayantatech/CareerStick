@@ -74,7 +74,7 @@ const ResumeFeatureBox = () => {
   // const dispatch = useAppDispatch();
 
   const handleAIResumeGenerate = async () => {
-    console.log("they clicked generate resume");
+    // console.log("they clicked generate resume");
 
     if (!userSubmittedInfo) return;
     try {

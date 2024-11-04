@@ -1,55 +1,29 @@
-import mongoose from "mongoose";
-
+import mongoose, { Document } from "mongoose";
 interface ISocialLinks {
-  linkedIn?: {
-    url: string;
-    username: string;
-  };
-  github?: {
-    url: string;
-    username: string;
-  };
-  stackOverflow?: {
-    url: string;
-    username: string;
-  };
-  personalWebsite?: {
-    url: string;
-    username: string;
-  };
-  twitter?: {
-    url: string;
-    username: string;
-  };
-  medium?: {
-    url: string;
-    username: string;
-  };
-  devTo?: {
-    url: string;
-    username: string;
-  };
+  platform: String;
+  url: String;
+  username: String;
 }
 
-enum LanguageProficiency {
+export enum LanguageProficiency {
   Native = "Native",
   Fluent = "Fluent",
   Conversational = "Conversational",
   Beginner = "Beginner",
 }
 
-interface ILanguage {
+export interface ILanguage {
   language: string;
   proficiency?: LanguageProficiency;
   certifications?: string[];
 }
-interface ITargetedJobAndIndustry {
+export interface ITargetedJobAndIndustry {
   industry: string;
   targetJob: string;
   experience: string;
 }
 
-interface IPersonalInfo {
+export interface IPersonalInfo {
   name: string;
   phoneNumber: string;
   email: string;
@@ -58,14 +32,12 @@ interface IPersonalInfo {
     state?: string;
     country: string;
   };
-  socialLinks: ISocialLinks;
-  languages: ILanguage[];
   summary: string;
   image?: string;
   visaStatus: string;
 }
 
-interface IWorkExperienceProject {
+export interface IWorkExperienceProject {
   name: string;
   description: string;
   role: string;
@@ -73,7 +45,7 @@ interface IWorkExperienceProject {
   achievements: string[];
 }
 
-interface IWorkExperience {
+export interface IWorkExperience {
   jobTitle: string;
   company: string;
   jobType: string;
@@ -87,18 +59,18 @@ interface IWorkExperience {
     month: string;
     year: string;
   };
-  endDate: {
+  endDate?: {
     month: string;
     year: string;
   };
-  isCurrentJob?: boolean;
+  isCurrentJob: boolean;
   responsibilities?: string[];
   achievements?: string[];
   technologies?: string[];
   projects?: IWorkExperienceProject[];
 }
 
-interface IEducation {
+export interface IEducation {
   degree: string;
   institution: string;
   location?: {
@@ -106,8 +78,15 @@ interface IEducation {
     state: string;
     country: string;
   };
-  startDate: Date;
-  endDate?: Date | string;
+  startDate: {
+    month: string;
+    year: string;
+  };
+  endDate?: {
+    month: string;
+    year: string;
+  };
+  isCurrentlyStudying: boolean;
   gpa?: number;
   relevantCourses?: string[];
   projects?: string[];
@@ -115,45 +94,60 @@ interface IEducation {
   activities?: string[];
 }
 
-interface ICertification {
+export interface ICertification {
   name: string;
   issuingOrganization: string;
-  issueDate: Date;
-  expirationDate?: Date;
+  issueDate: {
+    month: string;
+    year: string;
+  };
+  expirationDate?: {
+    month: string;
+    year: string;
+  };
+  isNeverExpires: boolean;
+  verificationUrl: string;
+  description: string;
   credentialId: string;
   skills: string[];
 }
 
-interface IProject {
+export interface IProject {
   title: string;
-  description: string;
+  contributions: string;
   role?: string;
   startDate?: Date;
   endDate?: Date | string;
   technologies?: string[];
   achievements?: string[];
-  url?: string;
+  links?: { platform: string; url: string }[];
   mediaLinks?: string[];
 }
 
-interface ISkill {
-  category: string;
-  skills: {
-    name: string;
-    proficiency: string;
-    yearsOfExperience: number;
-    lastUsed: Date;
-  }[];
+export interface ISkill {
+  name: string;
+  proficiency: string;
+  yearsOfExperience: number;
+  lastUsed: Date;
 }
+// interface ISkill {
+//   category: string;
+// skills: {
+//   name: string;
+//   proficiency: string;
+//   yearsOfExperience: number;
+//   lastUsed: Date;
+// }[];
+// }
 
-interface IAchievement {
+export interface IAchievement {
   title: string;
   description: string;
   date: Date;
   url?: string;
 }
 
-interface IPublication {
+export interface IPublication {
   title: string;
   publishedIn: string;
   date: Date;
@@ -161,7 +155,7 @@ interface IPublication {
   description: string;
 }
 
-interface IVolunteerExperience {
+export interface IVolunteerExperience {
   organization: string;
   role: string;
   startDate: Date;
@@ -170,27 +164,61 @@ interface IVolunteerExperience {
   skills: string[];
 }
 
-interface IAward {
+export interface IAward {
   name: string;
   issuingOrganization: string;
-  date: Date;
+  date: {
+    month: string;
+    year: string;
+  };
   description: string;
 }
 
-interface IOpenSourceContribution {
+// interface IOpenSourceContribution {
+//   projectName: string;
+//   url: string;
+//   description: string;
+//   startDate: Date;
+//   endDate?: Date | string;
+// }
+
+export interface IOpenSourceContribution {
   projectName: string;
-  url: string;
+  role: string;
+  technologies: string[];
   description: string;
-  startDate: Date;
-  endDate?: Date | string;
+  contributions: string;
+  links: {
+    platform: string;
+    url: string;
+  }[];
+  startDate: {
+    month: string;
+    year: string;
+  };
+  endDate: {
+    month: string;
+    year: string;
+  };
+  isOngoing: boolean;
 }
 
-interface ICustomSection {
+export interface ICustomSection {
   title: string;
-  content: string[];
+  subtitle: string;
+  description: string;
+  startDate: {
+    month: string;
+    year: string;
+  };
+  endDate?: {
+    month: string;
+    year: string;
+  };
+  isPresent: boolean;
 }
 
-enum CreationMethodEnum {
+export enum CreationMethodEnum {
   AI_ASSISTED = "AI-assisted",
   USER_CREATED = "User-created",
   ATS_PARSED = "ATS-parsed",
@@ -200,7 +228,7 @@ enum CreationMethodEnum {
   THIRD_PARTY_TOOL = "Third-party-tool",
 }
 
-enum TemplateNameEnum {
+export enum TemplateNameEnum {
   Default = "Default",
   ProfessionalLook = "Professional Look",
   CreativeStyle = "Creative Style",
@@ -214,7 +242,7 @@ enum TemplateNameEnum {
   GraduateBoost = "Graduate Boost",
 }
 
-interface IResume {
+interface IResume extends Document {
   userId: mongoose.Schema.Types.ObjectId;
   resumeTitle: string;
   targetJobTitle: string;
@@ -222,6 +250,8 @@ interface IResume {
   creationMethod: CreationMethodEnum;
   targetedJobAndIndustry: ITargetedJobAndIndustry;
   personalInfo: IPersonalInfo;
+  socialLinks: ISocialLinks[];
+  languages: ILanguage[];
   workExperience?: IWorkExperience[];
   education?: IEducation[];
   certifications?: ICertification[];

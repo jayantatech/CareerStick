@@ -573,14 +573,14 @@ const SortableEducationItem: React.FC<SortableEducationItemProps> = React.memo(
                     {localState.school && ` at ${localState.school}`}
                   </div>
                   <div className="text-sm text-gray-500">
-                    {localState.startDate.month && localState.startDate.year
-                      ? `${localState.startDate.month} ${localState.startDate.year}`
+                    {localState.startDate?.month && localState.startDate?.year
+                      ? `${localState.startDate?.month} ${localState.startDate?.year}`
                       : "Start Date"}{" "}
                     -{" "}
                     {localState.isCurrentlyStudying
                       ? "Present"
-                      : localState.endDate.month && localState.endDate.year
-                      ? `${localState.endDate.month} ${localState.endDate.year}`
+                      : localState.endDate?.month && localState.endDate?.year
+                      ? `${localState.endDate?.month} ${localState.endDate?.year}`
                       : "End Date"}
                   </div>
                 </div>

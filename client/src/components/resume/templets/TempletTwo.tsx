@@ -133,7 +133,7 @@ interface ResumeState {
 }
 
 const TempletTwo = ({ data }: { data: ResumeState }) => {
-  console.log("Rendering ResumeTwo template");
+  // console.log("Rendering ResumeTwo template");
   const placeholderText = {
     name: data.personalInfo.firstName || "Enter your name",
     title: data.jobIndustry.targetJob || "Enter your job title",

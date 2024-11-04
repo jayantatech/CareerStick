@@ -60,37 +60,58 @@ const AiResumeBuilder = () => {
         const mappedData = mapMongoDataToReduxFormat(response.data.resume);
 
         console.log("mappedData from server", mappedData);
-        // dispatch(
-        //   resumeActions.updateJobIndustry({
-        //     experience: mappedData.jobIndustry.experience,
-        //     industry: mappedData.jobIndustry.industry,
-        //     targetJob: mappedData.jobIndustry.targetJob,
-        //   })
-        // );
-        dispatch(resumeActions.updateJobIndustry(mappedData.jobIndustry));
-        dispatch(resumeActions.updatePersonalInfo(mappedData.personalInfo));
+        dispatch(
+          resumeActions.updateJobIndustry({
+            experience: mappedData.jobIndustry.experience,
+            industry: mappedData.jobIndustry.industry,
+            targetJob: mappedData.jobIndustry.targetJob,
+          })
+        );
+        // dispatch(resumeActions.updateJobIndustry(mappedData.jobIndustry));
+        // dispatch(resumeActions.updatePersonalInfo(mappedData.personalInfo));
 
-        // dispatch(
-        //   resumeActions.updatePersonalInfo({
-        //     firstName: mappedData.personalInfo.firstName,
-        //     lastName: mappedData.personalInfo.lastName,
-        //     email: mappedData.personalInfo.email,
-        //     phone: mappedData.personalInfo.phone,
-        //     city: mappedData.personalInfo.city,
-        //     country: mappedData.personalInfo.country,
-        //     address: mappedData.personalInfo.address,
-        //     postalCode: mappedData.personalInfo.postalCode,
-        //   })
-        // );
+        dispatch(
+          resumeActions.updatePersonalInfo({
+            firstName: mappedData.personalInfo.firstName,
+            lastName: mappedData.personalInfo.lastName,
+            email: mappedData.personalInfo.email,
+            phone: mappedData.personalInfo.phone,
+            city: mappedData.personalInfo.city,
+            country: mappedData.personalInfo.country,
+            address: mappedData.personalInfo.address,
+            postalCode: mappedData.personalInfo.postalCode,
+          })
+        );
         dispatch(
           resumeActions.updateProfessionalSummary(
             mappedData.professionalSummary
           )
         );
         dispatch(resumeActions.setWorkExperience(mappedData.workExperience));
+        // dispatch(resumeActions.addEducation(mappedData.education));
+        // {
+        //   response.data.resume?.education?.map((edu: any) => {
+        //     dispatch(
+        //       resumeActions.addEducation({
+        //         id: edu._id,
+        //         degree: edu.degree,
+        //         school: edu.school,
+        //         startDate: {
+        //           month: edu.startDate.month,
+        //           year: edu.startDate.year,
+        //         },
+        //         endDate: { month: edu.endDate.month, year: edu.endDate.year },
+        //         isCurrentlyStudying: edu.isCurrentlyStudying,
+        //         location: edu.location,
+        //         description: edu.description,
+        //       })
+        //     );
+        //   });
+        // }
+
+        dispatch(resumeActions.setLanguages(mappedData.languages));
         // Dispatch all the data to Redux
         // dispatch(resumeActions.setProjects(mappedData.projects));
-        // dispatch(resumeActions.setLanguages(mappedData.languages));
         // dispatch(resumeActions.setSelectedSkills(mappedData.selectedSkills));
         // dispatch(resumeActions.setAwards(mappedData.awards));
         // dispatch(
@@ -139,8 +160,8 @@ const AiResumeBuilder = () => {
         resumeId: params.id,
         resumeData: resumeStateData,
       });
-      testData();
-      console.log("resumeData  client", resumeStateData);
+      // testData();
+      // console.log("resumeData  client", resumeStateData);
 
       console.log("response.data from server okkkk", response.data);
 
@@ -149,7 +170,7 @@ const AiResumeBuilder = () => {
       }
 
       // You might want to add some visual feedback for successful saves
-      console.log("Resume data saved successfully");
+      // console.log("Resume data saved successfully");
     } catch (error: any) {
       // Handle errors appropriately
       console.error("Error saving resume data:", error);

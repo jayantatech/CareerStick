@@ -68,7 +68,7 @@ const AppSidebar = () => {
   //   return pathname === path;
   // };
 
-  console.log("pathname", pathname);
+  // console.log("pathname", pathname);
   return (
     <div
       className={`h-full bg-white transition-all relative py-4 duration-300 ease-in-out border-r z-50  ${
