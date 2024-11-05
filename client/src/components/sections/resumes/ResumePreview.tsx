@@ -324,7 +324,8 @@ import {
   Svg,
   Path,
 } from "@react-pdf/renderer";
-import { ResumeState } from "@/lib/store/slices/resumeSlice";
+// import { ResumeState } from "@/lib/store/slices/resumeSlice";
+import { ResumeState } from "@/lib/types/resumeInput";
 
 // Custom SVG Icons Components
 // const LocationIcon = () => (

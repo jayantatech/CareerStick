@@ -14,7 +14,7 @@ import { SiCodemagic } from "react-icons/si";
 import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
 import { VscHubot } from "react-icons/vsc";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavItem {
   icon: React.ElementType;

@@ -1262,6 +1262,7 @@ const ResumeSchema: Schema = new Schema<IResume>({
         state: { type: String, required: false },
         country: { type: String, required: false },
       },
+      description: { type: String, required: false },
       startDate: { month: { type: String }, year: { type: String } },
       endDate: { month: { type: String }, year: { type: String } },
       isCurrentlyStudying: { type: Boolean, default: false },

@@ -1,15 +1,4 @@
 "use client";
-interface Certificate {
-  id: string;
-  name: string;
-  issuingOrganization: string;
-  issueDate: { month: string; year: string };
-  expirationDate: { month: string; year: string };
-  credentialId: string;
-  verificationUrl: string;
-  description: string;
-  isNeverExpires: boolean;
-}
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,6 +39,7 @@ import {
   deleteCertificate,
   reorderCertificates,
 } from "@/lib/store/slices/resumeSlice";
+import { Certificate } from "@/lib/types/resumeInput";
 
 interface MonthYearPickerProps {
   labelFirst: string;
@@ -198,14 +188,14 @@ const SortableCertificationItem: React.FC<SortableCertificationItemProps> = ({
                     : ""}
                 </div>
                 <div className="text-sm text-gray-500">
-                  {localCertification.issueDate.month &&
+                  {localCertification.issueDate?.month &&
                   localCertification.issueDate.year
-                    ? `Issued: ${localCertification.issueDate.month} ${localCertification.issueDate.year}`
+                    ? `Issued: ${localCertification.issueDate?.month} ${localCertification.issueDate?.year}`
                     : "Issue Date"}{" "}
                   {!localCertification.isNeverExpires &&
-                    localCertification.expirationDate.month &&
-                    localCertification.expirationDate.year &&
-                    `- Expires: ${localCertification.expirationDate.month} ${localCertification.expirationDate.year}`}
+                    localCertification.expirationDate?.month &&
+                    localCertification.expirationDate?.year &&
+                    `- Expires: ${localCertification.expirationDate?.month} ${localCertification.expirationDate?.year}`}
                   {localCertification.isNeverExpires && "- No Expiration"}
                 </div>
               </div>

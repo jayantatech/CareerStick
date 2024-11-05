@@ -178,12 +178,14 @@
 // export default PDFWrapper;
 
 import { PDFViewer } from "@react-pdf/renderer";
-import { ResumeState } from "@/lib/store/slices/resumeSlice";
+// import { ResumeState } from "@/lib/store/slices/resumeSlice";
+
 import ResumePDF from "../sections/resumes/ResumePreview";
 import TempletTwo from "./templets/TempletTwo";
 // import TemplateThree from "./templets/TemplateThree";
 // Import other templates...
 import { useAppSelector } from "@/lib/store/hooks";
+import { ResumeState } from "@/lib/types/resumeInput";
 
 interface PDFWrapperProps {
   data: ResumeState;

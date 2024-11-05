@@ -403,13 +403,15 @@ import SectionTitle from "@/components/SectionTitle";
 import SubSectionTitle from "@/components/SubSectionTitle";
 import TrashIconComponent from "@/components/TrashIconComponent";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { MonthYearDate } from "@/lib/types/resumeInput";
+// import { MonthYearDate } from "@/lib/types/resumeInput";
+
 import {
   addEducation,
   deleteEducation,
   reorderEducation,
   updateEducation,
 } from "@/lib/store/slices/resumeSlice";
+import { MonthYearDate } from "@/lib/types/generaltypes";
 
 // Define Education interface
 interface Education {

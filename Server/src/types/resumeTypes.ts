@@ -78,6 +78,7 @@ export interface IEducation {
     state: string;
     country: string;
   };
+  description: string;
   startDate: {
     month: string;
     year: string;

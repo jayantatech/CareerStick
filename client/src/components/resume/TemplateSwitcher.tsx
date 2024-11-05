@@ -1,10 +1,11 @@
-import { ResumeState } from "@/lib/store/slices/resumeSlice";
+// import { ResumeState } from "@/lib/store/slices/resumeSlice";
 // import ResumePDF from "./ResumePDF";
 // import TempletTwo from "./TempletTwo";
 import { useTemplate } from "@/context/TemplateContext";
 import ResumePDF from "../sections/resumes/ResumePreview";
 import TempletTwo from "./templets/TempletTwo";
 import { useEffect } from "react";
+import { ResumeState } from "@/lib/types/resumeInput";
 
 interface TemplateSwitcherProps {
   data: ResumeState;

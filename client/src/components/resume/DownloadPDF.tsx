@@ -238,12 +238,14 @@
 import React, { memo, useState, useEffect } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePDF from "../sections/resumes/ResumePreview";
-import { ResumeState } from "@/lib/store/slices/resumeSlice";
+
 import { MdOutlineCloudDownload } from "react-icons/md";
 import TempletTwo from "./templets/TempletTwo";
 // import TemplateThree from "./templets/TemplateThree";
 // Import other templates as needed
 import { useAppSelector } from "@/lib/store/hooks";
+// import { ResumeState } from "@/lib/types/resumeInput";
+import { ResumeState } from "@/lib/types/resumeInput";
 
 const LoadingButton = memo(() => (
   <button disabled className="font-semibold">

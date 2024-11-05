@@ -323,6 +323,10 @@ const ProjectsSection = () => {
     [dispatch]
   );
 
+  useEffect(() => {
+    setLocalProjects(reduxProjects);
+  }, [reduxProjects]);
+
   const addNewProject = useCallback(() => {
     const newProject: Project = {
       id: `project-${Date.now()}`,

@@ -1,21 +1,5 @@
 "use client";
 
-interface JobExperience {
-  id: string;
-  jobTitle: string;
-  company: string;
-  startDate: MonthYearDate;
-  endDate: MonthYearDate;
-  isCurrentJob: boolean;
-  location: string;
-  description: string;
-}
-
-interface MonthYearDate {
-  month: string;
-  year: string;
-}
-
 type JobExperienceFieldValue = string | boolean | MonthYearDate;
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
@@ -58,6 +42,9 @@ import {
   reorderWorkExperience,
 } from "@/lib/store/slices/resumeSlice";
 import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";
+import { MonthYearDate } from "@/lib/types/generaltypes";
+import { JobExperience } from "@/lib/types/resumeInput";
+import { months } from "../../../../public/content/generalFieldsData";
 
 const descriptions = [
   "Led cross-functional team of 8 members, improving project delivery time by 15% through implementation of agile methodologies and streamlined workflows.",
@@ -66,21 +53,6 @@ const descriptions = [
   "Streamlined operations processes resulting in 20% cost reduction and 35% improvement in efficiency through implementation of automated workflows.",
   "Spearheaded digital transformation initiatives, leading to 50% faster processing times and 90% paperless operations within 6 months.",
   "Built and maintained relationships with key stakeholders, resulting in 95% client retention rate and $3M in renewed contracts.",
-];
-
-const months = [
-  { value: "January", label: "January" },
-  { value: "February", label: "February" },
-  { value: "March", label: "March" },
-  { value: "April", label: "April" },
-  { value: "May", label: "May" },
-  { value: "June", label: "June" },
-  { value: "July", label: "July" },
-  { value: "August", label: "August" },
-  { value: "September", label: "September" },
-  { value: "October", label: "October" },
-  { value: "November", label: "November" },
-  { value: "December", label: "December" },
 ];
 
 const years = Array.from({ length: 51 }, (_, i) => {
@@ -356,12 +328,8 @@ const WorkExperienceSection: React.FC = () => {
     (event: DragEndEvent) => {
       const { active, over } = event;
       if (active.id !== over?.id) {
-        const oldIndex = experiences.findIndex(
-          (item: any) => item.id === active.id
-        );
-        const newIndex = experiences.findIndex(
-          (item: any) => item.id === over?.id
-        );
+        const oldIndex = experiences.findIndex((item) => item.id === active.id);
+        const newIndex = experiences.findIndex((item) => item.id === over?.id);
         dispatch(reorderWorkExperience({ oldIndex, newIndex }));
       }
     },

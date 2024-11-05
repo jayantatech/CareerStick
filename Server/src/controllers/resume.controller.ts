@@ -319,6 +319,7 @@ const saveResume = async (req: Request, res: Response) => {
         startDate: formatDate(edu?.startDate),
         endDate: formatDate(edu?.endDate),
         isCurrentlyStudying: edu.isCurrentlyStudying,
+        description: edu.description,
         // relevantCourses: edu.description.split("\n"),
       })),
       certifications: resumeData.certificate.map((cert: any) => ({
@@ -337,6 +338,7 @@ const saveResume = async (req: Request, res: Response) => {
         isNeverExpires: cert.isNeverExpires,
         description: cert.description,
         credentialId: cert.credentialId,
+        verificationUrl: cert.verificationUrl,
         skills: [],
       })),
       socialLinks: resumeData.socialLinks.map((link: any) => ({
@@ -394,8 +396,8 @@ const saveResume = async (req: Request, res: Response) => {
           })),
           description: contrib.description,
           contributions: contrib.contributions,
-          startDate: convertToDate(contrib.startDate),
-          endDate: convertToDate(contrib.endDate),
+          startDate: formatDate(contrib.startDate),
+          endDate: formatDate(contrib.endDate),
           isOngoing: contrib.isOngoing,
         })
       ),
@@ -708,12 +710,12 @@ const getResume = async (req: Request, res: Response) => {
               }
             : undefined,
           isCurrentlyStudying: edu.isCurrentlyStudying,
-          description: edu.relevantCourses?.join("\n") || "",
+          description: edu.description || "",
         })) || [],
       certificate:
         typedResume.certifications?.map((cert) => ({
-          name: cert.name,
-          issuingOrganization: cert.issuingOrganization,
+          name: cert.name || "",
+          issuingOrganization: cert.issuingOrganization || "",
           issueDate: cert.issueDate
             ? {
                 month: cert.issueDate.month,
@@ -726,9 +728,11 @@ const getResume = async (req: Request, res: Response) => {
                 year: cert.expirationDate.year,
               }
             : undefined,
-          isNeverExpires: cert.isNeverExpires,
-          description: cert.description,
-          credentialId: cert.credentialId,
+          isNeverExpires: cert.isNeverExpires || false,
+
+          description: cert.description || "",
+          credentialId: cert.credentialId || "",
+          verificationUrl: cert.verificationUrl || "",
         })) || [],
       socialLinks:
         typedResume.socialLinks?.map((link) => ({
@@ -739,7 +743,6 @@ const getResume = async (req: Request, res: Response) => {
         typedResume.languages?.map((lang) => ({
           name: lang.language,
           proficiency: lang.proficiency,
-          isCustom: false,
         })) || [],
       projects:
         typedResume.projects?.map((project) => ({
@@ -755,14 +758,13 @@ const getResume = async (req: Request, res: Response) => {
         })) || [],
       selectedSkills:
         typedResume.skills?.technicalSkills?.map((skill) => ({
-          name: skill,
-          isCustom: false,
+          name: skill.name,
         })) || [],
       customSkills: [], // If you need to separate custom skills
       openSourceContributions:
         typedResume.openSourceContributions?.map((contrib) => ({
-          projectName: contrib.projectName,
-          role: contrib.role,
+          projectName: contrib.projectName || "",
+          role: contrib.role || "",
           technologies: contrib.technologies || [],
           links:
             contrib.links?.map((link) => ({
@@ -787,21 +789,21 @@ const getResume = async (req: Request, res: Response) => {
         })) || [],
       awards:
         typedResume.awards?.map((award) => ({
-          name: award.name,
-          issuer: award.issuingOrganization,
+          name: award.name || "",
+          issuer: award.issuingOrganization || "",
           date: award.date
             ? {
                 month: award.date.month,
                 year: award.date.year,
               }
             : undefined,
-          description: award.description,
+          description: award.description || "",
         })) || [],
       customSections:
         typedResume.customSections?.map((section) => ({
-          title: section.title,
-          description: section.description,
-          subtitle: section.subtitle,
+          title: section.title || "",
+          description: section.description || "",
+          subtitle: section.subtitle || "",
           startDate: section.startDate
             ? {
                 month: section.startDate.month,
@@ -814,7 +816,7 @@ const getResume = async (req: Request, res: Response) => {
                 year: section.endDate.year,
               }
             : undefined,
-          isPresent: section.isPresent,
+          isPresent: section.isPresent || false,
         })) || [],
     };
 

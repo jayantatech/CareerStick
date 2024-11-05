@@ -1,141 +1,162 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface DateInfo {
-  month: string;
-  year: string;
-}
+import {
+  Award,
+  AwardValue,
+  Certificate,
+  CustomSection,
+  DateInfo,
+  Education,
+  EducationValue,
+  JobExperience,
+  JobIndustryData,
+  Language,
+  OpenSourceContribution,
+  PersonalInformation,
+  ProfessionalSummary,
+  Project,
+  ResumeState,
+  Skill,
+  SocialLink,
+} from "@/lib/types/resumeInput";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type EducationValue = string | boolean | DateInfo;
-type AwardValue = string | { month: string; year: string };
+// interface DateInfo {
+//   month: string;
+//   year: string;
+// }
 
-interface JobIndustryData {
-  industry: string;
-  targetJob: string;
-  experience: string;
-}
+// type EducationValue = string | boolean | DateInfo;
+// type AwardValue = string | { month: string; year: string };
 
-interface PersonalInformation {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  city: string;
-  country: string;
-  address: string;
-  postalCode: string;
-  photo: File | null;
-}
+// interface JobIndustryData {
+//   industry: string;
+//   targetJob: string;
+//   experience: string;
+// }
 
-interface ProfessionalSummary {
-  summaryText: string;
-}
+// interface PersonalInformation {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   phone: string;
+//   city: string;
+//   country: string;
+//   address: string;
+//   postalCode: string;
+//   photo: File | null;
+// }
 
-interface Project {
-  id: string;
-  title: string;
-  technologies: string[];
-  role: string;
-  contributions: string;
-  links: { platform: string; url: string }[];
-}
+// interface ProfessionalSummary {
+//   summaryText: string;
+// }
 
-interface JobExperience {
-  id: string;
-  jobTitle: string;
-  company: string;
-  startDate: DateInfo;
-  endDate: DateInfo;
-  isCurrentJob: boolean;
-  location: string;
-  description: string;
-}
+// interface Project {
+//   id: string;
+//   title: string;
+//   technologies: string[];
+//   role: string;
+//   contributions: string;
+//   links: { platform: string; url: string }[];
+// }
 
-interface Education {
-  id: string;
-  degree: string;
-  school: string;
-  startDate: DateInfo;
-  endDate: DateInfo;
-  isCurrentlyStudying: boolean;
-  location: string;
-  description: string;
-}
+// interface JobExperience {
+//   id: string;
+//   jobTitle: string;
+//   company: string;
+//   startDate: DateInfo;
+//   endDate: DateInfo;
+//   isCurrentJob: boolean;
+//   location: string;
+//   description: string;
+// }
 
-interface SocialLink {
-  id: string;
-  platform: string;
-  url: string;
-}
+// interface Education {
+//   id: string;
+//   degree: string;
+//   school: string;
+//   startDate: DateInfo;
+//   endDate: DateInfo;
+//   isCurrentlyStudying: boolean;
+//   location: string;
+//   description: string;
+// }
 
-interface Skill {
-  id: string;
-  name: string;
-}
+// interface SocialLink {
+//   id: string;
+//   platform: string;
+//   url: string;
+// }
 
-interface Language {
-  id: string;
-  name: string;
-  proficiency: string;
-  isCustom: boolean;
-}
-interface Certificate {
-  id: string;
-  name: string;
-  issuingOrganization: string;
-  issueDate: { month: string; year: string };
-  expirationDate: { month: string; year: string };
-  credentialId: string;
-  verificationUrl: string;
-  description: string;
-  isNeverExpires: boolean;
-}
-interface Award {
-  id: string;
-  name: string;
-  issuer: string;
-  date: { month: string; year: string };
-  description: string;
-}
-interface OpenSourceContribution {
-  id: string;
-  projectName: string;
-  role: string;
-  technologies: string[];
-  description: string;
-  contributions: string;
-  links: { platform: string; url: string }[];
-  startDate: DateInfo;
-  endDate: DateInfo;
-  isOngoing: boolean;
-}
-interface CustomSection {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  startDate: { month: string; year: string };
-  endDate: { month: string; year: string };
-  isPresent: boolean;
-}
+// interface Skill {
+//   id: string;
+//   name: string;
+// }
 
-export interface ResumeState {
-  jobIndustry: JobIndustryData;
-  personalInfo: PersonalInformation;
-  professionalSummary: ProfessionalSummary;
-  workExperience: JobExperience[];
-  education: Education[];
-  socialLinks: SocialLink[];
-  selectedSkills: Skill[];
-  customSkills: Skill[];
-  projects: Project[];
-  languages: Language[];
-  certificate: Certificate[];
-  awards: Award[];
-  openSourceContributions: OpenSourceContribution[];
-  customSections: CustomSection[];
-  isLoading: boolean;
-  error: string | null;
-}
+// interface Language {
+//   id: string;
+//   name: string;
+//   proficiency: string;
+//   isCustom: boolean;
+// }
+// interface Certificate {
+//   id: string;
+//   name: string;
+//   issuingOrganization: string;
+//   issueDate: { month: string; year: string };
+//   expirationDate: { month: string; year: string };
+//   credentialId: string;
+//   verificationUrl: string;
+//   description: string;
+//   isNeverExpires: boolean;
+// }
+// interface Award {
+//   id: string;
+//   name: string;
+//   issuer: string;
+//   date: { month: string; year: string };
+//   description: string;
+// }
+// interface OpenSourceContribution {
+//   id: string;
+//   projectName: string;
+//   role: string;
+//   technologies: string[];
+//   description: string;
+//   contributions: string;
+//   links: { platform: string; url: string }[];
+//   startDate: DateInfo;
+//   endDate: DateInfo;
+//   isOngoing: boolean;
+// }
+// interface CustomSection {
+//   id: string;
+//   title: string;
+//   subtitle: string;
+//   description: string;
+//   startDate: { month: string; year: string };
+//   endDate: { month: string; year: string };
+//   isPresent: boolean;
+// }
+
+// export interface ResumeState {
+//   jobIndustry: JobIndustryData;
+//   personalInfo: PersonalInformation;
+//   professionalSummary: ProfessionalSummary;
+//   workExperience: JobExperience[];
+//   education: Education[];
+//   socialLinks: SocialLink[];
+//   selectedSkills: Skill[];
+//   customSkills: Skill[];
+//   projects: Project[];
+//   languages: Language[];
+//   certificate: Certificate[];
+//   awards: Award[];
+//   openSourceContributions: OpenSourceContribution[];
+//   customSections: CustomSection[];
+//   isLoading: boolean;
+//   error: string | null;
+// }
 const initialState: ResumeState = {
   jobIndustry: {
     industry: "",
@@ -432,6 +453,9 @@ const resumeSlice = createSlice({
     addEducation: (state, action: PayloadAction<Education>) => {
       state.education.push(action.payload);
     },
+    setEducation: (state, action: PayloadAction<Education[]>) => {
+      state.education = action.payload;
+    },
 
     deleteEducation: (state, action: PayloadAction<string>) => {
       state.education = state.education.filter(
@@ -469,6 +493,10 @@ const resumeSlice = createSlice({
 
     addSocialLink: (state, action: PayloadAction<SocialLink>) => {
       state.socialLinks.push(action.payload);
+    },
+
+    setSocialLinks: (state, action: PayloadAction<SocialLink[]>) => {
+      state.socialLinks = action.payload;
     },
 
     deleteSocialLink: (state, action: PayloadAction<string>) => {
@@ -562,12 +590,16 @@ const resumeSlice = createSlice({
     },
 
     // Certificates
-    setCertificates: (state, action: PayloadAction<Certificate[]>) => {
-      state.certificate = action.payload;
-    },
+    // setCertificates: (state, action: PayloadAction<Certificate>) => {
+    //   state.certificate = [action.payload];
+    // },
 
     addCertificate: (state, action: PayloadAction<Certificate>) => {
       state.certificate.push(action.payload);
+    },
+
+    setCertificate: (state, action: PayloadAction<Certificate[]>) => {
+      state.certificate = action.payload;
     },
 
     updateCertificate: (
@@ -773,10 +805,12 @@ export const {
   reorderWorkExperience,
   updateEducation,
   addEducation,
+  setEducation,
   deleteEducation,
   reorderEducation,
   updateSocialLink,
   addSocialLink,
+  setSocialLinks,
   deleteSocialLink,
   reorderSocialLinks,
   setSelectedSkills,
@@ -792,6 +826,7 @@ export const {
   resetSkills,
   resetForm,
   addCertificate,
+  setCertificate,
   updateCertificate,
   deleteCertificate,
   reorderCertificates,
