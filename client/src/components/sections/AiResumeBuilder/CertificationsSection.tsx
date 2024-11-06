@@ -40,6 +40,8 @@ import {
   reorderCertificates,
 } from "@/lib/store/slices/resumeSlice";
 import { Certificate } from "@/lib/types/resumeInput";
+import { months } from "../../../../public/content/generalFieldsData";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 
 interface MonthYearPickerProps {
   labelFirst: string;
@@ -56,21 +58,6 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
   onChange,
   disabled = false,
 }) => {
-  const months = [
-    { value: "January", label: "January" },
-    { value: "February", label: "February" },
-    { value: "March", label: "March" },
-    { value: "April", label: "April" },
-    { value: "May", label: "May" },
-    { value: "June", label: "June" },
-    { value: "July", label: "July" },
-    { value: "August", label: "August" },
-    { value: "September", label: "September" },
-    { value: "October", label: "October" },
-    { value: "November", label: "November" },
-    { value: "December", label: "December" },
-  ];
-
   const years = Array.from({ length: 51 }, (_, i) => {
     const year = 2024 - i;
     return { value: year.toString(), label: year.toString() };
@@ -299,11 +286,11 @@ interface RootState {
 }
 
 const CertificationsSection: React.FC = () => {
-  const dispatch = useDispatch();
-  const certificates = useSelector(
-    (state: RootState) => state.resume.certificate
-  );
-
+  const dispatch = useAppDispatch();
+  // const certificates = useSelector(
+  //   (state: RootState) => state.resume.certificate
+  // );
+  const certificates = useAppSelector((state) => state.resume.certificate);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {

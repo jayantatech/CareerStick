@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import {
+  setAddSectionBoxState,
   setAISuggestionBoxState,
   setATSOptimizationBoxState,
   setDesignAndFontBoxState,
@@ -26,6 +27,14 @@ import {
   updatePersonalInfo,
   updateJobIndustry,
 } from "@/lib/store/slices/resumeSlice";
+import { TfiLayoutListThumbAlt } from "react-icons/tfi";
+
+import {
+  BsLayoutSidebarInsetReverse,
+  BsLayoutTextWindowReverse,
+} from "react-icons/bs";
+import { RiLayoutVerticalLine } from "react-icons/ri";
+import { TbLayoutCollage } from "react-icons/tb";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
@@ -39,12 +48,15 @@ const ResumeFeatureBox = () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setATSOptimizationBoxState(false));
     dispatch(setAISuggestionBoxState(false));
+    dispatch(setAddSectionBoxState(false));
     dispatch(setDesignAndFontBoxState(true));
   };
   const handleTemplateBoxOpenState = () => {
     dispatch(setDesignAndFontBoxState(false));
     dispatch(setATSOptimizationBoxState(false));
     dispatch(setAISuggestionBoxState(false));
+    dispatch(setAddSectionBoxState(false));
+
     dispatch(setTemplateBoxState(true));
   };
 
@@ -52,6 +64,7 @@ const ResumeFeatureBox = () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setDesignAndFontBoxState(false));
     dispatch(setAISuggestionBoxState(false));
+    dispatch(setAddSectionBoxState(false));
 
     dispatch(setATSOptimizationBoxState(true));
   };
@@ -59,7 +72,16 @@ const ResumeFeatureBox = () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setDesignAndFontBoxState(false));
     dispatch(setATSOptimizationBoxState(false));
+    dispatch(setAddSectionBoxState(false));
+
     dispatch(setAISuggestionBoxState(true));
+  };
+  const handleAddSectionBoxOpenState = async () => {
+    dispatch(setTemplateBoxState(false));
+    dispatch(setDesignAndFontBoxState(false));
+    dispatch(setATSOptimizationBoxState(false));
+    dispatch(setAISuggestionBoxState(false));
+    dispatch(setAddSectionBoxState(true));
   };
   const DownloadPDFComponent = dynamic(() => import("./DownloadPDF"), {
     ssr: false,
@@ -121,7 +143,7 @@ const ResumeFeatureBox = () => {
   };
 
   return (
-    <div className="min-w-[200px] w-[200px]  select-none  h-[330px] rounded p-2 bg-white top-8  sticky right-2 flex flex-col gap-1">
+    <div className="min-w-[200px] w-[200px]  select-none  h-[286px] rounded p-2 bg-white top-8  sticky right-2 flex flex-col gap-1">
       {/* <div className="w-full h-[40px] bg-fuchsia-300"></div> */}
       <div className="p-1.5 border rounded flex flex-col gap-1.5">
         <div className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1">
@@ -174,6 +196,20 @@ const ResumeFeatureBox = () => {
         </div>
         <div
           className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+            resumeFeatureState.addSectionBoxState
+              ? "border-primary text-primary shadow"
+              : "text-gray-700 border-transparent"
+          }`}
+          onClick={() => handleAddSectionBoxOpenState()}
+        >
+          <TbLayoutCollage className="text-[18px] -mt-0.5" />
+
+          <span className="font-heading font-semibold text-[15px]">
+            Add Sections
+          </span>
+        </div>
+        <div
+          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
             resumeFeatureState.ATSOptimizationBoxState
               ? "border-primary text-primary shadow"
               : "text-gray-700 border-transparent"
@@ -186,6 +222,7 @@ const ResumeFeatureBox = () => {
             ATS Optimization
           </span>
         </div>
+
         <div
           className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
             resumeFeatureState.AISuggestionBoxState
@@ -201,7 +238,7 @@ const ResumeFeatureBox = () => {
           </span>
         </div>
       </div>
-      <div className="w-full h-auto py-1 bg-redd-200 mt-1 p-1.5 border gap-1.5 rounded flex flex-col items-center justify-center">
+      {/* <div className="w-full h-auto py-1 bg-redd-200 mt-1 p-1.5 border gap-1.5 rounded flex flex-col items-center justify-center">
         <div className="w-full h-auto  cursor-pointer text-gray-700 text-s flex items-center justify-between   gap-1">
           <div className="w-[26px] h-[26px] flex items-center justify-center border rounded hover:border-primary hover:text-primary">
             <FaAngleLeft className="text-[22px] " />
@@ -218,7 +255,7 @@ const ResumeFeatureBox = () => {
         <button className="w-full h-[26px] border-primary  rounded font-heading flex items-center justify-center font-[14px] border bg-primary text-white ">
           Set Main Resume
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

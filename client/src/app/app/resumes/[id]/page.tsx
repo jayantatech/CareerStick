@@ -440,6 +440,7 @@ import api from "@/lib/api";
 import mapMongoDataToReduxFormat from "@/lib/features/mapMongoDataToReduxFormat";
 
 import { ResumeState } from "@/lib/types/resumeInput";
+import AddSectionPopup from "@/components/app/AddSectionPopup";
 interface ApiResponse {
   success: boolean;
   redirect?: string;
@@ -490,6 +491,7 @@ const AiResumeBuilder: React.FC = () => {
         dispatch(resumeActions.setSocialLinks(mappedData.socialLinks));
         dispatch(resumeActions.setSelectedSkills(mappedData.selectedSkills));
         dispatch(resumeActions.setProjects(mappedData.projects));
+        console.log("mappedData.languages", mappedData.languages);
         dispatch(resumeActions.setLanguages(mappedData.languages));
         dispatch(resumeActions.setCertificate(mappedData.certificate));
         dispatch(resumeActions.setAwards(mappedData.awards));
@@ -611,6 +613,7 @@ const AiResumeBuilder: React.FC = () => {
               <SelectResumeSlider />
               <ATSOptimizationBox />
               <AISuggestionsBox />
+              <AddSectionPopup />
             </div>
           </div>
         </div>

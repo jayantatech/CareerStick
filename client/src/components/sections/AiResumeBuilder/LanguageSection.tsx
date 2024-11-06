@@ -594,7 +594,7 @@ import {
   deleteLanguage,
   reorderLanguages,
 } from "@/lib/store/slices/resumeSlice";
-import { useAppSelector } from "@/lib/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 
 interface Language {
   id: string;
@@ -758,7 +758,7 @@ const SortableLanguageItem: React.FC<SortableLanguageItemProps> = ({
 };
 
 const LanguageSection: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const languages = useAppSelector((state) => state.resume.languages);
 
   const sensors = useSensors(

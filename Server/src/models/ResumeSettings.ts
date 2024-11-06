@@ -1,22 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
-
-interface IResumeSettings extends Document {
-  _id: mongoose.Schema.Types.ObjectId;
-  userId: mongoose.Schema.Types.ObjectId; // Reference to the user's _id (foreign key)
-  fontFamily: string; // Font selected by the user
-  fontSize: string; // Font size (e.g., small, medium, large)
-  colorScheme: {
-    primaryColor: string; // Primary color (hex code or color name)
-    secondaryColor: string; // Secondary color (optional)
-    textColor: string; // Text color for the resume
-  };
-  layout: string; // Layout style (e.g., modern, classic, minimalist)
-  margin: string; // Margin size (e.g., narrow, wide)
-  lineHeight: string; // Line height for text (e.g., normal, large)
-  sectionSpacing: string; // Spacing between sections (e.g., compact, relaxed)
-  createdAt: Date; // Date settings were created
-  updatedAt: Date; // Date settings were last updated
-}
+import mongoose, { Schema } from "mongoose";
+import { IResumeSettings } from "../types/resumeSettingsTypes";
 
 const ResumeSettingsSchema = new Schema<IResumeSettings>({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -28,6 +11,21 @@ const ResumeSettingsSchema = new Schema<IResumeSettings>({
     textColor: { type: String, required: true },
   },
   layout: { type: String, required: true },
+  activeSection: {
+    jobIndustry: { type: Boolean, required: true },
+    personalInfo: { type: Boolean, required: true },
+    professionalSummary: { type: Boolean, required: true },
+    workExperience: { type: Boolean, required: true },
+    education: { type: Boolean, required: true },
+    socialLinks: { type: Boolean, required: true },
+    projects: { type: Boolean, required: true },
+    languages: { type: Boolean, required: true },
+    selectedSkills: { type: Boolean, required: true },
+    certificate: { type: Boolean, required: true },
+    awards: { type: Boolean, required: true },
+    openSourceContributions: { type: Boolean, required: true },
+    customSections: { type: Boolean, required: true },
+  },
   margin: { type: String, required: true },
   lineHeight: { type: String, required: true },
   sectionSpacing: { type: String, required: true },

@@ -12,9 +12,9 @@ import CertificationsSection from "../CertificationsSection";
 import AwardsSection from "../AwardsSection";
 import OpenSourceSection from "../OpenSourceSection";
 import CustomSections from "../CustomSections";
-import AddSectionPopup, {
-  SECTION_CONFIG,
-} from "@/components/app/AddSectionPopup";
+// import AddSectionPopup, {
+//   SECTION_CONFIG,
+// } from "@/components/app/AddSectionPopup";
 import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
 import { VscHubot } from "react-icons/vsc";
@@ -34,24 +34,24 @@ export interface SelectedSections {
 
 const LeftSection = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedSections, setSelectedSections] = useState<SelectedSections>(
-    () =>
-      SECTION_CONFIG.reduce(
-        (acc, section) => ({
-          ...acc,
-          [section.id]: section.defaultSelected || false,
-        }),
-        {}
-      )
-  );
+  // const [selectedSections, setSelectedSections] = useState<SelectedSections>(
+  //   () =>
+  //     SECTION_CONFIG.reduce(
+  //       (acc, section) => ({
+  //         ...acc,
+  //         [section.id]: section.defaultSelected || false,
+  //       }),
+  //       {}
+  //     )
+  // );
 
   const leftSectionRef = useRef<HTMLDivElement>(null);
   const resumeData = useAppSelector((state) => state.resume);
 
-  const handleSaveSections = (sections: SelectedSections): void => {
-    setSelectedSections(sections);
-    console.log("Updated sections:", sections);
-  };
+  // const handleSaveSections = (sections: SelectedSections): void => {
+  //   setSelectedSections(sections);
+  //   console.log("Updated sections:", sections);
+  // };
 
   const handleGenerateResume = () => {
     console.log("Complete Resume Data:", resumeData);
@@ -151,13 +151,13 @@ const LeftSection = () => {
           </div>
         </div>
       </div>
-      <AddSectionPopup
+      {/* <AddSectionPopup
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
         onSave={handleSaveSections}
         parentRef={leftSectionRef}
         initialSelectedSections={selectedSections}
-      />
+      /> */}
     </>
   );
 };

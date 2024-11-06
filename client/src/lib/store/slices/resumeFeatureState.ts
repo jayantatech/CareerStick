@@ -5,6 +5,7 @@ interface resumeFeatureState {
   designAndFontBoxState: boolean;
   ATSOptimizationBoxState: boolean;
   AISuggestionBoxState: boolean;
+  addSectionBoxState: boolean;
   mobileTemplateBoxState: boolean;
   mobileDesignAndFontBoxState: boolean;
   mobileATSOptimizationBoxState: boolean;
@@ -16,6 +17,7 @@ const initialState: resumeFeatureState = {
   designAndFontBoxState: false,
   ATSOptimizationBoxState: false,
   AISuggestionBoxState: false,
+  addSectionBoxState: false,
   mobileTemplateBoxState: false,
   mobileDesignAndFontBoxState: false,
   mobileATSOptimizationBoxState: false,
@@ -37,6 +39,9 @@ const resumeFeatureSlice = createSlice({
     },
     setAISuggestionBoxState: (state, action: PayloadAction<boolean>) => {
       state.AISuggestionBoxState = action.payload;
+    },
+    setAddSectionBoxState: (state, action: PayloadAction<boolean>) => {
+      state.addSectionBoxState = action.payload;
     },
     setMobileTemplateBoxState: (state, action: PayloadAction<boolean>) => {
       state.mobileTemplateBoxState = action.payload;
@@ -61,6 +66,7 @@ export const {
   setDesignAndFontBoxState,
   setATSOptimizationBoxState,
   setAISuggestionBoxState,
+  setAddSectionBoxState,
   setMobileTemplateBoxState,
   setMobileDesignAndFontBoxState,
   setMobileATSOptimizationBoxState,
