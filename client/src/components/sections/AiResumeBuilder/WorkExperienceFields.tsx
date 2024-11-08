@@ -45,6 +45,7 @@ import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown"
 import { MonthYearDate } from "@/lib/types/generaltypes";
 import { JobExperience } from "@/lib/types/resumeInput";
 import { months } from "../../../../public/content/generalFieldsData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const descriptions = [
   "Led cross-functional team of 8 members, improving project delivery time by 15% through implementation of agile methodologies and streamlined workflows.",
@@ -295,6 +296,7 @@ const SortableExperienceItem: React.FC<SortableExperienceItemProps> =
 SortableExperienceItem.displayName = "SortableExperienceItem";
 
 const WorkExperienceSection: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const experiences = useAppSelector((state) => state.resume.workExperience);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
@@ -351,36 +353,50 @@ const WorkExperienceSection: React.FC = () => {
     setExpandedItems((prev) => [...prev, newExperience.id]);
   }, [dispatch]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="w-full h-auto">
-      <SectionTitle label="Work Experience" />
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={experiences.map((exp) => exp.id)}
-          strategy={verticalListSortingStrategy}
+    <div>
+      <Skeleton
+        className={`w-full h-[260px] bg-blue-50 ${
+          isLoading ? "block" : "hidden"
+        }`}
+      />
+      <div className={`w-full h-auto ${isLoading ? "hidden" : "block"}`}>
+        <SectionTitle label="Work Experience" />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
         >
-          <Accordion
-            type="multiple"
-            className="w-full space-y-2"
-            value={expandedItems}
-            onValueChange={setExpandedItems}
+          <SortableContext
+            items={experiences.map((exp) => exp.id)}
+            strategy={verticalListSortingStrategy}
           >
-            {experiences.map((experience) => (
-              <SortableExperienceItem
-                key={experience.id}
-                experience={experience}
-                onDelete={handleDelete}
-                onChange={handleChange}
-              />
-            ))}
-          </Accordion>
-        </SortableContext>
-      </DndContext>
-      <AddButton label="Add New Experience" onClick={addNewExperience} />
+            <Accordion
+              type="multiple"
+              className="w-full space-y-2"
+              value={expandedItems}
+              onValueChange={setExpandedItems}
+            >
+              {experiences.map((experience) => (
+                <SortableExperienceItem
+                  key={experience.id}
+                  experience={experience}
+                  onDelete={handleDelete}
+                  onChange={handleChange}
+                />
+              ))}
+            </Accordion>
+          </SortableContext>
+        </DndContext>
+        <AddButton label="Add New Experience" onClick={addNewExperience} />
+      </div>
     </div>
   );
 };

@@ -179,6 +179,7 @@ export interface ResumeState {
   awards: Award[];
   openSourceContributions: OpenSourceContribution[];
   customSections: CustomSection[];
+
   isLoading: boolean;
   error: string | null;
 }

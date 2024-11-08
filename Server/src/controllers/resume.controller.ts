@@ -3,79 +3,36 @@ import connectDB from "../config/connectDB";
 import Resume from "../models/Resumes";
 import mongoose from "mongoose";
 import ResumeSettings from "../models/ResumeSettings";
-import { defaultSettings } from "../contents/defaultValues";
+import { TemplateNameEnum } from "../types/resumeTypes";
 
-// import { defaultSettings } from "../contents/defaultValus";
-
-// const createResume = async (req: Request, res: Response) => {
-//   try {
-//     const { userId } = req.body;
-//     if (!userId) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "User ID is required",
-//       });
-//     }
-//     // if (!data) {
-//     //   return res.status(400).json({
-//     //     success: false,
-//     //     message: "Data is required",
-//     //   });
-//     // }
-//     await connectDB();
-//     const resume = await Resume.create({ userId });
-//     console.log("resume data from controller", resume);
-//     return res.status(200).json({
-//       success: true,
-//       message: "Resume created successfully",
-//       resumeId: resume._id,
-//       resume: resume,
-//     });
-//   } catch (error: any) {
-//     return res.status(500).json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
-
-// Helper to map languages from Redux format to MongoDB format
 const createResume = async (req: Request, res: Response) => {
-  let session;
+  console.log("req.body is here", req.body);
+
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({
+      success: false,
+      message: "User ID is required",
+    });
+  }
+
   try {
-    // Start session before database connection
-    session = await mongoose.startSession();
-    session.startTransaction();
-
-    const { userId } = req.body;
-
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: "User ID is required",
-      });
-    }
-
     await connectDB();
 
-    // First create resume settings
+    // Create resume settings
     const resumeSettings = new ResumeSettings({
       userId,
-      ...defaultSettings,
     });
+    await resumeSettings.save();
 
-    await resumeSettings.save({ session });
-
-    // Then create resume with reference to settings
+    // Create resume with reference to settings
     const resume = new Resume({
       userId,
       resumeSettingsId: resumeSettings._id,
       resumeTitle: "Untitled Resume",
     });
-
-    await resume.save({ session });
-
-    await session.commitTransaction();
+    await resume.save();
 
     return res.status(200).json({
       success: true,
@@ -85,20 +42,14 @@ const createResume = async (req: Request, res: Response) => {
       settings: resumeSettings,
     });
   } catch (error: any) {
-    if (session) {
-      await session.abortTransaction();
-    }
     console.error("Error creating resume:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
     });
-  } finally {
-    if (session) {
-      await session.endSession();
-    }
   }
 };
+
 const mapLanguages = (
   languages: Array<{ name: string; proficiency: string; isCustom: boolean }>
 ) => {
@@ -166,14 +117,7 @@ const saveResume = async (req: Request, res: Response) => {
           city: job.location,
           workplaceType: "On-site", // Add workplace type if available in Redux
         },
-        // startDate: {
-        //   month: job.startDate.month,
-        //   year: job.startDate.year,
-        // },
-        // endDate: {
-        //   month: job.endDate.month,
-        //   year: job.endDate.year,
-        // },
+
         startDate: formatDate(job?.startDate),
         endDate: formatDate(job?.endDate),
         isCurrentJob: job.isCurrentJob,
@@ -186,14 +130,7 @@ const saveResume = async (req: Request, res: Response) => {
         location: {
           city: edu.location,
         },
-        // startDate: {
-        //   month: edu.startDate.month,
-        //   year: edu.startDate.year,
-        // },
-        // endDate: {
-        //   month: edu.endDate.month,
-        //   year: edu.endDate.year,
-        // },
+
         startDate: formatDate(edu?.startDate),
         endDate: formatDate(edu?.endDate),
         isCurrentlyStudying: edu.isCurrentlyStudying,
@@ -203,14 +140,7 @@ const saveResume = async (req: Request, res: Response) => {
       certifications: resumeData.certificate.map((cert: any) => ({
         name: cert.name,
         issuingOrganization: cert.issuingOrganization,
-        // issueDate: {
-        //   month: cert.startDate.month,
-        //   year: cert.startDate.year,
-        // },
-        // expirationDate: {
-        //   month: cert.startDate.month,
-        //   year: cert.startDate.year,
-        // },
+
         issueDate: formatDate(cert?.issueDate),
         expirationDate: formatDate(cert?.expirationDate),
         isNeverExpires: cert.isNeverExpires,
@@ -526,6 +456,7 @@ const getResume = async (req: Request, res: Response) => {
             : undefined,
           isPresent: section.isPresent || false,
         })) || [],
+      templateName: typedResume.templateName || "Default",
     };
 
     return res.status(200).json({
@@ -542,4 +473,94 @@ const getResume = async (req: Request, res: Response) => {
     });
   }
 };
-export { createResume, saveResume, getResume };
+
+const updateResumeTemplate = async (req: Request, res: Response) => {
+  const { resumeId } = req.params;
+  const { template } = req.body;
+
+  console.log("I am here", resumeId, template);
+  try {
+    if (!resumeId || resumeId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid Resume ID is required",
+      });
+    }
+    if (!template) {
+      return res.status(400).json({
+        success: false,
+        message: "Select a template",
+      });
+    }
+
+    await connectDB();
+
+    const updatedTemplate = await Resume.findOneAndUpdate(
+      { _id: resumeId },
+      { $set: { templateName: template } },
+      { new: true }
+    );
+    if (!updatedTemplate) {
+      return res.status(404).json({
+        success: false,
+        message: "Template not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Template updated successfully",
+      template: updatedTemplate,
+    });
+  } catch (error) {
+    console.error("Error updating template:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating template",
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    });
+  }
+};
+
+const getResumeTemplate = async (req: Request, res: Response) => {
+  const { resumeId } = req.params;
+  console.log("resumeId for template", resumeId);
+  try {
+    if (!resumeId || resumeId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid Resume ID is required",
+      });
+    }
+
+    await connectDB();
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Template retrieved successfully",
+      templateName: resume.templateName,
+    });
+  } catch (error) {
+    console.error("Error fetching template:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching template",
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    });
+  }
+};
+
+export {
+  createResume,
+  saveResume,
+  getResume,
+  updateResumeTemplate,
+  getResumeTemplate,
+};

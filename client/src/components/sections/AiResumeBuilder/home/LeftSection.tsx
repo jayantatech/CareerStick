@@ -47,14 +47,11 @@ const LeftSection = () => {
 
   const leftSectionRef = useRef<HTMLDivElement>(null);
   const resumeData = useAppSelector((state) => state.resume);
-
-  // const handleSaveSections = (sections: SelectedSections): void => {
-  //   setSelectedSections(sections);
-  //   console.log("Updated sections:", sections);
-  // };
-
+  const activeSections = useAppSelector(
+    (state) => state.resumeStyle.activeSections
+  );
   const handleGenerateResume = () => {
-    console.log("Complete Resume Data:", resumeData);
+    console.log("Complete activeSections:", activeSections);
     // Add your resume generation logic here
   };
 
@@ -62,7 +59,7 @@ const LeftSection = () => {
     <>
       <div
         ref={leftSectionRef}
-        className=" max-m-desktop:w-[48%] m-desktop:w-[36%] max-lg:w-full select-none max-md:mb-12 "
+        className=" max-m-desktop:w-[48%] m-desktop:w-[36%] max-lg:w-full select-none max-md:mb-12 lg:mb-6 "
       >
         <div className="w-full h-[63px] max-md:hidden bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
 
@@ -97,48 +94,64 @@ const LeftSection = () => {
             <EducationSection />
           </div>
 
-          <div className="pb-4">
-            <PortfolioAndSocialLinks />
-          </div>
+          {activeSections.socialLinks && (
+            <div className="pb-4">
+              <PortfolioAndSocialLinks />
+            </div>
+          )}
 
-          <div className="pb-4">
-            <SelectSkillsSection />
-          </div>
-
-          <div className="pb-4">
+          {activeSections.selectedSkills && (
+            <div className="pb-4">
+              <SelectSkillsSection />
+            </div>
+          )}
+          {activeSections.projects && (
+            <div className="pb-4">
+              <ProjectsSection />
+            </div>
+          )}
+          {/* <div className="pb-4">
             <ProjectsSection />
-          </div>
+          </div> */}
+          {activeSections.languages && (
+            <div className="pb-4">
+              <LanguageSection />
+            </div>
+          )}
 
-          <div className="pb-4">
-            <LanguageSection />
-          </div>
+          {activeSections.certificate && (
+            <div className="pb-4">
+              <CertificationsSection />
+            </div>
+          )}
 
-          <div className="pb-4">
-            <CertificationsSection />
-          </div>
+          {activeSections.awards && (
+            <div className="pb-4">
+              <AwardsSection />
+            </div>
+          )}
+          {activeSections.openSourceContributions && (
+            <div className="pb-4">
+              <OpenSourceSection />
+            </div>
+          )}
 
-          <div className="pb-4">
-            <AwardsSection />
-          </div>
-
-          <div className="pb-4">
-            <OpenSourceSection />
-          </div>
-
-          <div className="pb-4">
-            <CustomSections />
-          </div>
+          {activeSections.customSections && (
+            <div className="pb-4">
+              <CustomSections />
+            </div>
+          )}
 
           {/* Bottom buttons */}
-          <div className="w-full space-y-2 mb-4">
-            <button
+          {/* <div className="w-full space-y-2 mb-4">
+            {/* <button
               onClick={() => setIsPopupOpen(true)}
               className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
             >
               <span className="font-heading font-semibold text-black">
                 Add Section
               </span>
-            </button>
+            </button> 
             <button
               onClick={handleGenerateResume}
               className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
@@ -148,7 +161,7 @@ const LeftSection = () => {
                 Generate Resume
               </span>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <AddSectionPopup

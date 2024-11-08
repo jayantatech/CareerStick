@@ -230,17 +230,26 @@ export enum CreationMethodEnum {
 }
 
 export enum TemplateNameEnum {
+  // Default = "Default",
+  // ProfessionalLook = "Professional Look",
+  // CreativeStyle = "Creative Style",
+  // ExecutiveFlair = "Executive Flair",
+  // ModernClean = "Modern Clean",
+  // TechFocus = "Tech Focus",
+  // ClassicStyle = "Classic Style",
+  // BoldDesign = "Bold Design",
+  // FreshStart = "Fresh Start",
+  // PolishedProfile = "Polished Profile",
+  // GraduateBoost = "Graduate Boost",
+  // "default",
+  // "template2",
+  // "template3",
+  // "template4",
+
   Default = "Default",
-  ProfessionalLook = "Professional Look",
-  CreativeStyle = "Creative Style",
-  ExecutiveFlair = "Executive Flair",
-  ModernClean = "Modern Clean",
-  TechFocus = "Tech Focus",
-  ClassicStyle = "Classic Style",
-  BoldDesign = "Bold Design",
-  FreshStart = "Fresh Start",
-  PolishedProfile = "Polished Profile",
-  GraduateBoost = "Graduate Boost",
+  Template2 = "Template2",
+  Template3 = "Template3",
+  Template4 = "Template4",
 }
 
 interface IResume extends Document {

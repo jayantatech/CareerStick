@@ -7,6 +7,7 @@ import TempletTwo from "./templets/TempletTwo";
 // Import other templates...
 import { useAppSelector } from "@/lib/store/hooks";
 import { ResumeState } from "@/lib/types/resumeInput";
+import TemplateThree from "./templets/TemplateThree";
 
 interface PDFWrapperProps {
   data: ResumeState;
@@ -16,12 +17,14 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
   const currentTemplate = useAppSelector(
     (state) => state.templateSlice.currentTemplate
   );
-  console.log("currentTemplate data", data);
+  const styleConfig = useAppSelector((state) => state.resumeStyle);
+
+  // console.log("currentTemplate data", data);
   // Method 1: Using an object to map templates to components
   const templateComponents = {
     default: ResumePDF,
     template2: TempletTwo,
-    // template3: TemplateThree,
+    template3: TemplateThree,
     // Add more templates as needed up to template20
   };
 
@@ -36,7 +39,7 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
       // width={"900px"}
       style={{ backgroundColor: "white" }}
     >
-      <TemplateComponent data={data} />
+      <TemplateComponent styleConfig={styleConfig} data={data} />
     </PDFViewer>
   );
 };

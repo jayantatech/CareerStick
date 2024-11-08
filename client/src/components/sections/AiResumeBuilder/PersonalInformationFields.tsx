@@ -222,6 +222,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { updatePersonalInfo } from "@/lib/store/slices/resumeSlice";
 import debounce from "lodash/debounce";
 import { DebouncedFunc } from "lodash";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PersonalInfo {
   firstName: string;
@@ -236,6 +237,8 @@ interface PersonalInfo {
 }
 
 const PersonalInformationFields = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useAppDispatch();
   const reduxPersonalInfo = useAppSelector(
     (state) => state.resume.personalInfo
@@ -326,124 +329,138 @@ const PersonalInformationFields = () => {
     [dispatch]
   );
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <>
-      <h3 className="font-heading font-semibold text-[16px] text-gray-900">
-        Personal Information
-      </h3>
-      <div className="flex flex-col gap-4">
-        <div className="w-1/3 h-[94px] flex items-end justify-start gap-1">
-          <label
-            htmlFor="photo-upload"
-            className="cursor-pointer flex items-end gap-1"
-          >
-            <div className="w-[80px] h-[80px] border rounded flex items-center justify-center cursor-pointer text-gray-400 hover:text-gray-500 overflow-hidden relative">
-              {photoPreview ? (
-                <Image
-                  src={photoPreview}
-                  alt="Profile preview"
-                  fill
-                  sizes="80px"
-                  className="object-cover"
-                  priority
-                />
-              ) : (
-                <FaUserTie className="text-5xl" />
-              )}
+    <div>
+      <Skeleton
+        className={`w-full h-[340px] bg-blue-50 ${
+          isLoading ? "block" : "hidden"
+        }`}
+      />
+      <div className={`${isLoading ? "hidden" : "block"}`}>
+        <h3 className="font-heading font-semibold text-[16px] text-gray-900">
+          Personal Information
+        </h3>
+        <div className="flex flex-col gap-4">
+          <div className="w-1/3 h-[94px] flex items-end justify-start gap-1">
+            <label
+              htmlFor="photo-upload"
+              className="cursor-pointer flex items-end gap-1"
+            >
+              <div className="w-[80px] h-[80px] border rounded flex items-center justify-center cursor-pointer text-gray-400 hover:text-gray-500 overflow-hidden relative">
+                {photoPreview ? (
+                  <Image
+                    src={photoPreview}
+                    alt="Profile preview"
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <FaUserTie className="text-5xl" />
+                )}
+              </div>
+              <div>
+                <MdCloudUpload className="text-xl text-gray-400" />
+                <p className="font-semibold text-gray-400 text-[14px]">
+                  Upload Photo
+                </p>
+              </div>
+            </label>
+            <input
+              id="photo-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoUpload}
+            />
+          </div>
+
+          <div className="w-full h-auto flex items-center justify-center gap-2">
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="First Name"
+                inputType="text"
+                value={personalInfo.firstName}
+                onChange={handleInputChange("firstName")}
+              />
             </div>
-            <div>
-              <MdCloudUpload className="text-xl text-gray-400" />
-              <p className="font-semibold text-gray-400 text-[14px]">
-                Upload Photo
-              </p>
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Last Name"
+                inputType="text"
+                value={personalInfo.lastName}
+                onChange={handleInputChange("lastName")}
+              />
             </div>
-          </label>
-          <input
-            id="photo-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handlePhotoUpload}
-          />
-        </div>
+          </div>
 
-        <div className="w-full h-auto flex items-center justify-center gap-2">
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="First Name"
-              inputType="text"
-              value={personalInfo.firstName}
-              onChange={handleInputChange("firstName")}
-            />
+          <div className="w-full h-auto flex items-center justify-center gap-2">
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Email"
+                inputType="email"
+                value={personalInfo.email}
+                onChange={handleInputChange("email")}
+              />
+            </div>
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Phone"
+                inputType="text"
+                value={personalInfo.phone}
+                onChange={handleInputChange("phone")}
+              />
+            </div>
           </div>
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Last Name"
-              inputType="text"
-              value={personalInfo.lastName}
-              onChange={handleInputChange("lastName")}
-            />
-          </div>
-        </div>
 
-        <div className="w-full h-auto flex items-center justify-center gap-2">
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Email"
-              inputType="email"
-              value={personalInfo.email}
-              onChange={handleInputChange("email")}
-            />
+          <div className="w-full h-auto flex items-center justify-center gap-2">
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="City"
+                inputType="text"
+                value={personalInfo.city}
+                onChange={handleInputChange("city")}
+              />
+            </div>
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Country"
+                inputType="text"
+                value={personalInfo.country}
+                onChange={handleInputChange("country")}
+              />
+            </div>
           </div>
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Phone"
-              inputType="text"
-              value={personalInfo.phone}
-              onChange={handleInputChange("phone")}
-            />
-          </div>
-        </div>
 
-        <div className="w-full h-auto flex items-center justify-center gap-2">
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="City"
-              inputType="text"
-              value={personalInfo.city}
-              onChange={handleInputChange("city")}
-            />
-          </div>
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Country"
-              inputType="text"
-              value={personalInfo.country}
-              onChange={handleInputChange("country")}
-            />
-          </div>
-        </div>
-
-        <div className="w-full h-auto flex items-center justify-center gap-2">
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Address"
-              inputType="text"
-              value={personalInfo.address}
-              onChange={handleInputChange("address")}
-            />
-          </div>
-          <div className="w-1/2 h-auto">
-            <FloatingLabelInput
-              label="Postal Code"
-              inputType="text"
-              value={personalInfo.postalCode}
-              onChange={handleInputChange("postalCode")}
-            />
+          <div className="w-full h-auto flex items-center justify-center gap-2">
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Address"
+                inputType="text"
+                value={personalInfo.address}
+                onChange={handleInputChange("address")}
+              />
+            </div>
+            <div className="w-1/2 h-auto">
+              <FloatingLabelInput
+                label="Postal Code"
+                inputType="text"
+                value={personalInfo.postalCode}
+                onChange={handleInputChange("postalCode")}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </div>{" "}
+    </div>
   );
 };
 

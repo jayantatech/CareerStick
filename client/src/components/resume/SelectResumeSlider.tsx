@@ -140,7 +140,7 @@
 // };
 
 // export default SelectResumeSlider;
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -151,32 +151,57 @@ import {
 import { cn } from "@/lib/utils";
 import { LuChevronLeft } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { MdOutlineClose } from "react-icons/md";
+import { MdDataSaverOn, MdOutlineClose } from "react-icons/md";
 import { setTemplateBoxState } from "@/lib/store/slices/resumeFeatureState";
-import { setCurrentTemplate } from "@/lib/store/slices/templateChangeSlice";
+import { HiOutlineSaveAs } from "react-icons/hi";
+
+import {
+  setCurrentTemplate,
+  TemplateType,
+} from "@/lib/store/slices/templateChangeSlice";
+import { useParams } from "next/navigation";
+import api from "@/lib/api";
 
 interface SelectResumeSliderProps {
   className?: string;
 }
+
+const allTemplates = [
+  "default",
+  "template2",
+  "template3",
+  "template4",
+] as TemplateType[];
 
 const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
   className,
 }) => {
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(true);
-  // const { setCurrentTemplate, currentTemplate } = useTemplate();
-  // const currentTemplate = useAppSelector(
-  //   (state) => state.templateSlice.currentTemplate
-  // );
+  const [clickedSave, setClickedSave] = useState(false);
+
+  const param = useParams();
   const ResumeFeatureBoxState = useAppSelector(
     (state) => state.resumeFeatureState
   );
+  const ResumeTemplateState = useAppSelector(
+    (state) => state.templateSlice.currentTemplate
+  );
 
+  useEffect(() => {
+    if (ResumeTemplateState) {
+      const index = allTemplates.indexOf(ResumeTemplateState);
+      setSelectedTemplate(index);
+    }
+  }, [param?.id]);
+
+  console.log("ResumeTemplateState", ResumeTemplateState);
   const dispatch = useAppDispatch();
 
   const handleTemplateClick = (index: number, event: React.MouseEvent) => {
     event.stopPropagation();
     setSelectedTemplate(index);
+    dispatch(setCurrentTemplate(allTemplates[index]));
     setIsExpanded(false);
   };
 
@@ -191,18 +216,47 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
     setIsExpanded(true);
   };
 
+  const handleApiToSaveTemplate = async () => {
+    if (!param?.id && param?.id.length !== 24) return null;
+
+    try {
+      const response = await api.post(
+        `/resume/save-resume-template/${param.id}`,
+        {
+          template: ResumeTemplateState,
+        }
+      );
+
+      console.log("Template saved successfully", response.data);
+      if (response.data.success) {
+        setClickedSave(false);
+      }
+    } catch (error) {
+      console.log("Error saving template:", error);
+      setClickedSave(false);
+    }
+  };
+
   const templateSelectHandler = () => {
-    const templateType = selectedTemplate === 0 ? "default" : "template2";
-    console.log("Template Type:", templateType);
-    dispatch(setCurrentTemplate(templateType));
+    const index = allTemplates.indexOf(ResumeTemplateState);
+    setSelectedTemplate(index);
+    dispatch(setCurrentTemplate(allTemplates[index]));
     // dispatch(setCurrentTemplate(templateType));
 
     dispatch(setTemplateBoxState(false));
     // Reset states when selecting template
+    handleApiToSaveTemplate();
 
     setSelectedTemplate(null);
     setIsExpanded(true);
   };
+
+  useEffect(() => {
+    if (clickedSave) {
+      handleApiToSaveTemplate();
+      setClickedSave(false);
+    }
+  }, [clickedSave]);
 
   // Reset states when component is hidden
   React.useEffect(() => {
@@ -260,6 +314,13 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
               </button>
             )}
             <button
+              className=" flex rounded items-center text-[14px] border text-black px-1 h-[24px]  right-8 z-10 gap-0.5"
+              onClick={() => setClickedSave(true)}
+            >
+              <HiOutlineSaveAs className="text-[15px] mt-0.5" />
+              {clickedSave ? <span>Saving...</span> : <span>Save</span>}
+            </button>
+            <button
               onClick={handleCloseClick}
               className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100"
             >
@@ -296,7 +357,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
                 >
                   <div
                     className={cn(
-                      "w-[150px] aspect-[1/1.4] z-30 bg-gray-100 rounded-lg shadow-sm flex items-center justify-center overflow-hidden group cursor-pointer",
+                      "w-[150px] aspect-[1/1.4] z-30 bg-gray-100 rounded shadow-sm flex items-center justify-center overflow-hidden group cursor-pointer",
                       selectedTemplate === index && "ring-2 ring-primary"
                     )}
                   >

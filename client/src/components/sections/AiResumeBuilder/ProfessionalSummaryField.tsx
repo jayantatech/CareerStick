@@ -6,6 +6,7 @@ import { TextareaField } from "@/components/inputComponents/TextareaField";
 import SectionTitle from "@/components/SectionTitle";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { updateProfessionalSummary } from "@/lib/store/slices/resumeSlice";
+import { Skeleton } from "@/components/ui/skeleton";
 const summaries = [
   "Experienced software developer with 5+ years in full-stack development, specializing in React and Node.js.",
   "Results-driven marketing professional with proven track record in digital campaign management and brand development.",
@@ -15,6 +16,8 @@ const summaries = [
   "Innovative product manager skilled in agile methodologies and stakeholder management.",
 ];
 const ProfessionalSummaryField: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useAppDispatch();
   const reduxSummary = useAppSelector(
     (state) => state.resume.professionalSummary.summaryText
@@ -86,14 +89,28 @@ const ProfessionalSummaryField: React.FC = () => {
     [handleSummarySelect]
   );
 
-  return (
-    <div className="w-full">
-      <SectionTitle label="Professional Summary" />
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
-      <div className="flex flex-col gap-4 py-1">
-        <div className="flex justify-between items-start gap-4 relative">
-          {TextArea}
-          {AIDropdown}
+  return (
+    <div>
+      <Skeleton
+        className={`w-full h-[240px] bg-blue-50 ${
+          isLoading ? "block" : "hidden"
+        }`}
+      />
+      <div className={`w-full h-auto ${isLoading ? "hidden" : "block"}`}>
+        <SectionTitle label="Professional Summary" />
+
+        <div className="flex flex-col gap-4 py-1">
+          <div className="flex justify-between items-start gap-4 relative">
+            {TextArea}
+            {AIDropdown}
+          </div>
         </div>
       </div>
     </div>

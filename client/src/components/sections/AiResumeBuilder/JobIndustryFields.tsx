@@ -110,6 +110,12 @@ import FloatingLabelSelect from "../../SelectFieldComponent";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { updateJobIndustry } from "@/lib/store/slices/resumeSlice";
 import debounce from "lodash/debounce";
+import {
+  experienceOptions,
+  industryOptions,
+  jobOptions,
+} from "../../../../public/content/inputFieldsData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface JobIndustryState {
   industry: string;
@@ -118,6 +124,7 @@ interface JobIndustryState {
 }
 
 const JobIndustryFields = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const reduxJobIndustry = useAppSelector((state) => state.resume.jobIndustry);
 
@@ -164,55 +171,49 @@ const JobIndustryFields = () => {
       debouncedUpdateRedux(field, value);
     };
 
-  const industryOptions = [
-    { value: "tech", label: "Technology" },
-    { value: "finance", label: "Finance" },
-    { value: "healthcare", label: "Healthcare" },
-  ];
-
-  const jobOptions = [
-    { value: "developer", label: "Software Developer" },
-    { value: "designer", label: "UI/UX Designer" },
-    { value: "manager", label: "Project Manager" },
-  ];
-
-  const experienceOptions = [
-    { value: "fresher", label: "Fresher" },
-    { value: "0-2", label: "0-2 years" },
-    { value: "2-5", label: "2-5 years" },
-    { value: "5-10", label: "5-10 years" },
-    { value: "10+", label: "10+ years" },
-  ];
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-      <h3 className="font-heading font-semibold text-[16px] text-gray-900">
-        Target Job & Industry
-      </h3>
-      <div className="max-w-full h-auto flex items-center justify-center gap-2 py-3">
-        <div className="w-1/3">
-          <FloatingLabelSelect
-            label="Industry"
-            options={industryOptions}
-            value={localJobIndustry.industry}
-            onChange={(value) => handleSelectChange("industry")(value)}
-          />
-        </div>
-        <div className="w-1/3">
-          <FloatingLabelSelect
-            label="Target Job"
-            options={jobOptions}
-            value={localJobIndustry.targetJob}
-            onChange={(value) => handleSelectChange("targetJob")(value)}
-          />
-        </div>
-        <div className="w-1/3">
-          <FloatingLabelSelect
-            label="Experience"
-            options={experienceOptions}
-            value={localJobIndustry.experience}
-            onChange={(value) => handleSelectChange("experience")(value)}
-          />
+      <Skeleton
+        className={`w-full h-[88px] bg-blue-50  ${
+          isLoading ? "block" : "hidden"
+        }`}
+      />
+      <div className={`w-full ${isLoading ? "hidden" : "block"}`}>
+        <h3 className="font-heading font-semibold text-[16px] text-gray-900">
+          Target Job & Industry
+        </h3>
+        <div className="max-w-full h-auto flex items-center justify-center gap-2 py-3">
+          <div className="w-1/3">
+            <FloatingLabelSelect
+              label="Industry"
+              options={industryOptions}
+              value={localJobIndustry.industry}
+              onChange={(value) => handleSelectChange("industry")(value)}
+            />
+          </div>
+          <div className="w-1/3">
+            <FloatingLabelSelect
+              label="Target Job"
+              options={jobOptions}
+              value={localJobIndustry.targetJob}
+              onChange={(value) => handleSelectChange("targetJob")(value)}
+            />
+          </div>
+          <div className="w-1/3">
+            <FloatingLabelSelect
+              label="Experience"
+              options={experienceOptions}
+              value={localJobIndustry.experience}
+              onChange={(value) => handleSelectChange("experience")(value)}
+            />
+          </div>
         </div>
       </div>
     </>

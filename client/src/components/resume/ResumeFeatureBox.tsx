@@ -160,7 +160,7 @@ const ResumeFeatureBox = () => {
           <VscHubot className="text-[22px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[16px]">
-            AI Generate
+            AI Optimizer
           </span>
         </div>
       </div>

@@ -24,11 +24,18 @@ const MyResume = () => {
   const resumes = Array(10).fill(null); // Assuming 12 resumes for this example
   const router = useRouter();
   const buttonClickHandler = async () => {
-    const response = await api.post("/resume/create-resume", {
-      userId: "66f0f6c9ab622475728d85f7",
-    });
-    if (response.data.success) {
-      router.push(`/app/resumes/${response.data.resumeId}`);
+    console.log("clicked");
+    try {
+      const response = await api.post("/resume/create-resume", {
+        userId: "66f0f6c9ab622475728d85f7",
+      });
+
+      console.log("response.data for button click", response.data);
+      if (response.data.success) {
+        router.push(`/app/resumes/${response.data.resumeId}`);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
