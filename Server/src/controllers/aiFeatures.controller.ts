@@ -67,7 +67,7 @@ import { Request, Response } from "express";
 import { aiGenerateResume } from "../utils/aiGenerateResume";
 import Resume from "../models/Resumes";
 import mongoose from "mongoose";
-import connectDB from "../config/connectDB";
+// import // await connectDB(); from "../config/// await connectDB();";
 
 // Controller function to handle resume generation
 const generateResume = async (req: Request, res: Response) => {
@@ -285,7 +285,7 @@ const generateResume = async (req: Request, res: Response) => {
       ],
     };
 
-    connectDB();
+    // await connectDB();();
     // Save to MongoDB
     const savedResume = await Resume.create(resumeData);
 

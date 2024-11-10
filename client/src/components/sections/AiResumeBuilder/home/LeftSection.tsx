@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import JobIndustryFields from "../JobIndustryFields";
 import PersonalInformationFields from "../PersonalInformationFields";
 import ProfessionalSummaryField from "../ProfessionalSummaryField";
@@ -18,6 +18,7 @@ import CustomSections from "../CustomSections";
 import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
 import { VscHubot } from "react-icons/vsc";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface Section {
   id: string;
@@ -34,16 +35,7 @@ export interface SelectedSections {
 
 const LeftSection = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  // const [selectedSections, setSelectedSections] = useState<SelectedSections>(
-  //   () =>
-  //     SECTION_CONFIG.reduce(
-  //       (acc, section) => ({
-  //         ...acc,
-  //         [section.id]: section.defaultSelected || false,
-  //       }),
-  //       {}
-  //     )
-  // );
+  const [isLoading, setIsLoading] = useState(true);
 
   const leftSectionRef = useRef<HTMLDivElement>(null);
   const resumeData = useAppSelector((state) => state.resume);
@@ -54,6 +46,13 @@ const LeftSection = () => {
     console.log("Complete activeSections:", activeSections);
     // Add your resume generation logic here
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -73,73 +72,87 @@ const LeftSection = () => {
               </p>
             </div>
           </div>
-          <div className="mb-3">
-            <JobIndustryFields />
-          </div>
 
-          <div className="mb-4">
-            <PersonalInformationFields />
-          </div>
+          {isLoading ? (
+            <>
+              <Skeleton className="w-full h-[88px] bg-blue-50 mb-3" />
+              <Skeleton className="w-full h-[480px] bg-blue-50 mb-3" />
+              <Skeleton className="w-full h-[380px] bg-blue-50 mb-3" />
+              <Skeleton className="w-full h-[280px] bg-blue-50 mb-3" />
+              <Skeleton className="w-full h-[280px] bg-blue-50 mb-3" />
+              <Skeleton className="w-full h-[330px] bg-blue-50 mb-3" />
+            </>
+          ) : (
+            <>
+              <div className="mb-3">
+                <JobIndustryFields />
+              </div>
 
-          <div className="pb-4">
-            <ProfessionalSummaryField />
-          </div>
+              <div className="mb-4">
+                <PersonalInformationFields />
+              </div>
 
-          <div className="pb-4">
-            {/* <WorkExperienceFields /> */}
-            <WorkExperienceSection />
-          </div>
+              <div className="pb-4">
+                <ProfessionalSummaryField />
+              </div>
 
-          <div className="pb-4">
-            <EducationSection />
-          </div>
+              <div className="pb-4">
+                {/* <WorkExperienceFields /> */}
+                <WorkExperienceSection />
+              </div>
 
-          {activeSections.socialLinks && (
-            <div className="pb-4">
-              <PortfolioAndSocialLinks />
-            </div>
-          )}
+              <div className="pb-4">
+                <EducationSection />
+              </div>
 
-          {activeSections.selectedSkills && (
-            <div className="pb-4">
-              <SelectSkillsSection />
-            </div>
-          )}
-          {activeSections.projects && (
-            <div className="pb-4">
-              <ProjectsSection />
-            </div>
-          )}
-          {/* <div className="pb-4">
+              {activeSections.socialLinks && (
+                <div className="pb-4">
+                  <PortfolioAndSocialLinks />
+                </div>
+              )}
+
+              {activeSections.selectedSkills && (
+                <div className="pb-4">
+                  <SelectSkillsSection />
+                </div>
+              )}
+              {activeSections.projects && (
+                <div className="pb-4">
+                  <ProjectsSection />
+                </div>
+              )}
+              {/* <div className="pb-4">
             <ProjectsSection />
           </div> */}
-          {activeSections.languages && (
-            <div className="pb-4">
-              <LanguageSection />
-            </div>
-          )}
+              {activeSections.languages && (
+                <div className="pb-4">
+                  <LanguageSection />
+                </div>
+              )}
 
-          {activeSections.certificate && (
-            <div className="pb-4">
-              <CertificationsSection />
-            </div>
-          )}
+              {activeSections.certificate && (
+                <div className="pb-4">
+                  <CertificationsSection />
+                </div>
+              )}
 
-          {activeSections.awards && (
-            <div className="pb-4">
-              <AwardsSection />
-            </div>
-          )}
-          {activeSections.openSourceContributions && (
-            <div className="pb-4">
-              <OpenSourceSection />
-            </div>
-          )}
+              {activeSections.awards && (
+                <div className="pb-4">
+                  <AwardsSection />
+                </div>
+              )}
+              {activeSections.openSourceContributions && (
+                <div className="pb-4">
+                  <OpenSourceSection />
+                </div>
+              )}
 
-          {activeSections.customSections && (
-            <div className="pb-4">
-              <CustomSections />
-            </div>
+              {activeSections.customSections && (
+                <div className="pb-4">
+                  <CustomSections />
+                </div>
+              )}
+            </>
           )}
 
           {/* Bottom buttons */}

@@ -92,7 +92,7 @@ const ProfessionalSummaryField: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 700);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 

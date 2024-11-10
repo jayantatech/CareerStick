@@ -145,8 +145,9 @@ import { Label } from "@/components/ui/label";
 interface FloatingLabelInputProps {
   label: string;
   placeholder?: string;
-  inputType?: "email" | "number" | "text";
+  inputType?: "email" | "number" | "text" | "password";
   inputClassName?: string;
+  labelClassName?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -156,6 +157,7 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
   placeholder,
   inputType = "text",
   inputClassName = "",
+  labelClassName = "",
   value,
   onChange,
 }) => {
@@ -179,7 +181,7 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
       />
       <Label
         htmlFor={id}
-        className={`absolute left-2 transition-all duration-200 px-1 ${
+        className={`absolute left-2 transition-all duration-200 px-1 ${labelClassName} ${
           isFocused || value
             ? "-top-2.5 text-[13px] rounded text-black bg-white px-1 py-0"
             : "top-2 text-[15px] text-gray-400"

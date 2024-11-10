@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Logo, SmallLogo, UserAvatar } from "../../../public/img";
 import {
   MdOutlineKeyboardArrowRight,
@@ -15,6 +15,9 @@ import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
 import { VscHubot } from "react-icons/vsc";
 import { usePathname, useRouter } from "next/navigation";
+import { getTokenInfo } from "@/lib/getTokenInfo";
+import useAuth from "@/lib/hooks/useAuth";
+import { Skeleton } from "../ui/skeleton";
 
 interface NavItem {
   icon: React.ElementType;
@@ -50,7 +53,52 @@ const navItems: NavItem[] = [
 ];
 const AppSidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
+  // const [tokenUser, setTokenUser] = useState({
+  //   _id: "",
+  //   email: "",
+  //   firstName: "",
+  //   emailVerified: false,
+  //   isSubscribed: false,
+  //   subscribedPlan: "",
+  // });
   // const [activeItem, setActiveItem] = useState(navItems[0].path);
+
+  // useEffect(() => {
+  //   const catchData = async () => {
+  //     const user = await getTokenInfo();
+  //     console.log("user", user);
+  //     if (user) {
+  //       setTokenUser({
+  //         ...tokenUser,
+  //         _id: user._id,
+  //         email: user.email,
+  //         firstName: user.firstName,
+  //         emailVerified: user.emailVerified,
+  //         isSubscribed: user.isSubscribed,
+  //         subscribedPlan: user.subscribedPlan,
+  //       });
+  //     }
+  //   };
+
+  //   catchData();
+  // }, []);
+
+  // console.log("tokenUser", tokenUser);
+
+  const { user, isLoading, error, isAuthenticated } = useAuth();
+  if (!isLoading) {
+    console.log(
+      "tokenUser by jay",
+      user,
+      "isAuthenticated",
+      isAuthenticated,
+      "error",
+      error,
+      "isLoading",
+      isLoading
+    );
+  }
+
   const router = useRouter();
 
   const toggleSidebar = () => {
@@ -129,64 +177,82 @@ const AppSidebar = () => {
           </div>
         ))}
       </div>
-      {/* <div className="w-full h-auto py-1 bg-blue-400 gap-1 mt-[340px] px-4"> */}
+
       <div className="w-full h-auto py-1  gap-1 absolute bottom-6 px-4">
-        <div
-          className={`w-full h-[58px]  border-gray-200 flex items-center justify-between rounded ${
-            isExpanded ? "px-[6px] bg-secondary border" : "px-0"
-          }`}
-        >
-          <div className="flex items-center">
-            <div
-              className={` rounded overflow-hidden flex-shrink-0 transition-all duration-300 ease-in cursor-pointer ${
-                isExpanded ? "w-[42px] h-[42px]" : "w-[38px] h-[38px]"
-              }`}
-            >
-              <Image
-                alt="UserAvatar"
-                src={UserAvatar}
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <div
-              className={`flex flex-col gap-0 pl-[6px] transition-all duration-300 ease-in-out ${
-                isExpanded
-                  ? "opacity-100 w-auto"
-                  : "opacity-0 w-0 overflow-hidden"
-              }`}
-            >
-              <span className="font-body font-semibold whitespace-nowrap">
-                Jay Biswas
-              </span>
-              <span className="font-body font-medium -mt-[3px] whitespace-nowrap">
-                Plan: Free
-              </span>
-            </div>
-          </div>
-          {isExpanded && (
-            <div className="w-[28px] h-[24px] bg-primary text-white flex items-center justify-center rounded">
-              <MdKeyboardArrowDown className="text-[22px]" />
-            </div>
-          )}
-        </div>
-        <button
-          className={`w-full h-[42px] bg-primary text-white font-heading font-semibold text-[16px] mt-1 rounded transition-all duration-300 ease-in-out flex items-center justify-center gap-1`}
-        >
-          <span>
-            <VscHubot
-              className={`text-[28px] text-white -mt-1 ${
-                isExpanded ? "" : "ml-[2px]"
-              }`}
-            />
-          </span>
-          <span
-            className={`transition-all duration-500 ease-in whitespace-nowrap  ${
-              isExpanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
-            }`}
-          >
-            Upgrade Your Plan
-          </span>
-        </button>
+        {isLoading ? (
+          <Skeleton className="w-full h-[104px] bg-blue-50" />
+        ) : (
+          <>
+            {user?.firstName && user?.firstName.length > 0 ? (
+              <div
+                className={`w-full h-[58px]  border-gray-200 flex items-center justify-between rounded ${
+                  isExpanded ? "px-[6px] bg-secondary border" : "px-0"
+                }`}
+              >
+                <div className="flex items-center">
+                  <div
+                    className={` rounded overflow-hidden flex-shrink-0 transition-all duration-300 ease-in cursor-pointer ${
+                      isExpanded ? "w-[42px] h-[42px]" : "w-[38px] h-[38px]"
+                    }`}
+                  >
+                    <Image
+                      alt="UserAvatar"
+                      src={UserAvatar}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <div
+                    className={`flex flex-col gap-0 pl-[6px] transition-all duration-300 ease-in-out ${
+                      isExpanded
+                        ? "opacity-100 w-auto"
+                        : "opacity-0 w-0 overflow-hidden"
+                    }`}
+                  >
+                    <span className="font-body font-semibold whitespace-nowrap">
+                      {/* Jay Biswas */}
+                      {`Hi, ${user?.firstName ? user?.firstName : ""} ${
+                        user?.lastName ? user?.lastName : ""
+                      }`}
+                    </span>
+                    <span className="font-body font-medium -mt-[3px] whitespace-nowrap capitalize">
+                      {/* Plan: Free */}
+                      {` Plan: ${
+                        user?.subscribedPlan ? user?.subscribedPlan : ""
+                      }`}
+                    </span>
+                  </div>
+                </div>
+                {isExpanded && (
+                  <div className="w-[28px] h-[24px] bg-primary text-white flex items-center justify-center rounded">
+                    <MdKeyboardArrowDown className="text-[22px]" />
+                  </div>
+                )}
+              </div>
+            ) : null}
+            {!user?.isSubscribed ? (
+              <button
+                className={`w-full h-[42px] bg-primary text-white font-heading font-semibold text-[16px] mt-1 rounded transition-all duration-300 ease-in-out flex items-center justify-center gap-1`}
+              >
+                <span>
+                  <VscHubot
+                    className={`text-[28px] text-white -mt-1 ${
+                      isExpanded ? "" : "ml-[2px]"
+                    }`}
+                  />
+                </span>
+                <span
+                  className={`transition-all duration-500 ease-in whitespace-nowrap  ${
+                    isExpanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
+                  }`}
+                >
+                  Upgrade Your Plan
+                </span>
+              </button>
+            ) : (
+              ""
+            )}
+          </>
+        )}
       </div>
     </div>
   );

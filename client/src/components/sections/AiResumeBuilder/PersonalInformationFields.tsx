@@ -332,7 +332,7 @@ const PersonalInformationFields = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 700);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 

@@ -10,6 +10,7 @@ import TempletTwo from "./templets/TempletTwo";
 import { useAppSelector } from "@/lib/store/hooks";
 // import { ResumeState } from "@/lib/types/resumeInput";
 import { ResumeState } from "@/lib/types/resumeInput";
+import TemplateThree from "./templets/TemplateThree";
 
 const LoadingButton = memo(() => (
   <button disabled className="font-semibold">

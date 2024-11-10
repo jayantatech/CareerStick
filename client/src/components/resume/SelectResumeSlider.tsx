@@ -201,6 +201,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
   const handleTemplateClick = (index: number, event: React.MouseEvent) => {
     event.stopPropagation();
     setSelectedTemplate(index);
+    console.log("selectedTemplate", allTemplates[index]);
     dispatch(setCurrentTemplate(allTemplates[index]));
     setIsExpanded(false);
   };

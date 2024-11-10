@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
-import connectDB from "../config/connectDB";
+// import connectDB from "../config/connectDB";
+
 import Resume from "../models/Resumes";
 import mongoose from "mongoose";
 import ResumeSettings from "../models/ResumeSettings";
 import { TemplateNameEnum } from "../types/resumeTypes";
+import { connectDB } from "../config/connectDB";
 
 const createResume = async (req: Request, res: Response) => {
   console.log("req.body is here", req.body);
@@ -18,7 +20,7 @@ const createResume = async (req: Request, res: Response) => {
   }
 
   try {
-    await connectDB();
+    // await connectDB();();
 
     // Create resume settings
     const resumeSettings = new ResumeSettings({
@@ -79,7 +81,7 @@ const saveResume = async (req: Request, res: Response) => {
       });
     }
 
-    await connectDB();
+    // await connectDB();();
     const formatDate = (dateObj: any) => {
       if (!dateObj) return null;
       return {
@@ -264,7 +266,7 @@ const getResume = async (req: Request, res: Response) => {
       });
     }
 
-    await connectDB();
+    // await connectDB();();
     const resume = await Resume.findById(id);
 
     if (!resume) {
@@ -493,7 +495,7 @@ const updateResumeTemplate = async (req: Request, res: Response) => {
       });
     }
 
-    await connectDB();
+    // await connectDB();();
 
     const updatedTemplate = await Resume.findOneAndUpdate(
       { _id: resumeId },
@@ -532,7 +534,7 @@ const getResumeTemplate = async (req: Request, res: Response) => {
       });
     }
 
-    await connectDB();
+    // await connectDB();();
 
     const resume = await Resume.findById(resumeId);
     if (!resume) {

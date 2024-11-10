@@ -60,6 +60,7 @@ import { Lora, Merriweather, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { TemplateProvider } from "@/context/TemplateContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // Local fonts
 const geistSans = localFont({
@@ -137,7 +138,11 @@ export default function RootLayout({
         `}
       >
         <Providers>
-          <TemplateProvider>{children}</TemplateProvider>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+          >
+            <TemplateProvider>{children}</TemplateProvider>
+          </GoogleOAuthProvider>
         </Providers>
       </body>
     </html>

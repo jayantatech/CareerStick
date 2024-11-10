@@ -18,7 +18,7 @@ declare global {
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { accessToken } = req.cookies;
-    console.log("accessToken", accessToken);
+    // console.log("accessToken", accessToken);
     if (!accessToken) {
       return res.status(401).json({
         success: false,
@@ -38,7 +38,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
-    await connectDB();
+    // await connectDB();
 
     const user = await User.findById(decoded._id)
       .select("-password -refreshToken")

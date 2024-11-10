@@ -9,6 +9,9 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import XssProtection from "./middlewares/xssProtection";
+import passport from "passport";
+import session from "express-session";
+import connectDB from "./config/connectDB";
 
 dotenv.config();
 
@@ -31,7 +34,7 @@ app.use(
   "/api",
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 150, // 100 requests per 15 minutes
+    max: 250, // 250 requests per 15 minutes
   })
 );
 app.use(mongoSanitize()); // Against NoSQL injection
@@ -40,12 +43,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 //
 app.use("/api/v1/auth", userAuthRoutes);
 // app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/ai", aiFeaturesRoutes);
 app.use("/api/v1/resume", resumeRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+const startServer = async () => {
+  try {
+    await connectDB(); // Connect to database first
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

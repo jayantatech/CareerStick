@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  // Connect to MongoDB
+let isConnected = false;
+
+export const connectDB = async () => {
+  if (isConnected) {
+    console.log("Using existing database connection");
+    return;
+  }
+
   const MONGODB_URI = `${process.env.MONGODB_URI}${process.env.APP_NAME}`;
 
   if (!MONGODB_URI) {
@@ -11,10 +17,12 @@ const connectDB = async () => {
   try {
     await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 30000,
-      socketTimeoutMS: 45000, // Increase socket timeout
-      connectTimeoutMS: 30000, // Increase connection timeout
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 30000,
       tls: true,
     });
+
+    isConnected = true;
     console.log(`MongoDB Connected: ${mongoose.connection.host}`);
   } catch (error: any) {
     console.error(`Error: ${error.message}`);

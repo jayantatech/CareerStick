@@ -7,7 +7,7 @@
 // const getResumeSettings = async (req: Request, res: Response) => {
 //   try {
 //     const { resumeId } = req.body;
-//     await connectDB();
+//     // await connectDB();();
 //     const resume = await Resume.findById(resumeId);
 //     if (!resume) {
 //       return res.status(404).json({
@@ -42,7 +42,7 @@
 //   try {
 //     // const { resumeId } = req.params;
 //     const { updateData, resumeId } = req.body;
-//     await connectDB();
+//     // await connectDB();();
 
 //     const resume = await Resume.findById(resumeId);
 //     if (!resume) {
@@ -87,7 +87,7 @@
 // const resetResumeSettings = async (req: Request, res: Response) => {
 //   try {
 //     const { resumeId } = req.params;
-//     await connectDB();
+//     // await connectDB();();
 //     const resume = await Resume.findById(resumeId);
 //     if (!resume) {
 //       return res.status(404).json({
@@ -131,12 +131,12 @@
 import { Request, Response } from "express";
 import Resume from "../models/Resumes";
 import ResumeSettings from "../models/ResumeSettings";
-import connectDB from "../config/connectDB";
+// import connectDB from "../config/connectDB";
 
 const getResumeSettings = async (req: Request, res: Response) => {
   try {
     const { resumeId } = req.params;
-    await connectDB();
+    // await connectDB();();
 
     const resume = await Resume.findById(resumeId);
     if (!resume) {
@@ -171,7 +171,7 @@ const updateResumeSettings = async (req: Request, res: Response) => {
   try {
     const { updateData, resumeId } = req.body;
     console.log("updateData from client", updateData, resumeId);
-    await connectDB();
+    // await connectDB();();
 
     const resume = await Resume.findById(resumeId);
     if (!resume) {
@@ -239,7 +239,7 @@ const updateResumeSettings = async (req: Request, res: Response) => {
 const resetResumeSettings = async (req: Request, res: Response) => {
   try {
     const { resumeId } = req.params;
-    await connectDB();
+    // // await connectDB();();
 
     const resume = await Resume.findById(resumeId);
     if (!resume) {
@@ -318,7 +318,7 @@ const updateResumeActiveSections = async (req: Request, res: Response) => {
       });
     }
     console.log("active sections from client", activeSections, resumeId);
-    await connectDB();
+    // // await connectDB();();
     const resume = await Resume.findById(resumeId);
     if (!resume) {
       return res.status(404).json({
@@ -365,7 +365,7 @@ const getResumeActiveSections = async (req: Request, res: Response) => {
         message: "Invalid resume ID",
       });
     }
-    await connectDB();
+    // await connectDB();();
     const resume = await Resume.findById(resumeId);
     if (!resume) {
       return res.status(404).json({
