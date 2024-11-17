@@ -53,16 +53,6 @@ interface AuthState {
   error: string | null;
 }
 
-const initialUserState: User = {
-  _id: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  emailVerified: false,
-  isSubscribed: false,
-  subscribedPlan: "",
-};
-
 function useAuth() {
   const [authState, setAuthState] = useState<AuthState>({
     user: null,

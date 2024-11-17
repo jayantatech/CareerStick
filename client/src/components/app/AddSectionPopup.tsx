@@ -1236,24 +1236,13 @@ import { MdDashboardCustomize, MdOutlineWork } from "react-icons/md";
 import { VscVscode } from "react-icons/vsc";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { debounce } from "lodash";
-import {
-  setPersonalInfo,
-  setWorkExperience,
-  setEducation,
-  setSocialLinks,
-  setSelectedSkills,
-  setProjects,
-  setLanguages,
-  setCertificate,
-  setAwards,
-  setOpenSourceContributions,
-  setCustomSections,
-} from "@/lib/store/slices/activeResumeSectionClice";
 import { setAddSectionBoxState } from "@/lib/store/slices/resumeFeatureState";
 import { setActiveSections } from "@/lib/store/slices/resumeStyle";
 import api from "@/lib/api";
 import { useParams } from "next/navigation";
 import ConfirmationDialog from "../ConfirmationDialog";
+import useAuth from "@/lib/hooks/useAuth";
+import { Skeleton } from "../ui/skeleton";
 
 interface Section {
   id: keyof typeof SECTION_IDS;
@@ -1276,7 +1265,7 @@ const SECTION_IDS = {
   awards: "awards",
   openSourceContributions: "openSourceContributions",
   customSections: "customSections",
-} as const;
+};
 
 const SECTION_CONFIG: Section[] = [
   {
@@ -1395,7 +1384,7 @@ const AddSectionPopup: React.FC = () => {
   const reduxActiveSections = useAppSelector(
     (state) => state.resumeStyle.activeSections
   );
-
+  const { isLoading, user } = useAuth();
   const [localActiveSections, setLocalActiveSections] =
     useState(reduxActiveSections);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -1409,13 +1398,21 @@ const AddSectionPopup: React.FC = () => {
     }, 1000),
     [dispatch]
   );
-
+  const validateResumeId = (
+    id: string | string[] | undefined
+  ): id is string => {
+    return typeof id === "string" && id.length === 24;
+  };
   useEffect(() => {
     const fetchActiveSections = async () => {
+      if (!validateResumeId(params?.id)) return;
+      if (!user?._id) return;
       try {
-        const response = await api.get(
-          `/resume/settings/active-sections/${params?.id}`
+        const response = await api.post(
+          `/resume/settings/get-active-sections/${params?.id}`,
+          { userId: user?._id }
         );
+        console.log("response.data  get active sections", response.data);
         const sections = response.data.activeSections;
         setLocalActiveSections(sections);
         dispatch(setActiveSections(sections));
@@ -1424,10 +1421,11 @@ const AddSectionPopup: React.FC = () => {
       }
     };
 
-    if (params?.id) {
+    if (params?.id && !isLoading) {
+      console.log("we are here");
       fetchActiveSections();
     }
-  }, [params?.id]);
+  }, [params?.id, isLoading, user?._id]);
 
   const handleToggleSection = (sectionId: keyof typeof SECTION_IDS) => {
     const section = SECTION_CONFIG.find((s) => s.id === sectionId);
@@ -1452,10 +1450,13 @@ const AddSectionPopup: React.FC = () => {
   };
 
   const handleSave = async () => {
+    if (!validateResumeId(params?.id)) return;
+    if (!user?._id) return;
     try {
       setIsSaving(true);
       await api.post(`/resume/settings/active-sections/${params?.id}`, {
         activeSections: localActiveSections,
+        userId: user?._id,
       });
       dispatch(setActiveSections(localActiveSections));
       setHasUnsavedChanges(false);
@@ -1551,18 +1552,22 @@ const AddSectionPopup: React.FC = () => {
         >
           Cancel
         </button>
-        <button
-          onClick={handleSave}
-          disabled={isSaving || !hasUnsavedChanges}
-          className={`w-full h-[36px] rounded border bg-primary text-white font-heading 
+        {!isLoading ? (
+          <button
+            onClick={handleSave}
+            disabled={isSaving || !hasUnsavedChanges}
+            className={`w-full h-[36px] rounded border bg-primary text-white font-heading 
             ${
               isSaving || !hasUnsavedChanges
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:bg-blue-600"
             }`}
-        >
-          {isSaving ? "Saving..." : "Save Changes"}
-        </button>
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </button>
+        ) : (
+          <Skeleton className="w-full h-[40px] rounded border" />
+        )}
       </div>
 
       {showConfirmation && (

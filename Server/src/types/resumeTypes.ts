@@ -6,10 +6,10 @@ interface ISocialLinks {
 }
 
 export enum LanguageProficiency {
-  Native = "Native",
-  Fluent = "Fluent",
-  Conversational = "Conversational",
-  Beginner = "Beginner",
+  native = "native",
+  advanced = "advanced",
+  intermediate = "intermediate",
+  beginner = "beginner",
 }
 
 export interface ILanguage {
@@ -246,10 +246,10 @@ export enum TemplateNameEnum {
   // "template3",
   // "template4",
 
-  Default = "Default",
-  Template2 = "Template2",
-  Template3 = "Template3",
-  Template4 = "Template4",
+  default = "default",
+  template2 = "template2",
+  template3 = "template3",
+  template4 = "template4",
 }
 
 interface IResume extends Document {

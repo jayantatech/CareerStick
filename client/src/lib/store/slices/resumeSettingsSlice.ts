@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import { ResumeSettings } from "../../types/resumeSettings";
 import api from "@/lib/api";
 import { IResumeSettings } from "@/lib/types/resumeSettings";

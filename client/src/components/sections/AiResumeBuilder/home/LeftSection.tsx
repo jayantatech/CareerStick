@@ -19,6 +19,7 @@ import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
 import { VscHubot } from "react-icons/vsc";
 import { Skeleton } from "@/components/ui/skeleton";
+import ResumeTitleField from "../ResumeTitleSection";
 
 export interface Section {
   id: string;
@@ -34,7 +35,6 @@ export interface SelectedSections {
 }
 
 const LeftSection = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const leftSectionRef = useRef<HTMLDivElement>(null);
@@ -42,8 +42,13 @@ const LeftSection = () => {
   const activeSections = useAppSelector(
     (state) => state.resumeStyle.activeSections
   );
+
+  const currentTemplate = useAppSelector(
+    (state) => state.templateSlice.currentTemplate
+  );
   const handleGenerateResume = () => {
-    console.log("Complete activeSections:", activeSections);
+    console.log("Complete activeSections:", resumeData);
+    console.log("currentTemplate data", currentTemplate);
     // Add your resume generation logic here
   };
 
@@ -73,98 +78,88 @@ const LeftSection = () => {
             </div>
           </div>
 
-          {isLoading ? (
-            <>
-              <Skeleton className="w-full h-[88px] bg-blue-50 mb-3" />
-              <Skeleton className="w-full h-[480px] bg-blue-50 mb-3" />
-              <Skeleton className="w-full h-[380px] bg-blue-50 mb-3" />
-              <Skeleton className="w-full h-[280px] bg-blue-50 mb-3" />
-              <Skeleton className="w-full h-[280px] bg-blue-50 mb-3" />
-              <Skeleton className="w-full h-[330px] bg-blue-50 mb-3" />
-            </>
-          ) : (
-            <>
-              <div className="mb-3">
-                <JobIndustryFields />
-              </div>
+          <div className="mb-3">
+            <JobIndustryFields />
+          </div>
+          <div className="mb-3">
+            <ResumeTitleField />
+          </div>
 
-              <div className="mb-4">
-                <PersonalInformationFields />
-              </div>
+          <div className="mb-4">
+            <PersonalInformationFields />
+          </div>
 
-              <div className="pb-4">
-                <ProfessionalSummaryField />
-              </div>
+          <div className="pb-4">
+            <ProfessionalSummaryField />
+          </div>
 
-              <div className="pb-4">
-                {/* <WorkExperienceFields /> */}
-                <WorkExperienceSection />
-              </div>
+          <div className="pb-4">
+            {/* <WorkExperienceFields /> */}
+            <WorkExperienceSection />
+          </div>
 
-              <div className="pb-4">
-                <EducationSection />
-              </div>
+          <div className="pb-4">
+            <EducationSection />
+          </div>
 
-              {activeSections.socialLinks && (
-                <div className="pb-4">
-                  <PortfolioAndSocialLinks />
-                </div>
-              )}
+          {activeSections.socialLinks && (
+            <div className="pb-4">
+              <PortfolioAndSocialLinks />
+            </div>
+          )}
 
-              {activeSections.selectedSkills && (
-                <div className="pb-4">
-                  <SelectSkillsSection />
-                </div>
-              )}
-              {activeSections.projects && (
-                <div className="pb-4">
-                  <ProjectsSection />
-                </div>
-              )}
-              {/* <div className="pb-4">
+          {activeSections.selectedSkills && (
+            <div className="pb-4">
+              <SelectSkillsSection />
+            </div>
+          )}
+          {activeSections.projects && (
+            <div className="pb-4">
+              <ProjectsSection />
+            </div>
+          )}
+          {/* <div className="pb-4">
             <ProjectsSection />
           </div> */}
-              {activeSections.languages && (
-                <div className="pb-4">
-                  <LanguageSection />
-                </div>
-              )}
+          {activeSections.languages && (
+            <div className="pb-4">
+              <LanguageSection />
+            </div>
+          )}
 
-              {activeSections.certificate && (
-                <div className="pb-4">
-                  <CertificationsSection />
-                </div>
-              )}
+          {activeSections.certificate && (
+            <div className="pb-4">
+              <CertificationsSection />
+            </div>
+          )}
 
-              {activeSections.awards && (
-                <div className="pb-4">
-                  <AwardsSection />
-                </div>
-              )}
-              {activeSections.openSourceContributions && (
-                <div className="pb-4">
-                  <OpenSourceSection />
-                </div>
-              )}
+          {activeSections.awards && (
+            <div className="pb-4">
+              <AwardsSection />
+            </div>
+          )}
+          {activeSections.openSourceContributions && (
+            <div className="pb-4">
+              <OpenSourceSection />
+            </div>
+          )}
 
-              {activeSections.customSections && (
-                <div className="pb-4">
-                  <CustomSections />
-                </div>
-              )}
-            </>
+          {activeSections.customSections && (
+            <div className="pb-4">
+              <CustomSections />
+            </div>
           )}
 
           {/* Bottom buttons */}
-          {/* <div className="w-full space-y-2 mb-4">
-            {/* <button
-              onClick={() => setIsPopupOpen(true)}
+          <div className="w-full space-y-2 mb-4">
+            <button
+              // onClick={() => setIsPopupOpen(true)}
               className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
             >
               <span className="font-heading font-semibold text-black">
                 Add Section
               </span>
-            </button> 
+            </button>
             <button
               onClick={handleGenerateResume}
               className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
@@ -174,7 +169,7 @@ const LeftSection = () => {
                 Generate Resume
               </span>
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
       {/* <AddSectionPopup

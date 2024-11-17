@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import debounce from "lodash/debounce";
 import {
   Accordion,
@@ -279,17 +278,9 @@ const SortableCertificationItem: React.FC<SortableCertificationItemProps> = ({
   );
 };
 
-interface RootState {
-  resume: {
-    certificate: Certificate[];
-  };
-}
-
 const CertificationsSection: React.FC = () => {
   const dispatch = useAppDispatch();
-  // const certificates = useSelector(
-  //   (state: RootState) => state.resume.certificate
-  // );
+
   const certificates = useAppSelector((state) => state.resume.certificate);
   const sensors = useSensors(
     useSensor(PointerSensor),

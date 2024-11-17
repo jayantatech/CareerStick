@@ -8,9 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import api from "@/lib/api";
 import Link from "next/link";
 import { Logo } from "../../../../../public/img";
-// import cookies from "js-cookie"; // Use js-cookie instead of next/headers
-// import ServerCookie from "@/lib/ServerCookie";
-import getTokens from "@/lib/ServerCookie";
+import { AxiosError } from "axios";
 
 interface VerificationState {
   status: "loading" | "success" | "error";
@@ -65,14 +63,29 @@ const Verify = () => {
             message: response.data.message || "Verification failed",
           });
         }
-      } catch (error: any) {
-        console.error("Verification error:", error);
-        setVerificationState({
-          status: "error",
-          message:
-            error.response?.data?.message ||
-            "An error occurred during verification",
-        });
+      } catch (error) {
+        // console.error("Verification error:", error);
+        // setVerificationState({
+        //   status: "error",
+        //   message:
+        //     error.response?.data?.message ||
+        //     "An error occurred during verification",
+        // });
+        if (error instanceof AxiosError) {
+          console.error("Verification error:", error);
+          setVerificationState({
+            status: "error",
+            message:
+              error.response?.data?.message ||
+              "An error occurred during verification",
+          });
+        } else {
+          // Handle any non-Axios errors if necessary
+          setVerificationState({
+            status: "error",
+            message: "An unexpected error occurred",
+          });
+        }
       }
     };
 

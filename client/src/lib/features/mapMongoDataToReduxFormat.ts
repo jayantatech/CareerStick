@@ -511,6 +511,7 @@
 
 // export default mapMongoDataToReduxFormat;
 import { DateInfo, ResumeState } from "@/lib/types/resumeInput";
+import { TemplateType } from "../store/slices/templateChangeSlice";
 
 interface MongoDateInfo {
   month?: string;
@@ -518,6 +519,7 @@ interface MongoDateInfo {
 }
 
 interface MongoData {
+  resumeTitle?: string;
   jobIndustry?: {
     industry?: string;
     targetJob?: string;
@@ -532,7 +534,7 @@ interface MongoData {
     country?: string;
     address?: string;
     postalCode?: string;
-    photo?: File | null;
+    photo?: string | null;
   };
   professionalSummary?: {
     summaryText?: string;
@@ -623,6 +625,9 @@ interface MongoData {
     endDate?: string | MongoDateInfo;
     isPresent?: boolean;
   }>;
+  templateName?: TemplateType;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface MongoDateInfo {
@@ -670,6 +675,7 @@ const mapMongoDataToReduxFormat = (mongoData: MongoData): ResumeState => {
 
   return {
     // Job Industry
+    resumeTitle: mongoData.resumeTitle || "",
     jobIndustry: {
       industry: mongoData.jobIndustry?.industry || "",
       targetJob: mongoData.jobIndustry?.targetJob || "",
@@ -889,7 +895,9 @@ const mapMongoDataToReduxFormat = (mongoData: MongoData): ResumeState => {
         : formatDate(section.endDate),
       isPresent: section.isPresent || false,
     })),
-
+    templateName: mongoData.templateName || "default",
+    createdAt: mongoData.createdAt || "",
+    updatedAt: mongoData.updatedAt || "",
     // Additional ResumeState properties
     isLoading: false,
     error: null,

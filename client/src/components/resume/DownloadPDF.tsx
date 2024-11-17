@@ -11,6 +11,7 @@ import { useAppSelector } from "@/lib/store/hooks";
 // import { ResumeState } from "@/lib/types/resumeInput";
 import { ResumeState } from "@/lib/types/resumeInput";
 import TemplateThree from "./templets/TemplateThree";
+import TemplateFour from "./templets/TemplateFour";
 
 const LoadingButton = memo(() => (
   <button disabled className="font-semibold">
@@ -32,6 +33,8 @@ const templateComponents = {
   default: ResumePDF,
   template2: TempletTwo,
   template3: TemplateThree,
+  template4: TemplateFour,
+
   // Add more templates as needed
   // template4: TemplateFour,
   // template5: TemplateFive,

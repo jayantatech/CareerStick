@@ -1168,7 +1168,7 @@ const Login = () => {
           {/* Terms and Sign Up */}
           <div className="mt-6 text-center text-sm">
             <p className="text-gray-600">
-              By clicking 'Submit' you also agree to our{" "}
+              By clicking <b>Submit</b> you also agree to our{" "}
               <Link href="/terms" className="text-blue-600 hover:underline">
                 Terms and Conditions
               </Link>{" "}

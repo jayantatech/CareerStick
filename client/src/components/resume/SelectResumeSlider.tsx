@@ -140,7 +140,7 @@
 // };
 
 // export default SelectResumeSlider;
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -151,7 +151,7 @@ import {
 import { cn } from "@/lib/utils";
 import { LuChevronLeft } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { MdDataSaverOn, MdOutlineClose } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
 import { setTemplateBoxState } from "@/lib/store/slices/resumeFeatureState";
 import { HiOutlineSaveAs } from "react-icons/hi";
 
@@ -161,6 +161,7 @@ import {
 } from "@/lib/store/slices/templateChangeSlice";
 import { useParams } from "next/navigation";
 import api from "@/lib/api";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface SelectResumeSliderProps {
   className?: string;
@@ -179,7 +180,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(true);
   const [clickedSave, setClickedSave] = useState(false);
-
+  const { user } = useAuth();
   const param = useParams();
   const ResumeFeatureBoxState = useAppSelector(
     (state) => state.resumeFeatureState
@@ -193,9 +194,9 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
       const index = allTemplates.indexOf(ResumeTemplateState);
       setSelectedTemplate(index);
     }
-  }, [param?.id]);
+    console.log("ResumeTemplateState", ResumeTemplateState);
+  }, [param?.id, ResumeTemplateState]);
 
-  console.log("ResumeTemplateState", ResumeTemplateState);
   const dispatch = useAppDispatch();
 
   const handleTemplateClick = (index: number, event: React.MouseEvent) => {
@@ -219,12 +220,13 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
 
   const handleApiToSaveTemplate = async () => {
     if (!param?.id && param?.id.length !== 24) return null;
-
+    if (!user?._id) return null;
     try {
       const response = await api.post(
         `/resume/save-resume-template/${param.id}`,
         {
           template: ResumeTemplateState,
+          userId: user?._id,
         }
       );
 

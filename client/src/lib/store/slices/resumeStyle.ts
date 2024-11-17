@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { set } from "lodash";
 
 // Define the types for our style options
 interface activeSections {
@@ -58,8 +57,7 @@ export interface IResumeStyleState {
   activeSections: activeSections;
 }
 
-// Define the initial state
-const initialState: IResumeStyleState = {
+export const initialData: IResumeStyleState = {
   fontSize: {
     body: "normal",
     heading: "normal",
@@ -92,6 +90,9 @@ const initialState: IResumeStyleState = {
   lineHeight: "normal",
   sectionSpacing: "normal",
 };
+
+// Define the initial state
+const initialState: IResumeStyleState = initialData;
 
 // Create the slice
 const resumeStyleSlice = createSlice({

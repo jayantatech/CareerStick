@@ -75,7 +75,6 @@ const ResumeSchema: Schema = new Schema<IResume>({
       proficiency: {
         type: String,
         enum: Object.values(LanguageProficiency),
-        required: false,
       },
       certifications: [{ type: String }],
     },
@@ -266,7 +265,7 @@ const ResumeSchema: Schema = new Schema<IResume>({
   templateName: {
     type: String,
     enum: Object.values(TemplateNameEnum),
-    default: TemplateNameEnum.Default,
+    default: TemplateNameEnum.template3,
     required: false,
   },
   isPremiumTemplate: { type: Boolean, default: false, required: false },

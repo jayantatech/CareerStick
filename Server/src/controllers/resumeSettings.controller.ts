@@ -1,13 +1,13 @@
 // import { Request, Response } from "express";
 // import Resume from "../models/Resumes";
 // import ResumeSettings from "../models/ResumeSettings";
-// import connectDB from "../config/connectDB";
-// import { defaultSettings } from "../contents/defaultValues";
+// // import connectDB from "../config/connectDB";
 
 // const getResumeSettings = async (req: Request, res: Response) => {
 //   try {
-//     const { resumeId } = req.body;
+//     const { resumeId } = req.params;
 //     // await connectDB();();
+
 //     const resume = await Resume.findById(resumeId);
 //     if (!resume) {
 //       return res.status(404).json({
@@ -37,11 +37,10 @@
 //   }
 // };
 
-// // Update resume settings
 // const updateResumeSettings = async (req: Request, res: Response) => {
 //   try {
-//     // const { resumeId } = req.params;
 //     const { updateData, resumeId } = req.body;
+//     console.log("updateData from client", updateData, resumeId);
 //     // await connectDB();();
 
 //     const resume = await Resume.findById(resumeId);
@@ -52,15 +51,36 @@
 //       });
 //     }
 
+//     // Validate the update data structure
+//     const validUpdateKeys = [
+//       "fontSize",
+//       "margins",
+//       "fontFamily",
+//       "colorScheme",
+//       "lineHeight",
+//       "sectionSpacing",
+//       "activeSections",
+//     ];
+
+//     const invalidKeys = Object.keys(updateData).filter(
+//       (key) => !validUpdateKeys.includes(key)
+//     );
+
+//     if (invalidKeys.length > 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: `Invalid update keys: ${invalidKeys.join(", ")}`,
+//       });
+//     }
+
 //     const updatedSettings = await ResumeSettings.findByIdAndUpdate(
 //       resume.resumeSettingsId,
 //       {
 //         ...updateData,
 //         updatedAt: new Date(),
 //       },
-//       { new: true }
+//       { new: true, runValidators: true }
 //     );
-//     updatedSettings?.save();
 
 //     if (!updatedSettings) {
 //       return res.status(404).json({
@@ -68,6 +88,8 @@
 //         message: "Resume settings not found",
 //       });
 //     }
+
+//     await updatedSettings.save();
 
 //     return res.status(200).json({
 //       success: true,
@@ -79,15 +101,16 @@
 //     return res.status(500).json({
 //       success: false,
 //       message: "Error updating resume settings",
+//       error: error instanceof Error ? error.message : "Unknown error",
 //     });
 //   }
 // };
 
-// // Reset resume settings to default
 // const resetResumeSettings = async (req: Request, res: Response) => {
 //   try {
 //     const { resumeId } = req.params;
-//     // await connectDB();();
+//     // // await connectDB();();
+
 //     const resume = await Resume.findById(resumeId);
 //     if (!resume) {
 //       return res.status(404).json({
@@ -96,13 +119,32 @@
 //       });
 //     }
 
+//     const defaultSettings = {
+//       fontSize: {
+//         body: "normal",
+//         heading: "normal",
+//       },
+//       margins: {
+//         page: "normal",
+//         section: "normal",
+//       },
+//       fontFamily: "Helvetica",
+//       colorScheme: {
+//         primary: "#111827",
+//         secondary: "#3B82F6",
+//         text: "#4B5563",
+//       },
+//       lineHeight: "normal",
+//       sectionSpacing: "normal",
+//     };
+
 //     const updatedSettings = await ResumeSettings.findByIdAndUpdate(
 //       resume.resumeSettingsId,
 //       {
 //         ...defaultSettings,
 //         updatedAt: new Date(),
 //       },
-//       { new: true }
+//       { new: true, runValidators: true }
 //     );
 
 //     if (!updatedSettings) {
@@ -111,7 +153,9 @@
 //         message: "Resume settings not found",
 //       });
 //     }
-//     updatedSettings.save();
+
+//     await updatedSettings.save();
+
 //     return res.status(200).json({
 //       success: true,
 //       message: "Settings reset to default",
@@ -122,31 +166,150 @@
 //     return res.status(500).json({
 //       success: false,
 //       message: "Error resetting resume settings",
+//       error: error instanceof Error ? error.message : "Unknown error",
 //     });
 //   }
 // };
 
-// export { getResumeSettings, updateResumeSettings, resetResumeSettings };
+// const updateResumeActiveSections = async (req: Request, res: Response) => {
+//   const { resumeId } = req.params;
+//   const { activeSections } = req.body;
+//   try {
+//     if (!activeSections || Object.keys(activeSections).length === 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Active sections are required",
+//       });
+//     }
+//     if (resumeId && resumeId.length !== 24) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid resume ID",
+//       });
+//     }
+//     console.log("active sections from client", activeSections, resumeId);
+//     // // await connectDB();();
+//     const resume = await Resume.findById(resumeId);
+//     if (!resume) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Resume not found",
+//       });
+//     }
+//     const updatedSettings = await ResumeSettings.findByIdAndUpdate(
+//       resume.resumeSettingsId,
+//       {
+//         activeSections,
+//         updatedAt: new Date(),
+//       },
+//       { new: true, runValidators: true }
+//     );
+//     if (!updatedSettings) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Resume settings not found",
+//       });
+//     }
+//     await updatedSettings.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Active sections updated successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error updating resume active sections:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error updating resume active sections",
+//       error: error instanceof Error ? error.message : "Unknown error",
+//     });
+//   }
+// };
+
+// const getResumeActiveSections = async (req: Request, res: Response) => {
+//   const { resumeId } = req.params;
+//   try {
+//     if (resumeId && resumeId.length !== 24) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid resume ID",
+//       });
+//     }
+//     // await connectDB();();
+//     const resume = await Resume.findById(resumeId);
+//     if (!resume) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Resume not found",
+//       });
+//     }
+//     const settings = await ResumeSettings.findById(resume.resumeSettingsId);
+//     if (!settings) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Resume settings not found",
+//       });
+//     }
+//     return res.status(200).json({
+//       success: true,
+//       message: "Active sections retrieved successfully",
+//       activeSections: settings.activeSections,
+//     });
+//   } catch (error) {
+//     console.error("Error retrieving resume active sections:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error retrieving resume active sections",
+//       error: error instanceof Error ? error.message : "Unknown error",
+//     });
+//   }
+// };
+
+// export {
+//   getResumeSettings,
+//   updateResumeSettings,
+//   resetResumeSettings,
+//   updateResumeActiveSections,
+//   getResumeActiveSections,
+// };
 
 import { Request, Response } from "express";
 import Resume from "../models/Resumes";
 import ResumeSettings from "../models/ResumeSettings";
-// import connectDB from "../config/connectDB";
+import mongoose, { mongo } from "mongoose";
 
 const getResumeSettings = async (req: Request, res: Response) => {
   try {
-    const { resumeId } = req.params;
-    // await connectDB();();
+    // console.log("resumeId in getResumeSettings", req.body);
+    const { userId, resumeId } = req.body;
 
-    const resume = await Resume.findById(resumeId);
-    if (!resume) {
-      return res.status(404).json({
+    if (!userId) {
+      return res.status(400).json({
         success: false,
-        message: "Resume not found",
+        message: "User ID is required",
       });
     }
 
-    const settings = await ResumeSettings.findById(resume.resumeSettingsId);
+    if (resumeId && resumeId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid resume ID",
+      });
+    }
+
+    const resume = await Resume.findOne({ _id: resumeId, userId });
+    // console.log("resume from the db", resume);
+    if (!resume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found or unauthorized access",
+      });
+    }
+
+    const settings = await ResumeSettings.findOne({
+      _id: resume.resumeSettingsId,
+      userId,
+    });
     if (!settings) {
       return res.status(404).json({
         success: false,
@@ -156,7 +319,8 @@ const getResumeSettings = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      settings,
+      message: "Resume settings fetched successfully",
+      settings: settings,
     });
   } catch (error) {
     console.error("Error fetching resume settings:", error);
@@ -169,15 +333,40 @@ const getResumeSettings = async (req: Request, res: Response) => {
 
 const updateResumeSettings = async (req: Request, res: Response) => {
   try {
-    const { updateData, resumeId } = req.body;
-    console.log("updateData from client", updateData, resumeId);
-    // await connectDB();();
+    const { updateData, resumeId, userId } = req.body;
+    // console.log(
+    //   "resume body in updateResumeSettings",
+    //   updateData,
+    //   resumeId,
+    //   userId
+    // );
+    // console.log("updateData from client", updateData, resumeId, userId);
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
 
-    const resume = await Resume.findById(resumeId);
+    // if (!mongoose.Types.ObjectId.isValid()) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid resume ID format",
+    //   });
+    // }
+
+    if (resumeId && resumeId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid resume ID by jay",
+      });
+    }
+
+    const resume = await Resume.findOne({ _id: resumeId, userId });
     if (!resume) {
       return res.status(404).json({
         success: false,
-        message: "Resume not found",
+        message: "Resume not found or unauthorized access",
       });
     }
 
@@ -203,8 +392,8 @@ const updateResumeSettings = async (req: Request, res: Response) => {
       });
     }
 
-    const updatedSettings = await ResumeSettings.findByIdAndUpdate(
-      resume.resumeSettingsId,
+    const updatedSettings = await ResumeSettings.findOneAndUpdate(
+      { _id: resume.resumeSettingsId, userId },
       {
         ...updateData,
         updatedAt: new Date(),
@@ -239,13 +428,20 @@ const updateResumeSettings = async (req: Request, res: Response) => {
 const resetResumeSettings = async (req: Request, res: Response) => {
   try {
     const { resumeId } = req.params;
-    // // await connectDB();();
+    const { userId } = req.body;
 
-    const resume = await Resume.findById(resumeId);
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const resume = await Resume.findOne({ _id: resumeId, userId });
     if (!resume) {
       return res.status(404).json({
         success: false,
-        message: "Resume not found",
+        message: "Resume not found or unauthorized access",
       });
     }
 
@@ -266,10 +462,11 @@ const resetResumeSettings = async (req: Request, res: Response) => {
       },
       lineHeight: "normal",
       sectionSpacing: "normal",
+      userId, // Include userId in default settings
     };
 
-    const updatedSettings = await ResumeSettings.findByIdAndUpdate(
-      resume.resumeSettingsId,
+    const updatedSettings = await ResumeSettings.findOneAndUpdate(
+      { _id: resume.resumeSettingsId, userId },
       {
         ...defaultSettings,
         updatedAt: new Date(),
@@ -303,43 +500,56 @@ const resetResumeSettings = async (req: Request, res: Response) => {
 
 const updateResumeActiveSections = async (req: Request, res: Response) => {
   const { resumeId } = req.params;
-  const { activeSections } = req.body;
+  const { activeSections, userId } = req.body;
+
+  // console.log("activeSections", activeSections);
+
   try {
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
     if (!activeSections || Object.keys(activeSections).length === 0) {
       return res.status(400).json({
         success: false,
         message: "Active sections are required",
       });
     }
+
     if (resumeId && resumeId.length !== 24) {
       return res.status(400).json({
         success: false,
         message: "Invalid resume ID",
       });
     }
-    console.log("active sections from client", activeSections, resumeId);
-    // // await connectDB();();
-    const resume = await Resume.findById(resumeId);
+
+    const resume = await Resume.findOne({ _id: resumeId, userId });
     if (!resume) {
       return res.status(404).json({
         success: false,
-        message: "Resume not found",
+        message: "Resume not found or unauthorized access",
       });
     }
-    const updatedSettings = await ResumeSettings.findByIdAndUpdate(
-      resume.resumeSettingsId,
+
+    const updatedSettings = await ResumeSettings.findOneAndUpdate(
+      { _id: resume.resumeSettingsId, userId },
       {
         activeSections,
         updatedAt: new Date(),
       },
       { new: true, runValidators: true }
     );
+
     if (!updatedSettings) {
       return res.status(404).json({
         success: false,
         message: "Resume settings not found",
       });
     }
+
     await updatedSettings.save();
 
     return res.status(200).json({
@@ -357,29 +567,43 @@ const updateResumeActiveSections = async (req: Request, res: Response) => {
 };
 
 const getResumeActiveSections = async (req: Request, res: Response) => {
+  // console.log("resumeId in getResumeActiveSections", req.body);
   const { resumeId } = req.params;
+  const { userId } = req.body;
   try {
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
     if (resumeId && resumeId.length !== 24) {
       return res.status(400).json({
         success: false,
         message: "Invalid resume ID",
       });
     }
-    // await connectDB();();
-    const resume = await Resume.findById(resumeId);
+
+    const resume = await Resume.findOne({ _id: resumeId, userId });
     if (!resume) {
       return res.status(404).json({
         success: false,
-        message: "Resume not found",
+        message: "Resume not found or unauthorized access",
       });
     }
-    const settings = await ResumeSettings.findById(resume.resumeSettingsId);
+
+    const settings = await ResumeSettings.findOne({
+      _id: resume.resumeSettingsId,
+      userId,
+    });
     if (!settings) {
       return res.status(404).json({
         success: false,
         message: "Resume settings not found",
       });
     }
+
     return res.status(200).json({
       success: true,
       message: "Active sections retrieved successfully",

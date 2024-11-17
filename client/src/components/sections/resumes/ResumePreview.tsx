@@ -672,7 +672,9 @@ const getStyleValues = (config: StyleConfig = defaultStyleConfig) => {
 };
 const createDynamicStyles = (config: StyleConfig) => {
   const values = getStyleValues(config);
-
+  const primaryColor = config?.colorScheme?.primary || "#1a5f7a";
+  const secondaryColor = config?.colorScheme?.secondary || "#86BBD8";
+  const textColor = config?.colorScheme?.text || "#333333";
   return StyleSheet.create({
     page: {
       padding: values.pageMargin,
@@ -685,12 +687,12 @@ const createDynamicStyles = (config: StyleConfig) => {
     name: {
       fontSize: values?.headingSize?.title,
       fontWeight: "bold",
-      color: config?.colorScheme.primary,
+      color: primaryColor,
       marginBottom: 4,
     },
     title: {
       fontSize: values.headingSize?.heading,
-      color: config?.colorScheme.secondary,
+      color: secondaryColor,
       marginBottom: 8,
     },
     contactRow: {
@@ -705,7 +707,7 @@ const createDynamicStyles = (config: StyleConfig) => {
     },
     contactText: {
       fontSize: values.fontSize?.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       lineHeight: values.lineHeight,
     },
     section: {
@@ -714,7 +716,7 @@ const createDynamicStyles = (config: StyleConfig) => {
     sectionTitle: {
       fontSize: values.headingSize?.heading,
       fontWeight: "bold",
-      color: config?.colorScheme.primary,
+      color: primaryColor,
       borderBottomWidth: 1,
       borderBottomColor: "#E5E7EB",
       paddingBottom: 4,
@@ -732,11 +734,11 @@ const createDynamicStyles = (config: StyleConfig) => {
     projectTitle: {
       fontSize: values.fontSize?.body + 2,
       fontWeight: "bold",
-      color: config?.colorScheme?.primary,
+      color: primaryColor,
     },
     projectRole: {
       fontSize: values.fontSize?.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       marginBottom: 2,
     },
     technologies: {
@@ -750,23 +752,26 @@ const createDynamicStyles = (config: StyleConfig) => {
       backgroundColor: "#EEF2FF",
       padding: "2 4",
       borderRadius: 2,
-      color: config?.colorScheme.text,
+      color: textColor,
     },
     languageItem: {
       flexDirection: "row",
       justifyContent: "space-between",
       marginBottom: 4,
+      width: "100%",
+      textTransform: "capitalize",
     },
     languageName: {
       fontSize: values.fontSize?.body,
-      color: config?.colorScheme.primary,
+      color: primaryColor,
     },
     proficiencyBadge: {
       fontSize: values.fontSize?.body - 1,
       backgroundColor: "#EEF2FF",
       padding: "2 6",
       borderRadius: 4,
-      color: config?.colorScheme.secondary,
+      color: secondaryColor,
+      textTransform: "capitalize",
     },
     columns: {
       flexDirection: "row",
@@ -780,7 +785,7 @@ const createDynamicStyles = (config: StyleConfig) => {
     },
     summaryText: {
       fontSize: values.fontSize.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       lineHeight: values.lineHeight,
     },
     educationItem: {
@@ -789,15 +794,15 @@ const createDynamicStyles = (config: StyleConfig) => {
     schoolName: {
       fontSize: values.fontSize.body + 2,
       fontWeight: "bold",
-      color: config.colorScheme.primary,
+      color: primaryColor,
     },
     degreeText: {
       fontSize: values.fontSize.body,
-      color: config?.colorScheme.text,
+      color: textColor,
     },
     dateLocation: {
       fontSize: values.fontSize.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       flexDirection: "row",
       justifyContent: "space-between",
     },
@@ -807,16 +812,16 @@ const createDynamicStyles = (config: StyleConfig) => {
     companyName: {
       fontSize: values.fontSize.body + 2,
       fontWeight: "bold",
-      color: config?.colorScheme.primary,
+      color: primaryColor,
     },
     jobTitle: {
       fontSize: values.fontSize.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       marginBottom: 2,
     },
     description: {
       fontSize: values.fontSize.body,
-      color: config?.colorScheme.text,
+      color: textColor,
       marginTop: 4,
       lineHeight: values.lineHeight,
     },
@@ -830,7 +835,7 @@ const createDynamicStyles = (config: StyleConfig) => {
       backgroundColor: "#F3F4F6",
       padding: "4 8",
       borderRadius: 4,
-      color: config?.colorScheme.text,
+      color: textColor,
     },
   });
 };
@@ -868,11 +873,6 @@ const defaultStyleConfig: StyleConfig = {
     customSections: false,
   },
 };
-
-interface ResumePDFProps {
-  data: ResumeState;
-  styleConfig?: StyleConfig;
-}
 
 const getSocialIcon = (platform: string) => {
   switch (platform.toLowerCase()) {
@@ -1162,16 +1162,16 @@ const ResumePDF = ({
               activeSections.languages && (
                 <View style={styles.section}>
                   <Text style={styles.sectionTitle}>LANGUAGES</Text>
-                  <View style={styles.languageItem}>
-                    {data.languages.map((language, index) => (
-                      <View key={index} style={styles.languageItem}>
-                        <Text style={styles.languageName}>{language.name}</Text>
-                        <Text style={styles.proficiencyBadge}>
-                          {language.proficiency}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
+                  {/* <View style={styles.languageItem}> */}
+                  {data.languages.map((language, index) => (
+                    <View key={index} style={styles.languageItem}>
+                      <Text style={styles.languageName}>{language.name}</Text>
+                      <Text style={styles.proficiencyBadge}>
+                        {language.proficiency}
+                      </Text>
+                    </View>
+                  ))}
+                  {/* </View> */}
                 </View>
               )}
           </View>

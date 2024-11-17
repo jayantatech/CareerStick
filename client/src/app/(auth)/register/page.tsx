@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
-import { Eye, EyeOff, CheckCircle2, XCircle } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Logo } from "../../../../public/img";
 import { Google } from "../../../../public/icons";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
@@ -433,7 +433,7 @@ const Register: React.FC = () => {
           {/* Terms and Sign In */}
           <div className="mt-6 text-center text-sm">
             <p className="text-gray-600">
-              By clicking 'Create Account' you agree to our{" "}
+              By clicking <b> Create Account </b> you agree to our{" "}
               <Link href="#" className="text-blue-600 hover:underline">
                 Terms and Conditions
               </Link>{" "}

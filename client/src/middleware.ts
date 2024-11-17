@@ -173,6 +173,7 @@ export async function middleware(request: NextRequest) {
         }
       } catch (error) {
         // If refresh request fails, redirect to login
+
         const loginUrl = new URL("/login", request.url);
         return NextResponse.redirect(loginUrl);
       }

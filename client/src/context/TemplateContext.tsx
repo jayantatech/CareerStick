@@ -83,9 +83,10 @@
 // };
 
 "use client";
+import { TemplateType } from "@/lib/store/slices/templateChangeSlice";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export type TemplateType = "default" | "template2";
+// export type TemplateType = "default" | "template2" | "template3" | "template4";
 
 interface TemplateContextType {
   currentTemplate: TemplateType;

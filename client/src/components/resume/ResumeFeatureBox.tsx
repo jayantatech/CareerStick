@@ -8,7 +8,6 @@ import {
 } from "@/lib/store/slices/resumeFeatureState";
 import dynamic from "next/dynamic";
 import React from "react";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { MdOutlineDesignServices, MdOutlineVerified } from "react-icons/md";
 import { VscHubot } from "react-icons/vsc";
@@ -27,13 +26,6 @@ import {
   updatePersonalInfo,
   updateJobIndustry,
 } from "@/lib/store/slices/resumeSlice";
-import { TfiLayoutListThumbAlt } from "react-icons/tfi";
-
-import {
-  BsLayoutSidebarInsetReverse,
-  BsLayoutTextWindowReverse,
-} from "react-icons/bs";
-import { RiLayoutVerticalLine } from "react-icons/ri";
 import { TbLayoutCollage } from "react-icons/tb";
 
 const ResumeFeatureBox = () => {

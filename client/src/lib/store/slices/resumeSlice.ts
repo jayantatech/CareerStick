@@ -158,6 +158,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 //   error: string | null;
 // }
 const initialState: ResumeState = {
+  resumeTitle: "",
   jobIndustry: {
     industry: "",
     targetJob: "",
@@ -172,7 +173,7 @@ const initialState: ResumeState = {
     country: "",
     address: "",
     postalCode: "",
-    photo: null,
+    photo: "",
   },
   professionalSummary: {
     summaryText: "",
@@ -283,6 +284,9 @@ const resumeSlice = createSlice({
   name: "resume",
   initialState,
   reducers: {
+    setResumeTitle: (state, action: PayloadAction<string>) => {
+      state.resumeTitle = action.payload;
+    },
     // Job Industry
     updateJobIndustry: (
       state,
@@ -846,6 +850,7 @@ export const {
   addCustomSection,
   deleteCustomSection,
   reorderCustomSections,
+  setResumeTitle,
 } = resumeSlice.actions;
 
 // Export the reducer

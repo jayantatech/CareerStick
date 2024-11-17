@@ -4,6 +4,8 @@
 //   year: string;
 // }
 
+import { TemplateType } from "../store/slices/templateChangeSlice";
+
 // export export interface JobExperience {
 //   id: string;
 //   jobTitle: string;
@@ -69,7 +71,7 @@ export interface PersonalInformation {
   country: string;
   address: string;
   postalCode: string;
-  photo: File | null;
+  photo: string | null;
 }
 
 export interface ProfessionalSummary {
@@ -165,6 +167,8 @@ export interface CustomSection {
 }
 
 export interface ResumeState {
+  _id?: string;
+  resumeTitle?: string;
   jobIndustry: JobIndustryData;
   personalInfo: PersonalInformation;
   professionalSummary: ProfessionalSummary;
@@ -179,7 +183,9 @@ export interface ResumeState {
   awards: Award[];
   openSourceContributions: OpenSourceContribution[];
   customSections: CustomSection[];
-
+  templateName?: TemplateType;
+  createdAt?: string;
+  updatedAt?: string;
   isLoading: boolean;
   error: string | null;
 }

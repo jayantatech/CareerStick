@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type TemplateType = "default" | "template2";
+export type TemplateType = "default" | "template2" | "template3" | "template4";
+// | "template5";
 
 interface TemplateState {
   currentTemplate: TemplateType;
 }
 
 const initialState: TemplateState = {
-  currentTemplate: "default",
+  currentTemplate: "template3",
 };
 
 const templateSlice = createSlice({
