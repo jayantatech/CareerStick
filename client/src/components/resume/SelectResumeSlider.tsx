@@ -194,7 +194,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
       const index = allTemplates.indexOf(ResumeTemplateState);
       setSelectedTemplate(index);
     }
-    console.log("ResumeTemplateState", ResumeTemplateState);
+    // console.log("ResumeTemplateState", ResumeTemplateState);
   }, [param?.id, ResumeTemplateState]);
 
   const dispatch = useAppDispatch();
@@ -202,7 +202,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
   const handleTemplateClick = (index: number, event: React.MouseEvent) => {
     event.stopPropagation();
     setSelectedTemplate(index);
-    console.log("selectedTemplate", allTemplates[index]);
+    // console.log("selectedTemplate", allTemplates[index]);
     dispatch(setCurrentTemplate(allTemplates[index]));
     setIsExpanded(false);
   };
@@ -230,7 +230,7 @@ const SelectResumeSlider: React.FC<SelectResumeSliderProps> = ({
         }
       );
 
-      console.log("Template saved successfully", response.data);
+      // console.log("Template saved successfully", response.data);
       if (response.data.success) {
         setClickedSave(false);
       }

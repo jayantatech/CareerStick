@@ -35,36 +35,6 @@ const ResumeSchema: Schema = new Schema<IResume>({
       state: { type: String, required: false },
       country: { type: String, required: false },
     },
-    // socialLinks: {
-    //   linkedIn: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   github: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   stackOverflow: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   personalWebsite: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   twitter: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   medium: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    //   devTo: {
-    //     url: { type: String, required: false },
-    //     username: { type: String, required: false },
-    //   },
-    // },
 
     summary: { type: String, required: false },
     visaStatus: { type: String, required: false },
@@ -283,3 +253,34 @@ const ResumeSchema: Schema = new Schema<IResume>({
 // Create and export the model
 const Resume = mongoose.model<IResume>("Resume", ResumeSchema);
 export default Resume;
+
+// socialLinks: {
+//   linkedIn: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   github: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   stackOverflow: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   personalWebsite: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   twitter: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   medium: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+//   devTo: {
+//     url: { type: String, required: false },
+//     username: { type: String, required: false },
+//   },
+// },

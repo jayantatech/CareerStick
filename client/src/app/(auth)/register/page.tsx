@@ -79,7 +79,7 @@ const Register: React.FC = () => {
     name: string
   ): void => {
     const { value } = e.target;
-    console.log("name and value", name, value);
+    // console.log("name and value", name, value);
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -158,7 +158,7 @@ const Register: React.FC = () => {
 
     setIsSubmitting(true);
     setApiMessage({ type: "", message: "" });
-    console.log("formData", formData);
+    // console.log("formData", formData);
     try {
       const response = await api.post("/auth/register", {
         email: formData.email,

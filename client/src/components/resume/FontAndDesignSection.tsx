@@ -627,7 +627,7 @@ const FontAndDesignSection = () => {
     if (!resumeStyle) return;
     if (!user?._id) return;
     try {
-      console.log("resumeStyle", resumeStyle, params?.id, user?._id);
+      // console.log("resumeStyle", resumeStyle, params?.id, user?._id);
       const response = await api.post("/resume/settings/update", {
         resumeId: params?.id,
         updateData: resumeStyle,
@@ -713,7 +713,7 @@ const FontAndDesignSection = () => {
           userId: user?._id,
           resumeId: params?.id,
         });
-        console.log("response setting for fetchResumeData", response.data);
+        // console.log("response setting for fetchResumeData", response.data);
         if (response.data.success && response.data.settings) {
           const settings = response.data.settings;
 

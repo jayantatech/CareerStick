@@ -183,6 +183,8 @@ import api from "@/lib/api";
 import mapMongoDataToReduxFormat from "@/lib/features/mapMongoDataToReduxFormat";
 import { ResumeState } from "@/lib/types/resumeInput";
 import useAuth from "./useAuth";
+import setIsGetResumeCalled from "@/lib/store/slices/templateChangeSlice";
+import { setResumeState } from "../store/slices/resumeStateChangeSlice";
 
 interface ApiResponse {
   success: boolean;
@@ -198,7 +200,9 @@ export const useResumeData = () => {
   const router = useRouter();
   const resumeStateData = useAppSelector((state) => state.resume);
   const { user, isLoading, error, isAuthenticated } = useAuth(); // Move useAuth to top level
-
+  const isGetResumeCalled = useAppSelector(
+    (state) => state.resumeSateChange.isGetResumeCalled
+  );
   const previousStateRef = useRef<ResumeState | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
@@ -220,7 +224,7 @@ export const useResumeData = () => {
       isInitialLoadRef.current ||
       isEqual(previousStateRef.current, resumeStateData)
     ) {
-      console.log("No changes detected or initial load, skipping save");
+      // console.log("No changes detected or initial load, skipping save");
       return;
     }
     console.log("Saving resume data");
@@ -265,7 +269,7 @@ export const useResumeData = () => {
         }> = await api.post(`/resume/get-resume/${params.id}`, {
           userId: user._id,
         });
-        console.log("response.data for resume data", response.data);
+        // console.log("response.data for resume data", response.data);
         if (response.data.success === false) {
           router.push("/app/resumes");
           return;
@@ -273,7 +277,7 @@ export const useResumeData = () => {
 
         console.log("resume data fetched successfully", response.data.resume);
         const mappedData = mapMongoDataToReduxFormat(response.data.resume);
-        console.log("mapMongoDataToReduxFormat", mappedData);
+        // console.log("mapMongoDataToReduxFormat", mappedData);
         // Initialize all sections in Redux
         dispatch(
           resumeActions.setResumeTitle(mappedData.resumeTitle as string)
@@ -302,6 +306,8 @@ export const useResumeData = () => {
 
         previousStateRef.current = JSON.parse(JSON.stringify(mappedData));
         isInitialLoadRef.current = false;
+
+        dispatch(setResumeState(false));
       } catch (error) {
         const axiosError = error as AxiosError<{
           message: string;
@@ -320,7 +326,14 @@ export const useResumeData = () => {
     if (!isLoading) {
       fetchResumeData();
     }
-  }, [params?.id, dispatch, router, user?._id, isLoading]);
+  }, [
+    params?.id,
+    dispatch,
+    router,
+    user?._id,
+    isLoading,
+    isGetResumeCalled === true,
+  ]);
 
   // Auto-save effect
   useEffect(() => {

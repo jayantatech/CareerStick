@@ -59,7 +59,7 @@ export interface IResumeStyleState {
 
 export const initialData: IResumeStyleState = {
   fontSize: {
-    body: "normal",
+    body: "large",
     heading: "normal",
   },
   margins: {

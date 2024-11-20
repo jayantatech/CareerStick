@@ -13,6 +13,7 @@ import { MdOutlineDesignServices, MdOutlineVerified } from "react-icons/md";
 import { VscHubot } from "react-icons/vsc";
 import { BiSelectMultiple } from "react-icons/bi";
 // import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
+
 import api from "@/lib/api";
 import {
   // updateJobIndustry,
@@ -27,12 +28,16 @@ import {
   updateJobIndustry,
 } from "@/lib/store/slices/resumeSlice";
 import { TbLayoutCollage } from "react-icons/tb";
+import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
+import useAuth from "@/lib/hooks/useAuth";
+import { useParams, usePathname } from "next/navigation";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
   const resumeFeatureState = useAppSelector(
     (state) => state.resumeFeatureState
   );
+  const params = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -83,56 +88,74 @@ const ResumeFeatureBox = () => {
       </button>
     ),
   });
-
   const userSubmittedInfo = useAppSelector((state) => state.resume);
-  // const dispatch = useAppDispatch();
-
-  const handleAIResumeGenerate = async () => {
-    // console.log("they clicked generate resume");
-
-    if (!userSubmittedInfo) return;
-    try {
-      const response = await api.post("/ai/generate-resume", {
-        prompt: userSubmittedInfo,
-        instruction: "Make it easy to read and professional",
-        jobIndustry: userSubmittedInfo.jobIndustry,
-      });
-      console.log("response.data from server", response.data);
-      const resumeData = JSON.parse(
-        response.data.data.replace("```json\n", "").replace("\n```", "")
-      );
-      console.log("resumeData new one", resumeData);
-      dispatch(updateJobIndustry(resumeData.jobIndustry));
-      dispatch(
-        updatePersonalInfo({
-          firstName: resumeData.personalInfo.name,
-          lastName: "",
-          email: resumeData.personalInfo.email,
-          phone: resumeData.personalInfo.phoneNumber,
-          city: "",
-          country: "",
-          address: "",
-          postalCode: "",
-        })
-      );
-      dispatch(
-        updateProfessionalSummary({
-          summaryText: resumeData.personalInfo.summary,
-        })
-      );
-      console.log("redux data after saving ", userSubmittedInfo);
-      return {
-        success: true,
-        message: "Resume generated successfully",
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: "Internal server error",
-        error: error,
-      };
+  const { user, isLoading } = useAuth();
+  const handleGenerateResume = async () => {
+    console.log("data sending in the backend is ", params.id);
+    if (isLoading) return;
+    if (!user?._id) return;
+    if (!params.id) return;
+    const result = await handleAIResumeGenerate(
+      userSubmittedInfo,
+      dispatch,
+      user?._id,
+      params?.id as string
+    );
+    if (result.success) {
+      console.log(result.message);
+    } else {
+      console.error(result.message);
     }
   };
+
+  // const dispatch = useAppDispatch();
+
+  // const handleAIResumeGenerate = async () => {
+  //   // console.log("they clicked generate resume");
+
+  //   if (!userSubmittedInfo) return;
+  //   try {
+  //     const response = await api.post("/ai/generate-resume", {
+  //       prompt: userSubmittedInfo,
+  //       instruction: "Make it easy to read and professional",
+  //       jobIndustry: userSubmittedInfo.jobIndustry,
+  //     });
+  //     console.log("response.data from server", response.data);
+  //     const resumeData = JSON.parse(
+  //       response.data.data.replace("```json\n", "").replace("\n```", "")
+  //     );
+  //     console.log("resumeData new one", resumeData);
+  //     dispatch(updateJobIndustry(resumeData.jobIndustry));
+  //     dispatch(
+  //       updatePersonalInfo({
+  //         firstName: resumeData.personalInfo.name,
+  //         lastName: "",
+  //         email: resumeData.personalInfo.email,
+  //         phone: resumeData.personalInfo.phoneNumber,
+  //         city: "",
+  //         country: "",
+  //         address: "",
+  //         postalCode: "",
+  //       })
+  //     );
+  //     dispatch(
+  //       updateProfessionalSummary({
+  //         summaryText: resumeData.personalInfo.summary,
+  //       })
+  //     );
+  //     console.log("redux data after saving ", userSubmittedInfo);
+  //     return {
+  //       success: true,
+  //       message: "Resume generated successfully",
+  //     };
+  //   } catch (error) {
+  //     return {
+  //       success: false,
+  //       message: "Internal server error",
+  //       error: error,
+  //     };
+  //   }
+  // };
 
   return (
     <div className="min-w-[200px] w-[200px]  select-none  h-[286px] rounded p-2 bg-white top-8  sticky right-2 flex flex-col gap-1">
@@ -147,7 +170,7 @@ const ResumeFeatureBox = () => {
         </div>
         <div
           className="w-full h-auto py-1 rounded cursor-pointer bg-primary text-white flex items-center justify-center gap-1 "
-          onClick={() => handleAIResumeGenerate()}
+          onClick={() => handleGenerateResume()}
         >
           <VscHubot className="text-[22px] -mt-0.5" />
 

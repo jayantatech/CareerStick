@@ -33,8 +33,8 @@ app.use(
 app.use(
   "/api",
   rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 850, // 250 requests per 15 minutes
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 2000, // 2000 requests per 10 minutes
   })
 );
 app.use(mongoSanitize()); // Against NoSQL injection

@@ -127,7 +127,7 @@ export async function middleware(request: NextRequest) {
   if (path.startsWith("/app") || path.startsWith("/")) {
     const accessToken = request.cookies.get("accessToken");
     const refreshToken = request.cookies.get("refreshToken");
-    console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
+    // console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
 
     // If no tokens exist, redirect to login
     if (!accessToken && !refreshToken) {
@@ -138,7 +138,7 @@ export async function middleware(request: NextRequest) {
     // If refresh token exists but no access token, try to refresh
     if (!accessToken && refreshToken) {
       const refreshToken = request.cookies.get("refreshToken");
-      console.log("refreshToken middleware", refreshToken);
+      // console.log("refreshToken middleware", refreshToken);
 
       if (!refreshToken?.value) {
         return NextResponse.redirect(new URL("/login", request.url));
@@ -148,7 +148,7 @@ export async function middleware(request: NextRequest) {
         const response = await api.post("/auth/refresh-token", {
           refreshToken: refreshToken.value,
         });
-        console.log("response.data", response.data);
+        // console.log("response.data", response.data);
 
         // If refresh successful, clone the response and add the new access token
         if (response.data.success) {

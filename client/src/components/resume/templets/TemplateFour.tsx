@@ -1848,8 +1848,9 @@ const createDynamicStyles = (config: StyleConfig) => {
     socialLinks: {
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 8,
-      marginBottom: 12,
+      columnGap: 8,
+      rowGap: 4,
+      marginBottom: 8,
     },
     linkText: {
       fontSize: values.fontSize?.body,

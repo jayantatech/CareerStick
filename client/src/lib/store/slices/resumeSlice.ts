@@ -227,7 +227,12 @@ const initialState: ResumeState = {
       isCustom: false,
     },
   ],
-  selectedSkills: [],
+  selectedSkills: [
+    {
+      id: "default-skill",
+      name: "",
+    },
+  ],
   customSkills: [],
   certificate: [
     {

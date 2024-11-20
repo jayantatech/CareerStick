@@ -23,7 +23,7 @@ const ResumeViewer = ({ resume, resumeId }: any) => {
   };
 
   useEffect(() => {
-    console.log("trying to call fetchResumeStyle");
+    // console.log("trying to call fetchResumeStyle");
     const fetchResumeStyle = async () => {
       try {
         console.log("fetchResumeStyle caled");
@@ -32,7 +32,7 @@ const ResumeViewer = ({ resume, resumeId }: any) => {
           userId: user?._id,
           resumeId: resumeId,
         });
-        console.log("response.data for fetchResumeStyle", response.data);
+        // console.log("response.data for fetchResumeStyle", response.data);
         if (response.data.success) {
           setStyleConfig(response.data.settings);
         }
@@ -41,7 +41,7 @@ const ResumeViewer = ({ resume, resumeId }: any) => {
       }
     };
     if (user?._id || resume._id) {
-      console.log("funcation is ok", user?._id, resumeId);
+      // console.log("funcation is ok", user?._id, resumeId);
       fetchResumeStyle();
     }
   }, [resume, !isLoading, resumeId, user?._id]);
@@ -50,7 +50,7 @@ const ResumeViewer = ({ resume, resumeId }: any) => {
     setActiveTemplate(resume.templateName);
   }, [resume]);
   const TemplateComponent = templateComponents[activeTemplate];
-  console.log("activeTemplate, resume", activeTemplate);
+  // console.log("activeTemplate, resume", activeTemplate);
   return (
     <PDFViewer
       className="w-full h-full border-none aspect-[1/1.41]  custom-scrollbar bg-red-800"

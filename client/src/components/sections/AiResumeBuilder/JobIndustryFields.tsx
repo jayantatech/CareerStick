@@ -171,25 +171,13 @@ const JobIndustryFields = () => {
       debouncedUpdateRedux(field, value);
     };
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 100);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
   return (
     <>
-      {/* <Skeleton
-        className={`w-full h-[88px] bg-blue-50  ${
-          isLoading ? "block" : "hidden"
-        }`}
-      /> */}
-      <div className={`w-full ${isLoading ? "hidden" : "block"}`}>
+      <div className={`w-full block lg:h-[75px]`}>
         <h3 className="font-heading font-semibold text-[16px] text-gray-900">
           Target Job & Industry
         </h3>
-        <div className="max-w-full h-auto flex items-center justify-center gap-2 py-3">
+        <div className="max-w-full h-auto flex items-center justify-center gap-2 pt-1">
           <div className="w-1/3">
             <FloatingLabelSelect
               label="Industry"

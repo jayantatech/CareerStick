@@ -772,7 +772,7 @@ const EmptyResumeCard = React.memo(() => {
               <h3 className="text-lg font-medium text-gray-700 group-hover:text-blue-600 transition-colors duration-300">
                 Create New Resume
               </h3>
-              <p className="text-sm text-gray-500 group-hover:text-blue-500 transition-colors duration-300 max-w-[250px]">
+              <p className="text-sm -ml-2 text-gray-500 group-hover:text-blue-500 transition-colors duration-300 max-w-[250px]">
                 Start building your professional resume with our easy-to-use
                 template
               </p>
@@ -952,9 +952,11 @@ const MyResume = () => {
       return <LoadingGrid />;
     }
 
-    const resumes = allResumes.map((resume) => {
+    const resumes = allResumes.reverse().map((resume) => {
       if (!resume) return null;
+      console.log("resume data to show", resume);
       const mappedData = mapMongoDataToReduxFormat(resume);
+      console.log("mappedData to show", mappedData);
       if (!mappedData) return null;
 
       return (
@@ -984,8 +986,8 @@ const MyResume = () => {
     });
 
     return [
-      ...(resumes.filter(Boolean) as JSX.Element[]),
       <EmptyResumeCard key="empty-card" />,
+      ...(resumes.filter(Boolean) as JSX.Element[]),
     ];
   }, [
     allResumes,
@@ -1002,13 +1004,6 @@ const MyResume = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      {/* <AppHeader
-        title="My Resumes"
-        buttonText="Create Resume"
-        iconName="add"
-        isLoading={isAuthLoading}
-        onButtonClick={() => handleCreateResume()}
-      /> */}
       <AppHeader
         title="My Resumes"
         buttonText="Create Resume"

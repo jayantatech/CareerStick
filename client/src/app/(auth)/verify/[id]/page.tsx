@@ -36,7 +36,7 @@ const Verify = () => {
           return;
         }
 
-        console.log("data send to verify", params.id);
+        // console.log("data send to verify", params.id);
 
         const response = await api.post(
           `/auth/verify-user/${params.id}`,
@@ -44,7 +44,7 @@ const Verify = () => {
           { withCredentials: true }
         );
 
-        console.log("Verification response:", response.data);
+        // console.log("Verification response:", response.data);
 
         if (response.data.success) {
           setVerificationState({

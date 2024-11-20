@@ -654,12 +654,12 @@ const getStyleValues = (config: StyleConfig = defaultStyleConfig) => {
     spacious: 1.8,
   };
 
-  const defaultFontSize = fontSizes.normal;
+  const defaultFontSize = fontSizes.large;
   const defaultMargins = margins.normal;
   const defaultLineHeight = lineHeights.normal;
 
   return {
-    fontSize: fontSizes[config.fontSize?.body || "normal"] || defaultFontSize,
+    fontSize: fontSizes[config.fontSize?.body || "large"] || defaultFontSize,
     headingSize:
       fontSizes[config.fontSize?.heading || "normal"] || defaultFontSize,
     pageMargin:
@@ -895,7 +895,9 @@ const ResumePDF = ({
   const styles = createDynamicStyles(styleConfig);
 
   const placeholderText = {
-    name: data?.personalInfo?.firstName || "Enter your name",
+    firstName: data?.personalInfo?.firstName || "Enter your name",
+    lastName: data?.personalInfo?.lastName || "",
+
     title: data?.jobIndustry?.targetJob || "Enter your job title",
     summary:
       data?.professionalSummary?.summaryText ||
@@ -916,7 +918,10 @@ const ResumePDF = ({
       <Page size="A4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
-          <Text style={styles.name}>{placeholderText.name}</Text>
+          <Text style={styles.name}>
+            {" "}
+            {placeholderText.firstName} {placeholderText.lastName}
+          </Text>
           <Text style={styles.title}>{placeholderText.title}</Text>
 
           <View style={styles.contactRow}>
@@ -988,76 +993,70 @@ const ResumePDF = ({
             </View>
 
             {/* Projects Section */}
-            {data.projects &&
-              data.projects.length > 0 &&
-              activeSections.projects && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>PROJECTS</Text>
-                  {data.projects.map((project, index) => (
-                    <View key={index} style={styles.projectItem}>
-                      <Text style={styles.projectTitle}>
-                        {project.title || "Enter project title"}
-                      </Text>
-                      <Text style={styles.projectRole}>
-                        {project.role || "Enter role"}
-                      </Text>
-                      <Text style={styles.description}>
-                        {project.contributions || "Enter project contributions"}
-                      </Text>
-                      {project.technologies &&
-                        project.technologies.length > 0 && (
-                          <View style={styles.technologies}>
-                            {project.technologies.map((tech, techIndex) => (
-                              <Text key={techIndex} style={styles.techItem}>
-                                {tech}
-                              </Text>
-                            ))}
-                          </View>
-                        )}
-                      {project.links && project.links.length > 0 && (
+            {activeSections.projects && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>PROJECTS</Text>
+                {data.projects.map((project, index) => (
+                  <View key={index} style={styles.projectItem}>
+                    <Text style={styles.projectTitle}>
+                      {project.title || "Enter project title"}
+                    </Text>
+                    <Text style={styles.projectRole}>
+                      {project.role || "Enter role"}
+                    </Text>
+                    <Text style={styles.description}>
+                      {project.contributions || "Enter project contributions"}
+                    </Text>
+                    {project.technologies &&
+                      project.technologies.length > 0 && (
                         <View style={styles.technologies}>
-                          {project.links.map((link, linkIndex) => (
-                            <Text key={linkIndex} style={styles.contactText}>
-                              {link.platform} : {link.url}
+                          {project.technologies.map((tech, techIndex) => (
+                            <Text key={techIndex} style={styles.techItem}>
+                              {tech}
                             </Text>
                           ))}
                         </View>
                       )}
-                    </View>
-                  ))}
-                </View>
-              )}
-            {/* custom Section */}
-            {data.customSections &&
-              data.customSections.length > 0 &&
-              data.customSections[0].title &&
-              activeSections.customSections && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>
-                    {data.customSections[0].title}
-                  </Text>
-                  {data.customSections.map((customSection, index) => (
-                    <View key={index} style={styles.projectItem}>
-                      <Text style={styles.projectTitle}>
-                        {customSection.subtitle || "Enter title"}
-                      </Text>
-                      <View style={styles.dateLocation}>
-                        <CalendarIcon />
-                        <Text>
-                          {customSection.startDate?.month}{" "}
-                          {customSection.startDate?.year} -{" "}
-                          {customSection.isPresent
-                            ? "Present"
-                            : `${customSection.endDate?.month} ${customSection.endDate?.year}`}
-                        </Text>
+                    {project.links && project.links.length > 0 && (
+                      <View style={styles.technologies}>
+                        {project.links.map((link, linkIndex) => (
+                          <Text key={linkIndex} style={styles.contactText}>
+                            {link.platform} : {link.url}
+                          </Text>
+                        ))}
                       </View>
-                      <Text style={styles.description}>
-                        {customSection.description || "Enter Description"}
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+            {/* custom Section */}
+            {activeSections.customSections && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  {data.customSections[0].title || "Custom Section Title"}
+                </Text>
+                {data.customSections.map((customSection, index) => (
+                  <View key={index} style={styles.projectItem}>
+                    <Text style={styles.projectTitle}>
+                      {customSection.subtitle || "Enter title"}
+                    </Text>
+                    <View style={styles.dateLocation}>
+                      <Text>
+                        {customSection.startDate?.month}{" "}
+                        {customSection.startDate?.year} -{" "}
+                        {customSection.isPresent
+                          ? "Present"
+                          : `${customSection.endDate?.month} ${customSection.endDate?.year}`}
                       </Text>
                     </View>
-                  ))}
-                </View>
-              )}
+                    <Text style={styles.description}>
+                      {customSection.description || "Enter Description"}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
 
           {/* Right Column */}
@@ -1105,75 +1104,67 @@ const ResumePDF = ({
             )}
 
             {/* Certifications Section */}
-            {data.certificate &&
-              data.certificate.length > 0 &&
-              activeSections.certificate && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>CERTIFICATION</Text>
-                  {data.certificate.map((cert, index) => (
-                    <View key={index} style={styles.educationItem}>
-                      <Text style={styles.schoolName}>
-                        {cert.name || "Enter certification name"}
-                      </Text>
-                      <Text style={styles.degreeText}>
-                        {cert.issuingOrganization ||
-                          "Enter issuing organization"}
-                      </Text>
-                      <Text style={styles.description}>
-                        {cert.description || "Enter certification description"}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              )}
+            {activeSections.certificate && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>CERTIFICATION</Text>
+                {data.certificate.map((cert, index) => (
+                  <View key={index} style={styles.educationItem}>
+                    <Text style={styles.schoolName}>
+                      {cert.name || "Enter certification name"}
+                    </Text>
+                    <Text style={styles.degreeText}>
+                      {cert.issuingOrganization || "Enter issuing organization"}
+                    </Text>
+                    <Text style={styles.description}>
+                      {cert.description || "Enter certification description"}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
 
             {/* Awards Section */}
-            {data.awards &&
-              data.awards.length > 0 &&
-              data.awards[0].name &&
-              activeSections.awards && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>AWARDS</Text>
-                  {data.awards.map((cert, index) => (
-                    <View key={index} style={styles.educationItem}>
-                      <Text style={styles.schoolName}>
-                        {cert.name || "Enter award name"}
-                      </Text>
-                      <Text style={styles.degreeText}>
-                        {cert.issuer || "Enter issuing organization"}
-                      </Text>
-                      <View style={styles.dateLocation}>
-                        <Text>
-                          {cert.date?.month} {cert.date?.year}
-                        </Text>
-                      </View>
-                      <Text style={styles.description}>
-                        {cert.description || "Enter certification description"}
+            {activeSections.awards && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>AWARDS</Text>
+                {data.awards.map((cert, index) => (
+                  <View key={index} style={styles.educationItem}>
+                    <Text style={styles.schoolName}>
+                      {cert.name || "Enter award name"}
+                    </Text>
+                    <Text style={styles.degreeText}>
+                      {cert.issuer || "Enter issuing organization"}
+                    </Text>
+                    <View style={styles.dateLocation}>
+                      <Text>
+                        {cert.date?.month} {cert.date?.year}
                       </Text>
                     </View>
-                  ))}
-                </View>
-              )}
+                    <Text style={styles.description}>
+                      {cert.description || "Enter certification description"}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
 
             {/* Languages Section */}
-            {data.languages &&
-              data.languages.length > 0 &&
-              data.languages[0].name &&
-              activeSections.languages && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>LANGUAGES</Text>
-                  {/* <View style={styles.languageItem}> */}
-                  {data.languages.map((language, index) => (
-                    <View key={index} style={styles.languageItem}>
-                      <Text style={styles.languageName}>{language.name}</Text>
-                      <Text style={styles.proficiencyBadge}>
-                        {language.proficiency}
-                      </Text>
-                    </View>
-                  ))}
-                  {/* </View> */}
-                </View>
-              )}
+            {activeSections.languages && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>LANGUAGES</Text>
+                {/* <View style={styles.languageItem}> */}
+                {data.languages.map((language, index) => (
+                  <View key={index} style={styles.languageItem}>
+                    <Text style={styles.languageName}>
+                      {language.name || "language"}
+                    </Text>
+                    <Text style={styles.proficiencyBadge}>
+                      {language.proficiency || "proficiency"}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

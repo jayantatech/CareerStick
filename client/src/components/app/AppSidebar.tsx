@@ -618,7 +618,9 @@ const AppSidebar = () => {
                 ? "bg-secondary text-primary"
                 : "bg-transparent hover:bg-[#F1F1F1]"
             } ${
-              item.locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              item.locked
+                ? "opacity-50 cursor-not-allowed hidden"
+                : "cursor-pointer"
             }`}
             onClick={() => handleNavItemClick(item)}
           >

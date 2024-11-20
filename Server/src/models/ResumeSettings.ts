@@ -49,7 +49,7 @@ const ResumeSettingsSchema = new Schema<IResumeSettings>({
     body: {
       type: String,
       enum: ["small", "normal", "large", "extraLarge"],
-      default: "normal",
+      default: "large",
     },
     heading: {
       type: String,

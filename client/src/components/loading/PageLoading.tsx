@@ -4,22 +4,12 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PageLoading() {
-  //   const router = useRouter();
-
-  //   useEffect(() => {
-  //     const timeout = setTimeout(() => {
-  //       router.push("/dashboard"); // Replace with your target route
-  //     }, 1500);
-
-  //     return () => clearTimeout(timeout);
-  //   }, [router]);
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-950/90 backdrop-blur-md z-50">
       <div className="flex flex-col items-center gap-6 text-center">
         {/* Main message */}
         <h2 className="max-lg:text-3xl lg:text-5xl font-extrabold text-[#3B41E9] font-heading capitalize">
-          Land your dream job effortlessly{" "}
+          Let AI simplify your resume journey
         </h2>
 
         {/* Loading indicator with animated dots */}

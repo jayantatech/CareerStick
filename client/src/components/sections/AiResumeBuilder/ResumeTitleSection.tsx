@@ -73,7 +73,7 @@ const ResumeTitleField = () => {
           Resume Title
         </h3> */}
         <div className="flex flex-col gap-4">
-          <div className="w-full h-auto">
+          <div className="w-full h-auto -mt-2">
             <FloatingLabelInput
               label="Resume Title"
               inputType="text"

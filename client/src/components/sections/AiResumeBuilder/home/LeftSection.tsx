@@ -46,9 +46,11 @@ const LeftSection = () => {
   const currentTemplate = useAppSelector(
     (state) => state.templateSlice.currentTemplate
   );
+  const nowSettings = useAppSelector((state) => state.resumeStyle);
   const handleGenerateResume = () => {
-    console.log("Complete activeSections:", resumeData);
-    console.log("currentTemplate data", currentTemplate);
+    console.log("Complete activeSections:", activeSections);
+    console.log("Complete nowSettings:", nowSettings);
+    // console.log("currentTemplate data", currentTemplate);
     // Add your resume generation logic here
   };
 

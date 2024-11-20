@@ -501,7 +501,7 @@ const PersonalInformationFields = () => {
             </div>
           </div>
 
-          <div className="w-full h-auto flex items-center justify-center gap-2">
+          {/* <div className="w-full h-auto flex items-center justify-center gap-2">
             <div className="w-1/2 h-auto">
               <FloatingLabelInput
                 label="Address"
@@ -518,7 +518,7 @@ const PersonalInformationFields = () => {
                 onChange={handleInputChange("postalCode")}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>{" "}
     </div>

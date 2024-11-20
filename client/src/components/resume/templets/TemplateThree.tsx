@@ -162,7 +162,7 @@ const createDynamicStyles = (config: StyleConfig) => {
       lineHeight: values?.lineHeight,
     },
     section: {
-      marginBottom: values.sectionMargin,
+      marginBottom: values.sectionMargin - 6,
     },
     sectionTitle: {
       fontSize: values.headingSize?.heading,
@@ -172,12 +172,13 @@ const createDynamicStyles = (config: StyleConfig) => {
       borderBottomColor: "#E5E7EB",
       paddingBottom: 4,
       marginBottom: 8,
+      textTransform: "uppercase",
     },
     socialLinks: {
       flexDirection: "row",
       flexWrap: "wrap",
       gap: 12,
-      marginTop: 8,
+      marginTop: 4,
     },
     projectItem: {
       marginBottom: 12,
@@ -473,76 +474,70 @@ const TemplateThree = ({
             </View>
 
             {/* Projects Section */}
-            {data.projects &&
-              // data.projects.length > 0 &&
-              activeSections.projects && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>PROJECTS</Text>
-                  {data.projects.map((project, index) => (
-                    <View key={index} style={styles.projectItem}>
-                      <Text style={styles.projectTitle}>
-                        {project.title || "Enter project title"}
-                      </Text>
-                      <Text style={styles.projectRole}>
-                        {project.role || "Enter role"}
-                      </Text>
-                      <Text style={styles.description}>
-                        {project.contributions || "Enter project contributions"}
-                      </Text>
-                      {project.technologies &&
-                        project.technologies.length > 0 && (
-                          <View style={styles.technologies}>
-                            {project.technologies.map((tech, techIndex) => (
-                              <Text key={techIndex} style={styles.techItem}>
-                                {tech}
-                              </Text>
-                            ))}
-                          </View>
-                        )}
-                      {project.links && project.links.length > 0 && (
+            {activeSections.projects && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>PROJECTS</Text>
+                {data.projects.map((project, index) => (
+                  <View key={index} style={styles.projectItem}>
+                    <Text style={styles.projectTitle}>
+                      {project.title || "Enter project title"}
+                    </Text>
+                    <Text style={styles.projectRole}>
+                      {project.role || "Enter role"}
+                    </Text>
+                    <Text style={styles.description}>
+                      {project.contributions || "Enter project contributions"}
+                    </Text>
+                    {project.technologies &&
+                      project.technologies.length > 0 && (
                         <View style={styles.technologies}>
-                          {project.links.map((link, linkIndex) => (
-                            <Text key={linkIndex} style={styles.contactText}>
-                              {link.platform} : {link.url}
+                          {project.technologies.map((tech, techIndex) => (
+                            <Text key={techIndex} style={styles.techItem}>
+                              {tech}
                             </Text>
                           ))}
                         </View>
                       )}
-                    </View>
-                  ))}
-                </View>
-              )}
-            {/* custom Section */}
-            {data.customSections &&
-              data.customSections.length > 0 &&
-              data.customSections[0].title &&
-              activeSections.customSections && (
-                <View style={styles.section}>
-                  <Text style={styles.sectionTitle}>
-                    {data.customSections[0].title}
-                  </Text>
-                  {data.customSections.map((customSection, index) => (
-                    <View key={index} style={styles.projectItem}>
-                      <Text style={styles.projectTitle}>
-                        {customSection.subtitle || "Enter title"}
-                      </Text>
-                      <View style={styles.dateLocation}>
-                        <CalendarIcon />
-                        <Text>
-                          {customSection.startDate?.month}{" "}
-                          {customSection.startDate?.year} -{" "}
-                          {customSection.isPresent
-                            ? "Present"
-                            : `${customSection.endDate?.month} ${customSection.endDate?.year}`}
-                        </Text>
+                    {project.links && project.links.length > 0 && (
+                      <View style={styles.technologies}>
+                        {project.links.map((link, linkIndex) => (
+                          <Text key={linkIndex} style={styles.contactText}>
+                            {link.platform} : {link.url}
+                          </Text>
+                        ))}
                       </View>
-                      <Text style={styles.description}>
-                        {customSection.description || "Enter Description"}
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+            {/* custom Section */}
+            {activeSections.customSections && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  {data.customSections[0].title || "Enter Custom Section Title"}
+                </Text>
+                {data.customSections.map((customSection, index) => (
+                  <View key={index} style={styles.projectItem}>
+                    <Text style={styles.projectTitle}>
+                      {customSection.subtitle || "Enter title"}
+                    </Text>
+                    <View style={styles.dateLocation}>
+                      <Text>
+                        {customSection.startDate?.month}{" "}
+                        {customSection.startDate?.year} -{" "}
+                        {customSection.isPresent
+                          ? "Present"
+                          : `${customSection.endDate?.month} ${customSection.endDate?.year}`}
                       </Text>
                     </View>
-                  ))}
-                </View>
-              )}
+                    <Text style={styles.description}>
+                      {customSection.description || "Enter Description"}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
             {activeSections.education && activeThreeSections === 4 && (
               <View
                 style={
@@ -629,120 +624,111 @@ const TemplateThree = ({
                   ))}
                 </View>
               )}
-              {data.certificate &&
-                data.certificate.length > 0 &&
-                activeSections.certificate && (
-                  <View
-                    style={
-                      (styles.section,
-                      {
-                        width: `${
-                          activeThreeSections == 1
-                            ? "100%"
-                            : activeThreeSections == 2
-                            ? "50%"
-                            : activeThreeSections == 3
-                            ? "33%"
-                            : activeThreeSections == 4 && "33%"
-                        }`,
-                      })
-                    }
-                  >
-                    <Text style={styles.sectionTitle}>CERTIFICATION</Text>
-                    {data.certificate.map((cert, index) => (
-                      <View key={index} style={styles.educationItem}>
-                        <Text style={styles.schoolName}>
-                          {cert.name || "Enter certification name"}
-                        </Text>
-                        <Text style={styles.degreeText}>
-                          {cert.issuingOrganization ||
-                            "Enter issuing organization"}
-                        </Text>
-                        <Text style={styles.description}>
-                          {cert.description ||
-                            "Enter certification description"}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
+              {activeSections.certificate && (
+                <View
+                  style={
+                    (styles.section,
+                    {
+                      width: `${
+                        activeThreeSections == 1
+                          ? "100%"
+                          : activeThreeSections == 2
+                          ? "50%"
+                          : activeThreeSections == 3
+                          ? "33%"
+                          : activeThreeSections == 4 && "33%"
+                      }`,
+                    })
+                  }
+                >
+                  <Text style={styles.sectionTitle}>CERTIFICATION</Text>
+                  {data.certificate.map((cert, index) => (
+                    <View key={index} style={styles.educationItem}>
+                      <Text style={styles.schoolName}>
+                        {cert.name || "Enter certification name"}
+                      </Text>
+                      <Text style={styles.degreeText}>
+                        {cert.issuingOrganization ||
+                          "Enter issuing organization"}
+                      </Text>
+                      <Text style={styles.description}>
+                        {cert.description || "Enter certification description"}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              )}
 
-              {data.awards &&
-                data.awards.length > 0 &&
-                data.awards[0].name &&
-                activeSections.awards && (
-                  <View
-                    style={
-                      (styles.section,
-                      {
-                        width: `${
-                          activeThreeSections == 1
-                            ? "100%"
-                            : activeThreeSections == 2
-                            ? "50%"
-                            : activeThreeSections == 3
-                            ? "33%"
-                            : activeThreeSections == 4 && "33%"
-                        }`,
-                      })
-                    }
-                  >
-                    <Text style={styles.sectionTitle}>AWARDS</Text>
-                    {data.awards.map((cert, index) => (
-                      <View key={index} style={styles.educationItem}>
-                        <Text style={styles.schoolName}>
-                          {cert.name || "Enter award name"}
-                        </Text>
-                        <Text style={styles.degreeText}>
-                          {cert.issuer || "Enter issuing organization"}
-                        </Text>
-                        <View style={styles.dateLocation}>
-                          <Text>
-                            {cert.date?.month} {cert.date?.year}
-                          </Text>
-                        </View>
-                        <Text style={styles.description}>
-                          {cert.description ||
-                            "Enter certification description"}
+              {activeSections.awards && (
+                <View
+                  style={
+                    (styles.section,
+                    {
+                      width: `${
+                        activeThreeSections == 1
+                          ? "100%"
+                          : activeThreeSections == 2
+                          ? "50%"
+                          : activeThreeSections == 3
+                          ? "33%"
+                          : activeThreeSections == 4 && "33%"
+                      }`,
+                    })
+                  }
+                >
+                  <Text style={styles.sectionTitle}>AWARDS</Text>
+                  {data.awards.map((cert, index) => (
+                    <View key={index} style={styles.educationItem}>
+                      <Text style={styles.schoolName}>
+                        {cert.name || "Enter award name"}
+                      </Text>
+                      <Text style={styles.degreeText}>
+                        {cert.issuer || "Enter issuing organization"}
+                      </Text>
+                      <View style={styles.dateLocation}>
+                        <Text>
+                          {cert.date?.month} {cert.date?.year}
                         </Text>
                       </View>
-                    ))}
-                  </View>
-                )}
-              {data.languages &&
-                data.languages.length > 0 &&
-                activeSections.languages && (
-                  <View
-                    style={
-                      (styles.section,
-                      {
-                        width: `${
-                          activeThreeSections == 1
-                            ? "100%"
-                            : activeThreeSections == 2
-                            ? "50%"
-                            : activeThreeSections == 3
-                            ? "33%"
-                            : activeThreeSections == 4 && "33%"
-                        }`,
-                      })
-                    }
-                  >
-                    <Text style={styles.sectionTitle}>LANGUAGES</Text>
-                    {data.languages.map((language, index) => (
+                      <Text style={styles.description}>
+                        {cert.description || "Enter certification description"}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+              {activeSections.languages && (
+                <View
+                  style={
+                    (styles.section,
+                    {
+                      width: `${
+                        activeThreeSections == 1
+                          ? "100%"
+                          : activeThreeSections == 2
+                          ? "50%"
+                          : activeThreeSections == 3
+                          ? "33%"
+                          : activeThreeSections == 4 && "33%"
+                      }`,
+                    })
+                  }
+                >
+                  <Text style={styles.sectionTitle}>LANGUAGES</Text>
+                  {data.languages.map((language, index) => (
+                    <View key={index} style={styles.languageItem}>
                       <View key={index} style={styles.languageItem}>
-                        <View key={index} style={styles.languageItem}>
-                          <Text style={styles.languageName}>
-                            {language.name || "Enter language "}
-                          </Text>
-                          <Text style={styles.proficiencyBadge}>
-                            {language.proficiency || "Enter proficiency"}
-                          </Text>
-                        </View>
+                        <Text style={styles.languageName}>
+                          {language.name || "Language "}
+                        </Text>
+                        <Text style={styles.proficiencyBadge}>
+                          {language.proficiency || "Proficiency"}
+                        </Text>
                       </View>
-                    ))}
-                  </View>
-                )}
+                    </View>
+                  ))}
+                </View>
+              )}
             </View>
           </View>
         </View>

@@ -368,7 +368,7 @@ const ResumeViewBox = ({
   return (
     <>
       <div className="w-full h-[198px] rounded absolute flex items-center justify-center bottom-4 left-0 z-50">
-        <div className="w-[94%] h-full bg-slate-50 border shadow-md rounded p-3">
+        <div className="w-[94%] h-full bg-slate-50   border shadow rounded p-3">
           <div className="flex items-center gap-2 w-full justify-between relative">
             {isEditing ? (
               <>
@@ -376,7 +376,7 @@ const ResumeViewBox = ({
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="text-lg font-heading border rounded font-bold border-none outline-none"
+                  className="text-lg w-full bg-slate-100 font-heading border rounded font-bold border-none outline-none"
                   disabled={loading}
                   autoFocus
                 />

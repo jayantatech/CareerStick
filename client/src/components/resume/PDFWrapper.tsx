@@ -62,7 +62,7 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
   useEffect(() => {
     if (!validateResumeId(params?.id)) return;
     if (!user?._id) return;
-    console.log("Fetching resume template name....");
+    // console.log("Fetching resume template name....");
 
     const fetchResumeTemplateName = async () => {
       try {
@@ -72,7 +72,7 @@ const PDFWrapper = ({ data }: PDFWrapperProps) => {
             userId: user._id,
           }
         );
-        console.log("response.data for resume template name", response.data);
+        // console.log("response.data for resume template name", response.data);
         if (response.data.success && response.data.templateName) {
           setActiveTemplate(response.data.templateName);
           dispatch(setCurrentTemplate(response.data.templateName));

@@ -262,7 +262,10 @@ const saveResume = async (req: Request, res: Response) => {
       });
     }
 
-    await resume.updateOne({ $set: mappedData }, { new: true });
+    await resume.updateOne(
+      { $set: mappedData, updatedAt: Date.now() },
+      { new: true }
+    );
 
     return res.status(200).json({
       success: true,
@@ -326,14 +329,14 @@ const getResume = async (req: Request, res: Response) => {
     }
 
     const typedResume = resume.toObject();
-
+    console.log("typedResume", typedResume);
     // Transform the resume data to match the Redux state structure
     const transformedResume = {
       resumeTitle: typedResume.resumeTitle,
       jobIndustry: {
-        targetJob: typedResume.targetJobTitle,
-        industry: typedResume.targetedJobAndIndustry?.industry,
-        experience: typedResume.targetedJobAndIndustry?.experience,
+        targetJob: typedResume.targetedJobAndIndustry?.targetJob || "",
+        industry: typedResume.targetedJobAndIndustry?.industry || "",
+        experience: typedResume.targetedJobAndIndustry?.experience || "",
       },
       personalInfo: {
         firstName: typedResume.personalInfo?.name?.split(" ")[0] || "",
@@ -827,11 +830,11 @@ const getAllResumes = async (req: Request, res: Response) => {
 
       return {
         _id: resume._id,
-        resumeTitle: typedResume.resumeTitle,
+        resumeTitle: typedResume?.resumeTitle || "",
         jobIndustry: {
-          targetJob: typedResume.targetJobTitle,
-          industry: typedResume.targetedJobAndIndustry?.industry,
-          experience: typedResume.targetedJobAndIndustry?.experience,
+          targetJob: typedResume.targetedJobAndIndustry?.targetJob || "",
+          industry: typedResume.targetedJobAndIndustry?.industry || "",
+          experience: typedResume.targetedJobAndIndustry?.experience || "",
         },
         personalInfo: {
           firstName: typedResume.personalInfo?.name?.split(" ")[0] || "",
