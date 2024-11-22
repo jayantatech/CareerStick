@@ -31,6 +31,7 @@ import { TbLayoutCollage } from "react-icons/tb";
 import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
 import useAuth from "@/lib/hooks/useAuth";
 import { useParams, usePathname } from "next/navigation";
+import { toast } from "sonner";
 
 const ResumeFeatureBox = () => {
   const resumeData = useAppSelector((state) => state.resume);
@@ -91,7 +92,6 @@ const ResumeFeatureBox = () => {
   const userSubmittedInfo = useAppSelector((state) => state.resume);
   const { user, isLoading } = useAuth();
   const handleGenerateResume = async () => {
-    console.log("data sending in the backend is ", params.id);
     if (isLoading) return;
     if (!user?._id) return;
     if (!params.id) return;
@@ -102,9 +102,14 @@ const ResumeFeatureBox = () => {
       params?.id as string
     );
     if (result.success) {
-      console.log(result.message);
+      // console.log(result.message);
+      toast.success(result.message as string);
     } else {
-      console.error(result.message);
+      if (result.success === false) {
+        console.error(result.message);
+        toast.error(result.message as string);
+        return;
+      }
     }
   };
 
@@ -224,13 +229,15 @@ const ResumeFeatureBox = () => {
           </span>
         </div>
         <div
-          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+          className={`w-full h-auto py-[3px] mb-0.5 rounded  text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 cursor-pointer ${
             resumeFeatureState.ATSOptimizationBoxState
               ? "border-primary text-primary shadow"
               : "text-gray-700 border-transparent"
           }`}
+          // i will enable this later
           onClick={() => handleATSOptimizationBoxOpenState()}
         >
+          {/* <div className="w-full h-full absolute top-0 left-0">COMING SOON</div> */}
           <MdOutlineVerified className="text-[18px] -mt-0.5" />
 
           <span className="font-heading font-semibold text-[15px]">
@@ -239,12 +246,13 @@ const ResumeFeatureBox = () => {
         </div>
 
         <div
-          className={`w-full h-auto py-[3px] mb-0.5  rounded cursor-pointer text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
+          className={`w-full h-auto py-[3px] mb-0.5 opacity-50 cursor-not-allowed rounded text-gray-700 flex items-center justify-start border   hover:border-primary hover:text-primary  p-1.5 gap-1 ${
             resumeFeatureState.AISuggestionBoxState
               ? "border-primary text-primary shadow"
               : "text-gray-700 border-transparent"
           }`}
-          onClick={() => handleAISuggestionBoxOpenState()}
+          // i will enable this later
+          // onClick={() => handleAISuggestionBoxOpenState()}
         >
           <BiSelectMultiple className="text-[18px] -mt-0.5" />
 

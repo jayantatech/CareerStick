@@ -314,6 +314,7 @@ export const useResumeData = () => {
           success: boolean;
         }>;
         console.error("Error fetching resume data:", axiosError);
+        dispatch(setResumeState(false));
         if (
           axiosError.response?.status === 404 ||
           axiosError.response?.data.success === false

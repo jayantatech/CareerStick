@@ -2165,9 +2165,11 @@ const TemplateFour = ({
                     <Text style={styles.jobTitle}>
                       {cert.issuingOrganization || "Enter issuing organization"}
                     </Text>
-                    <Text style={styles.description}>
-                      {cert.description || "Enter certification description"}
-                    </Text>
+                    {cert.description.length > 0 && (
+                      <Text style={styles.description}>
+                        {cert.description || "Enter certification description"}
+                      </Text>
+                    )}
                   </View>
                 ))}
               </View>

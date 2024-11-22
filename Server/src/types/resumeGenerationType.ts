@@ -104,6 +104,7 @@ import { Document } from "mongoose";
 // }
 
 export interface IResumeGenerationRequest {
+  targetJobTitle: any;
   resumeTitle?: string;
   jobIndustry?: {
     industry?: string;

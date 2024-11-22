@@ -14,7 +14,10 @@ import {
   updateProfessionalSummary,
 } from "../store/slices/resumeSlice";
 import { Dispatch } from "redux";
-import { setResumeState } from "../store/slices/resumeStateChangeSlice";
+import {
+  setIsAIFeatureRequested,
+  setResumeState,
+} from "../store/slices/resumeStateChangeSlice";
 
 export const handleAIResumeGenerate = async (
   resumeData: any,
@@ -29,6 +32,7 @@ export const handleAIResumeGenerate = async (
         message: "No resume data available",
       };
     console.log("resumeData is : ", resumeData);
+    dispatch(setIsAIFeatureRequested(true));
     const response = await api.post("/ai/generate-resume", {
       resumeData: resumeData,
       resumeId: resumeId,
@@ -37,6 +41,8 @@ export const handleAIResumeGenerate = async (
 
     if (response.data.success) {
       dispatch(setResumeState(true));
+      dispatch(setIsAIFeatureRequested(false));
+
       console.log("response.data is : ", response.data);
     }
 
@@ -67,10 +73,11 @@ export const handleAIResumeGenerate = async (
     };
   } catch (error) {
     console.error("Error generating resume:", error);
+    dispatch(setIsAIFeatureRequested(false));
+
     return {
       success: false,
-      message: "Internal server error",
-      error: error,
+      message: error,
     };
   }
 };

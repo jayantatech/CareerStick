@@ -469,11 +469,11 @@ const ResumeViewBox = ({
           <div className="mt-2 h-[36px] rounded border-gray-200 flex items-center justify-between">
             <div className="text-sm text-gray-500 flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              Created: {formatDate(resume.createdAt)}
+              Updated: {formatDate(resume.updatedAt)}
             </div>
             <div className="text-sm text-gray-500 flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              Updated: {formatDate(resume.updatedAt)}
+              Created: {formatDate(resume.createdAt)}
             </div>
           </div>
         </div>

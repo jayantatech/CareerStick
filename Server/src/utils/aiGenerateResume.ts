@@ -948,8 +948,9 @@ const resumeJSONSchema = {
   languages: [
     {
       id: "string",
-      name: "string",
-      proficiency: "string",
+      name: "string in small letter",
+      proficiency:
+        "string enum ['beginner', 'intermediate', 'advanced', 'native']",
       isCustom: "boolean",
     },
   ],
@@ -1065,6 +1066,9 @@ Key Requirements:
     jobIndustry?.targetJob
   } position in ${jobIndustry?.industry} industry
 7. Tailor the content based on ${jobIndustry?.experience} years of experience
+8. Focus on using the most relevant keywords and skills for the ${
+    jobIndustry?.targetJob
+  } role
 
 Schema-Specific Guidelines:
 
@@ -1076,8 +1080,9 @@ jobIndustry:
 1. Personal Information:
    - Generate a professional summary focused on ${jobIndustry?.targetJob} role
    - Location should include city and country
-   - Keep contact details professional and business-appropriate 
-   - Do not make assumptions about Personal Information like phone number or email If number provided return the number, if no number provided use country code and xx like +91-xxxxxxxxxx
+   - Keep contact details professional and business-appropriate
+   -Make the professionalSummary summaryText short around 40 words but not too short and make it as one paragraph description not as a list but make this inside one array of string ["one paragraph description"]
+   - Do not make assumptions about Personal Information like phone number or email If number provided return the number or if email not provided keep it empty,
    - Do not make assumptions or add any content unless explicitly specified about sensitive personal information such as:
      Phone numbers
      Email addresses
@@ -1100,7 +1105,7 @@ jobIndustry:
      * Name of the skill
      * Proficiency level
      * Years of experience
-     * If No skills listed, then add minimum 10-15 skills by analyzing the job description and work experience and flow the same format
+     * If No skills listed, then add minimum 10-12 skills by analyzing the job description and work experience and flow the same format
      * Based on the current skill, job title, and years of experience. If you think they should have more skills listed, then feel free to add them by following the same format
    - Include relevant soft skills for ${jobIndustry?.targetJob}
 
@@ -1115,8 +1120,12 @@ jobIndustry:
 
 6. Project Sections:
    - Projects should highlight technical abilities
-   - It is essential to make the project description under 30-35 words and add only important achievements
-   -
+   - It is essential to make the project description under 35-40 words and add only important achievements
+   - In the project contributions, use action verbs relevant to ${
+     jobIndustry?.targetJob
+   } (e.g., "developed," "optimized," "led").
+   - Make the contributions as one paragraph contributions string  not as a list or array  like contributions: "string",
+
 7. Additional Sections:
    - Projects should highlight technical abilities
    - Publications and awards should be industry-relevant
@@ -1124,6 +1133,7 @@ jobIndustry:
 
 8. Languages Section:
   -If No languages provided, then understand the information, user location and other related info and based on that add communication languages and add 3 languages by following the same format
+  -In the mongoDB schema languages in the enum format it could be native or advanced or intermediate or beginner nothing else
 
 8. ATS Optimization:
    - Calculate ATS compatibility score (0-100)

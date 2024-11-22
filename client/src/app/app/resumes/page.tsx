@@ -951,8 +951,12 @@ const MyResume = () => {
     if (isDataLoading) {
       return <LoadingGrid />;
     }
-
-    const resumes = allResumes.reverse().map((resume) => {
+    const sortedResumes = [...allResumes].sort((a, b) => {
+      const dateA = new Date(a.updatedAt as string).getTime();
+      const dateB = new Date(b.updatedAt as string).getTime();
+      return dateB - dateA;
+    });
+    const resumes = sortedResumes.map((resume) => {
       if (!resume) return null;
       console.log("resume data to show", resume);
       const mappedData = mapMongoDataToReduxFormat(resume);

@@ -102,7 +102,7 @@ const ResumeSettingsSchema = new Schema<IResumeSettings>({
     certificate: { type: Boolean, default: false },
     awards: { type: Boolean, default: false },
     openSourceContributions: { type: Boolean, default: false },
-    customSections: { type: Boolean, default: true },
+    customSections: { type: Boolean, default: false },
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

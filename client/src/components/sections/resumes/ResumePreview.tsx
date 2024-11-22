@@ -711,7 +711,7 @@ const createDynamicStyles = (config: StyleConfig) => {
       lineHeight: values.lineHeight,
     },
     section: {
-      marginBottom: values.sectionMargin,
+      marginBottom: values.sectionMargin - 6,
     },
     sectionTitle: {
       fontSize: values.headingSize?.heading,
@@ -725,8 +725,8 @@ const createDynamicStyles = (config: StyleConfig) => {
     socialLinks: {
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 12,
-      marginTop: 8,
+      gap: 8,
+      marginTop: 4,
     },
     projectItem: {
       marginBottom: 12,
@@ -1115,9 +1115,25 @@ const ResumePDF = ({
                     <Text style={styles.degreeText}>
                       {cert.issuingOrganization || "Enter issuing organization"}
                     </Text>
-                    <Text style={styles.description}>
-                      {cert.description || "Enter certification description"}
-                    </Text>
+                    <View style={styles.dateLocation}>
+                      <Text>
+                        {`Issued: ${cert.issueDate?.month} ${cert.issueDate?.year}`}
+                        {cert.isNeverExpires
+                          ? ""
+                          : `- ${cert.expirationDate?.month} ${cert.expirationDate?.year}`}
+                      </Text>
+                    </View>
+                    <View style={styles.summaryText}>
+                      <Text>{`ID: ${cert.credentialId}`}</Text>
+                    </View>
+                    <View style={styles.summaryText}>
+                      <Text>{`Verification Url: ${cert.verificationUrl}`}</Text>
+                    </View>
+                    {cert.description.length > 0 && (
+                      <Text style={styles.description}>
+                        {cert.description || "Enter certification description"}
+                      </Text>
+                    )}
                   </View>
                 ))}
               </View>

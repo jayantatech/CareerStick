@@ -536,13 +536,13 @@ const AppSidebar = () => {
     },
     {
       icon: SiCodemagic,
-      label: "AI Resume Optimization",
-      path: "/app/resume-optimization",
+      label: "AI Resume Optimizer",
+      path: "/app/resume-Optimizer",
     },
     {
       icon: FaUserCheck,
-      label: "AI Interview Prep",
-      path: "/app/interview-prep",
+      label: "AI Interview Coach",
+      path: "/app/interview-coach",
     },
     { icon: IoMove, label: "Job Tracker", path: "/app/job-tracker" },
     { icon: BsFillFileTextFill, label: "Templates", path: "/app/templates" },

@@ -575,6 +575,7 @@ const updateResumeTemplate = async (req: Request, res: Response) => {
       });
     }
     resume.templateName = template;
+    resume.updatedAt = new Date();
     await resume.save();
 
     return res.status(200).json({
@@ -1254,6 +1255,8 @@ const duplicateResume = async (req: Request, res: Response) => {
     const newSettings = new ResumeSettings({
       ...originalSettings.toObject(),
       _id: new mongoose.Types.ObjectId(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
 
     // Save the new settings
@@ -1365,6 +1368,7 @@ const updateResumeTitle = async (req: Request, res: Response) => {
 
     // Update the resume title
     resume.resumeTitle = resumeTitle.trim();
+    resume.updatedAt = new Date();
     await resume.save();
 
     return res.status(200).json({
