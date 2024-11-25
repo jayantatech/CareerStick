@@ -53,9 +53,12 @@ const ResumeViewer = ({ resume, resumeId }: any) => {
   // console.log("activeTemplate, resume", activeTemplate);
   return (
     <PDFViewer
-      className="w-full h-full border-none aspect-[1/1.41]  custom-scrollbar bg-red-800"
+      className="w-full h-full border-none  aspect-[1/1.41]  custom-scrollbar bg-red-800"
       showToolbar={false}
-      style={{ backgroundColor: "white", color: "white" }}
+      style={{
+        backgroundColor: "white",
+        color: "white",
+      }}
     >
       <TemplateComponent styleConfig={styleConfig} data={resume} />
     </PDFViewer>

@@ -12,6 +12,7 @@ import XssProtection from "./middlewares/xssProtection";
 import passport from "passport";
 import session from "express-session";
 import connectDB from "./config/connectDB";
+import blogRoutes from "./routes/blogRoutes";
 
 dotenv.config();
 
@@ -58,6 +59,7 @@ app.use("/api/v1/auth", userAuthRoutes);
 // app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/ai", aiFeaturesRoutes);
 app.use("/api/v1/resume", resumeRoutes);
+app.use("/api/v1/blog", blogRoutes);
 
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);

@@ -919,8 +919,8 @@ const ResumePDF = ({
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>
-            {" "}
-            {placeholderText.firstName} {placeholderText.lastName}
+            {`${placeholderText.firstName} ${placeholderText.lastName}`}
+            {/* {placeholderText.firstName} {placeholderText.lastName} */}
           </Text>
           <Text style={styles.title}>{placeholderText.title}</Text>
 

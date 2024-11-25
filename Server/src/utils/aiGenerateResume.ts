@@ -1119,7 +1119,7 @@ jobIndustry:
    -  Do not make assumptions or add any socialLinks if the user does not have any socialLinks keep it empty
 
 6. Project Sections:
-   - Projects should highlight technical abilities
+   - Projects should highlight technical abilities 
    - It is essential to make the project description under 35-40 words and add only important achievements
    - In the project contributions, use action verbs relevant to ${
      jobIndustry?.targetJob

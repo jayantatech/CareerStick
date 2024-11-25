@@ -64,6 +64,7 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["Nunito", "sans-serif"],
+        blogText: ["Nunito", "sans-serif"],
         body: ["Lato", "sans-serif"],
       },
       borderRadius: {
