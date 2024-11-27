@@ -190,8 +190,16 @@ const s3 = new S3Client({
   },
 });
 
-export async function uploadToS3(file: File): Promise<string> {
-  const fileName = `profile/${Date.now()}-careerstick.com`;
+export enum folderNameEnum {
+  profile = "profile",
+  blog = "blog",
+}
+
+export async function uploadToS3(
+  file: File,
+  folderName: folderNameEnum = folderNameEnum.profile
+): Promise<string> {
+  const fileName = `${folderName}/${Date.now()}-careerstick.com`;
 
   const params = {
     Bucket: bucketName as string, // Ensuring Bucket is treated as a string

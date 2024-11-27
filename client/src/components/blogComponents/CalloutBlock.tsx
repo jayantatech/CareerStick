@@ -82,7 +82,7 @@ export default function CalloutBlock({ content, onChange }: CalloutBlockProps) {
       />
       <div className="space-y-2">
         <h4 className="font-bold">Links</h4>
-        {content.links.map((link, index) => (
+        {content.links?.map((link, index) => (
           <div key={index} className="space-y-1">
             <input
               type="text"

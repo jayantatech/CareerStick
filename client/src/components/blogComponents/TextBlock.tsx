@@ -1,114 +1,120 @@
-// import React, { useState } from "react";
+// "use client";
+
+// import React, { useState, useEffect } from "react";
+// import dynamic from "next/dynamic";
+
+// const DynamicEditor = dynamic(
+//   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+//   { ssr: false }
+// );
+// import { EditorState, convertToRaw, ContentState } from "draft-js";
+// import draftToHtml from "draftjs-to-html";
+// import htmlToDraft from "html-to-draftjs";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+// interface Link {
+//   text: string;
+//   url: string;
+//   type: "internal" | "external";
+//   openInNewTab: boolean;
+// }
 
 // interface TextBlockProps {
-//   content: string;
-//   onChange: (content: string) => void;
+//   content: { html: string; links: Link[] };
+//   onChange: (content: { html: string; links: Link[] }) => void;
 // }
 
 // export default function TextBlock({ content, onChange }: TextBlockProps) {
-//   const [isBold, setIsBold] = useState(false);
-//   const [isItalic, setIsItalic] = useState(false);
-//   const [isUnderline, setIsUnderline] = useState(false);
-//   const [showLinkModal, setShowLinkModal] = useState(false);
-//   const [linkText, setLinkText] = useState("");
-//   const [linkUrl, setLinkUrl] = useState("");
-//   const [linkType, setLinkType] = useState("internal");
-//   const [openInNewTab, setOpenInNewTab] = useState(false);
+//   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+//   const [links, setLinks] = useState<Link[]>(content.links || []);
 
-//   const applyStyle = (style: string) => {
-//     let newContent = content;
-//     if (style === "bold") {
-//       newContent = isBold
-//         ? newContent.replace(/\*\*(.*?)\*\*/g, "$1")
-//         : `**${newContent}**`;
-//       setIsBold(!isBold);
-//     } else if (style === "italic") {
-//       newContent = isItalic
-//         ? newContent.replace(/\*(.*?)\*/g, "$1")
-//         : `*${newContent}*`;
-//       setIsItalic(!isItalic);
-//     } else if (style === "underline") {
-//       newContent = isUnderline
-//         ? newContent.replace(/__(.*?)__/g, "$1")
-//         : `__${newContent}__`;
-//       setIsUnderline(!isUnderline);
+//   useEffect(() => {
+//     if (content.html) {
+//       const contentBlock = htmlToDraft(content.html);
+//       if (contentBlock) {
+//         const contentState = ContentState.createFromBlockArray(
+//           contentBlock.contentBlocks
+//         );
+//         setEditorState(EditorState.createWithContent(contentState));
+//       }
 //     }
-//     onChange(newContent);
+//     setLinks(content.links || []);
+//   }, [content.html, content.links]);
+
+//   const onEditorStateChange = (newEditorState: EditorState) => {
+//     setEditorState(newEditorState);
+//     const html = draftToHtml(convertToRaw(newEditorState.getCurrentContent()));
+//     onChange({ html, links });
 //   };
 
-//   const addLink = () => {
-//     const linkMarkdown = `[${linkText}](${linkUrl})`;
-//     onChange(content + linkMarkdown);
-//     setShowLinkModal(false);
-//     setLinkText("");
-//     setLinkUrl("");
-//     setLinkType("internal");
-//     setOpenInNewTab(false);
+//   const addLink = (linkData: Link) => {
+//     const updatedLinks = [...links, linkData];
+//     setLinks(updatedLinks);
+//     onChange({ html: content.html, links: updatedLinks });
+//   };
+
+//   const updateLink = (index: number, linkData: Partial<Link>) => {
+//     const updatedLinks = links.map((link, i) =>
+//       i === index ? { ...link, ...linkData } : link
+//     );
+//     setLinks(updatedLinks);
+//     onChange({ html: content.html, links: updatedLinks });
+//   };
+
+//   const removeLink = (index: number) => {
+//     const updatedLinks = links.filter((_, i) => i !== index);
+//     setLinks(updatedLinks);
+//     onChange({ html: content.html, links: updatedLinks });
 //   };
 
 //   return (
-//     <div className="space-y-2">
-//       <div className="flex space-x-2">
-//         <button
-//           onClick={() => applyStyle("bold")}
-//           className={`px-2 py-1 border rounded ${isBold ? "bg-gray-200" : ""}`}
-//         >
-//           B
-//         </button>
-//         <button
-//           onClick={() => applyStyle("italic")}
-//           className={`px-2 py-1 border rounded ${
-//             isItalic ? "bg-gray-200" : ""
-//           }`}
-//         >
-//           I
-//         </button>
-//         <button
-//           onClick={() => applyStyle("underline")}
-//           className={`px-2 py-1 border rounded ${
-//             isUnderline ? "bg-gray-200" : ""
-//           }`}
-//         >
-//           U
-//         </button>
-//         <button
-//           onClick={() => setShowLinkModal(true)}
-//           className="px-2 py-1 border rounded"
-//         >
-//           Link
-//         </button>
+//     <div className="space-y-4">
+//       <div className="border rounded-md overflow-hidden">
+//         <DynamicEditor
+//           editorState={editorState}
+//           onEditorStateChange={onEditorStateChange}
+//           wrapperClassName="w-full"
+//           editorClassName="px-4 py-2 min-h-[200px]"
+//           toolbar={{
+//             options: ["inline", "list", "link"],
+//             inline: {
+//               options: ["bold", "italic", "underline"],
+//             },
+//             list: {
+//               options: ["unordered", "ordered"],
+//             },
+//             link: {
+//               options: ["link"],
+//             },
+//           }}
+//         />
 //       </div>
-//       <textarea
-//         value={content}
-//         onChange={(e) => onChange(e.target.value)}
-//         className="w-full p-2 border rounded"
-//         rows={4}
-//         placeholder="Enter text here..."
-//       />
-//       {showLinkModal && (
-//         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-//           <div
-//             className="bg-white p-5 rounded-lg space-y-2
-// "
-//           >
+//       <div className="space-y-2">
+//         <h4 className="font-bold">Links</h4>
+//         {links.map((link, index) => (
+//           <div key={index} className="flex items-center space-x-2">
 //             <input
 //               type="text"
-//               value={linkText}
-//               onChange={(e) => setLinkText(e.target.value)}
+//               value={link.text}
+//               onChange={(e) => updateLink(index, { text: e.target.value })}
+//               className="flex-grow p-2 border rounded"
 //               placeholder="Link text"
-//               className="w-full p-2 border rounded"
 //             />
 //             <input
 //               type="text"
-//               value={linkUrl}
-//               onChange={(e) => setLinkUrl(e.target.value)}
+//               value={link.url}
+//               onChange={(e) => updateLink(index, { url: e.target.value })}
+//               className="flex-grow p-2 border rounded"
 //               placeholder="URL"
-//               className="w-full p-2 border rounded"
 //             />
 //             <select
-//               value={linkType}
-//               onChange={(e) => setLinkType(e.target.value)}
-//               className="w-full p-2 border rounded"
+//               value={link.type}
+//               onChange={(e) =>
+//                 updateLink(index, {
+//                   type: e.target.value as "internal" | "external",
+//                 })
+//               }
+//               className="p-2 border rounded"
 //             >
 //               <option value="internal">Internal</option>
 //               <option value="external">External</option>
@@ -116,145 +122,460 @@
 //             <label className="flex items-center">
 //               <input
 //                 type="checkbox"
-//                 checked={openInNewTab}
-//                 onChange={(e) => setOpenInNewTab(e.target.checked)}
+//                 checked={link.openInNewTab}
+//                 onChange={(e) =>
+//                   updateLink(index, { openInNewTab: e.target.checked })
+//                 }
 //                 className="mr-2"
 //               />
 //               Open in new tab
 //             </label>
-//             <div className="flex justify-end space-x-2">
-//               <button
-//                 onClick={() => setShowLinkModal(false)}
-//                 className="px-4 py-2 bg-gray-200 rounded"
-//               >
-//                 Cancel
-//               </button>
-//               <button
-//                 onClick={addLink}
-//                 className="px-4 py-2 bg-blue-500 text-white rounded"
-//               >
-//                 Add Link
-//               </button>
-//             </div>
+//             <button
+//               onClick={() => removeLink(index)}
+//               className="px-2 py-1 bg-red-500 text-white rounded"
+//             >
+//               Remove
+//             </button>
 //           </div>
-//         </div>
-//       )}
+//         ))}
+//         <button
+//           onClick={() =>
+//             addLink({
+//               text: "",
+//               url: "",
+//               type: "internal",
+//               openInNewTab: false,
+//             })
+//           }
+//           className="px-4 py-2 bg-blue-500 text-white rounded"
+//         >
+//           Add Link
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+// v2
+// "use client";
+
+// import React, { useState, useEffect } from "react";
+// import dynamic from "next/dynamic";
+// import "quill/dist/quill.snow.css";
+
+// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+// interface Link {
+//   text: string;
+//   url: string;
+//   type: "internal" | "external";
+//   openInNewTab: boolean;
+// }
+
+// interface TextBlockProps {
+//   content: { html: string; links: Link[] };
+//   onChange: (content: { html: string; links: Link[] }) => void;
+// }
+
+// export default function TextBlock({ content, onChange }: TextBlockProps) {
+//   const [html, setHtml] = useState(content.html || "");
+//   const [links, setLinks] = useState<Link[]>(content.links || []);
+
+//   useEffect(() => {
+//     setHtml(content.html || "");
+//     setLinks(content.links || []);
+//   }, [content.html, content.links]);
+
+//   const modules = {
+//     toolbar: [
+//       ["bold", "italic", "underline"],
+//       [{ list: "ordered" }, { list: "bullet" }],
+//       ["link"],
+//     ],
+//   };
+
+//   const formats = ["bold", "italic", "underline", "list", "bullet", "link"];
+
+//   const handleChange = (value: string) => {
+//     setHtml(value);
+//     onChange({ html: value, links });
+//   };
+
+//   const addLink = (linkData: Link) => {
+//     const updatedLinks = [...links, linkData];
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   const updateLink = (index: number, linkData: Partial<Link>) => {
+//     const updatedLinks = links.map((link, i) =>
+//       i === index ? { ...link, ...linkData } : link
+//     );
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   const removeLink = (index: number) => {
+//     const updatedLinks = links.filter((_, i) => i !== index);
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   return (
+//     <div className="space-y-4">
+//       <div className="border rounded-md overflow-hidden">
+//         <ReactQuill
+//           value={html}
+//           onChange={handleChange}
+//           modules={modules}
+//           formats={formats}
+//           className="min-h-[200px]"
+//         />
+//       </div>
+//       <div className="space-y-2">
+//         <h4 className="font-bold">Links</h4>
+//         {links.map((link, index) => (
+//           <div key={index} className="flex items-center space-x-2">
+//             <input
+//               type="text"
+//               value={link.text}
+//               onChange={(e) => updateLink(index, { text: e.target.value })}
+//               className="flex-grow p-2 border rounded"
+//               placeholder="Link text"
+//             />
+//             <input
+//               type="text"
+//               value={link.url}
+//               onChange={(e) => updateLink(index, { url: e.target.value })}
+//               className="flex-grow p-2 border rounded"
+//               placeholder="URL"
+//             />
+//             <select
+//               value={link.type}
+//               onChange={(e) =>
+//                 updateLink(index, {
+//                   type: e.target.value as "internal" | "external",
+//                 })
+//               }
+//               className="p-2 border rounded"
+//             >
+//               <option value="internal">Internal</option>
+//               <option value="external">External</option>
+//             </select>
+//             <label className="flex items-center">
+//               <input
+//                 type="checkbox"
+//                 checked={link.openInNewTab}
+//                 onChange={(e) =>
+//                   updateLink(index, { openInNewTab: e.target.checked })
+//                 }
+//                 className="mr-2"
+//               />
+//               Open in new tab
+//             </label>
+//             <button
+//               onClick={() => removeLink(index)}
+//               className="px-2 py-1 bg-red-500 text-white rounded"
+//             >
+//               Remove
+//             </button>
+//           </div>
+//         ))}
+//         <button
+//           onClick={() =>
+//             addLink({
+//               text: "",
+//               url: "",
+//               type: "internal",
+//               openInNewTab: false,
+//             })
+//           }
+//           className="px-4 py-2 bg-blue-500 text-white rounded"
+//         >
+//           Add Link
+//         </button>
+//       </div>
 //     </div>
 //   );
 // }
 
-import React, { useState, useRef, useEffect } from "react";
+// "use client";
+
+// import React, { useState, useEffect } from "react";
+// import dynamic from "next/dynamic";
+// import "quill/dist/quill.snow.css";
+
+// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+// interface Link {
+//   text: string;
+//   url: string;
+//   type: "internal" | "external";
+//   openInNewTab: boolean;
+//   doFollow: boolean;
+// }
+
+// interface TextBlockProps {
+//   content: { html: string; links: Link[] };
+//   onChange: (content: { html: string; links: Link[] }) => void;
+// }
+
+// export default function TextBlock({ content, onChange }: TextBlockProps) {
+//   const [html, setHtml] = useState(content.html || "");
+//   const [links, setLinks] = useState<Link[]>(content.links || []);
+
+//   useEffect(() => {
+//     setHtml(content.html || "");
+//     setLinks(content.links || []);
+//   }, [content.html, content.links]);
+
+//   const modules = {
+//     toolbar: [
+//       [{ header: [1, 2, 3, 4, 5, 6, false] }],
+//       ["bold", "italic", "underline"],
+//       [{ list: "ordered" }, { list: "bullet" }],
+//       ["link"],
+//     ],
+//   };
+
+//   const formats = [
+//     "header",
+//     "bold",
+//     "italic",
+//     "underline",
+//     "list",
+//     "ordered",
+//     "bullet",
+//     "link",
+//   ];
+
+//   const handleChange = (value: string) => {
+//     setHtml(value);
+//     onChange({ html: value, links });
+//   };
+
+//   const addLink = (linkData: Link) => {
+//     const updatedLinks = [...links, linkData];
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   const updateLink = (index: number, linkData: Partial<Link>) => {
+//     const updatedLinks = links.map((link, i) =>
+//       i === index ? { ...link, ...linkData } : link
+//     );
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   const removeLink = (index: number) => {
+//     const updatedLinks = links.filter((_, i) => i !== index);
+//     setLinks(updatedLinks);
+//     onChange({ html, links: updatedLinks });
+//   };
+
+//   return (
+//     <div className="space-y-4">
+//       <div className="border rounded-md overflow-hidden">
+//         <ReactQuill
+//           value={html}
+//           onChange={handleChange}
+//           modules={modules}
+//           formats={formats}
+//           className="min-h-[400px]" // Increased height
+//           style={{ height: "400px" }} // Explicit height
+//         />
+//       </div>
+//       <div className="space-y-2">
+//         <h4 className="font-bold">Links</h4>
+//         {links.map((link, index) => (
+//           <div key={index} className="flex items-center space-x-2">
+//             <input
+//               type="text"
+//               value={link.text}
+//               onChange={(e) => updateLink(index, { text: e.target.value })}
+//               className="flex-grow p-2 border rounded"
+//               placeholder="Link text"
+//             />
+//             <input
+//               type="text"
+//               value={link.url}
+//               onChange={(e) => updateLink(index, { url: e.target.value })}
+//               className="flex-grow p-2 border rounded"
+//               placeholder="URL"
+//             />
+//             <select
+//               value={link.type}
+//               onChange={(e) =>
+//                 updateLink(index, {
+//                   type: e.target.value as "internal" | "external",
+//                 })
+//               }
+//               className="p-2 border rounded"
+//             >
+//               <option value="internal">Internal</option>
+//               <option value="external">External</option>
+//             </select>
+//             <label className="flex items-center">
+//               <input
+//                 type="checkbox"
+//                 checked={link.openInNewTab}
+//                 onChange={(e) =>
+//                   updateLink(index, { openInNewTab: e.target.checked })
+//                 }
+//                 className="mr-2"
+//               />
+//               Open in new tab
+//             </label>
+//             <label className="flex items-center">
+//               <input
+//                 type="checkbox"
+//                 checked={link.doFollow}
+//                 onChange={(e) =>
+//                   updateLink(index, { doFollow: e.target.checked })
+//                 }
+//                 className="mr-2"
+//               />
+//               Do Follow
+//             </label>
+//             <button
+//               onClick={() => removeLink(index)}
+//               className="px-2 py-1 bg-red-500 text-white rounded"
+//             >
+//               Remove
+//             </button>
+//           </div>
+//         ))}
+//         <button
+//           onClick={() =>
+//             addLink({
+//               text: "",
+//               url: "",
+//               type: "internal",
+//               openInNewTab: false,
+//               doFollow: true,
+//             })
+//           }
+//           className="px-4 py-2 bg-blue-500 text-white rounded"
+//         >
+//           Add Link
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+"use client";
+
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import "quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+interface Link {
+  text: string;
+  url: string;
+  type: "internal" | "external";
+  doFollow: boolean;
+}
 
 interface TextBlockProps {
-  content: string;
-  onChange: (content: string) => void;
+  content: { html: string; links: Link[] };
+  onChange: (content: { html: string; links: Link[] }) => void;
 }
 
 export default function TextBlock({ content, onChange }: TextBlockProps) {
-  const [showLinkModal, setShowLinkModal] = useState(false);
-  const [linkText, setLinkText] = useState("");
-  const [linkUrl, setLinkUrl] = useState("");
-  const [linkType, setLinkType] = useState("internal");
-  const [openInNewTab, setOpenInNewTab] = useState(false);
-  const editorRef = useRef<HTMLDivElement>(null);
+  const [html, setHtml] = useState(content.html || "");
+  const [links, setLinks] = useState<Link[]>(content.links || []);
 
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.innerHTML = content;
-    }
-  }, [content]);
+    setHtml(content.html || "");
+    setLinks(content.links || []);
+  }, [content.html, content.links]);
 
-  const applyStyle = (style: string) => {
-    document.execCommand(style, false);
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link"],
+    ],
   };
 
-  const addLink = () => {
-    if (editorRef.current) {
-      const selection = window.getSelection();
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const linkElement = document.createElement("a");
-        linkElement.href = linkUrl;
-        linkElement.textContent = linkText || range.toString();
-        if (linkType === "external") {
-          linkElement.target = "_blank";
-          linkElement.rel = "noopener noreferrer";
-        }
-        range.deleteContents();
-        range.insertNode(linkElement);
-        onChange(editorRef.current.innerHTML);
-      }
-    }
-    setShowLinkModal(false);
-    setLinkText("");
-    setLinkUrl("");
-    setLinkType("internal");
-    setOpenInNewTab(false);
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "list",
+    "ordered",
+    "bullet",
+    "link",
+  ];
+
+  const handleChange = (value: string) => {
+    setHtml(value);
+    onChange({ html: value, links });
+  };
+
+  const addLink = (linkData: Link) => {
+    const updatedLinks = [...links, linkData];
+    setLinks(updatedLinks);
+    onChange({ html, links: updatedLinks });
+  };
+
+  const updateLink = (index: number, linkData: Partial<Link>) => {
+    const updatedLinks = links.map((link, i) =>
+      i === index ? { ...link, ...linkData } : link
+    );
+    setLinks(updatedLinks);
+    onChange({ html, links: updatedLinks });
+  };
+
+  const removeLink = (index: number) => {
+    const updatedLinks = links.filter((_, i) => i !== index);
+    setLinks(updatedLinks);
+    onChange({ html, links: updatedLinks });
   };
 
   return (
-    <div className="space-y-2 w-full">
-      <div className="flex space-x-2">
-        <button
-          onClick={() => applyStyle("bold")}
-          className="px-2 py-1 border rounded"
-        >
-          B
-        </button>
-        <button
-          onClick={() => applyStyle("italic")}
-          className="px-2 py-1 border rounded"
-        >
-          I
-        </button>
-        <button
-          onClick={() => applyStyle("underline")}
-          className="px-2 py-1 border rounded"
-        >
-          U
-        </button>
-        <button
-          onClick={() => setShowLinkModal(true)}
-          className="px-2 py-1 border rounded"
-        >
-          Link
-        </button>
+    <div className="space-y-4">
+      <div className="border rounded-md overflow-hidden">
+        <ReactQuill
+          value={html}
+          onChange={handleChange}
+          modules={modules}
+          formats={formats}
+          className="min-h-[400px]"
+          style={{ height: "400px" }}
+        />
       </div>
-      <div
-        ref={editorRef}
-        contentEditable
-        onInput={() => {
-          if (editorRef.current) {
-            onChange(editorRef.current.innerHTML);
-          }
-        }}
-        className="w-full p-2 border rounded min-h-[100px]"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-      {showLinkModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-          <div className="bg-white p-5 rounded-lg space-y-2">
+      <div className="space-y-2">
+        <h4 className="font-bold">Links</h4>
+        {links.map((link, index) => (
+          <div key={index} className="flex items-center space-x-2">
             <input
               type="text"
-              value={linkText}
-              onChange={(e) => setLinkText(e.target.value)}
+              value={link.text}
+              onChange={(e) => updateLink(index, { text: e.target.value })}
+              className="flex-grow p-2 border rounded"
               placeholder="Link text"
-              className="w-full p-2 border rounded"
             />
             <input
               type="text"
-              value={linkUrl}
-              onChange={(e) => setLinkUrl(e.target.value)}
+              value={link.url}
+              onChange={(e) => updateLink(index, { url: e.target.value })}
+              className="flex-grow p-2 border rounded"
               placeholder="URL"
-              className="w-full p-2 border rounded"
             />
             <select
-              value={linkType}
-              onChange={(e) => setLinkType(e.target.value)}
-              className="w-full p-2 border rounded"
+              value={link.type}
+              onChange={(e) =>
+                updateLink(index, {
+                  type: e.target.value as "internal" | "external",
+                })
+              }
+              className="p-2 border rounded"
             >
               <option value="internal">Internal</option>
               <option value="external">External</option>
@@ -262,29 +583,36 @@ export default function TextBlock({ content, onChange }: TextBlockProps) {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                checked={openInNewTab}
-                onChange={(e) => setOpenInNewTab(e.target.checked)}
+                checked={link.doFollow}
+                onChange={(e) =>
+                  updateLink(index, { doFollow: e.target.checked })
+                }
                 className="mr-2"
               />
-              Open in new tab
+              Do Follow
             </label>
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={() => setShowLinkModal(false)}
-                className="px-4 py-2 bg-gray-200 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={addLink}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Add Link
-              </button>
-            </div>
+            <button
+              onClick={() => removeLink(index)}
+              className="px-2 py-1 bg-red-500 text-white rounded"
+            >
+              Remove
+            </button>
           </div>
-        </div>
-      )}
+        ))}
+        <button
+          onClick={() =>
+            addLink({
+              text: "",
+              url: "",
+              type: "internal",
+              doFollow: true,
+            })
+          }
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Add Link
+        </button>
+      </div>
     </div>
   );
 }
