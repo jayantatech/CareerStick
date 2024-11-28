@@ -1205,6 +1205,7 @@ import RelatedPostsBlock from "./RelatedPostsBlock";
 import StatusSelector from "./StatusSelector";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
+import SEOBlock from "./SEOBlock";
 
 interface HeroImage {
   url: string;
@@ -1229,7 +1230,11 @@ interface Section {
   navTitle: string;
   blocks: Block[];
 }
-
+interface SEO {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+}
 interface BlogPost {
   heroImage: HeroImage;
   title: string;
@@ -1237,16 +1242,25 @@ interface BlogPost {
   author: Author;
   relatedPosts: string[];
   status: string;
+  slug: string;
+  seo: SEO;
 }
 
 export default function BlogEditor() {
   const [blogPost, setBlogPost] = useState<BlogPost>({
     heroImage: { url: "", alt: "" },
     title: "",
+    slug: "",
     sections: [],
     author: { name: "", bio: "", avatar: "" },
     relatedPosts: [],
     status: "draft",
+    seo: {
+      // Initialize SEO with default values
+      title: "",
+      description: "",
+      canonicalUrl: "",
+    },
   });
 
   const sensors = useSensors(
@@ -1356,6 +1370,13 @@ export default function BlogEditor() {
           setBlogPost((prev) => ({ ...prev, relatedPosts }))
         }
       />
+      <SEOBlock
+        seo={blogPost.seo}
+        onChange={(seo) =>
+          setBlogPost((prev) => ({ ...prev, seo, slug: seo.canonicalUrl }))
+        }
+      />
+
       <StatusSelector
         status={blogPost.status}
         onChange={(status) => setBlogPost((prev) => ({ ...prev, status }))}

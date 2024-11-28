@@ -2,8 +2,6 @@
 // // import axios from "axios";
 // // import { PlusCircle, Save, Settings, User, Send } from "lucide-react";
 
-import BlogEditor from "@/components/blogComponents/BlogEditor";
-
 // // const BlogDashboard = () => {
 // //   const [activeTab, setActiveTab] = useState("create");
 // //   const [formData, setFormData] = useState({
@@ -629,7 +627,9 @@ import BlogEditor from "@/components/blogComponents/BlogEditor";
 // };
 
 // export default BlogDashboard;
+import BlogEditor from "@/components/(blog)/blogComponents/BlogEditor";
 import React from "react";
+// import BlogEditor from "@/components/(blog)/blogComponents/BlogEditor";
 
 const BlogPage = () => {
   return (
