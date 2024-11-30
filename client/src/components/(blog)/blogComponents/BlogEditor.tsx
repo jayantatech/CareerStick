@@ -1206,6 +1206,7 @@ import StatusSelector from "./StatusSelector";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import SEOBlock from "./SEOBlock";
+import DescriptionBlock from "./DescriptionBlock";
 
 interface HeroImage {
   url: string;
@@ -1235,9 +1236,20 @@ interface SEO {
   description: string;
   canonicalUrl: string;
 }
+interface Link {
+  text: string;
+  url: string;
+  type: "internal" | "external";
+  doFollow: boolean;
+}
+interface Description {
+  html: string;
+  links: Link[];
+}
 interface BlogPost {
   heroImage: HeroImage;
   title: string;
+  description: Description;
   sections: Section[];
   author: Author;
   relatedPosts: string[];
@@ -1250,6 +1262,7 @@ export default function BlogEditor() {
   const [blogPost, setBlogPost] = useState<BlogPost>({
     heroImage: { url: "", alt: "" },
     title: "",
+    description: { html: "", links: [] }, // Initialize description
     slug: "",
     sections: [],
     author: { name: "", bio: "", avatar: "" },
@@ -1336,6 +1349,12 @@ export default function BlogEditor() {
       <TitleBlock
         content={blogPost.title}
         onChange={(title) => setBlogPost((prev) => ({ ...prev, title }))}
+      />
+      <DescriptionBlock
+        content={blogPost.description}
+        onChange={(description) =>
+          setBlogPost((prev) => ({ ...prev, description }))
+        }
       />
       <DndContext
         sensors={sensors}

@@ -1,301 +1,301 @@
-// schemas/Blog.ts
-import mongoose, { Document, Schema } from "mongoose";
+// // schemas/Blog.ts
+// import mongoose, { Document, Schema } from "mongoose";
 
-// Base interfaces for different content types
-interface Link {
-  text: string;
-  url: string;
-  type: "internal" | "external";
-  openInNewTab?: boolean;
-}
+// // Base interfaces for different content types
+// interface Link {
+//   text: string;
+//   url: string;
+//   type: "internal" | "external";
+//   openInNewTab?: boolean;
+// }
 
-interface ImageContent {
-  url: string;
-  alt: string;
-  caption?: string;
-  width?: number;
-  height?: number;
-  linkTo?: string;
-}
+// interface ImageContent {
+//   url: string;
+//   alt: string;
+//   caption?: string;
+//   width?: number;
+//   height?: number;
+//   linkTo?: string;
+// }
 
-interface TextContent {
-  text: string;
-  emphasis?: "none" | "bold" | "italic" | "underline";
-  color?: string;
-  links?: Link[];
-  alignment?: "left" | "center" | "right" | "justify";
-}
+// interface TextContent {
+//   text: string;
+//   emphasis?: "none" | "bold" | "italic" | "underline";
+//   color?: string;
+//   links?: Link[];
+//   alignment?: "left" | "center" | "right" | "justify";
+// }
 
-interface ListItem {
-  title?: string;
-  content: string;
-  icon?: string;
-  links?: Link[];
-}
+// interface ListItem {
+//   title?: string;
+//   content: string;
+//   icon?: string;
+//   links?: Link[];
+// }
 
-interface CodeBlock {
-  code: string;
-  language: string;
-  fileName?: string;
-  showLineNumbers?: boolean;
-  highlightedLines?: number[];
-}
+// interface CodeBlock {
+//   code: string;
+//   language: string;
+//   fileName?: string;
+//   showLineNumbers?: boolean;
+//   highlightedLines?: number[];
+// }
 
-interface CustomComponent {
-  type: string;
-  props: Record<string, any>;
-}
+// interface CustomComponent {
+//   type: string;
+//   props: Record<string, any>;
+// }
 
-interface TableContent {
-  headers: string[];
-  rows: (string | number)[][];
-  caption?: string;
-}
+// interface TableContent {
+//   headers: string[];
+//   rows: (string | number)[][];
+//   caption?: string;
+// }
 
-// Schema Definitions
-const linkSchema = new Schema(
-  {
-    text: { type: String, required: true },
-    url: { type: String, required: true },
-    type: {
-      type: String,
-      enum: ["internal", "external"],
-      required: true,
-      default: "internal",
-    },
-    openInNewTab: { type: Boolean, default: false },
-  },
-  { _id: false }
-);
-
-const imageContentSchema = new Schema(
-  {
-    url: { type: String, required: true },
-    alt: { type: String, required: true },
-    caption: String,
-    width: Number,
-    height: Number,
-    linkTo: String,
-  },
-  { _id: false }
-);
-
-const textContentSchema = new Schema(
-  {
-    text: { type: String, required: true },
-    emphasis: {
-      type: String,
-      enum: ["none", "bold", "italic", "underline"],
-      default: "none",
-    },
-    color: String,
-    links: [linkSchema],
-    alignment: {
-      type: String,
-      enum: ["left", "center", "right", "justify"],
-      default: "left",
-    },
-  },
-  { _id: false }
-);
-
-const listItemSchema = new Schema(
-  {
-    title: String,
-    content: { type: String, required: true },
-    icon: String,
-    links: [linkSchema],
-  },
-  { _id: false }
-);
-
-// const codeBlockSchema = new Schema(
+// // Schema Definitions
+// const linkSchema = new Schema(
 //   {
-//     code: { type: String, required: true },
-//     language: { type: String, required: true },
-//     fileName: String,
-//     showLineNumbers: { type: Boolean, default: true },
-//     highlightedLines: [Number],
+//     text: { type: String, required: true },
+//     url: { type: String, required: true },
+//     type: {
+//       type: String,
+//       enum: ["internal", "external"],
+//       required: true,
+//       default: "internal",
+//     },
+//     openInNewTab: { type: Boolean, default: false },
 //   },
 //   { _id: false }
 // );
 
-const customComponentSchema = new Schema(
-  {
-    type: { type: String, required: true },
-    props: { type: Schema.Types.Mixed, required: true },
-  },
-  { _id: false }
-);
-
-const tableContentSchema = new Schema(
-  {
-    headers: [String],
-    rows: [[Schema.Types.Mixed]],
-    caption: String,
-  },
-  { _id: false }
-);
-
-const sectionSchema = new Schema(
-  {
-    id: { type: String, required: true },
-    type: {
-      type: String,
-      required: true,
-    },
-    content: {
-      title: String,
-      subtitle: String,
-      textBlocks: [textContentSchema],
-      images: [imageContentSchema],
-      lists: [
-        {
-          type: {
-            type: String,
-            enum: ["bullet", "numbered", "checklist"],
-            required: true,
-          },
-          items: [listItemSchema],
-        },
-      ],
-      //   codeBlocks: [codeBlockSchema],
-      customComponents: [customComponentSchema],
-      tables: [tableContentSchema],
-      callout: {
-        type: {
-          type: String,
-          enum: ["info", "warning", "tip", "note"],
-        },
-        title: String,
-        content: String,
-        icon: String,
-        links: [linkSchema],
-      },
-    },
-    order: { type: Number, required: true },
-    isVisible: { type: Boolean, default: true },
-  },
-  { _id: false }
-);
-
-// const commentSchema = new Schema({
-//   author: {
-//     name: { type: String, required: true },
-//     email: { type: String, required: true },
-//     avatar: String,
+// const imageContentSchema = new Schema(
+//   {
+//     url: { type: String, required: true },
+//     alt: { type: String, required: true },
+//     caption: String,
+//     width: Number,
+//     height: Number,
+//     linkTo: String,
 //   },
-//   content: { type: String, required: true },
-//   createdAt: { type: Date, default: Date.now },
-//   updatedAt: { type: Date },
-//   status: {
-//     type: String,
-//     enum: ["pending", "approved", "rejected"],
-//     default: "pending",
+//   { _id: false }
+// );
+
+// const textContentSchema = new Schema(
+//   {
+//     text: { type: String, required: true },
+//     emphasis: {
+//       type: String,
+//       enum: ["none", "bold", "italic", "underline"],
+//       default: "none",
+//     },
+//     color: String,
+//     links: [linkSchema],
+//     alignment: {
+//       type: String,
+//       enum: ["left", "center", "right", "justify"],
+//       default: "left",
+//     },
 //   },
-//   replies: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
-// });
+//   { _id: false }
+// );
 
-const blogSchema = new Schema(
-  {
-    title: { type: String, required: true },
-    slug: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-    status: {
-      type: String,
-      enum: ["draft", "published", "archived"],
-      default: "draft",
-    },
-    author: {
-      name: { type: String, required: true },
-      email: { type: String, required: true },
-      avatar: String,
-      bio: String,
-      socialLinks: {
-        twitter: String,
-        linkedin: String,
-        youtube: String,
-      },
-    },
-    heroImage: imageContentSchema,
-    excerpt: { type: String, required: true, maxlength: 500 },
-    readTime: { type: Number, required: true },
-    sections: [sectionSchema],
-    meta: {
-      description: { type: String, required: true },
-      keywords: [{ type: String }],
-      canonicalUrl: String,
-      ogImage: String,
-    },
-    categories: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    tags: [String],
-    relatedPosts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Blog",
-      },
-    ],
-    stats: {
-      views: { type: Number, default: 0 },
-      likes: { type: Number, default: 0 },
-      shares: { type: Number, default: 0 },
-      readingProgress: [
-        {
-          userId: Schema.Types.ObjectId,
-          progress: Number,
-          lastRead: Date,
-        },
-      ],
-    },
-    settings: {
-      allowComments: { type: Boolean, default: true },
-      featured: { type: Boolean, default: false },
-      pinned: { type: Boolean, default: false },
-      enableNewsletter: { type: Boolean, default: true },
-      showTableOfContents: { type: Boolean, default: true },
-    },
-    // comments: [commentSchema],
-    version: { type: Number, default: 1 },
-    history: [
-      {
-        version: Number,
-        updatedAt: Date,
-        updatedBy: {
-          name: String,
-          email: String,
-        },
-        changes: String,
-      },
-    ],
-  },
-  {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
-);
+// const listItemSchema = new Schema(
+//   {
+//     title: String,
+//     content: { type: String, required: true },
+//     icon: String,
+//     links: [linkSchema],
+//   },
+//   { _id: false }
+// );
 
-// Indexes
-blogSchema.index({ slug: 1 });
-blogSchema.index({ "author.email": 1 });
-blogSchema.index({ categories: 1 });
-blogSchema.index({ tags: 1 });
-blogSchema.index({ status: 1 });
-blogSchema.index({ createdAt: -1 });
-blogSchema.index({ "stats.views": -1 });
-blogSchema.index({ "sections.content.links.url": 1 });
+// // const codeBlockSchema = new Schema(
+// //   {
+// //     code: { type: String, required: true },
+// //     language: { type: String, required: true },
+// //     fileName: String,
+// //     showLineNumbers: { type: Boolean, default: true },
+// //     highlightedLines: [Number],
+// //   },
+// //   { _id: false }
+// // );
 
-export const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
+// const customComponentSchema = new Schema(
+//   {
+//     type: { type: String, required: true },
+//     props: { type: Schema.Types.Mixed, required: true },
+//   },
+//   { _id: false }
+// );
+
+// const tableContentSchema = new Schema(
+//   {
+//     headers: [String],
+//     rows: [[Schema.Types.Mixed]],
+//     caption: String,
+//   },
+//   { _id: false }
+// );
+
+// const sectionSchema = new Schema(
+//   {
+//     id: { type: String, required: true },
+//     type: {
+//       type: String,
+//       required: true,
+//     },
+//     content: {
+//       title: String,
+//       subtitle: String,
+//       textBlocks: [textContentSchema],
+//       images: [imageContentSchema],
+//       lists: [
+//         {
+//           type: {
+//             type: String,
+//             enum: ["bullet", "numbered", "checklist"],
+//             required: true,
+//           },
+//           items: [listItemSchema],
+//         },
+//       ],
+//       //   codeBlocks: [codeBlockSchema],
+//       customComponents: [customComponentSchema],
+//       tables: [tableContentSchema],
+//       callout: {
+//         type: {
+//           type: String,
+//           enum: ["info", "warning", "tip", "note"],
+//         },
+//         title: String,
+//         content: String,
+//         icon: String,
+//         links: [linkSchema],
+//       },
+//     },
+//     order: { type: Number, required: true },
+//     isVisible: { type: Boolean, default: true },
+//   },
+//   { _id: false }
+// );
+
+// // const commentSchema = new Schema({
+// //   author: {
+// //     name: { type: String, required: true },
+// //     email: { type: String, required: true },
+// //     avatar: String,
+// //   },
+// //   content: { type: String, required: true },
+// //   createdAt: { type: Date, default: Date.now },
+// //   updatedAt: { type: Date },
+// //   status: {
+// //     type: String,
+// //     enum: ["pending", "approved", "rejected"],
+// //     default: "pending",
+// //   },
+// //   replies: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+// // });
+
+// const blogSchema = new Schema(
+//   {
+//     title: { type: String, required: true },
+//     slug: {
+//       type: String,
+//       required: true,
+//       unique: true,
+//       lowercase: true,
+//       trim: true,
+//     },
+//     status: {
+//       type: String,
+//       enum: ["draft", "published", "archived"],
+//       default: "draft",
+//     },
+//     author: {
+//       name: { type: String, required: true },
+//       email: { type: String, required: true },
+//       avatar: String,
+//       bio: String,
+//       socialLinks: {
+//         twitter: String,
+//         linkedin: String,
+//         youtube: String,
+//       },
+//     },
+//     heroImage: imageContentSchema,
+//     excerpt: { type: String, required: true, maxlength: 500 },
+//     readTime: { type: Number, required: true },
+//     sections: [sectionSchema],
+//     meta: {
+//       description: { type: String, required: true },
+//       keywords: [{ type: String }],
+//       canonicalUrl: String,
+//       ogImage: String,
+//     },
+//     categories: [
+//       {
+//         type: String,
+//         required: true,
+//       },
+//     ],
+//     tags: [String],
+//     relatedPosts: [
+//       {
+//         type: Schema.Types.ObjectId,
+//         ref: "Blog",
+//       },
+//     ],
+//     stats: {
+//       views: { type: Number, default: 0 },
+//       likes: { type: Number, default: 0 },
+//       shares: { type: Number, default: 0 },
+//       readingProgress: [
+//         {
+//           userId: Schema.Types.ObjectId,
+//           progress: Number,
+//           lastRead: Date,
+//         },
+//       ],
+//     },
+//     settings: {
+//       allowComments: { type: Boolean, default: true },
+//       featured: { type: Boolean, default: false },
+//       pinned: { type: Boolean, default: false },
+//       enableNewsletter: { type: Boolean, default: true },
+//       showTableOfContents: { type: Boolean, default: true },
+//     },
+//     // comments: [commentSchema],
+//     version: { type: Number, default: 1 },
+//     history: [
+//       {
+//         version: Number,
+//         updatedAt: Date,
+//         updatedBy: {
+//           name: String,
+//           email: String,
+//         },
+//         changes: String,
+//       },
+//     ],
+//   },
+//   {
+//     timestamps: true,
+//     toJSON: { virtuals: true },
+//     toObject: { virtuals: true },
+//   }
+// );
+
+// // Indexes
+// blogSchema.index({ slug: 1 });
+// blogSchema.index({ "author.email": 1 });
+// blogSchema.index({ categories: 1 });
+// blogSchema.index({ tags: 1 });
+// blogSchema.index({ status: 1 });
+// blogSchema.index({ createdAt: -1 });
+// blogSchema.index({ "stats.views": -1 });
+// blogSchema.index({ "sections.content.links.url": 1 });
+
+// export const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
 // Example JSON data with links
 // const exampleBlogPost = {
 //   title: "How to Make a Resume in 2024 | Beginner's Guide",
@@ -468,3 +468,197 @@ export const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
 //     },
 //   ],
 // };
+
+import mongoose, { Document, Schema } from "mongoose";
+
+// Interfaces to match the new structure
+interface HeroImage {
+  url: string;
+  alt: string;
+}
+
+interface Link {
+  text: string;
+  url: string;
+  type: "internal" | "external";
+  openInNewTab?: boolean;
+  doFollow?: boolean;
+}
+
+interface BlockContent {
+  html?: string;
+  text?: string;
+  level?: string;
+  type?: "bullet";
+  links?: Link[];
+  url?: string;
+  alt?: string;
+  items?: string[];
+  question?: string;
+  answer?: string;
+  title?: string;
+  content?: string;
+}
+
+interface Block {
+  id: string;
+  type: string;
+  content: BlockContent;
+}
+
+interface Section {
+  id: string;
+  title: string;
+  navTitle: string;
+  blocks: Block[];
+}
+
+interface Author {
+  name: string;
+  bio: string;
+  avatar: string;
+}
+
+// MongoDB Schema
+const linkSchema = new Schema<Link>(
+  {
+    text: { type: String, required: true },
+    url: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ["internal", "external"],
+      required: true,
+    },
+    openInNewTab: { type: Boolean, default: false },
+  },
+  { _id: false }
+);
+
+const heroImageSchema = new Schema<HeroImage>(
+  {
+    url: { type: String, required: true },
+    alt: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+const blockContentSchema = new Schema<BlockContent>(
+  {
+    html: { type: String },
+    text: { type: String },
+    level: { type: String },
+    type: { type: String },
+    links: [linkSchema],
+    url: { type: String },
+    alt: { type: String },
+    items: [{ type: String }],
+    question: { type: String },
+    answer: { type: String },
+    title: { type: String },
+    content: { type: String },
+  },
+  { _id: false }
+);
+
+const blockSchema = new Schema<Block>(
+  {
+    id: { type: String, required: true },
+    type: { type: String, required: true },
+    content: { type: blockContentSchema, required: true },
+  },
+  { _id: false }
+);
+
+const sectionSchema = new Schema<Section>(
+  {
+    id: { type: String, required: true },
+    title: { type: String, required: true },
+    navTitle: { type: String, required: true },
+    blocks: [blockSchema],
+  },
+  { _id: false }
+);
+
+const authorSchema = new Schema<Author>(
+  {
+    name: { type: String, default: "" },
+    bio: { type: String, default: "" },
+    avatar: { type: String, default: "" },
+  },
+  { _id: false }
+);
+
+const DescriptionSchema = new Schema(
+  {
+    html: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    links: [linkSchema],
+  },
+  { _id: false }
+);
+
+// Main Blog Schema
+const blogSchema = new Schema(
+  {
+    heroImage: {
+      type: heroImageSchema,
+      required: true,
+    },
+    title: {
+      type: String,
+      default: "",
+    },
+    description: DescriptionSchema,
+    sections: [sectionSchema],
+    author: {
+      type: authorSchema,
+      default: () => ({}),
+    },
+    relatedPosts: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Blog",
+        },
+      ],
+      default: [],
+    },
+    status: {
+      type: String,
+      enum: ["draft", "published", "archived"],
+      default: "draft",
+    },
+    seo: {
+      title: {
+        type: String,
+        default: "",
+        maxlength: 70,
+      },
+      description: {
+        type: String,
+        default: "",
+        maxlength: 160,
+      },
+      canonicalUrl: {
+        type: String,
+        default: "",
+      },
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// Create indexes for performance
+blogSchema.index({ status: 1 });
+blogSchema.index({ "author.name": 1 });
+blogSchema.index({ createdAt: -1 });
+
+// Create the model
+export const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);

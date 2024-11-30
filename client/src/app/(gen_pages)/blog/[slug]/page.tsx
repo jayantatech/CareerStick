@@ -1,223 +1,282 @@
-"use client";
+//main code start
+// "use client";
+// import { FC, useEffect, useState } from "react";
+// import { LightbulbIcon } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Card } from "@/components/ui/card";
+// // import ContentWrapper from "./content-wrapper";
+// import {
+//   ResumeThree,
+//   ResumeThreeHero,
+//   StockResume,
+// } from "../../../../../public/img";
 
-import { FC, useEffect, useState } from "react";
-import { LightbulbIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-// import ContentWrapper from "./content-wrapper";
-import {
-  ResumeThree,
-  ResumeThreeHero,
-  StockResume,
-} from "../../../../../public/img";
+// import Image from "next/image";
+// import ContentWrapper from "@/components/ContentWrapper";
+// import { IoCheckmarkDone } from "react-icons/io5";
+// import { PiListChecksBold, PiListNumbersBold } from "react-icons/pi";
+// import { cn } from "@/lib/utils";
+// import BlogHeroSection from "@/components/(blog)/blogViewComponents/BlogHeroSection";
+// import BlogSidebar from "@/components/(blog)/blogViewComponents/BlogSidebar";
+// import TextWithTitleBlock from "@/components/(blog)/blogViewComponents/TextWithTitleBlock";
+// import QuickAnswer from "@/components/(blog)/blogViewComponents/QuickAnswer";
+// import {
+//   Heading1,
+//   Heading2,
+//   Heading3,
+//   Heading4,
+//   Heading5,
+//   Heading6,
+// } from "@/components/(blog)/blogViewComponents/BlogHeadings";
+// import BlogImageBlock from "@/components/(blog)/blogViewComponents/BlogImageBlock";
+// import NumberPointsBox from "@/components/(blog)/blogViewComponents/NumberPointsBox";
+// import KeyPointsBox from "@/components/(blog)/blogViewComponents/KeyPointsBox";
+// import NoteInfo from "@/components/(blog)/blogViewComponents/NoteInfo";
+// import FAQBox from "@/components/(blog)/blogViewComponents/FAQBox";
+// import api from "@/lib/api";
+// import { useParams } from "next/navigation";
+// import TextParagraph from "@/components/(blog)/blogViewComponents/TextParagraph";
 
-import Image from "next/image";
-import ContentWrapper from "@/components/ContentWrapper";
-import { IoCheckmarkDone } from "react-icons/io5";
-import { PiListChecksBold, PiListNumbersBold } from "react-icons/pi";
-import { cn } from "@/lib/utils";
-import BlogHeroSection from "@/components/(blog)/blogViewComponents/BlogHeroSection";
-import BlogSidebar from "@/components/(blog)/blogViewComponents/BlogSidebar";
-import TextWithTitleBlock from "@/components/(blog)/blogViewComponents/TextWithTitleBlock";
-import QuickAnswer from "@/components/(blog)/blogViewComponents/QuickAnswer";
-import {
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
-  Heading5,
-  Heading6,
-} from "@/components/(blog)/blogViewComponents/BlogHeadings";
-import BlogImageBlock from "@/components/(blog)/blogViewComponents/BlogImageBlock";
-import NumberPointsBox from "@/components/(blog)/blogViewComponents/NumberPointsBox";
-import KeyPointsBox from "@/components/(blog)/blogViewComponents/KeyPointsBox";
-import NoteInfo from "@/components/(blog)/blogViewComponents/NoteInfo";
-import FAQBox from "@/components/(blog)/blogViewComponents/FAQBox";
-import api from "@/lib/api";
-import { useParams } from "next/navigation";
+// interface Section {
+//   id: string;
+//   title: string;
+// }
+// interface BlogPost {
+//   seo: {
+//     title: string;
+//     description: string;
+//     canonicalUrl: string;
+//   };
+//   _id: string;
+//   heroImage: {
+//     url: string;
+//     alt: string;
+//   };
+//   title: string;
+//   sections: Array<{
+//     id: string;
+//     title: string;
+//     navTitle: string;
+//     blocks: Array<{
+//       id: string;
+//       type: string;
+//       content: {
+//         html?: string;
+//         url?: string;
+//         alt?: string;
+//         type?: string;
+//         items?: string[];
+//         links?: string[];
+//         title?: string;
+//         text?: string;
+//         level?: string;
+//       };
+//     }>;
+//   }>;
+//   author: {
+//     name: string;
+//     bio: string;
+//     avatar: string;
+//   };
+//   relatedPosts: any[];
+//   status: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   slug: string;
+//   id: string;
+// }
 
-interface Section {
-  id: string;
-  title: string;
-}
+// const sections: Section[] = [
+//   { id: "introduction", title: "Introduction" },
+//   { id: "quick-answer", title: "Quick Answer" },
+//   { id: "key-points", title: "Key Points" },
+//   { id: "step-by-step", title: "Step-by-Step Guide" },
+//   { id: "examples", title: "Resume Examples" },
+//   { id: "tips", title: "Expert Tips & Best Practices" },
+//   { id: "faq", title: "Frequently Asked Questions" },
+// ];
 
-const sections: Section[] = [
-  { id: "introduction", title: "Introduction" },
-  { id: "quick-answer", title: "Quick Answer" },
-  { id: "key-points", title: "Key Points" },
-  { id: "step-by-step", title: "Step-by-Step Guide" },
-  { id: "examples", title: "Resume Examples" },
-  { id: "tips", title: "Expert Tips & Best Practices" },
-  { id: "faq", title: "Frequently Asked Questions" },
-];
+// export default function ArticleLayout() {
+//   const [activeSection, setActiveSection] = useState("");
+//   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             setActiveSection(entry.target.id);
+//           }
+//         });
+//       },
+//       { threshold: 0.5 }
+//     );
 
-export default function ArticleLayout() {
-  const [activeSection, setActiveSection] = useState("");
+//     sections.forEach(({ id }) => {
+//       const element = document.getElementById(id);
+//       if (element) observer.observe(element);
+//     });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
+//     return () => observer.disconnect();
+//   }, []);
 
-    sections.forEach(({ id }) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+//   const scrollToSection = (id: string) => {
+//     const element = document.getElementById(id);
+//     if (element) {
+//       element.scrollIntoView({ behavior: "smooth" });
+//     }
+//   };
 
-    return () => observer.disconnect();
-  }, []);
+//   const pathname = useParams();
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+//   // useEffect(() => {
+//   //   const getData = async () => {
+//   //     const response = await api.get(`/blog/get/${pathname.slug}`);
+//   //     console.log("response data is", response.data);
+//   //   };
 
-  const pathname = useParams();
+//   //   getData();
+//   // }, []);
+//   useEffect(() => {
+//     const fetchBlogPost = async () => {
+//       try {
+//         // Adjust the API endpoint as needed
+//         const response = await api.get(`/blog/get/${pathname.slug}`);
+//         console.log("response data is", response.data);
+//         // Validate and set the blog post data
+//         if (response.data) {
+//           setBlogPost(response.data.data);
+//           setIsLoading(false);
+//         } else {
+//           throw new Error("No blog post data found");
+//         }
+//       } catch (err) {
+//         console.error("Error fetching blog post:", err);
+//         setError(
+//           err instanceof Error ? err.message : "An unknown error occurred"
+//         );
+//         setIsLoading(false);
+//       }
+//     };
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await api.get(`/blog/get/${pathname.slug}`);
-      console.log("response data is", response.data);
-    };
+//     // Only fetch if slug is available
+//     if (pathname?.slug) {
+//       fetchBlogPost();
+//     }
+//   }, [pathname?.slug]);
+//   console.log("Blog post data from useState:", blogPost);
 
-    getData();
-  }, []);
+//   return (
+//     <div className="min-h-screen bg-background">
+//       {/* Hero Section */}
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <BlogHeroSection />
+//       {blogPost?.heroImage?.url ? (
+//         <BlogHeroSection
+//           date="May 10, 2023"
+//           imageAlt={blogPost?.heroImage?.alt as string}
+//           imageUrl={blogPost?.heroImage?.url as string}
+//           title={blogPost?.title as string}
+//           readTime="5 min"
+//         />
+//       ) : null}
 
-      {/* Main Content */}
-      <ContentWrapper>
-        <div className="relative flex gap-8 py-8">
-          {/* Left Sidebar - Navigation */}
+//       {/* Main Content */}
+//       <ContentWrapper>
+//         <div className="relative flex gap-8 py-8">
+//           {/* Left Sidebar - Navigation */}
 
-          <BlogSidebar
-            sections={sections}
-            activeSection={activeSection}
-            scrollToSection={scrollToSection}
-          />
+//           <BlogSidebar
+//             sections={sections}
+//             activeSection={activeSection}
+//             scrollToSection={scrollToSection}
+//           />
 
-          {/* Main Content */}
-          <div className="min-w-0 flex-1 space-y-12 lg:pl-8">
-            <section id="introduction">
-              <TextWithTitleBlock />
-            </section>
+//           {/* Main Content */}
+//           <div className="min-w-0 flex-1 space-y-12 lg:pl-8">
+//             <section id="introduction">
+//               <TextWithTitleBlock />
+//             </section>
 
-            {/* Quick Answer Box */}
-            <section id="quick-answer">
-              <QuickAnswer />
-            </section>
-            <section>
-              <Card className="p-6 space-y-8">
-                <div>
-                  {/* <h1 className="scroll-m-20 text-4xl font-bold font-heading tracking-tight lg:text-5xl">
-                    Heading 1
-                  </h1> */}
-                  <Heading1 title="Heading 1" />
-                  <p className="mt-2 text-xl text-muted-foreground">
-                    The main heading of your document. Use this for the title of
-                    your page or main sections.
-                  </p>
-                </div>
+//             {/* Quick Answer Box */}
+//             <section id="quick-answer">
+//               <QuickAnswer />
+//             </section>
+//             <section>
+//               <Card className="p-6 space-y-8">
+//                 <div>
+//                   <Heading1 title="Heading 1" />
+//                   <p className="mt-2 text-xl text-muted-foreground">
+//                     The main heading of your document. Use this for the title of
+//                     your page or main sections.
+//                   </p>
+//                 </div>
 
-                <div>
-                  {/* <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold font-heading tracking-tight transition-colors first:mt-0">
-                    Heading 2
-                  </h2> */}
-                  <Heading2 title="Heading 2" />
+//                 <div>
+//                   <Heading2 title="Heading 2" />
 
-                  <p className="mt-2 text-lg text-muted-foreground">
-                    Used for major sections within your content. It's a step
-                    down from the main title.
-                  </p>
-                </div>
+//                   <p className="mt-2 text-lg text-muted-foreground">
+//                     Used for major sections within your content. It's a step
+//                     down from the main title.
+//                   </p>
+//                 </div>
 
-                <div>
-                  {/* <h3 className="scroll-m-20 text-2xl font-semibold font-heading tracking-tight">
-                    Heading 3
-                  </h3> */}
-                  <Heading3 title="Heading 3" />
+//                 <div>
+//                   <Heading3 title="Heading 3" />
 
-                  <p className="mt-2 text-muted-foreground">
-                    Ideal for subsections within your major sections. It
-                    provides a clear hierarchy.
-                  </p>
-                </div>
+//                   <p className="mt-2 text-muted-foreground">
+//                     Ideal for subsections within your major sections. It
+//                     provides a clear hierarchy.
+//                   </p>
+//                 </div>
 
-                <div>
-                  {/* <h4 className="scroll-m-20 text-xl font-semibold font-heading tracking-tight">
-                    Heading 4
-                  </h4> */}
-                  <Heading4 title="Heading 4" />
+//                 <div>
+//                   <Heading4 title="Heading 4" />
+//                   <TextParagraph
+//                     contentText="  Used for smaller subsections or important points within your
+//                     content."
+//                   />
+//                 </div>
 
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Used for smaller subsections or important points within your
-                    content.
-                  </p>
-                </div>
+//                 <div>
+//                   <Heading5 title="Heading 5" />
+//                 </div>
 
-                <div>
-                  {/* <h5 className="scroll-m-20 text-lg font-heading font-semibold tracking-tight">
-                    Heading 5
-                  </h5> */}
-                  <Heading5 title="Heading 5" />
+//                 <div>
+//                   <Heading6 title="Heading 6" />
+//                 </div>
+//               </Card>
+//             </section>
+//             {/* Image section */}
+//             <section>
+//               <BlogImageBlock />
+//             </section>
 
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Suitable for minor subsections or to highlight specific
-                    details.
-                  </p>
-                </div>
+//             <section id="numbered-points" className="py-12">
+//               <NumberPointsBox />
+//             </section>
 
-                <div>
-                  <Heading6 title="Heading 6" />
+//             <section id="key-points" className="py-2">
+//               <KeyPointsBox />
+//             </section>
 
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    The smallest heading, used sparingly for the finest level of
-                    detail in your document structure.
-                  </p>
-                </div>
-              </Card>
-            </section>
-            {/* Image section */}
-            <section>
-              <BlogImageBlock />
-            </section>
+//             <section>
+//               <NoteInfo />
+//             </section>
 
-            <section id="numbered-points" className="py-12">
-              <NumberPointsBox />
-            </section>
+//             {/* FAQ Section */}
+//             <section id="faq">
+//               <Heading2 title="Frequently Asked Questions" />
+//               <FAQBox />
+//             </section>
+//           </div>
+//         </div>
+//       </ContentWrapper>
+//     </div>
+//   );
+// }
 
-            <section id="key-points" className="py-2">
-              <KeyPointsBox />
-            </section>
-
-            <section>
-              <NoteInfo />
-            </section>
-
-            {/* FAQ Section */}
-            <section id="faq">
-              <Heading2 title="Frequently Asked Questions" />
-
-              <FAQBox />
-            </section>
-          </div>
-        </div>
-      </ContentWrapper>
-    </div>
-  );
-}
+// main code end
 
 // "use client";
 
@@ -753,3 +812,532 @@ export default function ArticleLayout() {
 //     </div>
 //   );
 // }
+
+// working v2 but not all thing are present
+
+// "use client";
+// import { FC, useEffect, useState } from "react";
+// import { Card } from "@/components/ui/card";
+// import ContentWrapper from "@/components/ContentWrapper";
+// import BlogHeroSection from "@/components/(blog)/blogViewComponents/BlogHeroSection";
+// import BlogSidebar from "@/components/(blog)/blogViewComponents/BlogSidebar";
+// import {
+//   Heading1,
+//   Heading2,
+//   Heading3,
+//   Heading4,
+//   Heading5,
+//   Heading6,
+// } from "@/components/(blog)/blogViewComponents/BlogHeadings";
+// import TextParagraph from "@/components/(blog)/blogViewComponents/TextParagraph";
+// import api from "@/lib/api";
+// import { useParams } from "next/navigation";
+// import BlogImageBlock from "@/components/(blog)/blogViewComponents/BlogImageBlock";
+
+// // Block Type Rendering Components
+// const BlockRenderer: FC<{ block: any }> = ({ block }) => {
+//   switch (block.type) {
+//     case "text":
+//       return (
+//         <div
+//           className="prose max-w-full mt-4 text-lg text-muted-foreground font-blogText"
+//           dangerouslySetInnerHTML={{ __html: block.content.html || "" }}
+//         />
+//       );
+
+//     case "image":
+//       return block.content.url ? (
+//         <BlogImageBlock
+//           imageAlt={block.content.alt}
+//           imageUrl={block.content.url}
+//         />
+//       ) : null;
+
+//     case "list":
+//       return (
+//         <ul className="list-disc pl-5 space-y-2 my-4 text-lg text-muted-foreground font-blogText">
+//           {block.content.items?.map((item: string, index: number) => (
+//             <li key={index} className="text-muted-foreground">
+//               {item}
+//             </li>
+//           ))}
+//         </ul>
+//       );
+
+//     case "heading":
+//       const HeadingComponents = {
+//         h1: Heading1,
+//         h2: Heading2,
+//         h3: Heading3,
+//         h4: Heading4,
+//         h5: Heading5,
+//         h6: Heading6,
+//       };
+
+//       const HeadingComponent =
+//         HeadingComponents[
+//           block.content.level as keyof typeof HeadingComponents
+//         ] || Heading2;
+
+//       return <HeadingComponent title={block.content.text} />;
+
+//     case "callout":
+//       return (
+//         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+//           <h4 className="font-bold text-blue-700">{block.content.title}</h4>
+//           <p className="text-blue-600">{block.content.content}</p>
+//         </div>
+//       );
+
+//     default:
+//       return null;
+//   }
+// };
+
+// const SectionRenderer: FC<{
+//   sections: any[];
+//   scrollToSection: (id: string) => void;
+// }> = ({ sections, scrollToSection }) => {
+//   return (
+//     <div className="space-y-8">
+//       {sections.map((section, sectionIndex) => (
+//         <section
+//           key={section.id || sectionIndex}
+//           id={section.id}
+//           className="py-4"
+//         >
+//           {section.title && (
+//             <Heading2
+//               title={section.title}
+//               // className="mb-4 border-b pb-2"
+//             />
+//           )}
+//           {section.blocks?.map((block: any, blockIndex: number) => (
+//             <BlockRenderer
+//               key={block.id || `${sectionIndex}-${blockIndex}`}
+//               block={block}
+//             />
+//           ))}
+//         </section>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default function BlogPostPage() {
+//   const [blogPost, setBlogPost] = useState<any>(null);
+//   const [activeSection, setActiveSection] = useState("");
+//   const pathname = useParams();
+
+//   // const sections = blogPost?.sections?.map(
+//   //   (section: any) => ({
+//   //     id: section.id,
+//   //     title: section.navTitle || section.title
+//   //   }) || [];
+//   const sections = blogPost?.sections?.map((section: any) => ({
+//     id: section.id,
+//     title: section.navTitle || section.title,
+//   }));
+
+//   const scrollToSection = (id: string) => {
+//     const element = document.getElementById(id);
+//     if (element) {
+//       element.scrollIntoView({ behavior: "smooth" });
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchBlogPost = async () => {
+//       try {
+//         const response = await api.get(`/blog/get/${pathname.slug}`);
+//         setBlogPost(response.data.data);
+//         console.log("Blog Post Data:", response.data.data);
+//       } catch (error) {
+//         console.error("Error fetching blog post", error);
+//       }
+//     };
+
+//     if (pathname?.slug) {
+//       fetchBlogPost();
+//     }
+//   }, [pathname?.slug]);
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             setActiveSection(entry.target.id);
+//           }
+//         });
+//       },
+//       { threshold: 0.5 }
+//     );
+
+//     sections?.forEach(({ id }: { id: string }) => {
+//       const element = document.getElementById(id);
+//       if (element) observer.observe(element);
+//     });
+
+//     return () => observer.disconnect();
+//   }, [sections]);
+
+//   if (!blogPost) return <div>Loading...</div>;
+
+//   return (
+//     <div className="min-h-screen bg-background">
+//       {blogPost.heroImage?.url && (
+//         <BlogHeroSection
+//           date={blogPost.createdAt}
+//           imageAlt={blogPost.heroImage.alt}
+//           imageUrl={blogPost.heroImage.url}
+//           title={blogPost.title}
+//           readTime="5 min"
+//         />
+//       )}
+
+//       <ContentWrapper>
+//         <div className="relative flex gap-8 py-8">
+//           <BlogSidebar
+//             sections={sections}
+//             activeSection={activeSection}
+//             scrollToSection={scrollToSection}
+//           />
+
+//           <div className="min-w-0 flex-1 space-y-12 lg:pl-8">
+//             <SectionRenderer
+//               sections={blogPost.sections}
+//               scrollToSection={scrollToSection}
+//             />
+//           </div>
+//         </div>
+//       </ContentWrapper>
+//     </div>
+//   );
+// }
+// @/components/(blog)/blogViewComponents/ListComponents.tsx"use client";
+"use client";
+import { FC, useEffect, useRef, useState } from "react";
+import ContentWrapper from "@/components/ContentWrapper";
+import BlogHeroSection from "@/components/(blog)/blogViewComponents/BlogHeroSection";
+import BlogSidebar from "@/components/(blog)/blogViewComponents/BlogSidebar";
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+} from "@/components/(blog)/blogViewComponents/BlogHeadings";
+import api from "@/lib/api";
+import { useParams } from "next/navigation";
+import BlogImageBlock from "@/components/(blog)/blogViewComponents/BlogImageBlock";
+import NoteBox from "@/components/(blog)/blogViewComponents/NoteInfo";
+import NumberPointsBox from "@/components/(blog)/blogViewComponents/NumberPointsBox";
+import KeyPointsBox from "@/components/(blog)/blogViewComponents/KeyPointsBox";
+import QuickAnswer from "@/components/(blog)/blogViewComponents/QuickAnswer";
+import FAQBox from "@/components/(blog)/blogViewComponents/FAQBox";
+import BlogArticleLoader from "@/components/(blog)/blogViewComponents/BlogArticleLoader";
+import { notFound } from "next/navigation"; // Import notFound
+import { AxiosError } from "axios";
+
+// Callout Component Mapping
+const CalloutComponents = {
+  tip: NoteBox,
+  note: NoteBox,
+  info: QuickAnswer,
+  warning: NoteBox,
+};
+
+// List Component Mapping
+const ListComponents = {
+  // bullet: NumberPointsBox,
+  bullet: KeyPointsBox,
+  number: NumberPointsBox,
+  checklist: NumberPointsBox,
+};
+
+// Block Type Rendering Components
+const BlockRenderer: FC<{ block: any }> = ({ block }) => {
+  switch (block.type) {
+    case "text":
+      return (
+        <div
+          className="prose max-w-full mt-4 text-lg text-muted-foreground font-blogText"
+          dangerouslySetInnerHTML={{ __html: block.content.html || "" }}
+        />
+      );
+
+    case "image":
+      return block.content.url ? (
+        <BlogImageBlock
+          imageAlt={block.content.alt}
+          imageUrl={block.content.url}
+        />
+      ) : null;
+
+    case "list":
+      const ListComponent =
+        ListComponents[block.content.type as keyof typeof ListComponents] ||
+        KeyPointsBox;
+      return <ListComponent items={block.content.items} />;
+
+    case "heading":
+      const HeadingComponents = {
+        h1: Heading1,
+        h2: Heading2,
+        h3: Heading3,
+        h4: Heading4,
+        h5: Heading5,
+        h6: Heading6,
+      };
+
+      const HeadingComponent =
+        HeadingComponents[
+          block.content.level as keyof typeof HeadingComponents
+        ] || Heading2;
+
+      return <HeadingComponent title={block.content.text} />;
+
+    case "callout":
+      const CalloutComponent =
+        CalloutComponents[
+          block.content.type as keyof typeof CalloutComponents
+        ] || NoteBox;
+      return (
+        <CalloutComponent
+          title={block.content.title}
+          content={block.content.content}
+        />
+      );
+
+    case "faq":
+      return (
+        <FAQBox
+          questions={block.content.question}
+          answers={block.content.answer}
+        />
+      );
+    default:
+      return null;
+  }
+};
+
+const SectionRenderer: FC<{
+  sections: any[];
+  scrollToSection: (id: string) => void;
+}> = ({ sections, scrollToSection }) => {
+  return (
+    <div className="space-y-4">
+      {sections.map((section, sectionIndex) => (
+        <section
+          key={section.id || sectionIndex}
+          id={section.id}
+          className="mb-4 "
+        >
+          {section.title && <Heading2 title={section.title} />}
+          {section.blocks?.map((block: any, blockIndex: number) => (
+            <BlockRenderer
+              key={block.id || `${sectionIndex}-${blockIndex}`}
+              block={block}
+            />
+          ))}
+        </section>
+      ))}
+    </div>
+  );
+};
+
+export default function BlogPostPage() {
+  const [blogPost, setBlogPost] = useState<any>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState("");
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const pathname = useParams();
+  const sectionRefsArray = useRef<HTMLElement[]>([]);
+
+  // const sections =
+  //   blogPost?.sections?.map((section: any) => ({
+  //     id: section.id,
+  //     title: section.navTitle || section.title,
+  //   })) || [];
+  const sections =
+    blogPost?.sections?.map((section: any, index: number) => ({
+      id: section.id,
+      title: section.navTitle || section.title,
+      index: index,
+    })) || [];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(id); //added line
+    }
+  };
+
+  useEffect(() => {
+    const fetchBlogPost = async () => {
+      try {
+        const response = await api.get(`/blog/get/${pathname.slug}`);
+        console.log("response data is", response.data);
+        setBlogPost(response.data.data);
+      } catch (error) {
+        console.error("Error fetching blog post", error);
+        if (error instanceof AxiosError && error.response?.status === 404) {
+          // notFound();
+          setError(true);
+        }
+      }
+    };
+
+    if (pathname?.slug) {
+      fetchBlogPost();
+    }
+  }, [pathname?.slug]);
+
+  // useEffect(() => {
+  //   if (!blogPost || !sections.length) return;
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           setActiveSection(entry.target.id);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       threshold: 0.5,
+  //       rootMargin: "-20% 0px -20% 0px",
+  //     }
+  //   );
+
+  //   sections.forEach(({ id }: { id: string }) => {
+  //     const element = document.getElementById(id);
+  //     if (element) observer.observe(element);
+  //   });
+
+  //   return () => observer.disconnect();
+  // }, [blogPost, sections]);
+  // useEffect(() => {
+  //   if (!blogPost || !sections.length) return;
+
+  //   // Create observer
+  //   observerRef.current = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           setActiveSection(entry.target.id);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       threshold: 0.5,
+  //       rootMargin: "-20% 0px -20% 0px",
+  //     }
+  //   );
+
+  //   // Observe sections
+  //   sections.forEach(({ id }: { id: string }) => {
+  //     const element = document.getElementById(id);
+  //     if (element) {
+  //       sectionRefs.current[id] = element;
+  //       observerRef.current!.observe(element);
+  //     }
+  //   });
+
+  //   // Cleanup
+  //   return () => {
+  //     if (observerRef.current) {
+  //       observerRef.current.disconnect();
+  //     }
+  //   };
+  // }, [blogPost, sections]);
+  useEffect(() => {
+    if (!blogPost || !sections.length) return;
+
+    // Collect section references
+    sectionRefsArray.current = sections
+      .map((section: any) => document.getElementById(section.id))
+      .filter(Boolean) as HTMLElement[];
+
+    // Function to determine active section
+    const determineActiveSection = () => {
+      // Check if scrolled to bottom of page
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 100 // Small buffer
+      ) {
+        // If at bottom, activate last section
+        setActiveSection(sections[sections.length - 1].id);
+        return;
+      }
+
+      // Reverse the array to prioritize sections from bottom to top
+      const reversedSections = [...sectionRefsArray.current].reverse();
+
+      for (const section of reversedSections) {
+        const rect = section.getBoundingClientRect();
+
+        // Check if section is at least partially in view
+        if (
+          rect.top <= window.innerHeight * 0.5 &&
+          rect.bottom >= window.innerHeight * 0.5
+        ) {
+          setActiveSection(section.id);
+          break;
+        }
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", determineActiveSection);
+
+    // Initial determination
+    determineActiveSection();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", determineActiveSection);
+    };
+  }, [blogPost, sections]);
+
+  if (error) {
+    notFound();
+  }
+  if (!blogPost) return <BlogArticleLoader />;
+  // if (!blogPost) return <div>Loading...</div>;
+
+  return (
+    <div className="min-h-screen bg-background">
+      {blogPost.heroImage?.url && (
+        <BlogHeroSection
+          date={blogPost.createdAt}
+          imageAlt={blogPost.heroImage.alt}
+          imageUrl={blogPost.heroImage.url}
+          title={blogPost.title}
+          readTime="5 min"
+          description="This is a default description for the blog post. It should be engaging and provide a brief overview of what readers can expect from the article."
+        />
+      )}
+
+      <ContentWrapper>
+        <div className="relative flex gap-8 py-8">
+          <BlogSidebar
+            sections={sections}
+            activeSection={activeSection}
+            scrollToSection={scrollToSection}
+          />
+
+          <div className="min-w-0 flex-1 space-y-12 lg:pl-8">
+            <SectionRenderer
+              sections={blogPost.sections}
+              scrollToSection={scrollToSection}
+            />
+          </div>
+        </div>
+      </ContentWrapper>
+    </div>
+  );
+}

@@ -11,6 +11,8 @@ import StockResume from "./stock-resume.jpg";
 import ResumeThreeHero from "./resumeThree-old.png";
 import ResumeFourHome from "./resumeFourHome.png";
 import ResumeOneHome from "./resumeOneHome.png";
+import NewsLetterImage from "./Mail sent-bro.svg";
+import Error404 from "./404Error.svg";
 export {
   Logo,
   UserAvatar,
@@ -24,4 +26,6 @@ export {
   StockResume,
   ResumeFourHome,
   ResumeOneHome,
+  NewsLetterImage,
+  Error404,
 };

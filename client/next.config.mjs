@@ -26,7 +26,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "ai-resume.s3.us-east-1.amazonaws.com",
         port: "",
-        pathname: "/profile/**",
+        pathname: "/{profile,blog}/**", // Correct path pattern
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.enhancv.com",
+        port: "",
+        pathname: "/**", // Correct path pattern
       },
       // Add other domains if needed
     ],

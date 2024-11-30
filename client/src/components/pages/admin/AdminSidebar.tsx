@@ -537,32 +537,13 @@ const AdminSidebar = () => {
     {
       icon: BiSolidEdit,
       label: "Blog Editor",
-      path: "/admin/blog-dashboard",
+      path: "/admin/blog-editor",
     },
-    // {
-    //   icon: PiReadCvLogoFill,
-    //   label: "AI Resume Builder",
-    //   path: activeResumeId ? `/app/resumes/${activeResumeId}` : "#",
-    //   matchPattern: /^\/app\/resumes\/[a-zA-Z0-9]+$/,
-    //   locked: !activeResumeId,
-    // },
-    // {
-    //   icon: SiCodemagic,
-    //   label: "AI Resume Optimizer",
-    //   path: "/app/resume-Optimizer",
-    // },
-    // {
-    //   icon: FaUserCheck,
-    //   label: "AI Interview Coach",
-    //   path: "/app/interview-coach",
-    // },
-    // { icon: IoMove, label: "Job Tracker", path: "/app/job-tracker" },
-    // { icon: BsFillFileTextFill, label: "Templates", path: "/app/templates" },
-    // {
-    //   icon: FaCoins,
-    //   label: "Ai Salary Analyzer",
-    //   path: "/app/salary-analyzer",
-    // },
+    {
+      icon: BiSolidEdit,
+      label: "All Blog Posts",
+      path: "/admin/blog-posts",
+    },
   ];
 
   const toggleSidebar = () => {

@@ -1,6 +1,12 @@
 "use client";
 
-const QuickAnswer = () => (
+const QuickAnswer = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: string;
+}) => (
   <div className="rounded  border bg-[#EFF6FF] p-6">
     <h3 className="text-xl font-semibold font-heading">Quick Answer</h3>
     <p className="mt-2 text-lg font-blogText">

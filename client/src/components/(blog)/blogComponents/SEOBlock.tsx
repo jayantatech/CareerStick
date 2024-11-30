@@ -61,7 +61,7 @@ export default function SEOBlock({ seo, onChange }: SEOBlockProps) {
           value={seo.canonicalUrl}
           onChange={(e) => onChange({ ...seo, canonicalUrl: e.target.value })}
           className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter the canonical URL for this blog post (e.g., https://yourblog.com/post-slug)"
+          placeholder="Enter the canonical URL for this blog post (e.g., https://mywebsite.com/post-slug)"
         />
       </div>
     </div>
