@@ -1180,7 +1180,7 @@
 
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   DndContext,
@@ -1207,6 +1207,9 @@ import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import SEOBlock from "./SEOBlock";
 import DescriptionBlock from "./DescriptionBlock";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface HeroImage {
   url: string;
@@ -1256,6 +1259,7 @@ interface BlogPost {
   status: string;
   slug: string;
   seo: SEO;
+  // readTime: number;
 }
 
 export default function BlogEditor() {
@@ -1269,13 +1273,19 @@ export default function BlogEditor() {
     relatedPosts: [],
     status: "draft",
     seo: {
-      // Initialize SEO with default values
       title: "",
       description: "",
       canonicalUrl: "",
     },
+    // readTime: 0,
   });
-
+  const router = useRouter();
+  const param = useParams();
+  console.log("param in BlogEditor", param);
+  const { user, isLoading } = useAuth();
+  if (!param.blog_id || param.blog_id.length !== 24) {
+    router.push("/admin/blog-posts");
+  }
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -1331,12 +1341,65 @@ export default function BlogEditor() {
 
   const saveBlogPost = useCallback(async () => {
     // Here you would typically send the data to your backend API
-    console.log("Saving blog post:", blogPost);
-    const response = await api.post("/blog/create", {
-      blogData: blogPost,
-    });
-    console.log("response.data for button click", response.data);
+    if (!param.blog_id) return;
+    if (!user?._id) return;
+    if (isLoading) return;
+    try {
+      console.log("Saving blog post:", blogPost);
+      const response = await api.post(`/blog/save/${param.blog_id}`, {
+        blogData: blogPost,
+        userId: user?._id,
+      });
+      console.log("response.data for save click", response.data);
+    } catch (error) {
+      console.error("Error creating blog:", error);
+      toast.error("Failed to get save blog");
+    }
   }, [blogPost]);
+
+  useEffect(() => {
+    const getBlogPost = async () => {
+      console.log("trying to get blog post");
+      if (!user?._id) return;
+      if (isLoading) return;
+      if (!param.blog_id) return;
+      try {
+        console.log("trying to send  request");
+
+        const response = await api.post(`/blog/article/${param.blog_id}`, {
+          userId: user._id,
+        });
+        console.log("made the send  request");
+
+        console.log("response.data for button click", response.data);
+        if (response.data.success) {
+          const blogData = response.data.data;
+          setBlogPost({
+            heroImage: blogData.heroImage || { url: "", alt: "" },
+            title: blogData.title || "",
+            description: blogData.description || { html: "", links: [] }, // Initialize description
+            slug: blogData.slug || "",
+            sections: blogData.sections,
+            author: blogData.author || { name: "", bio: "", avatar: "" },
+            relatedPosts: blogData.relatedPosts || [],
+            status: blogData.status || "draft",
+            seo: blogData.seo || {
+              title: "",
+              description: "",
+              canonicalUrl: "",
+            },
+            // readTime: blogData.readTime || 0,
+          });
+          // setBlogPost({ ...blogPost, heroImage: blogData.heroImage });
+          console.log("blogPost", blogPost);
+        }
+      } catch (error) {
+        console.error("Error creating blog:", error);
+        toast.error("Failed to get blog");
+      }
+    };
+    getBlogPost();
+  }, [param.blog_id, user?._id, isLoading]);
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
@@ -1350,6 +1413,7 @@ export default function BlogEditor() {
         content={blogPost.title}
         onChange={(title) => setBlogPost((prev) => ({ ...prev, title }))}
       />
+
       <DescriptionBlock
         content={blogPost.description}
         onChange={(description) =>
@@ -1392,7 +1456,7 @@ export default function BlogEditor() {
       <SEOBlock
         seo={blogPost.seo}
         onChange={(seo) =>
-          setBlogPost((prev) => ({ ...prev, seo, slug: seo.canonicalUrl }))
+          setBlogPost((prev) => ({ ...prev, slug: seo.canonicalUrl, seo }))
         }
       />
 

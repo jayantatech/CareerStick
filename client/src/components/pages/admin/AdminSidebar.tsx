@@ -507,6 +507,8 @@ import useAuth from "@/lib/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Logo, UserAvatar, SmallLogo } from "../../../../public/img";
 import { BiSolidEdit } from "react-icons/bi";
+import api from "@/lib/api";
+import { toast } from "sonner";
 // import { Skeleton } from "../ui/skeleton";
 
 interface NavItem {
@@ -564,6 +566,28 @@ const AdminSidebar = () => {
     return pathname === item.path;
   };
 
+  async function createNewBlogHandler() {
+    if (!user?._id) {
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    try {
+      const response = await api.post("/blog/create", {
+        userId: user?._id,
+      });
+      console.log("response.data for button click", response.data);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        router.push(`/admin/blog-editor/${response.data.blogId}`);
+      }
+    } catch (error) {
+      console.error("Error creating blog:", error);
+      toast.error("Failed to create blog");
+    }
+  }
+
   return (
     <div
       className={`h-full bg-white transition-all relative py-4 duration-300 ease-in-out border-r z-50  ${
@@ -572,7 +596,7 @@ const AdminSidebar = () => {
     >
       <div className="flex flex-row items-center gap-3 w-full border-b px-4 pb-2">
         <div
-          className={`max-w-[164px] w-auto bg-fuchsida-800 h-[38px] flex-shrink-0 transition-all duration-150 whitespace-nowrap overflow-hidden`}
+          className={`max-w-[164px] w-auto h-[38px] flex-shrink-0 transition-all duration-150 whitespace-nowrap overflow-hidden`}
         >
           {isExpanded ? (
             <Image
@@ -601,8 +625,17 @@ const AdminSidebar = () => {
           )}
         </div>
       </div>
+      {/* <div className="w-full h-auto bg-gray-200">
+     
+      </div> */}
 
       <div className="w-full h-auto min-h-[366px] mt-4 flex transition-all duration-75 ease-in-out flex-col gap-[6px] px-4">
+        <button
+          className="w-full h-[36px] bg-primary text-white rounded font-heading shadow hover:scale-[.98] font-semibold"
+          onClick={() => createNewBlogHandler()}
+        >
+          Create New Blog
+        </button>
         {navItems.map((item, index) => (
           <div
             key={index}

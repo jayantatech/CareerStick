@@ -34,6 +34,12 @@ const nextConfig = {
         port: "",
         pathname: "/**", // Correct path pattern
       },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+        port: "",
+        pathname: "/**", // Correct path pattern
+      },
       // Add other domains if needed
     ],
   },

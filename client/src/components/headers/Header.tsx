@@ -940,6 +940,7 @@ import { Button } from "@/components/ui/button";
 import ContentWrapper from "../ContentWrapper";
 import Image from "next/image";
 import { Logo } from "../../../public/img";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -975,6 +976,8 @@ export default function Header() {
     { href: "/blog", label: "Blog" },
   ];
 
+  const { user, isLoading, isAuthenticated } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full max-lg:bg-white border-b lg:bg-background/95 lg:backdrop-blur lg:supports-[backdrop-filter]:bg-background/60">
       <ContentWrapper>
@@ -1004,27 +1007,38 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col max-md:flex-col max-lg:flex-row gap-4 lg:flex-row lg:items-center">
-                <Button
-                  size="lg"
-                  className="w-full lg:w-auto rounded h-[36px] border-none bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign Up
-                </Button>
-                <Button
-                  size="lg"
-                  className="w-full lg:w-auto rounded h-[36px] border-none bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Log In
-                </Button>
-                <Button
-                  size="lg"
-                  className="w-full hidden lg:w-auto rounded h-[37px] border bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Dashboard
-                </Button>
+                {isAuthenticated ? (
+                  <Link href={"/app/resumes"}>
+                    <Button
+                      size="lg"
+                      className="w-full  lg:w-auto rounded h-[37px] border bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href={"/register"}>
+                      <Button
+                        size="lg"
+                        className="w-full lg:w-auto rounded h-[36px] border-none bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Sign Up
+                      </Button>
+                    </Link>
+                    <Link href={"/login"}>
+                      <Button
+                        size="lg"
+                        className="w-full lg:w-auto rounded h-[36px] border-none bg-primary text-white hover:bg-primary hover:scale-[.98] transition-all duration-150 font-heading font-semibold"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Log In
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </nav>

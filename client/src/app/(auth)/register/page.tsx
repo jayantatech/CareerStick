@@ -180,6 +180,7 @@ const Register: React.FC = () => {
           password: "",
           confirmPassword: "",
         });
+        router.push("/verify-request");
       } else {
         setApiMessage({
           type: "error",

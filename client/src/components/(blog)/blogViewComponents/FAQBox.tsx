@@ -8,7 +8,7 @@ const FAQBox = ({
   answers: string;
 }) => {
   return (
-    <div className="mt-6 space-y-6">
+    <div className="mt-3 space-y-6 mb-3 shadow">
       <div className="rounded border p-6">
         <h3 className="text-xl font-semibold">{questions}</h3>
         <p className="mt-2 text-muted-foreground">{answers}</p>

@@ -550,12 +550,15 @@ import { PiSealCheckBold } from "react-icons/pi";
 import { useParams } from "next/navigation";
 import ContentWrapper from "@/components/ContentWrapper";
 import { format } from "date-fns";
+import { FiClock } from "react-icons/fi";
+import { LuClock8 } from "react-icons/lu";
+// import { FaClockRotateLeft } from "react-icons/fa6";
 
 interface Props {
   imageUrl: string;
   imageAlt: string;
   title: string;
-  readTime: string;
+  readTime: number;
   date: string;
   description: string;
   ctaText?: string;
@@ -566,7 +569,7 @@ const BlogHeroSection = ({
   imageUrl,
   imageAlt = "Blog post hero image",
   title = "Default Blog Post Title That Spans Multiple Lines for Better Visual Appeal",
-  readTime = "5 min read",
+  readTime = 1,
   date = "November 28, 2024",
   description = "This is a default description for the blog post. It should be engaging and provide a brief overview of what readers can expect from the article. ",
   ctaText = "Read Article",
@@ -651,10 +654,11 @@ const BlogHeroSection = ({
               </div>
               <div className="flex items-center gap-3 text-sm  text-gray-600">
                 <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1 rounded border">
-                  <Calendar className="h-4 w-4 text-primary" />
+                  <Calendar className="h-4 w-4 text-gray-700" />
                   <time>{heroDate}</time>
                   <span className="text-gray-400">•</span>
-                  <span>{readTime} read</span>
+                  <LuClock8 className="h-4 w-4 text-gray-700" />
+                  <span>{readTime} min read</span>
                 </div>
               </div>
             </div>
@@ -664,9 +668,7 @@ const BlogHeroSection = ({
               <div className="absolute inset-0 rounded-md overflow-hidden shadow border">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
                 <Image
-                  src={
-                    "https://cdn.enhancv.com/images/1920/i/aHR0cHM6Ly9jZG4uZW5oYW5jdi5jb20vSG93X3RvX3dyaXRlX2FfcmVzdW1lX2ZlYXR1cmVfaW1nXzdiMDFhYjNmNDEuanBn.jpg"
-                  }
+                  src={imageUrl}
                   alt={imageAlt}
                   fill
                   className="object-cover"

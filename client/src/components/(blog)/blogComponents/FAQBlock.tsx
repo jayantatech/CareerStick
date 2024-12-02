@@ -7,7 +7,7 @@ interface FAQBlockProps {
 
 export default function FAQBlock({ content, onChange }: FAQBlockProps) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 ">
       <input
         type="text"
         value={content.question}

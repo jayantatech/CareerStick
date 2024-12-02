@@ -5,7 +5,7 @@ import { PiListNumbersBold } from "react-icons/pi";
 
 const NumberedPoints: FC = () => (
   <div className="py-12">
-    <div className="bg-white shadow-lg rounded border p-8 max-w-4xl mx-auto">
+    <div className="bg-white shadow rounded border p-8 max-w-4xl mx-auto">
       <div className="flex items-center gap-4 mb-6">
         <div className="w-12 h-12 bg-primary/10 flex items-center justify-center rounded text-primary">
           <PiListNumbersBold className="text-2xl" />

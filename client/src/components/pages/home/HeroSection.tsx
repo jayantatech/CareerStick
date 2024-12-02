@@ -47,7 +47,7 @@ export default function HeroSection() {
                   <span>One-click resume customization for any job role.</span>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 ">
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"

@@ -4,7 +4,7 @@ import { PiListNumbersBold } from "react-icons/pi";
 
 const NumberPointsBox = ({ items }: { items: string[] }) => {
   return (
-    <Card className="bg-white shadow-md rounded border border-gray-200 p-8 mb-6 max-w-4xl mx-auto">
+    <Card className="bg-white shadow rounded border border-gray-200 p-8 mb-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-start w-full gap-4 mb-6">
         <div className="w-12 h-12 bg-primary/10 flex items-center justify-center rounded text-primary">
           <PiListNumbersBold className="text-2xl" />

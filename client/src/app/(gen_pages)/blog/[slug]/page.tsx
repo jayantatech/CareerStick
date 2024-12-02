@@ -1063,7 +1063,7 @@ const BlockRenderer: FC<{ block: any }> = ({ block }) => {
     case "text":
       return (
         <div
-          className="prose max-w-full mt-4 text-lg text-muted-foreground font-blogText"
+          className="prose max-w-full mb-4 leading-relaxed text-lg text-muted-foreground font-blogText"
           dangerouslySetInnerHTML={{ __html: block.content.html || "" }}
         />
       );
@@ -1317,7 +1317,7 @@ export default function BlogPostPage() {
           imageAlt={blogPost.heroImage.alt}
           imageUrl={blogPost.heroImage.url}
           title={blogPost.title}
-          readTime="5 min"
+          readTime={blogPost.readTime}
           description="This is a default description for the blog post. It should be engaging and provide a brief overview of what readers can expect from the article."
         />
       )}

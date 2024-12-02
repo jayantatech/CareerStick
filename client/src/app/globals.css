@@ -113,6 +113,14 @@ section p a {
   border-bottom: 1px solid #030bfa;
 }
 
+section ul {
+  list-style: disc;
+}
+
+section p {
+  margin-bottom: 8px;
+}
+
 section p a:hover {
   color: #030bfa;
   text-decoration: none;

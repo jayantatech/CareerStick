@@ -13,6 +13,7 @@ import ResumeFourHome from "./resumeFourHome.png";
 import ResumeOneHome from "./resumeOneHome.png";
 import NewsLetterImage from "./Mail sent-bro.svg";
 import Error404 from "./404Error.svg";
+import MailVerify from "./Mail-verify-2.svg";
 export {
   Logo,
   UserAvatar,
@@ -28,4 +29,5 @@ export {
   ResumeOneHome,
   NewsLetterImage,
   Error404,
+  MailVerify,
 };

@@ -6,7 +6,7 @@ import { Heading2 } from "./BlogHeadings";
 
 const KeyPointsBox = ({ items }: { items: string[] }) => {
   return (
-    <Card className="bg-white shadow-lg rounded border border-gray-200 p-8 max-w-4xl mx-auto my-4">
+    <Card className="bg-white shadow rounded border border-gray-200 p-8 max-w-4xl mx-auto my-4">
       <div className="flex items-center justify-start w-full gap-4 mb-6">
         <div className="w-10 h-10 bg-primary/10 flex items-center justify-center rounded text-primary">
           <PiListChecksBold className="text-2xl" />

@@ -891,7 +891,7 @@ const Login = () => {
             type: "success",
             message: "Successfully logged in with Google!",
           });
-          router.push("/app");
+          router.push("/app/resumes");
         }
       } catch (error) {
         console.error("Google login error:", error);
@@ -929,7 +929,7 @@ const Login = () => {
         message: "Successfully logged in with Google!",
       });
       // Redirect to /app after successful login
-      router.push("/app");
+      router.push("/app/resumes");
     }
   }, [router]);
 
@@ -1006,7 +1006,7 @@ const Login = () => {
           email: "",
           password: "",
         });
-        router.push("/app");
+        router.push("/app/resumes");
       } else {
         setApiMessage({
           type: "error",
