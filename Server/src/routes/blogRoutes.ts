@@ -5,23 +5,23 @@ import {
   createBlog,
   deleteBlog,
   getAllBlogs,
+  getBlogById,
   getBlogBySlug,
   updateBlog,
 } from "../controllers/blog.controller";
 
 const router = express.Router();
 
-// Blog routes
-router.post("/create", createBlog);
+// user
 router.get("/get/:slug", getBlogBySlug);
-// router.put("/:slug/content", updateBlogContent);
-// router.patch("/:slug/metadata", updateBlogMetadata);
-// router.patch("/:slug/status", updateBlogStatus);
-// router.patch("/:slug/author", updateAuthorProfile);
+
+//user and admin
+router.get("/all-blogs", getAllBlogs);
+
+// admin
+router.post("/create", createBlog);
+router.post("/article/:blogId", getBlogById);
+router.post("/save/:blogId", updateBlog);
+router.post("/delete/:blogId", deleteBlog);
 
 export default router;
-
-// updateAuthorProfile,
-// updateBlogContent,
-// updateBlogMetadata,
-// updateBlogStatus,

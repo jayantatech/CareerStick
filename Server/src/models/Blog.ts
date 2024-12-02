@@ -485,7 +485,7 @@ interface Link {
   doFollow?: boolean;
 }
 
-interface BlockContent {
+export interface BlockContent {
   html?: string;
   text?: string;
   level?: string;
@@ -506,7 +506,7 @@ interface Block {
   content: BlockContent;
 }
 
-interface Section {
+export interface Section {
   id: string;
   title: string;
   navTitle: string;
@@ -536,8 +536,8 @@ const linkSchema = new Schema<Link>(
 
 const heroImageSchema = new Schema<HeroImage>(
   {
-    url: { type: String, required: true },
-    alt: { type: String, required: true },
+    url: { type: String, required: false },
+    alt: { type: String, required: false },
   },
   { _id: false }
 );
@@ -605,11 +605,18 @@ const blogSchema = new Schema(
   {
     heroImage: {
       type: heroImageSchema,
-      required: true,
     },
     title: {
       type: String,
       default: "",
+    },
+    slug: {
+      type: String,
+      unique: true,
+    },
+    readTime: {
+      type: Number,
+      default: 0,
     },
     description: DescriptionSchema,
     sections: [sectionSchema],
