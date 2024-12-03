@@ -121,3 +121,5 @@ async function sendVerificationEmail(email: string, token: string) {
     throw error;
   }
 }
+
+export default sendVerificationEmail;
