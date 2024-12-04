@@ -166,6 +166,7 @@ const Register: React.FC = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
       });
+      console.log("response.data for register", response.data);
       const data = response.data;
       if (data.success) {
         setApiMessage({
@@ -218,6 +219,7 @@ const Register: React.FC = () => {
         const response = await api.post("/auth/google", {
           code: codeResponse.code,
         });
+        console.log("response.data for google register", response.data);
 
         if (response.data.success) {
           setApiMessage({

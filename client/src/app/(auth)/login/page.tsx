@@ -885,6 +885,7 @@ const Login = () => {
         const response = await api.post("/auth/google", {
           code: codeResponse.code,
         });
+        console.log("response.data for google login", response.data);
 
         if (response.data.success) {
           setApiMessage({
@@ -995,7 +996,7 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
       });
-
+      console.log("response.data for login", response.data);
       const data = response.data;
       if (data.success) {
         setApiMessage({
