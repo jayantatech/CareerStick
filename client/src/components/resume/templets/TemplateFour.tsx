@@ -1576,7 +1576,9 @@ Font.register({
   family: "Helvetica",
   src: "https://fonts.gstatic.com/s/helveticaneue/v70/1Ptsg8zYS_SKggPNyCg4QIFqPfE.ttf",
 });
-
+// interface ExtendedImageProps extends ImageProps {
+//   alt?: string;
+// }
 const defaultStyleConfig: StyleConfig = {
   fontSize: {
     body: "normal",
@@ -1922,7 +1924,11 @@ const TemplateFour = ({
           {/* Profile Section */}
           {photo ? (
             <View style={styles.imageContainer}>
-              <Image src={photo} style={styles.image} />
+              <Image
+                src={photo}
+                style={styles.image}
+                data-accessibility-label={"Profile picture of the candidate"}
+              />
             </View>
           ) : (
             <View style={styles.imageContainer}>
@@ -1931,6 +1937,7 @@ const TemplateFour = ({
                   "https://ai-resume.s3.us-east-1.amazonaws.com/profile/1731488429181-careerstick.com"
                 }
                 style={styles.image}
+                data-accessibility-label={"Default profile picture"}
               />
             </View>
           )}

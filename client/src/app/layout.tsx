@@ -59,10 +59,8 @@ import localFont from "next/font/local";
 import { Lora, Merriweather, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { TemplateProvider } from "@/context/TemplateContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "sonner";
-// import { Toaster } from "@/components/ui/toaster";
 
 // Local fonts
 const geistSans = localFont({
@@ -143,9 +141,7 @@ export default function RootLayout({
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
           >
-            {/* <TemplateProvider></TemplateProvider> */}
             {children}
-            {/* <TemplateProvider>{children}</TemplateProvider> */}
           </GoogleOAuthProvider>
         </Providers>
         <Toaster />

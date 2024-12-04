@@ -1,6 +1,6 @@
 import React from "react";
 
-interface HeadingBlockProps {
+export interface HeadingBlockProps {
   content: { level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"; text: string };
   onChange: (content: {
     level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

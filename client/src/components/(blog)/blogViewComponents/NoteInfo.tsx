@@ -16,6 +16,11 @@ const NoteBox = ({ title, content }: { title: string; content: string }) => {
           <h4 className="text-lg font-semibold text-blue-700 dark:text-blue-300 mb-2">
             Note:
           </h4>
+          {title.length > 0 && (
+            <h4 className="text-lg font-semibold text-blue-700 dark:text-blue-300 mb-2">
+              {title}
+            </h4>
+          )}
           <div className=" text-lg text-muted-foreground font-blogText leading-relaxed  group-hover:text-gray-900 transition-colors duration-300">
             <p>{content}</p>
           </div>

@@ -1,85 +1,19 @@
-// import React from "react";
-// import { Calendar, Copy, Download, Edit2, Trash2 } from "lucide-react";
-// const ResumeViewBox = ({ resume }: { resume: any }) => {
-//   console.log("resume to show by ResumeViewBox", resume);
-//   return (
-//     <>
-//       <div className="w-full h-full bg-transparent absolute top-0 left-0"></div>
-//       <div className="w-full  h-[198px] rounded absolute flex items-center justify-center bottom-4 left-0  ">
-//         <div className="w-[94%] h-full bg-slate-50 border shadow-md rounded p-3">
-//           {/* Header Section */}
-//           <div className="w-full h-[36px] flex flex-col justify-between items-center border-b border-gray-200">
-//             <h2 className="text-lg font-bold font-heading">
-//               {resume.resumeTitle}
-//             </h2>
-//           </div>
-
-//           {/* Actions Section */}
-//           <div className="flex flex-col items-center gap-3 mt-2">
-//             <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
-//               <button className="flex  w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded ">
-//                 <Copy className="w-4 h-4" />
-//                 Copy
-//               </button>
-//               <button className="flex  w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded ">
-//                 {" "}
-//                 <Edit2 className="w-4 h-4" />
-//                 Edit
-//               </button>
-//             </div>
-//             <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
-//               <button className="flex  w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-red-500 hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded ">
-//                 {" "}
-//                 <Trash2 className="w-4 h-4" />
-//                 Delete
-//               </button>
-//               <button className="flex  w-1/2 h-[34px] items-center justify-center gap-2 py-1  text-white bg-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded ">
-//                 {" "}
-//                 <Download className="w-4 h-4" />
-//                 Download
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Preview Area */}
-//           <div className="mt-2 h-[36px] rounded  border-gray-200 flex items-center justify-between">
-//             {/* <span className="text-gray-400">Resume Preview</span> */}
-//             <div className="text-sm text-gray-500 flex items-center gap-1">
-//               <Calendar className="w-4 h-4" />
-//               Created: Nov 15, 2024
-//             </div>
-//             <div className="text-sm text-gray-500 flex items-center gap-1">
-//               <Calendar className="w-4 h-4" />
-//               Updated: Nov 15, 2024
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ResumeViewBox;
-
-// import React, { useState } from "react";
+// import React, { useState, useCallback } from "react";
 // import {
 //   Calendar,
 //   Copy,
-//   Download,
 //   Edit2,
 //   Trash2,
 //   X,
 //   Check,
 //   Pencil,
-//   Timer,
+//   Loader2,
 // } from "lucide-react";
-// import axios from "axios";
 // import { useRouter } from "next/navigation";
-// import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
-// import DeleteResumeModal from "./DeleteResumeModal";
 // import { format } from "date-fns";
 // import api from "@/lib/api";
 // import DownloadViewResume from "./ResumeViewerDownload";
+
 // const ResumeViewBox = ({
 //   resume,
 //   resumeId,
@@ -92,32 +26,31 @@
 //   resumeId: string;
 //   userId: string;
 //   onDelete: () => void;
-//   onDuplicate: () => void;
+//   onDuplicate: () => Promise<void>;
 //   onTitleUpdate: () => void;
 // }) => {
 //   const router = useRouter();
 //   const [isEditing, setIsEditing] = useState(false);
-//   const [isCopyEditing, setIsCopyEditing] = useState(false);
+//   const [isCopying, setIsCopying] = useState(false);
+//   const [isNavigating, setIsNavigating] = useState(false);
 //   const [title, setTitle] = useState(resume.resumeTitle);
 //   const [loading, setLoading] = useState(false);
-//   // Handle title update
 
 //   const handleTitleUpdate = async () => {
+//     if (!userId || userId.length !== 24 || !resumeId || resumeId.length !== 24)
+//       return;
+
+//     setLoading(true);
 //     try {
-//       if (!userId || userId.length !== 24) return;
-//       if (!resumeId || resumeId.length !== 24) return;
-//       setIsEditing(false);
-//       setLoading(true);
 //       const response = await api.post("/resume/update-resume-title", {
-//         resumeId: resumeId,
+//         resumeId,
 //         resumeTitle: title,
-//         userId: userId,
+//         userId,
 //       });
 
 //       if (response.data.success) {
 //         setIsEditing(false);
 //         onTitleUpdate();
-//         // Optionally refresh the page or update local state
 //       }
 //     } catch (error) {
 //       console.error("Error updating resume title:", error);
@@ -126,65 +59,30 @@
 //     }
 //   };
 
-//   // Handle delete resume
-//   const handleDelete = async () => {
-//     onDelete();
-//   };
-
-//   // Handle copy resume
 //   const handleCopy = async () => {
-//     onDuplicate();
-//     setIsCopyEditing(true);
+//     if (isCopying) return;
 
-//     const timer = setTimeout(() => {
-//       setIsCopyEditing(false);
-//     }, 1000);
+//     setIsCopying(true);
+//     try {
+//       await onDuplicate();
+//     } finally {
+//       setTimeout(() => setIsCopying(false), 1000);
+//     }
+//   };
 
-//     return () => clearTimeout(timer);
+//   const handleEdit = () => {
+//     setIsNavigating(true);
+//     router.push(`/app/resumes/${resumeId}`);
 //   };
-//   // const formattedDate = format(new Date(resume.createdAt), "yyyy-MM-dd");
-//   const formatDate = (date: string) => {
-//     const formattedDate = format(new Date(date), "dd-MM-yyyy");
-//     return formattedDate;
-//   };
+
+//   const formatDate = useCallback((date: string) => {
+//     return format(new Date(date), "dd-MM-yyyy");
+//   }, []);
+
 //   return (
 //     <>
-//       {/* <div className="w-full h-full bg-transparent absolute top-0 left-0"></div> */}
 //       <div className="w-full h-[198px] rounded absolute flex items-center justify-center bottom-4 left-0 z-50">
-//         <div className="w-[94%] h-full bg-slate-50 border shadow-md rounded p-3">
-//           {/* Header Section */}
-//           {/* <div className="w-full h-[36px] flex flex-col justify-between items-center border-b border-gray-200">
-//             {isEditing ? (
-//               <div className="flex items-center gap-2 w-full justify-center">
-//                 <input
-//                   type="text"
-//                   value={title}
-//                   onChange={(e) => setTitle(e.target.value)}
-//                   className="text-lg font-bold font-heading border rounded px-2 py-1 w-[60%]"
-//                   disabled={loading}
-//                 />
-//                 <button
-//                   onClick={handleTitleUpdate}
-//                   disabled={loading}
-//                   className="text-green-500 hover:text-green-600"
-//                 >
-//                   <Check className="w-5 h-5" />
-//                 </button>
-//                 <button
-//                   onClick={() => {
-//                     setIsEditing(false);
-//                     setTitle(resume.resumeTitle);
-//                   }}
-//                   disabled={loading}
-//                   className="text-red-500 hover:text-red-600"
-//                 >
-//                   <X className="w-5 h-5" />
-//                 </button>
-//               </div>
-//             ) : (
-//               <h2 className="text-lg font-bold font-heading">{title}</h2>
-//             )}
-//           </div> */}
+//         <div className="w-[94%] h-full bg-slate-50   border shadow rounded p-3">
 //           <div className="flex items-center gap-2 w-full justify-between relative">
 //             {isEditing ? (
 //               <>
@@ -192,7 +90,7 @@
 //                   type="text"
 //                   value={title}
 //                   onChange={(e) => setTitle(e.target.value)}
-//                   className="text-lg font-heading border rounded font-bold border-none outline-none"
+//                   className="text-lg w-full bg-slate-100 font-heading border rounded font-bold border-none outline-none"
 //                   disabled={loading}
 //                   autoFocus
 //                 />
@@ -210,8 +108,7 @@
 //                       setTitle(resume.resumeTitle);
 //                     }}
 //                     disabled={loading}
-//                     // className="absolute right-0 text-gray-700 p-1.5 rounded bg-blue-100 text- hover:text-gray-700"
-//                     className="text-red-500 hover:text-red-600 p-1 rounded bg-blue-100  disabled:opacity-50"
+//                     className="text-red-500 hover:text-red-600 p-1 rounded bg-blue-100 disabled:opacity-50"
 //                   >
 //                     <X className="w-5 h-5" />
 //                   </button>
@@ -222,36 +119,55 @@
 //                 <h2 className="text-lg font-bold font-heading">{title}</h2>
 //                 <button
 //                   onClick={() => setIsEditing(true)}
-//                   className="absolute right-0 text-gray-700 p-1.5 rounded bg-blue-100 text- hover:text-gray-700"
+//                   className="absolute right-0 text-gray-700 p-1.5 rounded bg-blue-100 hover:text-gray-700"
 //                 >
 //                   <Pencil className="w-4 h-4" />
 //                 </button>
 //               </div>
 //             )}
 //           </div>
-//           {/* Actions Section */}
+
 //           <div className="flex flex-col items-center gap-3 mt-2">
 //             <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
 //               <button
 //                 onClick={handleCopy}
-//                 disabled={loading}
+//                 disabled={loading || isCopying}
 //                 className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded"
 //               >
-//                 <Copy className="w-4 h-4" />
-//                 {isCopyEditing ? "Copying..." : "Copy"}
+//                 {isCopying ? (
+//                   <>
+//                     <Loader2 className="w-4 h-4 animate-spin" />
+//                     Copying...
+//                   </>
+//                 ) : (
+//                   <>
+//                     <Copy className="w-4 h-4" />
+//                     Copy
+//                   </>
+//                 )}
 //               </button>
 //               <button
-//                 onClick={() => router.push(`/app/resumes/${resumeId}`)}
-//                 disabled={loading}
+//                 onClick={handleEdit}
+//                 disabled={loading || isNavigating}
 //                 className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded"
 //               >
-//                 <Edit2 className="w-4 h-4" />
-//                 Edit
+//                 {isNavigating ? (
+//                   <>
+//                     <Loader2 className="w-4 h-4 animate-spin" />
+//                     Opening...
+//                   </>
+//                 ) : (
+//                   <>
+//                     <Edit2 className="w-4 h-4" />
+//                     Edit
+//                   </>
+//                 )}
 //               </button>
 //             </div>
+
 //             <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
 //               <button
-//                 onClick={handleDelete}
+//                 onClick={onDelete}
 //                 disabled={loading}
 //                 className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-red-500 hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded"
 //               >
@@ -264,15 +180,14 @@
 //             </div>
 //           </div>
 
-//           {/* Preview Area */}
-//           <div className="mt-2 h-[36px] rounded border-gray-200 flex items-center justify-between">
-//             <div className="text-sm text-gray-500 flex items-center gap-1">
-//               <Calendar className="w-4 h-4" />
-//               Created: {formatDate(resume.createdAt)}
-//             </div>
-//             <div className="text-sm text-gray-500 flex items-center gap-1">
-//               <Calendar className="w-4 h-4" />
+//           <div className="mt-2 h-[36px] rounded max-lg:text-[10px] border-gray-200 flex items-center justify-between">
+//             <div className="text-sm text-gray-500 flex items-center  gap-1 max-lg:items-start">
+//               <Calendar className="w-4 h-4 max-lg:mt-1" />
 //               Updated: {formatDate(resume.updatedAt)}
+//             </div>
+//             <div className="text-sm text-gray-500 flex items-center gap-1 max-lg:items-start">
+//               <Calendar className="w-4 h-4  max-lg:mt-1" />
+//               Created: {formatDate(resume.createdAt)}
 //             </div>
 //           </div>
 //         </div>
@@ -282,12 +197,10 @@
 // };
 
 // export default ResumeViewBox;
-
 import React, { useState, useCallback } from "react";
 import {
   Calendar,
   Copy,
-  Download,
   Edit2,
   Trash2,
   X,
@@ -299,6 +212,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import api from "@/lib/api";
 import DownloadViewResume from "./ResumeViewerDownload";
+import { ResumeState } from "@/lib/types/resumeInput";
 
 const ResumeViewBox = ({
   resume,
@@ -308,7 +222,7 @@ const ResumeViewBox = ({
   onDuplicate,
   onTitleUpdate,
 }: {
-  resume: any;
+  resume: ResumeState;
   resumeId: string;
   userId: string;
   onDelete: () => void;
@@ -469,11 +383,11 @@ const ResumeViewBox = ({
           <div className="mt-2 h-[36px] rounded max-lg:text-[10px] border-gray-200 flex items-center justify-between">
             <div className="text-sm text-gray-500 flex items-center  gap-1 max-lg:items-start">
               <Calendar className="w-4 h-4 max-lg:mt-1" />
-              Updated: {formatDate(resume.updatedAt)}
+              Updated: {formatDate(resume.updatedAt as string)}
             </div>
             <div className="text-sm text-gray-500 flex items-center gap-1 max-lg:items-start">
               <Calendar className="w-4 h-4  max-lg:mt-1" />
-              Created: {formatDate(resume.createdAt)}
+              Created: {formatDate(resume.createdAt as string)}
             </div>
           </div>
         </div>

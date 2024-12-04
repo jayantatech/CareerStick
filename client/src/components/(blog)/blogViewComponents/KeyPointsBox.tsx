@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import React from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { PiListChecksBold } from "react-icons/pi";
-import { Heading2 } from "./BlogHeadings";
 
 const KeyPointsBox = ({ items }: { items: string[] }) => {
   return (

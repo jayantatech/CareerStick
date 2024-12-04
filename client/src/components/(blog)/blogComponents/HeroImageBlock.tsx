@@ -1,8 +1,11 @@
+// import { folderNameEnum, uploadToS3 } from "@/lib/utils/s3";
 // import React, { useCallback } from "react";
 // import { useDropzone } from "react-dropzone";
+// // import { uploadToS3 } from "./uploadToS3"; // Ensure you have the correct path to the upload function
 
 // interface HeroImageBlockProps {
-//   content: { url: string; alt: string };
+//   content: any;
+//   // content: { url: string; alt: string };
 //   onChange: (content: { url: string; alt: string }) => void;
 // }
 
@@ -11,15 +14,16 @@
 //   onChange,
 // }: HeroImageBlockProps) {
 //   const onDrop = useCallback(
-//     (acceptedFiles: File[]) => {
+//     async (acceptedFiles: File[]) => {
 //       const file = acceptedFiles[0];
-//       const reader = new FileReader();
-//       reader.onload = (event) => {
-//         if (event.target) {
-//           onChange({ ...content, url: event.target.result as string });
-//         }
-//       };
-//       reader.readAsDataURL(file);
+//       try {
+//         // Upload file to S3 and get the public URL
+//         const uploadedUrl = await uploadToS3(file, folderNameEnum.blog);
+//         onChange({ ...content, url: uploadedUrl }); // Update the state with the uploaded URL
+//       } catch (error) {
+//         console.error("Error uploading file:", error);
+//         alert("Failed to upload the file. Please try again.");
+//       }
 //     },
 //     [content, onChange]
 //   );
@@ -56,16 +60,19 @@
 //     </div>
 //   );
 // }
-
 import { folderNameEnum, uploadToS3 } from "@/lib/utils/s3";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-// import { uploadToS3 } from "./uploadToS3"; // Ensure you have the correct path to the upload function
+import Image from "next/image";
+
+interface HeroImageContent {
+  url: string;
+  alt: string;
+}
 
 interface HeroImageBlockProps {
-  content: any;
-  // content: { url: string; alt: string };
-  onChange: (content: { url: string; alt: string }) => void;
+  content: HeroImageContent;
+  onChange: (content: HeroImageContent) => void;
 }
 
 export default function HeroImageBlock({
@@ -100,11 +107,15 @@ export default function HeroImageBlock({
       >
         <input {...getInputProps()} />
         {content.url ? (
-          <img
-            src={content.url}
-            alt={content.alt}
-            className="max-w-full h-auto"
-          />
+          <div className="relative w-full h-64">
+            <Image
+              src={content.url}
+              alt={content.alt || "Hero Image"}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
+            />
+          </div>
         ) : (
           <p>Drag and drop an image here, or click to select a file</p>
         )}

@@ -42,7 +42,7 @@ export default function PricingPage() {
             transition={{ duration: 0.3, delay: 0.2 }}
             className="text-xl text-muted-foreground max-w-2xl mx-auto"
           >
-            We're still in the development stage and value your feedback
+            {`We're still in the development stage and value your feedback`}{" "}
           </motion.p>
         </div>
 
@@ -76,8 +76,8 @@ export default function PricingPage() {
                 ))}
               </ul>
               <p className="text-muted-foreground mb-6">
-                As we're still improving our app based on user feedback, all
-                premium features are currently available for free. In the
+                As we&apos;re still improving our app based on user feedback,
+                all premium features are currently available for free. In the
                 future, we may introduce subscription plans, but for now, enjoy
                 full access to all our available tools!
               </p>

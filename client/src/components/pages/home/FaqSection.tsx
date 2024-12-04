@@ -7,9 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import ContentWrapper from "@/components/ContentWrapper";
-import { ChevronRight } from "lucide-react";
 
 const faqs = [
   {
@@ -94,7 +92,7 @@ export default function FAQSection() {
             className="mt-12 text-center"
           >
             <p className="text-muted-foreground mb-6">
-              Still have questions? We're here to help!
+              Still have questions? We&apos;re here to help!
             </p>
             {/* <Button
               size="lg"

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ContentWrapper from "@/components/ContentWrapper";
 import { ResumeThreeHero } from "../../../../public/img";
-import { BsSpeedometer2 } from "react-icons/bs";
 import { ArrowUp } from "lucide-react";
 import { PiSealCheckBold } from "react-icons/pi";
 

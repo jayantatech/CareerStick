@@ -1,26 +1,14 @@
-// import { useAppSelector } from "../store/hooks";
-
-// const handleAIResumeGenerate = async () => {
-//   const currentResumeState = useAppSelector((state) => state.resume);
-//   console.log("currentResumeState is : ", currentResumeState);
-// };
-
-// export { handleAIResumeGenerate };
-
 import api from "../api";
-import {
-  updateJobIndustry,
-  updatePersonalInfo,
-  updateProfessionalSummary,
-} from "../store/slices/resumeSlice";
+
 import { Dispatch } from "redux";
 import {
   setIsAIFeatureRequested,
   setResumeState,
 } from "../store/slices/resumeStateChangeSlice";
+import { ResumeState } from "../types/resumeInput";
 
 export const handleAIResumeGenerate = async (
-  resumeData: any,
+  resumeData: ResumeState,
   dispatch: Dispatch,
   userId: string,
   resumeId: string

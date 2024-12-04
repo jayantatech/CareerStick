@@ -330,8 +330,8 @@ export default function EmailVerificationPage() {
               </h1>
 
               <p className="text-sm text-gray-600 font-body">
-                We've sent you an email with a verification link. Please check
-                your inbox and click the link to complete your registration.
+                {` We've sent you an email with a verification link. Please check
+                your inbox and click the link to complete your registration.`}
               </p>
 
               <div className="flex flex-col items-center space-y-3 mt-6">

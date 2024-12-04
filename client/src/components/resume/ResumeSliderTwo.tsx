@@ -3,15 +3,9 @@
 import React, { memo, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { Carousel } from "@/components/ui/carousel";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "@/lib/store/hooks";
-import TemplateThreeView from "../sections/resumes/tsxView/TemplateThreeView";
-import { FaCircleNotch } from "react-icons/fa";
 
 const PDFWrapper = dynamic(() => import("./PDFWrapper"), {
   ssr: false,
@@ -25,10 +19,6 @@ const PDFWrapper = dynamic(() => import("./PDFWrapper"), {
 const ResumeSliderTwo = memo(() => {
   const [isResumeLoading, setIsResumeLoading] = useState(true);
   const resumeData = useAppSelector((state) => state.resume);
-  const styleConfig = useAppSelector((state) => state.resumeStyle);
-  const resumeStateChangeSlice = useAppSelector(
-    (state) => state.resumeSateChange.isGetResumeCalled
-  );
   const isAIFeatureRequested = useAppSelector(
     (state) => state.resumeSateChange.isAIFeatureRequested
   );

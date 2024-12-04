@@ -508,7 +508,7 @@ interface NavItem {
 const AppSidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeResumeId, setActiveResumeId] = useState<string | null>(null);
-  const { user, isLoading, error, isAuthenticated } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 

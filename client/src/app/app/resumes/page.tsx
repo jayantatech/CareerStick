@@ -272,7 +272,7 @@ const MyResume = () => {
 
             <div className="w-full h-full absolute left-0 top-0 opacity-80 z-30"></div>
 
-            <ResumeViewer resumeId={resume._id} resume={mappedData} />
+            <ResumeViewer resumeId={resume._id as string} resume={mappedData} />
           </div>
         </div>
       );
