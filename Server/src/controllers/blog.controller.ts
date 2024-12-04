@@ -503,18 +503,21 @@ export const getBlogBySlug = async (req: Request, res: Response) => {
 
     if (!blog) {
       return res.status(404).json({
+        success: false,
         message: "Blog post not found",
       });
     }
 
     res.status(200).json({
       message: "Blog post retrieved successfully",
+      success: true,
       data: blog,
     });
   } catch (error) {
     console.error("Error retrieving blog:", error);
     res.status(500).json({
       message: "Failed to retrieve blog post",
+      success: false,
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }
