@@ -1,36 +1,3 @@
-// import { Request, Response } from "express";
-// import { NewsletterSubscriber } from "../models/NewsletterSchema";
-
-// const handleNewsletterSubscribe = async (req: Request, res: Response) => {
-//   try {
-//     const { email } = req.body;
-
-//     // Check for existing subscription
-//     const existingSubscriber = await NewsletterSubscriber.findOne({ email });
-//     if (existingSubscriber) {
-//       return res.status(409).json({
-//         status: "error",
-//         message: "Email already subscribed",
-//       });
-//     }
-
-//     // Create new subscriber
-//     const newSubscriber = new NewsletterSubscriber({ email });
-//     await newSubscriber.save();
-
-//     res.status(201).json({
-//       status: "success",
-//       message: "Successfully subscribed to newsletter",
-//     });
-//   } catch (error) {
-//     console.error("Subscription error:", error);
-//     res.status(500).json({
-//       status: "error",
-//       message: "Internal server error",
-//     });
-//   }
-// };
-
 import { Request, Response } from "express";
 import {
   NewsletterSubscriber,
