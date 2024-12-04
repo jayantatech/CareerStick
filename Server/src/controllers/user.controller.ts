@@ -255,14 +255,18 @@ const loginUser = async (req: Request, res: Response) => {
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     };
 
-    return res
-      .status(200)
-      .cookie("refreshToken", refreshToken, refreshTokenOptions)
-      .cookie("accessToken", accessToken, accessTokenOptions)
-      .json({
-        success: true,
-        message: "User logged in successfully",
-      });
+    return (
+      res
+        .status(200)
+        // .cookie("refreshToken", refreshToken, refreshTokenOptions)
+        // .cookie("accessToken", accessToken, accessTokenOptions)
+        .json({
+          success: true,
+          message: "User logged in successfully",
+          accessToken,
+          refreshToken,
+        })
+    );
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
   }

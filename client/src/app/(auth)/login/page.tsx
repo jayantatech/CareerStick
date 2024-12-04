@@ -780,7 +780,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { useGoogleLogin } from "@react-oauth/google";
-
+import cookie from "js-cookie";
 interface FormData {
   email: string;
   password: string;
@@ -999,10 +999,28 @@ const Login = () => {
       console.log("response.data for login", response.data);
       const data = response.data;
       if (data.success) {
+        cookie.set("accessToken", data.accessToken, {
+          sameSite: "strict",
+          secure: true,
+          expires: 4 * 60 * 60 * 1000,
+          path: "/",
+          domain: `${
+            process.env.NODE_ENV === "production"
+              ? "careerstick.com"
+              : "localhost"
+          }`,
+        });
+        cookie.set("refreshToken", data.refreshToken, {
+          sameSite: "strict",
+          secure: true,
+          expires: 4 * 60 * 60 * 1000,
+          path: "/",
+        });
         setApiMessage({
           type: "success",
           message: data.message || "Login successful",
         });
+
         setFormData({
           email: "",
           password: "",
