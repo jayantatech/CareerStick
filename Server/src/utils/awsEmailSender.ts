@@ -114,7 +114,7 @@ async function sendVerificationEmail(email: string, token: string) {
   try {
     const command = new SendEmailCommand(params);
     const response = await sesClient.send(command);
-    console.log("Verification email sent successfully", response);
+    // console.log("Verification email sent successfully", response);
     return response;
   } catch (error) {
     console.error("Error sending verification email:", error);

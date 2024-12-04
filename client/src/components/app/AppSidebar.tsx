@@ -486,7 +486,6 @@ import {
   MdKeyboardArrowDown,
   MdLock,
 } from "react-icons/md";
-import { RiDashboardFill } from "react-icons/ri";
 import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
 import { PiReadCvLogoFill } from "react-icons/pi";
 import { SiCodemagic } from "react-icons/si";
@@ -521,7 +520,7 @@ const AppSidebar = () => {
   }, [pathname]);
 
   const navItems: NavItem[] = [
-    { icon: RiDashboardFill, label: "Dashboard", path: "/app" },
+    // { icon: RiDashboardFill, label: "Dashboard", path: "/app" },
     {
       icon: BsFillFileEarmarkPdfFill,
       label: "My Resume",

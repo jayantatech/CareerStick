@@ -63,10 +63,6 @@ app.use("/api/v1/resume", resumeRoutes);
 app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/newsletter", newsletterRoutes);
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-
 const startServer = async () => {
   try {
     await connectDB(); // Connect to database first

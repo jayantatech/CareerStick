@@ -32,7 +32,7 @@ const client = new OAuth2Client(
 const registerUser = async (req: Request, res: Response) => {
   const { email, password, firstName, lastName } = req.body;
   try {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     if (!email || !password || !firstName || !lastName) {
       return res.status(400).json({
         success: false,
@@ -97,7 +97,7 @@ const registerUser = async (req: Request, res: Response) => {
 
 const verifyUser = async (req: Request, res: Response) => {
   try {
-    console.log("verification_code", req.params.verification_code);
+    // console.log("verification_code", req.params.verification_code);
     const verification_code = req.params.verification_code;
     if (!verification_code) {
       return res.status(400).json({
@@ -338,7 +338,7 @@ const resetPassword = async (req: Request, res: Response) => {
 
 const refreshAccessToken = async (req: Request, res: Response) => {
   try {
-    console.log("refreshTokenData", req.cookies);
+    // console.log("refreshTokenData", req.cookies);
     const refreshTokenData = req.body.refreshToken || req.cookies.refreshToken;
 
     console.log("refreshTokenData", refreshTokenData);
@@ -466,125 +466,11 @@ const logoutUser = async (req: Request, res: Response) => {
   }
 };
 
-// const googleAuthCallback = async (req: Request, res: Response) => {
-//   const user = req.user;
-//   if (!user) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "User not found",
-//     });
-//   }
-
-//   const refreshToken = generateRefreshToken({ _id: user._id });
-//   user.refreshToken = refreshToken;
-//   user.lastLogin = new Date();
-//   await user.save();
-
-//   const accessToken = generateAccessToken({
-//     _id: user._id,
-//     email: user.email,
-//     firstName: user.firstName,
-//     emailVerified: user.emailVerified,
-//     isSubscribed: user.isSubscribed,
-//     subscribedPlan: user.subscribedPlan,
-//   });
-
-//   const refreshTokenOptions = {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict" as const,
-//     maxAge: 30 * 24 * 60 * 60 * 1000,
-//   };
-//   const accessTokenOptions = {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     sameSite: "strict" as const,
-//     maxAge: 4 * 60 * 60 * 1000, // 4 hours
-//   };
-
-//   return res
-//     .status(200)
-//     .cookie("refreshToken", refreshToken, refreshTokenOptions)
-//     .cookie("accessToken", accessToken, accessTokenOptions)
-//     .json({
-//       success: true,
-//       message: "User logged in successfully",
-//     });
-
-//   // const accessToken = generateAccessToken({
-//   //   //   _id: user._id,
-//   //   //   email: user.email,
-//   //   //   firstName: user.firstName,
-//   //   //   emailVerified: user.emailVerified,
-//   //   //   isSubscribed: user.isSubscribed,
-//   //   //   subscribedPlan: user.subscribedPlan,
-//   //   // });
-//   //   // const refreshTokenData = refreshToken;
-//   //   // res.json({ accessToken, refreshToken });
-//   // });
-// };
-// const googleAuthCallback = async (req: Request, res: Response) => {
-//   try {
-//     const user = req.user;
-//     if (!user) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "Authentication failed",
-//       });
-//     }
-
-//     // Generate tokens
-//     const refreshToken = generateRefreshToken({ _id: user._id });
-//     const accessToken = generateAccessToken({
-//       _id: user._id,
-//       email: user.email,
-//       firstName: user.firstName,
-//       emailVerified: user.emailVerified,
-//       isSubscribed: user.isSubscribed,
-//       subscribedPlan: user.subscribedPlan,
-//     });
-
-//     // Update user's refresh token
-//     await User.findByIdAndUpdate(user._id, {
-//       refreshToken,
-//       lastLogin: new Date(),
-//     });
-
-//     // Set cookies
-//     const cookieOptions = {
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === "production",
-//       sameSite: "lax" as const,
-//     };
-
-//     res
-//       .status(200)
-//       .cookie("refreshToken", refreshToken, {
-//         ...cookieOptions,
-//         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-//       })
-//       .cookie("accessToken", accessToken, {
-//         ...cookieOptions,
-//         maxAge: 15 * 60 * 1000, // 15 minutes
-//       })
-//       .json({
-//         success: true,
-//         message: "Authentication successful",
-//       });
-//   } catch (error) {
-//     console.error("Google auth callback error:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Internal server error",
-//     });
-//   }
-// };
-
 const googleAuthCallback = async (req: Request, res: Response) => {
-  console.log("google auth callback called");
+  // console.log("google auth callback called");
   try {
     const { code } = req.body;
-    console.log("req.body for google auth", req.body);
+    // console.log("req.body for google auth", req.body);
 
     // Exchange code for tokens
     const { tokens } = await client.getToken(code);
@@ -599,7 +485,7 @@ const googleAuthCallback = async (req: Request, res: Response) => {
     if (!payload) {
       throw new Error("No payload in ID token");
     }
-    console.log("payload from google", payload);
+    // console.log("payload from google", payload);
     // Find or create user
     // await // await connectDB();();
     let user = await User.findOne({ email: payload.email });
