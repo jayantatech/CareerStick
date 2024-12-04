@@ -151,13 +151,13 @@ const verifyUser = async (req: Request, res: Response) => {
     const refreshTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
+      sameSite: "lax" as const,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     };
     const accessTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
+      sameSite: "lax" as const,
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     };
 
@@ -245,13 +245,13 @@ const loginUser = async (req: Request, res: Response) => {
     const refreshTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
+      sameSite: "lax" as const,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     };
     const accessTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
+      sameSite: "lax" as const,
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     };
 
@@ -408,7 +408,7 @@ const refreshAccessToken = async (req: Request, res: Response) => {
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
+      sameSite: "lax" as const,
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     };
 
