@@ -1,6 +1,6 @@
 import React from "react";
 
-interface CalloutBlockProps {
+export interface CalloutBlockProps {
   content: {
     type: "info" | "warning" | "tip" | "note";
     title: string;

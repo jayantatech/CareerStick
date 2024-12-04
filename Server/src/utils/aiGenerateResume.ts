@@ -1166,14 +1166,14 @@ export const generateResume = async (resumeData: IResumeGenerationRequest) => {
     const responseData = completion.choices[0].message?.content
       ?.replace(/```json|```/g, "")
       .trim();
-    console.log("the data for ai generate resume got hear", responseData);
+    // console.log("the data for ai generate resume got hear", responseData);
     if (!responseData) {
       throw new Error("No response from OpenAI API");
     }
     // responseData = responseData;
 
     const parsedResponse = JSON.parse(responseData);
-    console.log("json parsed response", parsedResponse);
+    // console.log("json parsed response", parsedResponse);
     return parsedResponse;
   } catch (error) {
     console.error("Error generating resume:", error);
