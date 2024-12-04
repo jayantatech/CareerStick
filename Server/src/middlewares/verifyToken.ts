@@ -50,7 +50,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
         message: "Forbidden: Invalid or expired access token",
       });
     }
-    req.user = user;
+    req.user = user as IUser;
     next();
   } catch (error) {
     return res.status(403).json({
