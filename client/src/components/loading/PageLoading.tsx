@@ -1,8 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
 export default function PageLoading() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-950/90 backdrop-blur-md z-50">

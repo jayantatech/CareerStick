@@ -976,7 +976,7 @@ export default function Header() {
     { href: "/blog", label: "Blog" },
   ];
 
-  const { user, isLoading, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full max-lg:bg-white border-b lg:bg-background/95 lg:backdrop-blur lg:supports-[backdrop-filter]:bg-background/60">

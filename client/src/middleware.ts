@@ -250,7 +250,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 // import { jwtDecode } from "jwt-decode";
 
-import { decode } from "jsonwebtoken";
+import { decode, JwtPayload } from "jsonwebtoken";
 
 // Define paths that don't require authentication
 const PUBLIC_PATHS = ["/login", "/register", "/forgot-password"];
@@ -265,10 +265,10 @@ const hasValidTokens = (request: NextRequest): boolean => {
 // Function to check if the user is an admin (server-side version)
 const isAdmin = (accessToken: string): boolean => {
   try {
-    const decoded: any = decode(accessToken);
+    const decoded = decode(accessToken) as JwtPayload;
     console.log("decoded jwt by jay", decoded);
     return decoded.subscribedPlan === "admin";
-  } catch (error) {
+  } catch {
     return false;
   }
 };
@@ -353,7 +353,7 @@ export async function middleware(request: NextRequest) {
           const loginUrl = new URL("/login", request.url);
           return NextResponse.redirect(loginUrl);
         }
-      } catch (error) {
+      } catch {
         // If refresh request fails, redirect to login
         const loginUrl = new URL("/login", request.url);
         return NextResponse.redirect(loginUrl);
@@ -397,7 +397,7 @@ export async function middleware(request: NextRequest) {
           const loginUrl = new URL("/login", request.url);
           return NextResponse.redirect(loginUrl);
         }
-      } catch (error) {
+      } catch {
         // If refresh request fails, redirect to login
         const loginUrl = new URL("/login", request.url);
         return NextResponse.redirect(loginUrl);

@@ -486,26 +486,18 @@
 
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // import { Logo, SmallLogo, UserAvatar } from "../../../public/img";
 
 import {
   MdOutlineKeyboardArrowRight,
   MdKeyboardArrowLeft,
-  MdKeyboardArrowDown,
   MdLock,
 } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
-import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
-import { PiReadCvLogoFill } from "react-icons/pi";
-import { SiCodemagic } from "react-icons/si";
-import { FaUserCheck, FaCoins } from "react-icons/fa";
-import { IoMove } from "react-icons/io5";
-import { VscHubot } from "react-icons/vsc";
 import { usePathname, useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Logo, UserAvatar, SmallLogo } from "../../../../public/img";
+import { Logo, SmallLogo } from "../../../../public/img";
 import { BiSolidEdit } from "react-icons/bi";
 import api from "@/lib/api";
 import { toast } from "sonner";
@@ -521,18 +513,11 @@ interface NavItem {
 
 const AdminSidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [activeResumeId, setActiveResumeId] = useState<string | null>(null);
-  const { user, isLoading, error, isAuthenticated } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   // Extract resume ID from pathname if it exists
-  useEffect(() => {
-    const match = pathname.match(/^\/app\/resumes\/([a-zA-Z0-9]+)$/);
-    if (match) {
-      setActiveResumeId(match[1]);
-    }
-  }, [pathname]);
 
   const navItems: NavItem[] = [
     { icon: RiDashboardFill, label: "Dashboard", path: "/app" },

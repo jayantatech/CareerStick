@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, FileCheck, Rocket, Upload } from "lucide-react";
+import { ArrowRight, Rocket } from "lucide-react";
 import ContentWrapper from "@/components/ContentWrapper";
 export default function CTASection() {
   return (

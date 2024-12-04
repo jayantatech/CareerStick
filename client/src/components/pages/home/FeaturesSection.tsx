@@ -1,13 +1,11 @@
 import {
   Bot,
   Rocket,
-  Shield,
   Wand2,
   FileCheck,
   Sparkles,
   Target,
   Files,
-  Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FaRegWindowRestore } from "react-icons/fa";
@@ -20,12 +18,7 @@ interface FeatureCardProps {
   className?: string;
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-  className,
-}: FeatureCardProps) {
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <div
       className={cn(

@@ -39,14 +39,15 @@ const EmailIcon = () => (
   </Svg>
 );
 
-const CalendarIcon = () => (
-  <Svg style={{ width: 14, height: 14, marginTop: -3 }} viewBox="0 0 24 24">
-    <Path
-      fill="#4B5563"
-      d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm-2-8h-3v3h3v-3zm-5 0H9v3h3v-3zm5 5h-3v3h3v-3zm-5 0H9v3h3v-3z"
-    />
-  </Svg>
-);
+// use later
+// const CalendarIcon = () => (
+//   <Svg style={{ width: 14, height: 14, marginTop: -3 }} viewBox="0 0 24 24">
+//     <Path
+//       fill="#4B5563"
+//       d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm-2-8h-3v3h3v-3zm-5 0H9v3h3v-3zm5 5h-3v3h3v-3zm-5 0H9v3h3v-3z"
+//     />
+//   </Svg>
+// );
 
 const LinkedInIcon = () => (
   <Svg style={{ width: 14, height: 14, marginTop: -3 }} viewBox="0 0 24 24">
@@ -95,9 +96,9 @@ const getStyleValues = (config: StyleConfig = defaultStyleConfig) => {
     spacious: 1.8,
   };
 
-  const defaultFontSize = fontSizes.normal;
-  const defaultMargins = margins.normal;
-  const defaultLineHeight = lineHeights.normal;
+  // const defaultFontSize = fontSizes.normal;
+  // const defaultMargins = margins.normal;
+  // const defaultLineHeight = lineHeights.normal;
 
   // return {
   //   fontSize: fontSizes[config.fontSize?.body || "normal"] || defaultFontSize,

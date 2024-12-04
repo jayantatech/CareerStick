@@ -1,0 +1,41 @@
+version: 1
+frontend:
+  phases:
+    # Install dependencies for the client
+    preBuild:
+      commands:
+        - cd client
+        - npm ci
+
+    # Build the Next.js application
+    build:
+      commands:
+        - npm run build
+
+    # Optional: Add any post-build steps if needed
+    postBuild:
+      commands:
+        - echo "Next.js client build completed"
+
+  # Specify artifacts to deploy
+  artifacts:
+    baseDirectory: client/.next
+    files:
+      - "**/*"
+
+  # Cache node modules to speed up subsequent builds
+  cache:
+    paths:
+      - client/node_modules/**/*
+
+# Environment variable configurations
+environments:
+  production:
+    # Frontend environment variables (Next.js uses NEXT_PUBLIC_ prefix)
+    env:
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: 927600800528-8si9qosmjr53m7c8663ar72ac9g87ad2.apps.googleusercontent.com
+      NEXT_PUBLIC_AWS_ACCESS_KEY_ID: AKIAYS2NRTZ2GXTE3LVJ
+      NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY: 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
+      NEXT_PUBLIC_AWS_REGION: us-east-1
+      NEXT_PUBLIC_AWS_S3_BUCKET_NAME: ai-resume
+      NEXT_PUBLIC_ENVIRONMENT: production

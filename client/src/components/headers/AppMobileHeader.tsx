@@ -1,15 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { Logo, SmallLogo, UserAvatar } from "../../../public/img";
-import {
-  MdOutlineKeyboardArrowRight,
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowDown,
-  MdLock,
-  MdMenu,
-  MdClose,
-} from "react-icons/md";
+import { Logo, UserAvatar } from "../../../public/img";
+import { MdKeyboardArrowDown, MdLock, MdMenu, MdClose } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
 import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
 import { PiReadCvLogoFill } from "react-icons/pi";
@@ -32,7 +25,7 @@ interface NavItem {
 const AppMobileHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeResumeId, setActiveResumeId] = useState<string | null>(null);
-  const { user, isLoading, error, isAuthenticated } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 

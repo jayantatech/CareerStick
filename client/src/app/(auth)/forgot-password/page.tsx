@@ -7,7 +7,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import api from "@/lib/api";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 
 interface FormData {
   email: string;

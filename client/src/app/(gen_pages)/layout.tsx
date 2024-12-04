@@ -1,6 +1,4 @@
 import React from "react";
-import AppSidebar from "@/components/app/AppSidebar";
-import AppMobileHeader from "@/components/headers/AppMobileHeader";
 import Header from "@/components/headers/Header";
 import Footer from "@/components/Footer";
 

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Clock } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -34,27 +34,6 @@ const featuredArticles = [
     image: StockResume,
     gradient: "from-blue-500/10 to-blue-700/20",
     badgeColor: "bg-pink-400",
-  },
-];
-
-const expertVideos = [
-  {
-    title: "How to write a driver resume? 4 top tips (tutorial)",
-    category: "Resume Help",
-    type: "Video",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-  {
-    title: "How to write a top engineering resume (+ example)",
-    category: "Resume Help",
-    type: "Video",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-  {
-    title: "How to write a thank you letter for a job offer",
-    category: "Job Interview",
-    type: "Video",
-    thumbnail: "/placeholder.svg?height=200&width=300",
   },
 ];
 

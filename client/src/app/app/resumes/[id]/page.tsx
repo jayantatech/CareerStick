@@ -1,10 +1,8 @@
 // "use client";
 
-// import React, { useEffect, useRef, useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import { useAppDispatch } from "@/lib/store/hooks";
 // import { setMobilePreview } from "@/lib/store/slices/activeResumeSectionClice";
-// // import { useResumeData } from "@/hooks/useResumeData"; // Adjust the import path as needed
-
 // import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
 // import SelectResumeSlider from "@/components/resume/SelectResumeSlider";
 // import ResumeFeatureBox from "@/components/resume/ResumeFeatureBox";
@@ -16,11 +14,11 @@
 // import AddSectionPopup from "@/components/app/AddSectionPopup";
 // import { useResumeData } from "@/lib/hooks/useResumeData";
 // import PageLoading from "@/components/loading/PageLoading";
-// // import { useResumeData } from "@/lib/hooks/useResumeData";
 
 // const AiResumeBuilder: React.FC = () => {
 //   const [isLoading, setIsLoading] = useState(true);
-//   const hasLoadedOnce = useRef(false);
+//   // Use sessionStorage to track if the page has been loaded in this session
+//   const [hasLoadedInSession, setHasLoadedInSession] = useState(false);
 
 //   const dispatch = useAppDispatch();
 //   const { isValidResumeId } = useResumeData();
@@ -30,19 +28,29 @@
 //   }
 
 //   useEffect(() => {
-//     if (!hasLoadedOnce.current) {
-//       hasLoadedOnce.current = true;
+//     // Check if this is the first load in the current session
+//     const hasLoaded = sessionStorage.getItem("hasLoadedResumeBuilder");
+
+//     if (!hasLoaded) {
+//       // Set the loading state for 2.5 seconds only on first visit
 //       const timer = setTimeout(() => {
 //         setIsLoading(false);
+//         // Mark as loaded in session storage
+//         sessionStorage.setItem("hasLoadedResumeBuilder", "true");
+//         setHasLoadedInSession(true);
 //       }, 2500);
 
 //       return () => clearTimeout(timer);
+//     } else {
+//       // If already loaded in this session, don't show loading screen
+//       setIsLoading(false);
+//       setHasLoadedInSession(true);
 //     }
 //   }, []);
 
 //   return (
 //     <div className="flex flex-col h-screen">
-//       {/* {isLoading && <PageLoading />} */}
+//       {isLoading && !hasLoadedInSession && <PageLoading />}
 //       <div className="flex-1 overflow-y-auto">
 //         <div className="flex max-md:flex-col">
 //           {/* Mobile header */}
@@ -88,8 +96,7 @@
 // export default AiResumeBuilder;
 
 "use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/lib/store/hooks";
 import { setMobilePreview } from "@/lib/store/slices/activeResumeSectionClice";
 import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
@@ -105,18 +112,15 @@ import { useResumeData } from "@/lib/hooks/useResumeData";
 import PageLoading from "@/components/loading/PageLoading";
 
 const AiResumeBuilder: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  // Use sessionStorage to track if the page has been loaded in this session
-  const [hasLoadedInSession, setHasLoadedInSession] = useState(false);
-
-  const dispatch = useAppDispatch();
   const { isValidResumeId } = useResumeData();
-
-  if (!isValidResumeId) {
-    return null;
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoadedInSession, setHasLoadedInSession] = useState(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Only proceed if resume ID is valid
+    if (!isValidResumeId) return;
+
     // Check if this is the first load in the current session
     const hasLoaded = sessionStorage.getItem("hasLoadedResumeBuilder");
 
@@ -135,7 +139,12 @@ const AiResumeBuilder: React.FC = () => {
       setIsLoading(false);
       setHasLoadedInSession(true);
     }
-  }, []);
+  }, [isValidResumeId]);
+
+  // If resume ID is not valid, return null
+  if (!isValidResumeId) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col h-screen">

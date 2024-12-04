@@ -1,13 +1,4 @@
-// import React from "react";
-
-// const layout = ({ children }: { children: React.ReactNode }) => {
-//   return <div className="w-full h-auto">{children}</div>;
-// };
-
-// export default layout;
-
 import React from "react";
-import AppSidebar from "@/components/app/AppSidebar";
 import AppMobileHeader from "@/components/headers/AppMobileHeader";
 import AdminSidebar from "@/components/pages/admin/AdminSidebar";
 

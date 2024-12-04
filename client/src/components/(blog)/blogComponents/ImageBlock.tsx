@@ -54,6 +54,7 @@
 // }
 
 import { folderNameEnum, uploadToS3 } from "@/lib/utils/s3";
+import Image from "next/image";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 // import { uploadToS3 } from "./uploadToS3"; // Ensure the correct path to the upload function
@@ -91,7 +92,7 @@ export default function ImageBlock({ content, onChange }: ImageBlockProps) {
       >
         <input {...getInputProps()} />
         {content.url ? (
-          <img
+          <Image
             src={content.url}
             alt={content.alt}
             className="max-w-full h-auto"

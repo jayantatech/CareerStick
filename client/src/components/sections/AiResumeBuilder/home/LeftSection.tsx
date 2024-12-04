@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import JobIndustryFields from "../JobIndustryFields";
 import PersonalInformationFields from "../PersonalInformationFields";
 import ProfessionalSummaryField from "../ProfessionalSummaryField";
@@ -18,7 +18,6 @@ import CustomSections from "../CustomSections";
 import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
 import { VscHubot } from "react-icons/vsc";
-import { Skeleton } from "@/components/ui/skeleton";
 import ResumeTitleField from "../ResumeTitleSection";
 
 export interface Section {
@@ -35,17 +34,14 @@ export interface SelectedSections {
 }
 
 const LeftSection = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
   const leftSectionRef = useRef<HTMLDivElement>(null);
-  const resumeData = useAppSelector((state) => state.resume);
   const activeSections = useAppSelector(
     (state) => state.resumeStyle.activeSections
   );
 
-  const currentTemplate = useAppSelector(
-    (state) => state.templateSlice.currentTemplate
-  );
+  // const currentTemplate = useAppSelector(
+  //   (state) => state.templateSlice.currentTemplate
+  // );
   const nowSettings = useAppSelector((state) => state.resumeStyle);
   const handleGenerateResume = () => {
     console.log("Complete activeSections:", activeSections);
@@ -53,13 +49,6 @@ const LeftSection = () => {
     // console.log("currentTemplate data", currentTemplate);
     // Add your resume generation logic here
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 700);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>

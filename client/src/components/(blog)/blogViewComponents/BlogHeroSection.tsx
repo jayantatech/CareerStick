@@ -543,16 +543,14 @@
 // export default BlogHeroSection;
 
 import { Button } from "@/components/ui/button";
-import { Clock, ChevronRight, Home, Calendar } from "lucide-react";
+import { ChevronRight, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PiSealCheckBold } from "react-icons/pi";
 import { useParams } from "next/navigation";
 import ContentWrapper from "@/components/ContentWrapper";
 import { format } from "date-fns";
-import { FiClock } from "react-icons/fi";
 import { LuClock8 } from "react-icons/lu";
-// import { FaClockRotateLeft } from "react-icons/fa6";
 
 interface Props {
   imageUrl: string;
@@ -567,13 +565,11 @@ interface Props {
 
 const BlogHeroSection = ({
   imageUrl,
-  imageAlt = "Blog post hero image",
-  title = "Default Blog Post Title That Spans Multiple Lines for Better Visual Appeal",
-  readTime = 1,
-  date = "November 28, 2024",
-  description = "This is a default description for the blog post. It should be engaging and provide a brief overview of what readers can expect from the article. ",
-  ctaText = "Read Article",
-  ctaHref = "#",
+  imageAlt,
+  title,
+  readTime,
+  date,
+  description,
 }: Props) => {
   const param = useParams();
 
@@ -617,9 +613,13 @@ const BlogHeroSection = ({
                 {title}
               </h1>
 
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              {/* <p className="text-lg text-muted-foreground leading-relaxed">
                 {description}
-              </p>
+              </p> */}
+              <div
+                className="text-lg text-muted-foreground leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: description || "" }}
+              />
 
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <Button

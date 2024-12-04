@@ -14,23 +14,10 @@ import { VscHubot } from "react-icons/vsc";
 import { BiSelectMultiple } from "react-icons/bi";
 // import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
 
-import api from "@/lib/api";
-import {
-  // updateJobIndustry,
-  // updatePersonalInfo,
-  // updateProfessionalSummary,
-  // updateJobIndustry,
-  // updatePersonalInfo,
-  // updateProfessionalSummary,
-
-  updateProfessionalSummary,
-  updatePersonalInfo,
-  updateJobIndustry,
-} from "@/lib/store/slices/resumeSlice";
 import { TbLayoutCollage } from "react-icons/tb";
 import { handleAIResumeGenerate } from "@/lib/features/aiResumeGenerate";
 import useAuth from "@/lib/hooks/useAuth";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 const ResumeFeatureBox = () => {
@@ -66,14 +53,16 @@ const ResumeFeatureBox = () => {
 
     dispatch(setATSOptimizationBoxState(true));
   };
-  const handleAISuggestionBoxOpenState = () => {
-    dispatch(setTemplateBoxState(false));
-    dispatch(setDesignAndFontBoxState(false));
-    dispatch(setATSOptimizationBoxState(false));
-    dispatch(setAddSectionBoxState(false));
+  // I am not using this now but I will use it later
 
-    dispatch(setAISuggestionBoxState(true));
-  };
+  // const handleAISuggestionBoxOpenState = () => {
+  //   dispatch(setTemplateBoxState(false));
+  //   dispatch(setDesignAndFontBoxState(false));
+  //   dispatch(setATSOptimizationBoxState(false));
+  //   dispatch(setAddSectionBoxState(false));
+
+  //   dispatch(setAISuggestionBoxState(true));
+  // };
   const handleAddSectionBoxOpenState = async () => {
     dispatch(setTemplateBoxState(false));
     dispatch(setDesignAndFontBoxState(false));

@@ -17,7 +17,7 @@ const ATSOptimizationBox = () => {
     (state) => state.resumeFeatureState.ATSOptimizationBoxState
   );
   const resumeData = useAppSelector((state) => state.resume);
-  const { error, user, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
   const params = useParams();
   const dispatch = useAppDispatch();
 
