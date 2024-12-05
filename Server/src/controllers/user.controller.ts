@@ -148,39 +148,36 @@ const verifyUser = async (req: Request, res: Response) => {
 
     await user.save();
 
-    const refreshTokenOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax" as const,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    };
-    const accessTokenOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax" as const,
-      maxAge: 4 * 60 * 60 * 1000, // 4 hours
-    };
+    // const refreshTokenOptions = {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: "lax" as const,
+    //   maxAge: 30 * 24 * 60 * 60 * 1000,
+    // };
+    // const accessTokenOptions = {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: "lax" as const,
+    //   maxAge: 4 * 60 * 60 * 1000, // 4 hours
+    // };
 
-    const userrefreshToken = user.refreshToken;
-    console.log(
-      "accessToken",
+    // const userrefreshToken = user.refreshToken;
+    // console.log(
+    //   "accessToken",
+    //   accessToken,
+    //   "refreshToken",
+    //   refreshToken,
+    //   "user",
+    //   user,
+    //   "userrefreshToken",
+    //   userrefreshToken
+    // );
+    return res.status(200).json({
+      success: true,
+      message: "User verified successfully",
       accessToken,
-      "refreshToken",
       refreshToken,
-      "user",
-      user,
-      "userrefreshToken",
-      userrefreshToken
-    );
-    return res
-      .status(200)
-      .cookie("accessToken", accessToken, accessTokenOptions)
-      .cookie("refreshToken", refreshToken, refreshTokenOptions)
-      .json({
-        success: true,
-        message: "User verified successfully",
-        Data: accessToken,
-      });
+    });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
   }

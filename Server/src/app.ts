@@ -29,6 +29,8 @@ app.use(
       "http://localhost:4000",
       "https://career-stick.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
     credentials: true,
   })
 );
