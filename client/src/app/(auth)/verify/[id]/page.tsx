@@ -9,7 +9,7 @@ import api from "@/lib/api";
 import Link from "next/link";
 import { Logo } from "../../../../../public/img";
 import { AxiosError } from "axios";
-
+import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
 interface VerificationState {
   status: "loading" | "success" | "error";
   message: string;
@@ -45,8 +45,17 @@ const Verify = () => {
         );
 
         // console.log("Verification response:", response.data);
+        const data = response.data;
+        if (data.success) {
+          // cookie.set("refreshToken", data.refreshToken, {
+          //   sameSite: "strict",
+          //   secure: true,
+          //   expires: 4 * 60 * 60 * 1000,
+          //   path: "/",
+          // });
+          setAccessToken(data.accessToken);
+          setRefreshToken(data.refreshToken);
 
-        if (response.data.success) {
           setVerificationState({
             status: "success",
             message: "Email verified successfully!",
