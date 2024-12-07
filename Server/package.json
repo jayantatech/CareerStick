@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node --no-deprecation -r dotenv/config dist/app.js",
-    "dev": "nodemon -r dotenv/config --exec ts-node src/app.ts",
+    "dev": "nodemon -r dotenv/config --exec ts-node --transpile-only src/app.ts",
     "postinstall": "npm run build"
   },
   "engines": {
@@ -29,7 +29,6 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@arcjet/node": "^1.0.0-alpha.34",
     "@aws-sdk/client-ses": "^3.699.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",

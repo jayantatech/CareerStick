@@ -12,18 +12,17 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { OAuth2Client } from "google-auth-library";
 import sendVerificationEmail from "../utils/awsEmailSender";
-import arcjet, { validateEmail } from "@arcjet/node";
-// import {  } from "../utils/awsEmailSender";
-
-const aj = arcjet({
-  key: process.env.ARCJET_KEY!,
-  rules: [
-    validateEmail({
-      mode: "LIVE",
-      block: ["DISPOSABLE", "INVALID", "NO_MX_RECORDS"],
-    }),
-  ],
-});
+// import arcjet from "@arcjet/node";
+// import { validateEmail } from "@arcjet/node";
+// const aj = arcjet({
+//   key: process.env.ARCJET_KEY!,
+//   rules: [
+//     validateEmail({
+//       mode: "LIVE",
+//       block: ["DISPOSABLE", "INVALID", "NO_MX_RECORDS"],
+//     }),
+//   ],
+// });
 
 const generateVerificationCode = (): string => {
   const uniqueId: string = uuidv4();
@@ -74,18 +73,18 @@ const registerUser = async (req: Request, res: Response) => {
       });
     }
 
-    const decision = await aj.protect(req, {
-      email: email,
-    });
-    if (decision.isDenied()) {
-      res.writeHead(403, { "Content-Type": "application/json" });
-      return res.end(
-        JSON.stringify({
-          message: "Use a valid email address",
-          success: false,
-        })
-      );
-    }
+    // const decision = await aj.protect(req, {
+    //   email: email,
+    // });
+    // if (decision.isDenied()) {
+    //   res.writeHead(403, { "Content-Type": "application/json" });
+    //   return res.end(
+    //     JSON.stringify({
+    //       message: "Use a valid email address",
+    //       success: false,
+    //     })
+    //   );
+    // }
 
     const existingUser = await User.findOne({ email });
 
@@ -339,7 +338,7 @@ const forgotPassword = async (req: Request, res: Response) => {
       message: "Reset token sent to your email",
     });
   } catch (error: any) {
-    res.status(400).json({ success: false, message: error.message });
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
 
