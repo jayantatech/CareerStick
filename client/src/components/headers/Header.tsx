@@ -983,7 +983,14 @@ export default function Header() {
       <ContentWrapper>
         <div className="flex h-20 items-center justify-between max-lg:px-0">
           <Link href="/" className="flex items-center space-x-2 shrink-0">
-            <Image src={Logo} alt="Logo" className="h-10 max-lg:h-8 w-auto" />
+            <Image
+              src={Logo}
+              alt="Logo"
+              className="h-10 max-lg:h-8 w-auto"
+              priority
+              width={220}
+              height={50}
+            />
           </Link>
           <nav
             className={cn(

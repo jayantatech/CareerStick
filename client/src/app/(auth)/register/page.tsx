@@ -2,7 +2,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import { Logo } from "../../../../public/img";
 import { Google } from "../../../../public/icons";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import api from "@/lib/api";
 import { AxiosError } from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
+import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
 
 // Interfaces
 interface FormData {
@@ -190,8 +190,20 @@ const Register: React.FC = () => {
       }
     } catch (error) {
       console.log("error from api", error);
-      const axiosError = error as AxiosError<{ message: string }>;
+      const axiosError = error as AxiosError<{
+        message: string;
+        success: boolean;
+      }>;
 
+      if (!axiosError.response?.data?.success) {
+        setApiMessage({
+          type: "error",
+          message:
+            axiosError.response?.data.message ||
+            "Registration failed. Please try again.",
+        });
+        return;
+      }
       console.log("axiosError.response.data", axiosError.response?.data);
       if (
         axiosError.response?.status === 400 ||
@@ -221,12 +233,16 @@ const Register: React.FC = () => {
         });
         console.log("response.data for google register", response.data);
 
-        if (response.data.success) {
+        const data = response.data;
+
+        if (data.success) {
           setApiMessage({
             type: "success",
             message: "Successfully registered with Google!",
           });
-          router.push("/app"); // Or wherever you want to redirect after registration
+          setAccessToken(data.accessToken);
+          setRefreshToken(data.refreshToken);
+          router.push("/app/resumes"); // Or wherever you want to redirect after registration
         }
       } catch (error) {
         console.error("Google registration error:", error);
@@ -249,11 +265,6 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white flex items-center justify-center">
-        <Image src={Logo} alt="LiveCareer logo" width={220} height={50} />
-      </header>
-
       {/* Main Content */}
       <main className="flex items-center justify-center min-h-screen pt-[88px] px-4 flex-col">
         <div className="w-full max-w-[430px] bg-white rounded-lg shadow-lg p-8">
@@ -437,11 +448,14 @@ const Register: React.FC = () => {
           <div className="mt-6 text-center text-sm">
             <p className="text-gray-600">
               By clicking <b> Create Account </b> you agree to our{" "}
-              <Link href="#" className="text-blue-600 hover:underline">
+              <Link href="/terms" className="text-blue-600 hover:underline">
                 Terms and Conditions
               </Link>{" "}
               and{" "}
-              <Link href="#" className="text-blue-600 hover:underline">
+              <Link
+                href="/privacy-policy"
+                className="text-blue-600 hover:underline"
+              >
                 Privacy Policy
               </Link>
             </p>
@@ -456,19 +470,6 @@ const Register: React.FC = () => {
 
         {/* Footer */}
         <div className="py-4 mt-5 text-center text-sm text-gray-600">
-          <nav className="space-x-4">
-            <Link href="#" className="hover:underline">
-              TERMS & CONDITIONS
-            </Link>
-            <span>|</span>
-            <Link href="#" className="hover:underline">
-              PRIVACY POLICY
-            </Link>
-            <span>|</span>
-            <Link href="#" className="hover:underline">
-              CONTACT US
-            </Link>
-          </nav>
           <p className="mt-2">© 2024, CareerStick.com. All rights reserved.</p>
         </div>
       </main>

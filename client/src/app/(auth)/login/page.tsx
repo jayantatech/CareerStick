@@ -770,7 +770,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import { Logo } from "../../../../public/img";
 import { Google } from "../../../../public/icons";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -885,8 +884,10 @@ const Login = () => {
           code: codeResponse.code,
         });
         console.log("response.data for google login", response.data);
-
-        if (response.data.success) {
+        const data = response.data;
+        if (data.success) {
+          setAccessToken(data.accessToken);
+          setRefreshToken(data.refreshToken);
           setApiMessage({
             type: "success",
             message: "Successfully logged in with Google!",
@@ -1001,6 +1002,7 @@ const Login = () => {
         if (data.refreshToken && data.accessToken) {
           setAccessToken(data.accessToken);
           setRefreshToken(data.refreshToken);
+          router.push("/app/resumes");
         }
         setApiMessage({
           type: "success",
@@ -1011,7 +1013,6 @@ const Login = () => {
           email: "",
           password: "",
         });
-        router.push("/app/resumes");
       } else {
         setApiMessage({
           type: "error",
@@ -1042,9 +1043,6 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white flex items-center justify-center">
-        <Image src={Logo} alt="LiveCareer logo" width={220} height={50} />
-      </header>
 
       {/* Main Content */}
       <main className="flex items-center justify-center min-h-screen pt-[88px] px-4 flex-col">
@@ -1178,7 +1176,10 @@ const Login = () => {
                 Terms and Conditions
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-blue-600 hover:underline">
+              <Link
+                href="/privacy-policy"
+                className="text-blue-600 hover:underline"
+              >
                 Privacy Policy
               </Link>
             </p>
@@ -1193,19 +1194,6 @@ const Login = () => {
 
         {/* Footer */}
         <div className="py-4 mt-5 text-center text-sm text-gray-600">
-          <nav className="space-x-4">
-            <Link href="/terms" className="hover:underline">
-              TERMS & CONDITIONS
-            </Link>
-            <span>|</span>
-            <Link href="/privacy" className="hover:underline">
-              PRIVACY POLICY
-            </Link>
-            <span>|</span>
-            <Link href="/contact" className="hover:underline">
-              CONTACT US
-            </Link>
-          </nav>
           <p className="mt-2">© 2024, CareerStick.com. All rights reserved.</p>
         </div>
       </main>

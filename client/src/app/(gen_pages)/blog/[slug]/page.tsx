@@ -431,7 +431,7 @@ const BlockRenderer: FC<{ block: Block }> = ({ block }) => {
     case "text":
       return (
         <div
-          className="prose max-w-full mb-4 leading-relaxed text-lg text-muted-foreground font-blogText"
+          className="prose blog-paragraph max-w-full mb-4 leading-relaxed text-[18px] text-muted-foreground font-blogText"
           dangerouslySetInnerHTML={{ __html: block.content.html || "" }}
         />
       );
@@ -502,7 +502,7 @@ const SectionRenderer: FC<{
         <section
           key={section.id || `section-${sectionIndex}`}
           id={section.id}
-          className="mb-4"
+          className="mb-12"
         >
           {section.title && <Heading2 title={section.title} />}
           {section.blocks?.map((block, blockIndex) => (
@@ -546,7 +546,12 @@ export default function BlogPostPage() {
     const fetchBlogPost = async () => {
       try {
         const response = await api.get(`/blog/get/${pathname.slug}`);
-        setBlogPost(response.data.data);
+        if (!response.data.success) {
+          setError(true);
+        }
+        if (response.data.success) {
+          setBlogPost(response.data.data);
+        }
       } catch (error) {
         console.error("Error fetching blog post", error);
         if (error instanceof AxiosError && error.response?.status === 404) {
@@ -615,7 +620,7 @@ export default function BlogPostPage() {
   if (!blogPost) return <BlogArticleLoader />;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background ">
       {blogPost.heroImage?.url && (
         <BlogHeroSection
           date={blogPost.createdAt}

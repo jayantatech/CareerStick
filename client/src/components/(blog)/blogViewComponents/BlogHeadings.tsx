@@ -15,20 +15,20 @@ export const Heading1 = ({ title }: HeadingProps) => (
 
 export const Heading2 = ({ title, className }: HeadingProps) => (
   <h2
-    className={`scroll-m-20  pb-2 text-3xl font-semibold font-heading tracking-tight transition-colors first:mt-0 ${className}`}
+    className={`scroll-m-20  pb-2 text-3xl max-lg:text-2xl font-semibold font-heading tracking-tight transition-colors first:mt-0 ${className}`}
   >
     {title}
   </h2>
 );
 
 export const Heading3 = ({ title }: HeadingProps) => (
-  <h3 className="scroll-m-20 pb-2 text-2xl font-semibold font-heading tracking-tight">
+  <h3 className="scroll-m-20 pb-2 text-2xl max-lg:text-xl font-semibold font-heading tracking-tight">
     {title}
   </h3>
 );
 
 export const Heading4 = ({ title }: HeadingProps) => (
-  <h4 className="scroll-m-20 pb-2 text-xl font-semibold font-heading tracking-tight">
+  <h4 className="scroll-m-20 pb-2 text-xl font-semibold max-lg:text-lg font-heading tracking-tight">
     {title}
   </h4>
 );

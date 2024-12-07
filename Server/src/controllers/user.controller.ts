@@ -11,6 +11,19 @@ import {
 } from "../utils/jwt";
 import { v4 as uuidv4 } from "uuid";
 import { OAuth2Client } from "google-auth-library";
+import sendVerificationEmail from "../utils/awsEmailSender";
+import arcjet, { validateEmail } from "@arcjet/node";
+// import {  } from "../utils/awsEmailSender";
+
+const aj = arcjet({
+  key: process.env.ARCJET_KEY!,
+  rules: [
+    validateEmail({
+      mode: "LIVE",
+      block: ["DISPOSABLE", "INVALID", "NO_MX_RECORDS"],
+    }),
+  ],
+});
 
 const generateVerificationCode = (): string => {
   const uniqueId: string = uuidv4();
@@ -61,6 +74,19 @@ const registerUser = async (req: Request, res: Response) => {
       });
     }
 
+    const decision = await aj.protect(req, {
+      email: email,
+    });
+    if (decision.isDenied()) {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      return res.end(
+        JSON.stringify({
+          message: "Use a valid email address",
+          success: false,
+        })
+      );
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -85,6 +111,20 @@ const registerUser = async (req: Request, res: Response) => {
 
     await user.save();
 
+    const verification_code = user.verification_code;
+
+    if (!verification_code) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to generate verification code",
+      });
+    }
+
+    const result = await sendVerificationEmail(
+      email,
+      verification_code as string
+    );
+    console.log("Email sent successfully:", result);
     return res.status(201).json({
       success: true,
       message: "User created successfully",
@@ -528,27 +568,19 @@ const googleAuthCallback = async (req: Request, res: Response) => {
       sameSite: "lax" as const,
     };
 
-    res
-      .status(200)
-      .cookie("refreshToken", refreshToken, {
-        ...cookieOptions,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      })
-      .cookie("accessToken", accessToken, {
-        ...cookieOptions,
-        maxAge: 15 * 60 * 1000, // 15 minutes
-      })
-      .json({
-        success: true,
-        user: {
-          _id: user._id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          emailVerified: user.emailVerified,
-          isSubscribed: user.isSubscribed,
-        },
-      });
+    res.json({
+      success: true,
+      user: {
+        _id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailVerified: user.emailVerified,
+        isSubscribed: user.isSubscribed,
+      },
+      refreshToken,
+      accessToken,
+    });
   } catch (error) {
     console.error("Google auth error:", error);
     res.status(500).json({

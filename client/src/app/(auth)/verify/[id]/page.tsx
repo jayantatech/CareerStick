@@ -1,13 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import Image from "next/image";
-// import { Logo } from "../../../../public/img";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import api from "@/lib/api";
 import Link from "next/link";
-import { Logo } from "../../../../../public/img";
 import { AxiosError } from "axios";
 import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
 interface VerificationState {
@@ -64,7 +61,7 @@ const Verify = () => {
           // if()
 
           setTimeout(() => {
-            router.push("/app");
+            router.push("/app/resumes");
           }, 1500);
         } else {
           setVerificationState({
@@ -155,11 +152,6 @@ const Verify = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white flex items-center justify-center">
-        <Image src={Logo} alt="LiveCareer logo" width={220} height={50} />
-      </header>
-
       {/* Main Content */}
       <main className="flex items-center justify-center min-h-screen pt-[88px] px-4">
         <div className="w-full max-w-[530px] bg-white rounded shadow p-8">
@@ -171,20 +163,7 @@ const Verify = () => {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full py-4 text-center text-sm text-gray-600 ">
-        <nav className="space-x-4">
-          <Link href="#" className="hover:underline">
-            TERMS & CONDITIONS
-          </Link>
-          <span>|</span>
-          <Link href="#" className="hover:underline">
-            PRIVACY POLICY
-          </Link>
-          <span>|</span>
-          <Link href="#" className="hover:underline">
-            CONTACT US
-          </Link>
-        </nav>
+      <footer className="fixed bottom-8 left-0 w-full py-4 text-center text-sm text-gray-600 ">
         <p className="mt-2">© 2024, CareerStick.com. All rights reserved.</p>
       </footer>
     </div>

@@ -664,15 +664,30 @@ const BlogHeroSection = ({
             </div>
 
             {/* Image */}
+            {/* <div className="relative w-full h-[415px] lg:h-[415px]">
+              <div className="absolute inset-0 rounded-md overflow-hidden shadow border">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
+
+                <Image
+                  src={imageUrl}
+                  alt={imageAlt || "Blog Hero Image"}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div> */}
             <div className="relative w-full h-[415px] lg:h-[415px]">
               <div className="absolute inset-0 rounded-md overflow-hidden shadow border">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
                 <Image
                   src={imageUrl}
-                  alt={imageAlt}
+                  alt={imageAlt || "Blog Hero Image"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                   priority
+                  quality={100}
                 />
               </div>
             </div>

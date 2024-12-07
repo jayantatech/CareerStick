@@ -67,32 +67,23 @@ export default function Footer() {
             </h3>
             <ul className="space-y-4 font-body">
               <li>
-                <Link
-                  href="/resume-templates"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Resume Templates
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/cover-letter-templates"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Cover Letter Templates
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/resume-examples"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Resume Examples
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/career-blog"
+                  href="/blog"
                   className="hover:text-white transition-colors"
                 >
                   Career Blog
@@ -117,41 +108,32 @@ export default function Footer() {
             <ul className="space-y-4 font-body">
               <li>
                 <Link
-                  href="/resume-builder"
+                  href="/app/resumes"
                   className="hover:text-white transition-colors"
                 >
                   Resume Builder
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/cover-letter-builder"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Cover Letter Builder
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/career-resources"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Career Resources
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/job-search"
+                  href="/blog"
                   className="hover:text-white transition-colors"
                 >
                   Job Search Tips
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/interview-tips"
-                  className="hover:text-white transition-colors"
-                >
+                <Link href="/" className="hover:text-white transition-colors">
                   Interview Tips
                 </Link>
               </li>

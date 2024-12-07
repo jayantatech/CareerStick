@@ -5,7 +5,7 @@ import { Mail, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import ContentWrapper from "@/components/ContentWrapper";
 import { useState } from "react";
-import { MailVerify, Logo } from "../../../../public/img";
+import { MailVerify } from "../../../../public/img";
 
 export default function EmailVerificationPage() {
   const [isResending, setIsResending] = useState(false);
@@ -19,17 +19,6 @@ export default function EmailVerificationPage() {
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col">
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white z-10">
-        <div className="h-full flex items-center justify-center">
-          <Image
-            src={Logo}
-            alt="LiveCareer logo"
-            width={220}
-            height={50}
-            priority
-          />
-        </div>
-      </header>
       <main className="flex-grow flex items-center justify-center ">
         <ContentWrapper>
           <div className="max-w-md mx-auto text-center ">
@@ -59,7 +48,7 @@ export default function EmailVerificationPage() {
               <div className="flex flex-col items-center space-y-3 mt-6">
                 <Link
                   href="/"
-                  className="inline-flex items-center bg-primary text-white rounded  px-6 py-2 text-sm font-semibold hover:scale-[.98] transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-sm w-full justify-center"
+                  className="inline-flex items-center bg-primary text-white rounded  px-6 py-2 text-sm font-semibold hover:scale-[.98] transition-all hover:bg-primary/90 focus:outline-none  shadow-sm w-full justify-center"
                 >
                   Return to Homepage
                   <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />

@@ -344,7 +344,10 @@ const NewsletterCard: React.FC<NewsletterCardProps> = ({ className }) => {
               Terms & Conditions
             </Link>
             <span>and</span>
-            <Link href="/privacy" className="text-blue-600 hover:underline">
+            <Link
+              href="/privacy-policy"
+              className="text-blue-600 hover:underline"
+            >
               Privacy Policy
             </Link>
           </p>

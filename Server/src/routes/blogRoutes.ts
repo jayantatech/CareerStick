@@ -4,6 +4,7 @@ import express from "express";
 import {
   createBlog,
   deleteBlog,
+  getAllAdminBlogs,
   getAllBlogs,
   getBlogById,
   getBlogBySlug,
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get("/get/:slug", getBlogBySlug);
 
 //user and admin
+router.post("/all-admin-blogs", getAllAdminBlogs);
 router.get("/all-blogs", getAllBlogs);
 
 // admin

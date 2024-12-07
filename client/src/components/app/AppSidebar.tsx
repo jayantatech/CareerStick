@@ -495,6 +495,7 @@ import { VscHubot } from "react-icons/vsc";
 import { usePathname, useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 import { Skeleton } from "../ui/skeleton";
+import Link from "next/link";
 
 interface NavItem {
   icon: React.ElementType;
@@ -677,8 +678,13 @@ const AppSidebar = () => {
                     </span>
                     <span className="font-body font-medium -mt-[3px] whitespace-nowrap capitalize">
                       {`Plan: ${
-                        user?.subscribedPlan ? user?.subscribedPlan : ""
+                        user?.subscribedPlan
+                          ? user?.subscribedPlan.toLowerCase()
+                          : ""
                       }`}
+                      {/* {`Plan: ${
+                        user?.subscribedPlan ? user?.subscribedPlan : ""
+                      }`} */}
                     </span>
                   </div>
                 </div>
@@ -690,24 +696,28 @@ const AppSidebar = () => {
               </div>
             ) : null}
             {!user?.isSubscribed ? (
-              <button
-                className={`w-full h-[42px] bg-primary text-white font-heading font-semibold text-[16px] mt-1 rounded transition-all duration-300 ease-in-out flex items-center justify-center gap-1`}
-              >
-                <span>
-                  <VscHubot
-                    className={`text-[28px] text-white -mt-1 ${
-                      isExpanded ? "" : "ml-[2px]"
-                    }`}
-                  />
-                </span>
-                <span
-                  className={`transition-all duration-500 ease-in whitespace-nowrap ${
-                    isExpanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
-                  }`}
+              <Link href={"/pricing"}>
+                <button
+                  className={`w-full h-[42px] bg-primary text-white font-heading font-semibold text-[16px] mt-1 rounded transition-all duration-300 ease-in-out flex items-center justify-center gap-1`}
                 >
-                  Upgrade Your Plan
-                </span>
-              </button>
+                  <span>
+                    <VscHubot
+                      className={`text-[28px] text-white -mt-1 ${
+                        isExpanded ? "" : "ml-[2px]"
+                      }`}
+                    />
+                  </span>
+                  <span
+                    className={`transition-all duration-500 ease-in whitespace-nowrap ${
+                      isExpanded
+                        ? "opacity-100"
+                        : "opacity-0 w-0 overflow-hidden"
+                    }`}
+                  >
+                    Upgrade Your Plan
+                  </span>
+                </button>
+              </Link>
             ) : null}
           </>
         )}

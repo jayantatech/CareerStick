@@ -114,11 +114,6 @@ const ResendVerification = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white flex items-center justify-center">
-        <Image src={Logo} alt="LiveCareer logo" width={220} height={50} />
-      </header>
-
       {/* Main Content */}
       <main className="flex items-center justify-center min-h-screen pt-[88px] px-4 flex-col">
         <div className="w-full max-w-[430px] bg-white rounded-lg shadow-lg p-8">
@@ -193,19 +188,6 @@ const ResendVerification = () => {
 
         {/* Footer */}
         <div className="py-4 mt-5 text-center text-sm text-gray-600">
-          <nav className="space-x-4">
-            <Link href="/terms" className="hover:underline">
-              TERMS & CONDITIONS
-            </Link>
-            <span>|</span>
-            <Link href="/privacy" className="hover:underline">
-              PRIVACY POLICY
-            </Link>
-            <span>|</span>
-            <Link href="/contact" className="hover:underline">
-              CONTACT US
-            </Link>
-          </nav>
           <p className="mt-2">© 2024, CareerStick.com. All rights reserved.</p>
         </div>
       </main>

@@ -253,7 +253,15 @@ import type { NextRequest } from "next/server";
 import { decode, JwtPayload } from "jsonwebtoken";
 
 // Define paths that don't require authentication
-const PUBLIC_PATHS = ["/login", "/register", "/forgot-password"];
+const PUBLIC_PATHS = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/verify/*",
+  "/verify",
+  "/resend-verification",
+  "/verify-request",
+];
 
 // Function to check if the user has valid tokens
 const hasValidTokens = (request: NextRequest): boolean => {

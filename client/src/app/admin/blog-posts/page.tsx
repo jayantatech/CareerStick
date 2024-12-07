@@ -687,8 +687,12 @@ export default function AllBlogPosts() {
   const { user, isLoading } = useAuth();
 
   const fetchAllPosts = useCallback(async () => {
+    if (!user?._id) return;
+    if (isLoading) return;
     try {
-      const response = await api.get("/blog/all-blogs");
+      const response = await api.post("/blog/all-admin-blogs", {
+        user: user?._id,
+      });
       if (response.data.success) {
         setBlogPosts(response.data.data);
         setCount(response.data.data.length);
@@ -697,7 +701,7 @@ export default function AllBlogPosts() {
     } catch {
       toast.error("Failed to fetch blog posts");
     }
-  }, []);
+  }, [user?._id, isLoading]);
 
   useEffect(() => {
     fetchAllPosts();

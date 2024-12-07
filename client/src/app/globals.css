@@ -113,8 +113,9 @@ section p a {
   border-bottom: 1px solid #030bfa;
 }
 
-section ul {
+section .blog-paragraph ul {
   list-style: disc;
+  margin-left: 18px;
 }
 
 section p {

@@ -8,7 +8,7 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
-import XssProtection from "./middlewares/xssProtection";
+// import XssProtection from "./middlewares/xssProtection";
 import passport from "passport";
 import session from "express-session";
 import connectDB from "./config/connectDB";
@@ -50,11 +50,16 @@ app.use(cookie());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "secret",
+    secret: process.env.SESSION_SECRET || "career-stick ",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Use secure in production
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -114,8 +114,29 @@ export const createBlog = async (req: Request, res: Response) => {
 };
 
 // Get all blog posts
-export const getAllBlogs = async (req: Request, res: Response) => {
+export const getAllAdminBlogs = async (req: Request, res: Response) => {
   try {
+    const { userId } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    if (user.subscribedPlan !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized",
+      });
+    }
     const blogs = await Blog.find({});
 
     if (!blogs) {
@@ -153,6 +174,56 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     console.error("Error retrieving blogs:", error);
     res.status(500).json({
       message: "Failed to retrieve blog posts",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
+export const getAllBlogs = async (req: Request, res: Response) => {
+  try {
+    // Find only published blogs with public visibility
+    const blogs = await Blog.find({
+      status: "published",
+      slug: { $ne: "", $exists: true },
+      // slug: { $ne: [null, ""], $exists: true },
+    });
+
+    // If no blogs are found, return a 404 response
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No public blog posts found",
+      });
+    }
+
+    // Transform blog data for response
+    const dataToSend = blogs.map((blog) => ({
+      id: blog._id,
+      title: blog.title,
+      url: blog.slug || "",
+      readTime: blog.readTime,
+      imageUrl: blog.heroImage?.url || "",
+      author: {
+        name: blog.author?.name || "",
+        bio: blog.author?.bio || "",
+        avatar: blog.author?.avatar || "",
+      },
+      description: blog?.description?.html || "",
+      createdAt: blog.createdAt || "",
+      updatedAt: blog.updatedAt || "",
+    }));
+
+    // Send successful response with blog data
+    res.status(200).json({
+      success: true,
+      message: "Public blogs retrieved successfully",
+      data: dataToSend,
+    });
+  } catch (error) {
+    console.error("Error retrieving public blogs:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve public blog posts",
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }

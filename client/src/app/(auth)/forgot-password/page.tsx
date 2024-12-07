@@ -1,7 +1,5 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import Image from "next/image";
-import { Logo } from "../../../../public/img";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
@@ -115,9 +113,6 @@ const ForgotPassword = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[88px] shadow-md bg-white flex items-center justify-center">
-        <Image src={Logo} alt="LiveCareer logo" width={220} height={50} />
-      </header>
 
       {/* Main Content */}
       <main className="flex items-center justify-center min-h-screen pt-[88px] px-4 flex-col">
@@ -193,19 +188,6 @@ const ForgotPassword = () => {
 
         {/* Footer */}
         <div className="py-4 mt-5 text-center text-sm text-gray-600">
-          <nav className="space-x-4">
-            <Link href="/terms" className="hover:underline">
-              TERMS & CONDITIONS
-            </Link>
-            <span>|</span>
-            <Link href="/privacy" className="hover:underline">
-              PRIVACY POLICY
-            </Link>
-            <span>|</span>
-            <Link href="/contact" className="hover:underline">
-              CONTACT US
-            </Link>
-          </nav>
           <p className="mt-2">© 2024, CareerStick.com. All rights reserved.</p>
         </div>
       </main>
