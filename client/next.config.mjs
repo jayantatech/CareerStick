@@ -43,6 +43,23 @@ const nextConfig = {
       // Add other domains if needed
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+          },
+          {
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
+          },
+        ],
+      },
+    ];
+  },
   // Remove the experimental object since `appDir` is no longer needed.
 };
 
