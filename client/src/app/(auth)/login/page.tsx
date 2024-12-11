@@ -780,6 +780,9 @@ import { useRouter } from "next/navigation";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
+import { setCookieTokens } from "@/lib/ServerCookie";
+// import { setTokens } from "@/lib/ServerCookie";
+
 interface FormData {
   email: string;
   password: string;
@@ -1003,7 +1006,28 @@ const Login = () => {
       console.log("response.data for login", response.data);
       const data = response.data;
       if (data.success) {
+        await setCookieTokens(data.accessToken, data.refreshToken);
         router.push("/app/resumes");
+        // const setAccessTokenFun = async () => {
+        //   "use server";
+        //   cookies().set("accessToken", data.accessToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "strict",
+        //     expires: new Date(Date.now() + 30 * 60 * 1000),
+        //   });
+        //   cookies().set("refreshToken", data.refreshToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "strict",
+        //     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        //   });
+        // };
+        // setAccessTokenFun();
+        // const response = await axios.post("/api/login", {
+        //   accessToken: data.refreshToken,
+        //   refreshToken: data.accessToken,
+        // });
 
         // if (data.refreshToken && data.accessToken) {
         // // setAccessToken(data.accessToken);
