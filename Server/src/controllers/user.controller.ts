@@ -522,23 +522,17 @@ const refreshAccessToken = async (req: Request, res: Response) => {
 const logoutUser = async (req: Request, res: Response) => {
   try {
     console.log("logoutUser", req.user);
-    if (!req.user || !req.user._id || !req.body.userId) {
+    const { userId } = req.body;
+    if (!userId) {
       return res.status(400).json({
         success: false,
         message: "User ID is required",
       });
     }
-    const _id = req.user._id || req.body.userId;
 
     // const { _id } = req.user;
 
-    if (!_id) {
-      return res.status(400).json({
-        success: false,
-        message: "User ID is required",
-      });
-    }
-    const user = await User.findByIdAndUpdate(_id, {
+    const user = await User.findByIdAndUpdate(userId, {
       refreshToken: undefined,
     });
 

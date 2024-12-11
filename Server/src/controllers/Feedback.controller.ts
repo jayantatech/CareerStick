@@ -36,7 +36,7 @@ export const submitFeedback = async (req: Request, res: Response) => {
       // isResolved: false,
 
       userId,
-      userEmail: req.user?.email, // Optional, from auth middleware
+      userEmail: isValidUser.email, // Optional, from auth middleware
       appRating: userFeedback.appRating || null,
       easeOfUse: userFeedback.easeOfUse || [],
       keyFeatures: userFeedback.keyFeatures || [],
