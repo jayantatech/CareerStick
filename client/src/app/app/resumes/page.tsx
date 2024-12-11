@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import PageLoading from "@/components/loading/PageLoading";
 import { Plus, FileText, Loader2 } from "lucide-react";
+import FeedbackForm from "@/components/inputComponents/FeedbackForm";
 
 const EmptyResumeCard = React.memo(() => {
   const [isCreating, setIsCreating] = useState(false);
@@ -41,7 +42,7 @@ const EmptyResumeCard = React.memo(() => {
   return (
     <div
       onClick={handleCreateResume}
-      className="w-full max-w-[420px] h-[583px] max-lg:h-[500px] max-lg:w-[360px] aspect-[1/1.41] bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 p-3 m-4 cursor-pointer group relative overflow-hidden"
+      className="w-full max-w-[420px] h-[583px] max-lg:h-[500px] max-lg:w-[360px]  aspect-[1/1.41] bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 p-3 m-4 cursor-pointer group relative overflow-hidden"
     >
       <div className="w-full h-full  bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex flex-col items-center justify-center space-y-4 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-blue-50 group-hover:to-blue-100">
         {isCreating ? (
@@ -310,7 +311,8 @@ const MyResume = () => {
         onClose={() => setIsResumeDeletePopup(false)}
         onDelete={handleResumeDelete}
       />
-      <div className="w-full mx-auto px-4 sm:px-6 bg-gray-100 h-full lg:px-8 py-2 overflow-y-auto">
+      <FeedbackForm />
+      <div className="w-full max-lg:pt-[60px] mx-auto px-4 sm:px-6 bg-gray-100 h-full lg:px-8 py-2 overflow-y-auto">
         <div className="grid grid-cols-1 max-md:grid-cols-1 max-l-laptop:grid-cols-2 xl:grid-cols-3 gap-6 gap-y-2 items-center justify-items-center">
           {resumeGrid}
         </div>

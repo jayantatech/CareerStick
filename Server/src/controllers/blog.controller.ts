@@ -117,6 +117,7 @@ export const createBlog = async (req: Request, res: Response) => {
 export const getAllAdminBlogs = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
+    console.log("userId in getAllAdminBlogs", userId);
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({
         success: false,

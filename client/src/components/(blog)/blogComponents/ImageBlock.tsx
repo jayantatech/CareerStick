@@ -95,7 +95,9 @@ export default function ImageBlock({ content, onChange }: ImageBlockProps) {
           <Image
             src={content.url}
             alt={content.alt}
-            className="max-w-full h-auto"
+            width={700}
+            height={400}
+            layout="responsive"
           />
         ) : (
           <p>Drag and drop an image here, or click to select a file</p>

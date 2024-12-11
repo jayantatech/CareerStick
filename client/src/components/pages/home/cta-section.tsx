@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Rocket } from "lucide-react";
 import ContentWrapper from "@/components/ContentWrapper";
+import Link from "next/link";
 export default function CTASection() {
   return (
     <section className="py-16  bg-blue-600">
@@ -19,12 +20,14 @@ export default function CTASection() {
             helps you build a professional, job-winning resume in minutes,
             effortlessly and effectively.
           </p>
-          <Button
-            size="lg"
-            className="mt-4 outline-none border text-white font-heading font-semibold text-lg px-8 py-6 rounded hover:scale-[.98] shadow-lg hover:shadow-xl transition-all duration-300"
-          >
-            Start Building Now <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Link href="/app/resumes">
+            <Button
+              size="lg"
+              className="mt-4 outline-none border text-white font-heading font-semibold text-lg px-8 py-6 rounded hover:scale-[.98] shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Start Building Now <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </ContentWrapper>
     </section>

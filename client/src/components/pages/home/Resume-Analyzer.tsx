@@ -197,7 +197,7 @@ export default function ResumeAnalyzer() {
             </div>
           </div>
           <div className="h-auto gap-2 flex flex-row w-1/2 max-lg:items-start max-lg:justify-center max-md:flex-col max-lg:w-full">
-            <div className="w-[436px] rounded relative max-md:w-full">
+            <div className="w-[436px] rounded relative max-md:w-[90%] max-md:mx-auto">
               {" "}
               {/* Added relative here */}
               {/* Background rotated divs */}
@@ -210,7 +210,7 @@ export default function ResumeAnalyzer() {
                   alt="Resume Match Diagram"
                   width={500}
                   height={400}
-                  className="w-[418px] rounded h-[560px] max-md:w-[90%] max-md:h-auto"
+                  className="w-[418px] rounded h-[560px]  max-md:h-auto"
                 />
               </div>
             </div>

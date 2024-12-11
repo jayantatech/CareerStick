@@ -775,7 +775,7 @@ import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import api from "@/lib/api";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { useGoogleLogin } from "@react-oauth/google";
@@ -992,6 +992,10 @@ const Login = () => {
     setApiMessage({ type: "", message: "" });
 
     try {
+      // const response = await api.post("/auth/login", {
+      //   email: formData.email,
+      //   password: formData.password,
+      // });
       const response = await api.post("/auth/login", {
         email: formData.email,
         password: formData.password,
@@ -999,11 +1003,19 @@ const Login = () => {
       console.log("response.data for login", response.data);
       const data = response.data;
       if (data.success) {
-        if (data.refreshToken && data.accessToken) {
-          setAccessToken(data.accessToken);
-          setRefreshToken(data.refreshToken);
-          router.push("/app/resumes");
-        }
+        router.push("/app/resumes");
+
+        // if (data.refreshToken && data.accessToken) {
+        // // setAccessToken(data.accessToken);
+        // // setRefreshToken(data.refreshToken);
+        // const response = await axios.post("/api/login", {
+        //   accessToken: data.refreshToken,
+        //   refreshToken: data.accessToken,
+        // });
+        // console.log("response.data for login next", response.data);
+        // if (response.data.success) {
+        // }
+        // }
         setApiMessage({
           type: "success",
           message: data.message || "Login successful",

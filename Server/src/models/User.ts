@@ -129,6 +129,12 @@ export interface IUser extends Document {
   resetPasswordExpiresAt?: Date;
   isSubscribed: boolean;
   subscribedPlan: SubscribedPlan;
+  photo?: string;
+  phoneNumber?: string;
+  address?: {
+    city: string;
+    country: string;
+  };
   preferences: {
     darkMode: boolean;
     language: string;
@@ -162,6 +168,13 @@ const userSchema = new Schema<IUser>({
   resetPasswordExpiresAt: { type: Date },
   isSubscribed: { type: Boolean, default: false },
   subscribedPlan: { type: String, default: SubscribedPlan.FREE },
+  photo: { type: String, default: "" },
+  phoneNumber: { type: String, default: "" },
+  address: {
+    city: { type: String, default: "" },
+    country: { type: String, default: "" },
+  },
+
   preferences: {
     darkMode: { type: Boolean, default: false },
     language: { type: String, default: "en" },

@@ -690,16 +690,18 @@ export default function AllBlogPosts() {
     if (!user?._id) return;
     if (isLoading) return;
     try {
+      console.log("trying to send  request", user?._id);
       const response = await api.post("/blog/all-admin-blogs", {
-        user: user?._id,
+        userId: user?._id,
       });
       if (response.data.success) {
         setBlogPosts(response.data.data);
         setCount(response.data.data.length);
         toast.success("Successfully fetched blog posts");
       }
-    } catch {
-      toast.error("Failed to fetch blog posts");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch blog posts" + error);
     }
   }, [user?._id, isLoading]);
 
@@ -729,11 +731,18 @@ export default function AllBlogPosts() {
     }
   };
 
+  // const viewPostHandler = (post: BlogPost) => {
+  //   if (post.status === "published") {
+  //     router.push(`/blog/${post.url}`);
+  //   } else if (post.status === "draft") {
+  //     router.push(`/blog/preview/${post.url}`);
+  //   }
+  // };
   const viewPostHandler = (post: BlogPost) => {
     if (post.status === "published") {
-      router.push(`/blog/${post.url}`);
+      window.open(`/blog/${post.url}`, "_blank");
     } else if (post.status === "draft") {
-      router.push(`/blog/preview/${post.url}`);
+      window.open(`/blog/preview/${post.url}`, "_blank");
     }
   };
 

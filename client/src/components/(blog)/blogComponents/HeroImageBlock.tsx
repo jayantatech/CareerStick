@@ -107,13 +107,14 @@ export default function HeroImageBlock({
       >
         <input {...getInputProps()} />
         {content.url ? (
-          <div className="relative w-full h-64">
+          <div className="relative w-full h-[540px]">
             <Image
               src={content.url}
               alt={content.alt || "Hero Image"}
-              layout="fill"
               objectFit="cover"
               className="rounded-lg"
+              width={836}
+              height={570}
             />
           </div>
         ) : (

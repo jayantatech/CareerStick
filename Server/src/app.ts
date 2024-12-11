@@ -14,6 +14,8 @@ import session from "express-session";
 import connectDB from "./config/connectDB";
 import blogRoutes from "./routes/blogRoutes";
 import newsletterRoutes from "./routes/newsletterRoutes";
+import feedbackRoutes from "./routes/feedbackRoutes";
+import settingsRoutes from "./routes/settingsRoutes";
 
 dotenv.config();
 
@@ -70,6 +72,8 @@ app.use("/api/v1/ai", aiFeaturesRoutes);
 app.use("/api/v1/resume", resumeRoutes);
 app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/newsletter", newsletterRoutes);
+app.use("/api/v1/feedback", feedbackRoutes);
+app.use("/api/v1/settings", settingsRoutes);
 
 const startServer = async () => {
   try {

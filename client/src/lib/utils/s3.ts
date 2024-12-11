@@ -193,6 +193,7 @@ const s3 = new S3Client({
 export enum folderNameEnum {
   profile = "profile",
   blog = "blog",
+  generalFiles = "general-files",
 }
 
 export async function uploadToS3(

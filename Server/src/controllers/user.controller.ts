@@ -11,7 +11,10 @@ import {
 } from "../utils/jwt";
 import { v4 as uuidv4 } from "uuid";
 import { OAuth2Client } from "google-auth-library";
-import sendVerificationEmail from "../utils/awsEmailSender";
+import {
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+} from "../utils/resendEmailSender";
 // import arcjet from "@arcjet/node";
 // import { validateEmail } from "@arcjet/node";
 // const aj = arcjet({
@@ -95,40 +98,76 @@ const registerUser = async (req: Request, res: Response) => {
       });
     }
 
-    const user = await User.create({
-      email,
-      password,
-      firstName,
-      lastName,
-      isSubscribed: false,
-      subscribedPlan: "FREE",
-      createdAt: new Date(),
-      emailVerified: false,
-      verification_code: generateVerificationCode(),
-      verification_code_ExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-    });
+    // const user = await User.create({
+    //   email,
+    //   password,
+    //   firstName,
+    //   lastName,
+    //   isSubscribed: false,
+    //   subscribedPlan: "FREE",
+    //   createdAt: new Date(),
+    //   emailVerified: false,
+    //   verification_code: generateVerificationCode(),
+    //   verification_code_ExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+    // });
 
-    await user.save();
+    // await user.save();
 
-    const verification_code = user.verification_code;
+    // const verification_code = user.verification_code;
 
-    if (!verification_code) {
-      return res.status(400).json({
+    // if (!verification_code) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Failed to generate verification code",
+    //   });
+    // }
+
+    // const result = await sendVerificationEmail(user.email, verification_code);
+    // console.log("Email sent successfully:", result);
+    // return res.status(201).json({
+    //   success: true,
+    //   message: "User created successfully",
+    //   Data: user,
+    // });
+    const verification_code = generateVerificationCode();
+
+    try {
+      // Attempt to send verification email BEFORE creating the user
+      const emailResult = await sendVerificationEmail(email, verification_code);
+
+      // If email sending fails, this won't be reached and will go to catch block
+      if (!emailResult)
+        return res.status(500).json({
+          success: false,
+          message: "Something went wrong",
+        });
+      const user = await User.create({
+        email,
+        password,
+        firstName,
+        lastName,
+        isSubscribed: false,
+        subscribedPlan: "FREE",
+        createdAt: new Date(),
+        emailVerified: false,
+        verification_code: verification_code,
+        verification_code_ExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      });
+      await user.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        Data: user,
+      });
+    } catch (emailError: any) {
+      // If email sending fails, return an error response
+      return res.status(500).json({
         success: false,
-        message: "Failed to generate verification code",
+        message: "Failed to send verification email. User not created.",
+        error: emailError.message,
       });
     }
-
-    const result = await sendVerificationEmail(
-      email,
-      verification_code as string
-    );
-    console.log("Email sent successfully:", result);
-    return res.status(201).json({
-      success: true,
-      message: "User created successfully",
-      Data: user,
-    });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -281,28 +320,26 @@ const loginUser = async (req: Request, res: Response) => {
     const refreshTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax" as const,
+      sameSite: "strict" as const,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     };
     const accessTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax" as const,
+      sameSite: "strict" as const,
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
     };
 
-    return (
-      res
-        .status(200)
-        // .cookie("refreshToken", refreshToken, refreshTokenOptions)
-        // .cookie("accessToken", accessToken, accessTokenOptions)
-        .json({
-          success: true,
-          message: "User logged in successfully",
-          accessToken,
-          refreshToken,
-        })
-    );
+    return res
+      .status(200)
+      .cookie("refreshToken", refreshToken, refreshTokenOptions)
+      .cookie("accessToken", accessToken, accessTokenOptions)
+      .json({
+        success: true,
+        message: "User logged in successfully",
+        accessToken,
+        refreshToken,
+      });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -329,14 +366,28 @@ const forgotPassword = async (req: Request, res: Response) => {
     const resetToken = generateResetToken();
     const resetTokenExpiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hours
 
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpiresAt = resetTokenExpiresAt;
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Reset token sent to your email",
-    });
+    try {
+      const emailResult = await sendPasswordResetEmail(email, resetToken);
+      console.log("emailResult for log", emailResult);
+      if (!emailResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: emailResult.message,
+        });
+      }
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordExpiresAt = resetTokenExpiresAt;
+      await user.save();
+      return res.status(200).json({
+        success: true,
+        message: "Reset token sent to your email",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to send password reset email",
+      });
+    }
   } catch (error: any) {
     return res.status(400).json({ success: false, message: error.message });
   }
@@ -346,7 +397,7 @@ const resetPassword = async (req: Request, res: Response) => {
   try {
     const resetToken = req.params.resetToken;
     const { password } = req.body;
-
+    console.log("resetToken", resetToken, "password", password);
     if (!resetToken || !password) {
       return res.status(400).json({
         success: false,
@@ -468,14 +519,16 @@ const refreshAccessToken = async (req: Request, res: Response) => {
 
 const logoutUser = async (req: Request, res: Response) => {
   try {
-    if (!req.user || !req.user._id) {
+    console.log("logoutUser", req.user);
+    if (!req.user || !req.user._id || !req.body.userId) {
       return res.status(400).json({
         success: false,
         message: "User ID is required",
       });
     }
+    const _id = req.user._id || req.body.userId;
 
-    const { _id } = req.user;
+    // const { _id } = req.user;
 
     if (!_id) {
       return res.status(400).json({
@@ -494,8 +547,6 @@ const logoutUser = async (req: Request, res: Response) => {
       });
     }
 
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
     res.status(200).json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.error("Error logging out user", error);

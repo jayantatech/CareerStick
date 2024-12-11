@@ -290,7 +290,7 @@ const ResumeViewBox = ({
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="text-lg w-full bg-slate-100 font-heading border rounded font-bold border-none outline-none"
+                  className="text-lg w-full  bg-slate-100 font-heading border rounded font-bold border-none outline-none"
                   disabled={loading}
                   autoFocus
                 />
@@ -380,13 +380,13 @@ const ResumeViewBox = ({
             </div>
           </div>
 
-          <div className="mt-2 h-[36px] rounded max-lg:text-[10px] border-gray-200 flex items-center justify-between">
-            <div className="text-sm text-gray-500 flex items-center  gap-1 max-lg:items-start">
-              <Calendar className="w-4 h-4 max-lg:mt-1" />
+          <div className="mt-2  h-[36px] max-md:h-auto rounded max-md:justify-center max-lg:text-[10px] border-gray-200 flex items-center justify-between">
+            <div className="text-sm max-md:hidden text-gray-500 flex items-center  gap-1 max-lg:items-start">
+              <Calendar className="w-4 h-4 max-lg:mt-1 " />
               Updated: {formatDate(resume.updatedAt as string)}
             </div>
             <div className="text-sm text-gray-500 flex items-center gap-1 max-lg:items-start">
-              <Calendar className="w-4 h-4  max-lg:mt-1" />
+              <Calendar className="w-4 h-4  max-lg:mt-1 max-md:mt-0" />
               Created: {formatDate(resume.createdAt as string)}
             </div>
           </div>

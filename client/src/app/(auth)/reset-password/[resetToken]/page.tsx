@@ -1,8 +1,6 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
-import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import { Logo } from "../../../../../public/img";
 import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
