@@ -19,17 +19,13 @@ async function getTokens() {
   return { accessToken, refreshToken };
 }
 
-async function setCookieTokens(
-  accessTokenValue: string,
-  refreshTokenValue: string
-) {
+async function setTokens(accessTokenValue: string, refreshTokenValue: string) {
   const cookieStore = cookies();
-  console.log("it is called");
   cookieStore.set("accessToken", accessTokenValue, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 30, // 30 minutes
   });
 
   cookieStore.set("refreshToken", refreshTokenValue, {
@@ -42,4 +38,11 @@ async function setCookieTokens(
   return null;
 }
 
-export { getTokens, setCookieTokens };
+async function deleteTokens() {
+  const cookieStore = cookies();
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+  return null;
+}
+
+export { getTokens, setTokens, deleteTokens };

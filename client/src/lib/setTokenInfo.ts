@@ -20,7 +20,7 @@ const setRefreshToken = (tokenValue: string) => {
 };
 
 const clearTokenInfo = async () => {
-  const response = await axios.post("/api/cookies/remove");
+  await axios.post("/api/cookies/remove");
 };
 
 const clearAccessToken = () => {

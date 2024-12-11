@@ -260,10 +260,7 @@ import {
   MdKeyboardArrowDown,
   MdLock,
   MdLogout,
-  MdSettings,
-  MdNotifications,
   MdAccountCircle,
-  MdPayment,
 } from "react-icons/md";
 import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
 import { PiReadCvLogoFill } from "react-icons/pi";
@@ -276,14 +273,9 @@ import useAuth from "@/lib/hooks/useAuth";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import api from "@/lib/api";
-import {
-  clearTokenInfo,
-  setAccessToken,
-  setRefreshToken,
-} from "@/lib/setTokenInfo";
 import { toast } from "sonner";
 import { LuZap } from "react-icons/lu";
-import axios from "axios";
+import { deleteTokens } from "@/lib/ServerCookie";
 
 interface NavItem {
   icon: React.ElementType;
@@ -400,22 +392,23 @@ const AppSidebar = () => {
     if (!user?._id) return;
     if (isLoading) return;
     try {
-      // const response = await api.post("/auth/logout", {
-      // userId: user?._id,
-      // });
-      // if (response.data.success) {
-      //   // clearTokenInfo();
-
-      //   router.push("/login");
-      // }
-
-      const response = await axios.post("/api/cookies/remove", {
+      const response = await api.post("/auth/logout", {
         userId: user?._id,
       });
-      console.log("response.data for logout", response.data);
       if (response.data.success) {
+        // clearTokenInfo();
+        await deleteTokens();
+
         router.push("/login");
       }
+
+      // const response = await axios.post("/api/cookies/remove", {
+      //   userId: user?._id,
+      // });
+      // console.log("response.data for logout", response.data);
+      // if (response.data.success) {
+      //   router.push("/login");
+      // }
     } catch (error) {
       console.log("Error logging out:", error);
       toast.error("Failed to logout. Please try again.");

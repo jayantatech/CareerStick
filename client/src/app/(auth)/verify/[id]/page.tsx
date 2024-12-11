@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import api from "@/lib/api";
 import Link from "next/link";
 import { AxiosError } from "axios";
-import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
+import { setTokens } from "@/lib/ServerCookie";
 interface VerificationState {
   status: "loading" | "success" | "error";
   message: string;
@@ -50,8 +50,11 @@ const Verify = () => {
           //   expires: 4 * 60 * 60 * 1000,
           //   path: "/",
           // });
-          setAccessToken(data.accessToken);
-          setRefreshToken(data.refreshToken);
+          // setAccessToken(data.accessToken);
+          // setRefreshToken(data.refreshToken);
+          if (data.accessToken && data.refreshToken) {
+            await setTokens(data.accessToken, data.refreshToken);
+          }
 
           setVerificationState({
             status: "success",

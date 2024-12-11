@@ -219,9 +219,6 @@ import {
   MdClose,
   MdLogout,
   MdAccountCircle,
-  MdSettings,
-  MdNotifications,
-  MdPayment,
 } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
 import { BsFillFileEarmarkPdfFill, BsFillFileTextFill } from "react-icons/bs";
@@ -229,15 +226,14 @@ import { PiReadCvLogoFill } from "react-icons/pi";
 import { SiCodemagic } from "react-icons/si";
 import { FaUserCheck, FaCoins } from "react-icons/fa";
 import { IoMove } from "react-icons/io5";
-import { VscHubot } from "react-icons/vsc";
 import { usePathname, useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import api from "@/lib/api";
-import { clearTokenInfo } from "@/lib/setTokenInfo";
 import { toast } from "sonner";
 import { LuZap } from "react-icons/lu";
+import { deleteTokens } from "@/lib/ServerCookie";
 
 interface NavItem {
   icon: React.ElementType;
@@ -337,10 +333,11 @@ const AppMobileHeader = () => {
         userId: user?._id,
       });
       if (response.data.success) {
-        clearTokenInfo();
+        await deleteTokens();
+
         router.push("/login");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to logout. Please try again.");
     }
     setIsUserDropdownOpen(false);

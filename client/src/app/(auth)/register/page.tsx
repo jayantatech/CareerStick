@@ -10,7 +10,7 @@ import Link from "next/link";
 import api from "@/lib/api";
 import { AxiosError } from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
-import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
+import { setTokens } from "@/lib/ServerCookie";
 
 // Interfaces
 interface FormData {
@@ -231,7 +231,6 @@ const Register: React.FC = () => {
         const response = await api.post("/auth/google", {
           code: codeResponse.code,
         });
-        console.log("response.data for google register", response.data);
 
         const data = response.data;
 
@@ -240,9 +239,10 @@ const Register: React.FC = () => {
             type: "success",
             message: "Successfully registered with Google!",
           });
-          setAccessToken(data.accessToken);
-          setRefreshToken(data.refreshToken);
-          router.push("/app/resumes"); // Or wherever you want to redirect after registration
+          if (data.accessToken && data.refreshToken) {
+            await setTokens(data.accessToken, data.refreshToken);
+          }
+          router.push("/app/resumes");
         }
       } catch (error) {
         console.error("Google registration error:", error);

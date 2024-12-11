@@ -775,13 +775,11 @@ import FloatingLabelInput from "@/components/inputComponents/TextInputField";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import api from "@/lib/api";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { useGoogleLogin } from "@react-oauth/google";
-import { setAccessToken, setRefreshToken } from "@/lib/setTokenInfo";
-import { setCookieTokens } from "@/lib/ServerCookie";
-// import { setTokens } from "@/lib/ServerCookie";
+import { setTokens } from "@/lib/ServerCookie";
 
 interface FormData {
   email: string;
@@ -889,8 +887,9 @@ const Login = () => {
         console.log("response.data for google login", response.data);
         const data = response.data;
         if (data.success) {
-          setAccessToken(data.accessToken);
-          setRefreshToken(data.refreshToken);
+          if (data.accessToken && data.refreshToken) {
+            await setTokens(data.accessToken, data.refreshToken);
+          }
           setApiMessage({
             type: "success",
             message: "Successfully logged in with Google!",
@@ -1006,7 +1005,9 @@ const Login = () => {
       console.log("response.data for login", response.data);
       const data = response.data;
       if (data.success) {
-        await setCookieTokens(data.accessToken, data.refreshToken);
+        if (data.accessToken && data.refreshToken) {
+          await setTokens(data.accessToken, data.refreshToken);
+        }
         router.push("/app/resumes");
         // const setAccessTokenFun = async () => {
         //   "use server";

@@ -732,7 +732,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Zap } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { UserAvatar } from "../../../../public/img";
 import { LuZap } from "react-icons/lu";
@@ -742,7 +742,6 @@ import useAuth from "@/lib/hooks/useAuth";
 import api from "@/lib/api";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { clearAccessToken, setAccessToken } from "@/lib/setTokenInfo";
 // import { uploadToS3 } from "@/lib/s3-upload"; // Adjust path as needed
 
 // User Info Interface
