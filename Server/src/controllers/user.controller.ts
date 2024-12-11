@@ -322,14 +322,12 @@ const loginUser = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "none" as const,
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      domain: "careerstick.com",
     };
     const accessTokenOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "none" as const,
       maxAge: 4 * 60 * 60 * 1000, // 4 hours
-      domain: "careerstick.com",
     };
 
     return res
