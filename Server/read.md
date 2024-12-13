@@ -123,3 +123,46 @@ runtime: nodejs20.x
 routes: - path: /
 method: ANY - path: /{proxy+}
 method: ANY
+
+service: careerstick-backend # Name of your service/project
+
+provider:
+name: aws
+runtime: nodejs18.x
+stage: ${opt:stage, 'dev'}
+region: us-east-1
+environment:
+NODE_ENV: ${self:provider.stage}
+MONGODB_URI: ${env:MONGODB_URI}
+PORT: ${env:PORT}
+FRONTEND_URL: ${env:FRONTEND_URL}
+CLIENT_URL: ${env:CLIENT_URL}
+JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET}
+JWT_ACCESS_SECRET: ${env:JWT_ACCESS_SECRET}
+OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+SESSION_SECRET: ${env:SESSION_SECRET}
+GOOGLE_CLIENT_ID: ${env:GOOGLE_CLIENT_ID}
+GOOGLE_CLIENT_SECRET: ${env:GOOGLE_CLIENT_SECRET}
+SMTP_HOST: ${env:SMTP_HOST}
+SMTP_PORT: ${env:SMTP_PORT}
+SMTP_USER: ${env:SMTP_USER}
+SMTP_SECURE: ${env:SMTP_SECURE}
+SMTP_PASS: ${env:SMTP_PASS}
+EMAIL_FROM: ${env:EMAIL_FROM}
+ARCJET_ENV: ${env:ARCJET_ENV}
+ARCJET_KEY: ${env:ARCJET_KEY}
+RESEND_API_KEY: ${env:RESEND_API_KEY}
+
+plugins:
+
+- serverless-dotenv-plugin
+- serverless-offline
+
+functions:
+app:
+handler: dist/app.handler
+events: - http:
+path: /
+method: ANY - http:
+path: /{proxy+}
+method: ANY

@@ -6,10 +6,7 @@
     "build": "tsc",
     "start": "node --no-deprecation -r dotenv/config dist/app.js",
     "dev": "nodemon -r dotenv/config --exec ts-node --transpile-only src/app.ts",
-    "postinstall": "npm run build",
-    "deploy": "serverless deploy --stage prod",
-    "deploy:dev": "serverless deploy --stage dev",
-    "remove": "serverless remove"
+    "postinstall": "npm run build"
   },
   "engines": {
     "node": "22.11.0"
@@ -29,7 +26,6 @@
     "@types/uuid": "^10.0.0",
     "nodemon": "^3.1.7",
     "serverless-dotenv-plugin": "^6.0.0",
-    "serverless-offline": "^14.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
