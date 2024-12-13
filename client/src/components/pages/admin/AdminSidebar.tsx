@@ -587,7 +587,7 @@ const AdminSidebar = () => {
             <Image
               alt="LOGO"
               src={Logo}
-              className={`transition-all duration-150 h-[38px]`}
+              className={`transition-all duration-150 h-10 w-auto`}
             />
           ) : (
             <Image

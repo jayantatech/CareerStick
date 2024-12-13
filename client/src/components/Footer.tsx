@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Mail,
-  Phone,
   MapPin,
   Facebook,
   Twitter,
@@ -10,7 +9,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import ContentWrapper from "@/components/ContentWrapper";
-import { Logo } from "../../public/img";
+import { FooterLogo } from "../../public/img";
 
 export default function Footer() {
   return (
@@ -21,10 +20,11 @@ export default function Footer() {
           <div className="space-y-6">
             <Link href="/" className="block">
               <Image
-                src={Logo}
+                src={FooterLogo}
                 alt="Resume Builder Logo"
-                height={40}
-                className="brightness-0 invert"
+                height={60}
+                width={220}
+                className="h-11 w-auto"
               />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed font-body">
@@ -149,27 +149,27 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
                 <a
-                  href="mailto:example@example.com"
+                  href="mailto:contact@careerstick.com"
                   className="hover:text-white transition-colors"
                 >
-                  example@example.com
+                  contact@careerstick.com
                 </a>
               </li>
-              <li className="flex items-center gap-3">
+              {/* <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-primary" />
                 <a
                   href="tel:+1234567890"
                   className="hover:text-white transition-colors"
                 >
-                  +1 (234) 567-890
+                  +91 878987653
                 </a>
-              </li>
+              </li> */}
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary shrink-0" />
                 <address className="not-italic hover:text-white transition-colors">
-                  123 Resume Street,
+                  Salt Lake City Sector 5,
                   <br />
-                  Career City, CV 12345
+                  Kolkata
                 </address>
               </li>
             </ul>

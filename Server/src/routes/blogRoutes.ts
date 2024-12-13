@@ -15,10 +15,10 @@ const router = express.Router();
 
 // user
 router.get("/get/:slug", getBlogBySlug);
+router.get("/all-blogs", getAllBlogs);
 
 //user and admin
 router.post("/all-admin-blogs", getAllAdminBlogs);
-router.get("/all-blogs", getAllBlogs);
 
 // admin
 router.post("/create", createBlog);

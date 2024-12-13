@@ -1,5 +1,9 @@
-import Logo from "./logoipsum-297 (2).svg";
-import SmallLogo from "./logoipsum-296 (1).svg";
+// import Logo from "./logoipsum-297 (2).svg";
+// import Logo from "./logo.png";
+import Logo from "./logo-two.png";
+import FooterLogo from "./footer-logo.png";
+import SmallLogo from "./SmallLogo.png";
+// import SmallLogo from "./logoipsum-296 (1).svg";
 import UserAvatar from "./avatar.png";
 import profile from "./profile.jpeg";
 import ResumeOne from "./resumeOne.png";
@@ -31,4 +35,5 @@ export {
   NewsLetterImage,
   Error404,
   MailVerify,
+  FooterLogo,
 };

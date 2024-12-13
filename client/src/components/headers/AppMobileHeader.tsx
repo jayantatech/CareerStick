@@ -378,7 +378,7 @@ const AppMobileHeader = () => {
       <div className="fixed top-0 left-0 right-0 h-16 bg-white border-b z-[100] l-laptop:hidden">
         <div className="flex items-center justify-between w-full h-full px-4">
           <div className="h-[38px]">
-            <Image alt="LOGO" src={Logo} className="h-[38px] w-auto" />
+            <Image alt="LOGO" src={Logo} className="h-8 mt-1 w-auto" />
           </div>
           <button
             onClick={() => setIsMenuOpen(true)}
@@ -408,8 +408,8 @@ const AppMobileHeader = () => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex flex-row items-center justify-between gap-3 w-full border-b px-4 py-4">
-            <div className="max-w-[164px] w-auto h-[38px]">
-              <Image alt="LOGO" src={Logo} className="h-[38px]" />
+            <div className="max-w-[184px] w-auto h-[38px]">
+              <Image alt="LOGO" src={Logo} className="h-8 mt-1 w-auto" />
             </div>
             <button
               className="w-[26px] h-[26px] rounded mr-1 flex items-center justify-center cursor-pointer bg-secondary"

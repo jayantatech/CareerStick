@@ -454,21 +454,23 @@ const AppSidebar = () => {
     >
       <div className="flex flex-row items-center gap-3 w-full border-b px-4 pb-2">
         <div
-          className={`max-w-[164px] w-auto bg-fuchsida-800 h-[38px] flex-shrink-0 transition-all duration-150 whitespace-nowrap overflow-hidden`}
+          className={`max-w-[188px] w-auto h-[38px] flex-shrink-0 transition-all duration-300 whitespace-nowrap overflow-hidden`}
         >
-          {isExpanded ? (
-            <Image
-              alt="LOGO"
-              src={Logo}
-              className={`transition-all duration-150 h-[38px]`}
-            />
-          ) : (
-            <Image
-              alt="LOGO"
-              src={SmallLogo}
-              className={`transition-all duration-150 h-[38px]`}
-            />
-          )}
+          <Link href="/app/resumes">
+            {isExpanded ? (
+              <Image
+                alt="LOGO"
+                src={Logo}
+                className={`transition-all duration-300 h-8 w-auto mt-1`}
+              />
+            ) : (
+              <Image
+                alt="LOGO"
+                src={SmallLogo}
+                className={`transition-all duration-300 h-8 w-auto mt-1`}
+              />
+            )}
+          </Link>
         </div>
         <div
           className={`w-[20px] h-[26px] bg- rounded flex items-center justify-center cursor-pointer bg-secondary ${

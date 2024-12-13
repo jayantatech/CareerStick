@@ -1004,10 +1004,10 @@ export default function Header() {
             <Image
               src={Logo}
               alt="Logo"
-              className="h-10 max-lg:h-8 w-auto"
+              className="h-11 max-lg:h-9 max-md:h-8 w-auto"
               priority
-              width={220}
-              height={50}
+              width={260}
+              height={60}
             />
           </Link>
           <div className="fixed top-0 left-0 right-0 h-20 bg-white border-b z-[100] l-laptop:hidden">

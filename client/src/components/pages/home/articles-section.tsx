@@ -145,10 +145,12 @@ export default function ArticlesSection() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Button size="lg" variant="outline" className="group">
-            Explore Resources
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link href="/blog">
+            <Button size="lg" variant="outline" className="group">
+              Explore Resources
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </motion.div>
       </ContentWrapper>
     </section>

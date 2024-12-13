@@ -160,7 +160,7 @@ export default function ResumeAnalyzer() {
               <span className="px-2 py-1 bg-lightprimany w-[140px] rounded text-primary font-heading text-center">
                 Coming Soon
               </span>
-              <Link href="/app">
+              <Link href="/app/resumes">
                 <Button className="w-full sm:w-auto bg-primary hover:bg-blue-700 text-white font-semibold py-5 px-8 rounded text-lg transition-all duration-150  transform hover:scale-[.98]">
                   Scan Your Resume <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -175,7 +175,7 @@ export default function ResumeAnalyzer() {
               <p className="text-sm text-gray-600">
                 Not ready?{" "}
                 <Link
-                  href="/sample-scan"
+                  href="/"
                   className="text-blue-600 hover:underline font-medium"
                 >
                   See a sample resume scan

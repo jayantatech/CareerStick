@@ -4,6 +4,7 @@ import ContentWrapper from "@/components/ContentWrapper";
 import { ResumeThreeHero } from "../../../../public/img";
 import { ArrowUp } from "lucide-react";
 import { PiSealCheckBold } from "react-icons/pi";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -47,12 +48,14 @@ export default function HeroSection() {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 ">
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
-                >
-                  Create my resume
-                </Button>
+                <Link href={"/app/resumes"}>
+                  <Button
+                    size="lg"
+                    className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
+                  >
+                    Create my resume
+                  </Button>
+                </Link>
                 <Button
                   size="lg"
                   variant="outline"

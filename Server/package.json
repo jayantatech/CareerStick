@@ -6,7 +6,10 @@
     "build": "tsc",
     "start": "node --no-deprecation -r dotenv/config dist/app.js",
     "dev": "nodemon -r dotenv/config --exec ts-node --transpile-only src/app.ts",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "deploy": "serverless deploy --stage prod",
+    "deploy:dev": "serverless deploy --stage dev",
+    "remove": "serverless remove"
   },
   "engines": {
     "node": "22.11.0"
@@ -25,11 +28,14 @@
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/uuid": "^10.0.0",
     "nodemon": "^3.1.7",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^14.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.699.0",
+    "@jimdo/serverless-dotenv": "^1.0.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -48,6 +54,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "resend": "^4.0.1",
+    "serverless-http": "^3.2.0",
     "uuid": "^10.0.0",
     "xss": "^1.0.15",
     "zod": "^3.23.8"
