@@ -1,0 +1,24 @@
+backend:
+    functions:
+        - entry: index.mjs
+          handler: handler
+          name: express
+          path: .
+          type: httpServer
+    language:
+        name: js
+    path: Server
+    scripts:
+        deploy:
+            - npm install
+        local:
+            - npm install
+name: coffee-clumsy-earwig
+nextjs:
+    packageManager: npm
+    path: .
+    scripts:
+        deploy:
+            - npm install
+region: us-east-1
+yamlVersion: 2
