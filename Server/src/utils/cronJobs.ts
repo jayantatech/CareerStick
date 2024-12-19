@@ -9,7 +9,7 @@ const setupCronJobs = () => {
   cron.schedule("*/25 * * * *", async () => {
     try {
       console.log("Pinging server to prevent sleep...");
-      await axios.get(`${process.env.BACKEND_URL}/api/v1/`);
+      await axios.get(`${process.env.BACKEND_URL}/api/v1/health-check`);
       console.log("Ping successful!");
     } catch (error: any) {
       console.error("Ping failed:", error.message);
