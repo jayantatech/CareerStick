@@ -494,7 +494,6 @@ import {
   MdKeyboardArrowLeft,
   MdLock,
 } from "react-icons/md";
-import { RiDashboardFill } from "react-icons/ri";
 import { usePathname, useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 import { Logo, SmallLogo } from "../../../../public/img";
@@ -520,16 +519,15 @@ const AdminSidebar = () => {
   // Extract resume ID from pathname if it exists
 
   const navItems: NavItem[] = [
-    { icon: RiDashboardFill, label: "Dashboard", path: "/app" },
-    {
-      icon: BiSolidEdit,
-      label: "Blog Editor",
-      path: "/admin/blog-editor",
-    },
     {
       icon: BiSolidEdit,
       label: "All Blog Posts",
       path: "/admin/blog-posts",
+    },
+    {
+      icon: BiSolidEdit,
+      label: "Blog Editor",
+      path: "/admin/blog-editor",
     },
   ];
 

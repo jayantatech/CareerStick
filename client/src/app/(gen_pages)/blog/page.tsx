@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Clock } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import ContentWrapper from "@/components/ContentWrapper";
 import api from "@/lib/api";
@@ -40,7 +40,7 @@ export default function BlogPage() {
           toast.error("Failed to get blog");
         }
         if (response.data.success) {
-          setBlogData(response.data.data);
+          setBlogData(response.data.data.reverse());
         }
       } catch (error) {
         console.error("Error creating blog:", error);
@@ -133,7 +133,13 @@ export default function BlogPage() {
                           <div
                             className="prose max-w-full mb-4 leading-relaxed text-lg text-muted-foreground font-blogText"
                             dangerouslySetInnerHTML={{
-                              __html: post.description || "",
+                              __html:
+                                post.description
+                                  .split("</p>")[0]
+                                  .split("")
+                                  .slice(0, 180)
+                                  .join("")
+                                  .concat("...") || "",
                             }}
                           />
                         </div>
@@ -167,7 +173,7 @@ export default function BlogPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link href="#" className="block group">
+                  <Link href={`/blog/${post.url}`} className="block group">
                     <Card className="overflow-hidden rounded-md border shadow-md">
                       <CardContent className="p-0">
                         <div className={`relative h-[200px] `}>
@@ -201,18 +207,6 @@ export default function BlogPage() {
                 </motion.div>
               ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Button size="lg" variant="outline" className="group">
-            Load More Articles
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </motion.div>
       </ContentWrapper>
     </section>
   );

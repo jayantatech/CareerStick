@@ -742,7 +742,7 @@ export default function AllBlogPosts() {
     if (post.status === "published") {
       window.open(`/blog/${post.url}`, "_blank");
     } else if (post.status === "draft") {
-      window.open(`/blog/preview/${post.url}`, "_blank");
+      window.open(`/admin/preview/${post.url}`, "_blank");
     }
   };
 
@@ -874,12 +874,12 @@ export default function AllBlogPosts() {
                     <div className="flex items-center justify-center gap-2">
                       <Clock className="h-4 w-4" />
                       <span className="font-medium">Created:</span>
-                      {new Date(post.createdAt).toLocaleDateString()}
+                      {new Date(post.createdAt).toLocaleDateString("en-IN")}
                     </div>
                     <div className="flex items-center justify-center gap-2">
                       <Clock className="h-4 w-4" />
                       <span className="font-medium">Updated:</span>
-                      {new Date(post.updatedAt).toLocaleDateString()}
+                      {new Date(post.updatedAt).toLocaleDateString("en-IN")}
                     </div>
                   </div>
                   <h2 className="text-2xl font-semibold font-heading group-hover:text-primary transition-colors mb-3 line-clamp-2">

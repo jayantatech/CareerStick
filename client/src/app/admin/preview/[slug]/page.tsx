@@ -1,9 +1,11 @@
 import { Metadata } from "next";
 import api from "@/lib/api";
-// import BlogPostClient, { BlogPost } from "./BlogPostClient";
 import BlogPostPageComponent, {
   BlogPost,
 } from "@/components/(blog)/BlogPostClient";
+import Header from "@/components/headers/Header";
+import Footer from "@/components/Footer";
+// import BlogPostClient, { BlogPost } from "./BlogPostClient";
 
 type Props = {
   params: { slug: string };
@@ -78,5 +80,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage() {
-  return <BlogPostPageComponent />;
+  return (
+    <>
+      <Header />
+      <BlogPostPageComponent />;
+      <Footer />
+    </>
+  );
 }

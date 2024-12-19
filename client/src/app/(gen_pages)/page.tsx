@@ -6,6 +6,12 @@ import HeroSection from "@/components/pages/home/HeroSection";
 import ResumeSlider from "@/components/pages/home/HomeResumeSlider";
 import ResumeAnalyzer from "@/components/pages/home/Resume-Analyzer";
 import Testimonials from "@/components/pages/home/Testimonials";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home - CareerStick",
+  description: "The AI-Powered Resume Builder - CareerStick",
+};
 
 export default function Home() {
   return (

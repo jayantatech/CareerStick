@@ -8,6 +8,9 @@ import {
   TemplateNameEnum,
 } from "../types/resumeTypes";
 import { generateATSOptimizedResume } from "../utils/aiATSResumeOptimizer";
+import mongoose from "mongoose";
+import User from "../models/User";
+import { generateAiJobDescription } from "../utils/aiJobDescriptionGenerator";
 
 const formatDate = (dateObj: any) => {
   if (!dateObj) return null;
@@ -195,10 +198,11 @@ export const generateAiResume = async (
     console.log("existingResume is : ", resumeData);
 
     // Generate new resume content using OpenAI
+
     const generatedResume = await generateResume(resumeData);
-    // console.log("AI generated resume:", generatedResume);
+    console.log("AI generated resume:", generatedResume);
     const mappedData = mappedDataHelper(generatedResume, resumeData);
-    // console.log("formated data from AI mappedData:", mappedData);
+    console.log("formated data from AI mappedData:", mappedData);
     // Merge existing resume settings with AI-generated content
     const mergedResume = {
       ...existingResume.toObject(),
@@ -352,6 +356,82 @@ export const aiATSOptimizeResume = async (
       message: "ATS analysis completed successfully",
       data: updatedResume,
     });
+  } catch (error) {
+    console.error("Resume generation error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to generate resume",
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    });
+  }
+};
+
+export const aiJobDescription = async (req: Request, res: Response) => {
+  try {
+    // console.log("frontend data received:", req.body);
+    console.log(" api call test  button is clicked");
+    const { userId, name, jobTitle, yearsOfExperience, jobIndustry } =
+      req.body as {
+        userId?: string;
+        name?: string;
+        jobTitle?: string;
+        yearsOfExperience?: number;
+        jobIndustry?: string;
+      };
+
+    console.log(
+      "userId, name, jobTitle, yearsOfExperience, jobIndustry",
+      userId,
+      name,
+      jobTitle,
+      yearsOfExperience,
+      jobIndustry
+    );
+
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID format",
+      });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (!name || !jobTitle || !yearsOfExperience || !jobIndustry) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    const jobDescription = await generateAiJobDescription(
+      name as string,
+      jobTitle as string,
+      yearsOfExperience as number,
+      jobIndustry as string
+    );
+
+    if (!jobDescription && jobDescription.summaries.length === 0) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to generate job description",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Job description generated successfully",
+      summaries: jobDescription.summaries,
+    });
+
+    // Validate request data
   } catch (error) {
     console.error("Resume generation error:", error);
     res.status(500).json({

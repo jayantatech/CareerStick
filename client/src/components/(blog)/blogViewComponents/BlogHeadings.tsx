@@ -15,7 +15,7 @@ export const Heading1 = ({ title }: HeadingProps) => (
 
 export const Heading2 = ({ title, className }: HeadingProps) => (
   <h2
-    className={`scroll-m-20  pb-2 text-3xl max-lg:text-2xl font-semibold font-heading tracking-tight transition-colors first:mt-0 ${className}`}
+    className={`scroll-m-20 text-[#0F172A]  pb-3 text-3xl max-lg:text-2xl font-semibold font-heading tracking-tight transition-colors first:mt-0 ${className}`}
   >
     {title}
   </h2>

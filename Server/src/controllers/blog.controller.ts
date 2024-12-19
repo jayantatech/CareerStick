@@ -289,7 +289,17 @@ export const getBlogById = async (req: Request, res: Response) => {
 export const getBlogBySlug = async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
-    const blog = await Blog.findOne({ slug });
+    if (!slug) {
+      return res.status(400).json({
+        success: false,
+        message: "url is required",
+      });
+    }
+
+    const blog = await Blog.findOne({
+      slug,
+      status: "published",
+    });
 
     if (!blog) {
       return res.status(404).json({
@@ -435,6 +445,61 @@ export const deleteBlog = async (req: Request, res: Response) => {
     console.error("Error deleting blog:", error);
     res.status(500).json({
       message: "Failed to delete blog post",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
+export const getAdminPreviewBlogs = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.body;
+    const { slug } = req.params;
+    if (!slug) {
+      return res.status(400).json({
+        success: false,
+        message: "Slug is required",
+      });
+    }
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.subscribedPlan !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized",
+      });
+    }
+
+    const blogs = await Blog.findOne({ slug });
+    if (!blogs) {
+      return res.status(404).json({
+        message: "No blog posts found",
+        success: false,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Blog posts retrieved successfully",
+      data: blogs,
+    });
+  } catch (error) {
+    console.error("Error retrieving blog:", error);
+    res.status(500).json({
+      message: "Failed to retrieve blog posts",
+      success: false,
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }

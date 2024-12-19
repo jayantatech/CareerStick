@@ -9,6 +9,7 @@ import {
   getBlogById,
   getBlogBySlug,
   updateBlog,
+  getAdminPreviewBlogs,
 } from "../controllers/blog.controller";
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.post("/create", createBlog);
 router.post("/article/:blogId", getBlogById);
 router.post("/save/:blogId", updateBlog);
 router.post("/delete/:blogId", deleteBlog);
+router.post("/get/admin-preview/:slug", getAdminPreviewBlogs);
 
 export default router;

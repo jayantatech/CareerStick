@@ -53,7 +53,7 @@ const ResumeSliderTwo = memo(() => {
                 ))}
               </div>
               <p className="text-center mb-2 text-lg text-black font-body">
-                This may take 15-30 seconds
+                This may take 7-10 seconds
               </p>
               {/* <div className="w-64 h-2 bg-blue-200 rounded-full mb-4">
                 <div className="w-2/3 h-full bg-primary rounded-full animate-pulse"></div>

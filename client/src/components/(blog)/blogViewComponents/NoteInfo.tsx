@@ -88,11 +88,11 @@ interface NoteBoxProps {
 
 const NoteBox: React.FC<NoteBoxProps> = ({ title, content }) => {
   return (
-    <Card className="my-6 overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700 shadow transition-all duration-300 hover:shadow-md rounded">
+    <Card className="my-6 overflow-hidden bg-[#EFF6FF] dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700 shadow transition-all duration-300 hover:shadow-md rounded">
       <div className="p-6">
         <div className="flex items-center space-x-4 mb-4">
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-full bg-blue-500 dark:bg-blue-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded bg-blue-500 dark:bg-blue-600 flex items-center justify-center">
               <InfoIcon className="w-7 h-7 text-white" />
             </div>
           </div>

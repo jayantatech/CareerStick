@@ -41,20 +41,20 @@ import {
   deleteWorkExperience,
   reorderWorkExperience,
 } from "@/lib/store/slices/resumeSlice";
-import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";
+// import AIGeneratedSummaryDropdown from "@/components/AIGeneratedSummaryDropdown";
 import { MonthYearDate } from "@/lib/types/generaltypes";
 import { JobExperience } from "@/lib/types/resumeInput";
 import { months } from "../../../../public/content/generalFieldsData";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const descriptions = [
-  "Led cross-functional team of 8 members, improving project delivery time by 15% through implementation of agile methodologies and streamlined workflows.",
-  "Developed and executed strategic marketing campaigns resulting in 25% increase in customer engagement and $2M in new revenue generation.",
-  "Managed end-to-end software development lifecycle for 5 major projects, reducing bugs by 40% and improving customer satisfaction scores by 30%.",
-  "Streamlined operations processes resulting in 20% cost reduction and 35% improvement in efficiency through implementation of automated workflows.",
-  "Spearheaded digital transformation initiatives, leading to 50% faster processing times and 90% paperless operations within 6 months.",
-  "Built and maintained relationships with key stakeholders, resulting in 95% client retention rate and $3M in renewed contracts.",
-];
+// const descriptions = [
+//   "Led cross-functional team of 8 members, improving project delivery time by 15% through implementation of agile methodologies and streamlined workflows.",
+//   "Developed and executed strategic marketing campaigns resulting in 25% increase in customer engagement and $2M in new revenue generation.",
+//   "Managed end-to-end software development lifecycle for 5 major projects, reducing bugs by 40% and improving customer satisfaction scores by 30%.",
+//   "Streamlined operations processes resulting in 20% cost reduction and 35% improvement in efficiency through implementation of automated workflows.",
+//   "Spearheaded digital transformation initiatives, leading to 50% faster processing times and 90% paperless operations within 6 months.",
+//   "Built and maintained relationships with key stakeholders, resulting in 95% client retention rate and $3M in renewed contracts.",
+// ];
 
 const years = Array.from({ length: 51 }, (_, i) => {
   const year = 2024 - i;
@@ -154,12 +154,12 @@ const SortableExperienceItem: React.FC<SortableExperienceItemProps> =
       [debouncedDispatch]
     );
 
-    const handleDescriptionSelect = useCallback(
-      (text: string) => {
-        handleChange("description", text);
-      },
-      [handleChange]
-    );
+    // const handleDescriptionSelect = useCallback(
+    //   (text: string) => {
+    //     handleChange("description", text);
+    //   },
+    //   [handleChange]
+    // );
 
     // Sync local state with props when experience changes
     useEffect(() => {
@@ -282,10 +282,10 @@ const SortableExperienceItem: React.FC<SortableExperienceItemProps> =
                 value={localState.description}
                 onChange={(e) => handleChange("description", e.target.value)}
               />
-              <AIGeneratedSummaryDropdown
+              {/* <AIGeneratedSummaryDropdown
                 onSelect={handleDescriptionSelect}
                 summaries={descriptions}
-              />
+              /> */}
             </div>
           </AccordionContent>
         </AccordionItem>

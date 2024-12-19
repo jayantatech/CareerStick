@@ -156,7 +156,7 @@ const BlogSidebar: FC<SidebarProps> = ({
   return (
     <div className="sticky top-20 hidden h-fit w-72 shrink-0 lg:block">
       <Card className=" shadow-none rounded border-none">
-        <h2 className="text-lg font-semibold text-foreground mb-4 sticky top-0 bg-background z-10">
+        <h2 className="text-lg font-semibold text-foreground font-heading blogTitleColor mb-4 sticky top-0 bg-background z-10">
           Table of Contents
         </h2>
         <nav
@@ -178,7 +178,7 @@ const BlogSidebar: FC<SidebarProps> = ({
                 ${
                   activeSection === id
                     ? "font-medium text-primary border-l-2 border-primary"
-                    : "text-muted-foreground border-transparent border-l-2"
+                    : "text-muted-foreground blogTitleColor border-transparent border-l-2"
                 }
               `}
             >

@@ -584,7 +584,7 @@ const BlogHeroSection = ({
   const heroDate = format(new Date(date), "MMMM dd, yyyy");
 
   return (
-    <div className="relative bg-gradient-to-b border-b from-[#EFF6FF] to-background pt-8 pb-10">
+    <section className="relative bg-gradient-to-b border-b from-[#EFF6FF] to-background pt-8 pb-10">
       <ContentWrapper>
         <div className="container mx-auto ">
           {/* Breadcrumbs */}
@@ -609,7 +609,7 @@ const BlogHeroSection = ({
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Content */}
             <div className="space-y-6 ">
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-foreground">
+              <h1 className="text-3xl font-bold blogTitleColor tracking-tight sm:text-4xl lg:text-5xl text-foreground">
                 {title}
               </h1>
 
@@ -617,24 +617,28 @@ const BlogHeroSection = ({
                 {description}
               </p> */}
               <div
-                className="text-lg text-muted-foreground leading-relaxed"
+                className="text-lg leading-relaxed font-blogText blogTextColor text-[18px] text-muted-foreground"
                 dangerouslySetInnerHTML={{ __html: description || "" }}
               />
 
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
-                >
-                  Generate My Resume
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-blue-200 hover:bg-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
-                >
-                  View samples
-                </Button>
+                <Link href={"/app/resumes"}>
+                  <Button
+                    size="lg"
+                    className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
+                  >
+                    Generate My Resume
+                  </Button>
+                </Link>
+                <Link href={"/app/resumes"}>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-blue-200 hover:bg-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
+                  >
+                    View samples
+                  </Button>
+                </Link>
               </div>
               <div className="w-full h-auto flex flex-col max-md:text-start gap-2 max-md:items-start max-md:justify-start  text-gray-500 font-medium text-[17px]">
                 <div className="w-full h-full flex items-center max-md:items-start justify-start max-lg:justify-center gap-1  font-heading">
@@ -694,7 +698,7 @@ const BlogHeroSection = ({
           </div>
         </div>
       </ContentWrapper>
-    </div>
+    </section>
   );
 };
 

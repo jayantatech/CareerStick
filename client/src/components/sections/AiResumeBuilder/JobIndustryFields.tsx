@@ -18,6 +18,9 @@ interface JobIndustryState {
 const JobIndustryFields = () => {
   const dispatch = useAppDispatch();
   const reduxJobIndustry = useAppSelector((state) => state.resume.jobIndustry);
+  // const isTargetJobAndIndustrySelected = useAppSelector(
+  //   (state) => state.resumeSateChange.isTargetJobAndIndustrySelected
+  // );
 
   // Local state for immediate updates
   const [localJobIndustry, setLocalJobIndustry] = useState<JobIndustryState>({
@@ -64,8 +67,8 @@ const JobIndustryFields = () => {
 
   return (
     <>
-      <div className={`w-full block lg:h-[75px]`}>
-        <h3 className="font-heading font-semibold text-[16px] text-gray-900">
+      <div className={`w-full block lg:h-auto pb-1.5 `}>
+        <h3 className="font-heading font-semibold pb-0.5 text-[16px] text-gray-900">
           Target Job & Industry
         </h3>
         <div className="max-w-full h-auto flex items-center justify-center gap-2 pt-1">
@@ -94,6 +97,15 @@ const JobIndustryFields = () => {
             />
           </div>
         </div>
+        {/* <div className="w-full h-auto  text-red-600 p-2 rounded border my-2">
+          <span className="text-[16px]">
+            Please fill out all Target Job & Industry fields to generate your
+            resume description
+          </span>
+        </div> */}
+        {/* {isTargetJobAndIndustrySelected && (
+          <NotificationBox message="Please fill out all Target Job & Industry fields to generate your resume description" />
+        )} */}
       </div>
     </>
   );

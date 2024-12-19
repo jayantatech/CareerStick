@@ -11,7 +11,9 @@ const FAQBox = ({
     <div className="mt-3 space-y-6 mb-3 shadow">
       <div className="rounded border p-6">
         <h3 className="text-xl font-semibold">{questions}</h3>
-        <p className="mt-2 text-muted-foreground">{answers}</p>
+        <p className="mt-2 font-blogText blogTextColor text-[18px] text-muted-foreground">
+          {answers}
+        </p>
       </div>
     </div>
     // <div className="mt-6 space-y-6">

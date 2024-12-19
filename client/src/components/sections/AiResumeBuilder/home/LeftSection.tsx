@@ -12,12 +12,8 @@ import CertificationsSection from "../CertificationsSection";
 import AwardsSection from "../AwardsSection";
 import OpenSourceSection from "../OpenSourceSection";
 import CustomSections from "../CustomSections";
-// import AddSectionPopup, {
-//   SECTION_CONFIG,
-// } from "@/components/app/AddSectionPopup";
 import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
-import { VscHubot } from "react-icons/vsc";
 import ResumeTitleField from "../ResumeTitleSection";
 
 export interface Section {
@@ -38,17 +34,6 @@ const LeftSection = () => {
   const activeSections = useAppSelector(
     (state) => state.resumeStyle.activeSections
   );
-
-  // const currentTemplate = useAppSelector(
-  //   (state) => state.templateSlice.currentTemplate
-  // );
-  const nowSettings = useAppSelector((state) => state.resumeStyle);
-  const handleGenerateResume = () => {
-    console.log("Complete activeSections:", activeSections);
-    console.log("Complete nowSettings:", nowSettings);
-    // console.log("currentTemplate data", currentTemplate);
-    // Add your resume generation logic here
-  };
 
   return (
     <>
@@ -109,9 +94,7 @@ const LeftSection = () => {
               <ProjectsSection />
             </div>
           )}
-          {/* <div className="pb-4">
-            <ProjectsSection />
-          </div> */}
+
           {activeSections.languages && (
             <div className="pb-4">
               <LanguageSection />
@@ -140,36 +123,8 @@ const LeftSection = () => {
               <CustomSections />
             </div>
           )}
-
-          {/* Bottom buttons */}
-          <div className="w-full space-y-2 mb-4">
-            <button
-              // onClick={() => setIsPopupOpen(true)}
-              className="w-full h-[44px] border-[1.5px] hover:scale-[.992] transition-all duration-150 bg-white rounded flex items-center justify-center cursor-pointer"
-            >
-              <span className="font-heading font-semibold text-black">
-                Add Section
-              </span>
-            </button>
-            <button
-              onClick={handleGenerateResume}
-              className="w-full h-[44px] bg-primary rounded flex items-center justify-center cursor-pointer hover:scale-[.992] transition-all duration-150"
-            >
-              <VscHubot className="text-[28px] text-white mr-1" />
-              <span className="font-heading font-semibold text-white">
-                Generate Resume
-              </span>
-            </button>
-          </div>
         </div>
       </div>
-      {/* <AddSectionPopup
-        isOpen={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
-        onSave={handleSaveSections}
-        parentRef={leftSectionRef}
-        initialSelectedSections={selectedSections}
-      /> */}
     </>
   );
 };
