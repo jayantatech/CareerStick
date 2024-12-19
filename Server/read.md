@@ -166,3 +166,131 @@ path: /
 method: ANY - http:
 path: /{proxy+}
 method: ANY
+
+# environment:
+
+# NODE_ENV: ${opt:stage, 'dev'}
+
+# MONGODB_URI: ${ssm:/career-stick/${self:provider.stage}/mongodb-uri}
+
+# SESSION_SECRET: ${ssm:/career-stick/${self:provider.stage}/session-secret}
+
+# FRONTEND_URL: ${ssm:/career-stick/${self:provider.stage}/frontend-url}
+
+# environment:
+
+# NODE_ENV: ${self:provider.stage}
+
+# # MONGODB_URI: ${ssm:/careerstick/${self:provider.stage}/MONGODB_URI}
+
+# MONGODB_URI: ${env:MONGODB_URI} # Use environment variable instead of SSM # PORT: ${file(.env):PORT}
+
+# PORT: ${env:PORT}
+
+# FRONTEND_URL: ${env:FRONTEND_URL}
+
+# CLIENT_URL: ${env:CLIENT_URL}
+
+# JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET}
+
+# JWT_ACCESS_SECRET: ${env:JWT_ACCESS_SECRET}
+
+# OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+
+# SESSION_SECRET: ${env:SESSION_SECRET}
+
+# GOOGLE_CLIENT_ID: ${env:GOOGLE_CLIENT_ID}
+
+# GOOGLE_CLIENT_SECRET: ${env:GOOGLE_CLIENT_SECRET}
+
+# SMTP_HOST: ${env:SMTP_HOST}
+
+# SMTP_PORT: ${env:SMTP_PORT}
+
+# SMTP_USER: ${env:SMTP_USER}
+
+# SMTP_SECURE: ${env:SMTP_SECURE}
+
+# SMTP_PASS: ${env:SMTP_PASS}
+
+# EMAIL_FROM: ${env:EMAIL_FROM}
+
+# AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+
+# AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+
+# ARCJET_ENV: ${env:ARCJET_ENV}
+
+# ARCJET_KEY: ${env:ARCJET_KEY}
+
+# RESEND_API_KEY: ${env:RESEND_API_KEY}
+
+# serverless.yml
+
+service: career-stick-api
+
+provider:
+name: aws
+runtime: nodejs18.x
+stage: ${opt:stage, 'dev'}
+region: ${opt:region, 'us-east-1'}
+
+environment:
+NODE_ENV: ${self:provider.stage}
+  MONGODB_URI: ${ssm:/careerstick/${self:provider.stage}/MONGODB_URI}
+APP_NAME: ${ssm:/careerstick/${self:provider.stage}/APP_NAME, 'CareerStick'}
+PORT: ${ssm:/careerstick/${self:provider.stage}/PORT, '4000'}
+FRONTEND_URL: ${ssm:/careerstick/${self:provider.stage}/FRONTEND_URL}
+CLIENT_URL: ${ssm:/careerstick/${self:provider.stage}/CLIENT_URL}
+JWT_REFRESH_SECRET: ${ssm:/careerstick/${self:provider.stage}/JWT_REFRESH_SECRET}
+JWT_ACCESS_SECRET: ${ssm:/careerstick/${self:provider.stage}/JWT_ACCESS_SECRET}
+OPENAI_API_KEY: ${ssm:/careerstick/${self:provider.stage}/OPENAI_API_KEY}
+SESSION_SECRET: ${ssm:/careerstick/${self:provider.stage}/SESSION_SECRET}
+GOOGLE_CLIENT_ID: ${ssm:/careerstick/${self:provider.stage}/GOOGLE_CLIENT_ID}
+GOOGLE_CLIENT_SECRET: ${ssm:/careerstick/${self:provider.stage}/GOOGLE_CLIENT_SECRET}
+
+# SMTP_HOST: ${ssm:/careerstick/${self:provider.stage}/SMTP_HOST}
+
+# SMTP_PORT: ${ssm:/careerstick/${self:provider.stage}/SMTP_PORT}
+
+# SMTP_USER: ${ssm:/careerstick/${self:provider.stage}/SMTP_USER}
+
+# SMTP_SECURE: ${ssm:/careerstick/${self:provider.stage}/SMTP_SECURE}
+
+# SMTP_PASS: ${ssm:/careerstick/${self:provider.stage}/SMTP_PASS}
+
+EMAIL_FROM: ${ssm:/careerstick/${self:provider.stage}/EMAIL_FROM}
+
+# ARCJET_ENV: ${ssm:/careerstick/${self:provider.stage}/ARCJET_ENV}
+
+# ARCJET_KEY: ${ssm:/careerstick/${self:provider.stage}/ARCJET_KEY}
+
+RESEND_API_KEY: ${ssm:/careerstick/${self:provider.stage}/RESEND_API_KEY}
+
+functions:
+api:
+handler: build/src/app.handler
+events: - http:
+path: /{proxy+}
+method: ANY
+cors:
+origin: "\*"
+headers: - Content-Type - Authorization
+allowCredentials: true
+
+plugins:
+
+# - serverless-plugin-typescript
+
+- serverless-offline
+- serverless-dotenv-plugin
+
+build:
+esbuild: false
+
+package:
+patterns: - "!node_modules/.prisma/client/libquery_engine-_" - "!node_modules/prisma/libquery_engine-_" - "!node_modules/@prisma/engines/**" - "node_modules/@prisma/client/**"
+
+custom:
+serverless-offline:
+httpPort: 4000

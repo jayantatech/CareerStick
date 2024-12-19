@@ -26,8 +26,9 @@
     "@types/uuid": "^10.0.0",
     "nodemon": "^3.1.7",
     "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-plugin-typescript": "^2.1.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.699.0",
@@ -54,6 +55,7 @@
     "passport-google-oauth20": "^2.0.0",
     "resend": "^4.0.1",
     "serverless-http": "^3.2.0",
+    "serverless-offline": "^14.4.0",
     "uuid": "^10.0.0",
     "xss": "^1.0.15",
     "zod": "^3.23.8"

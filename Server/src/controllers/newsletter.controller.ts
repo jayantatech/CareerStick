@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import {
-  NewsletterSubscriber,
+import NewsletterSubscriber, {
   SubscriptionSource,
 } from "../models/NewsletterSchema";
 

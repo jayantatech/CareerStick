@@ -135,7 +135,7 @@
 //   }
 // }
 
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 // Enum for subscription sources
 export enum SubscriptionSource {
@@ -146,21 +146,13 @@ export enum SubscriptionSource {
   OTHER = "other",
 }
 
-// Interface for the Subscriber document
-export interface INewsletterSubscriber extends Document {
-  email: string;
-  subscriptionDate: Date;
-  isActive: boolean;
-  source: SubscriptionSource;
-}
-
 // Create the Mongoose Schema
-const NewsletterSchema: Schema<INewsletterSubscriber> = new Schema(
+const NewsletterSchema = new Schema(
   {
     email: {
       type: String,
       required: [true, "Email address is required"],
-      unique: true,
+      unique: true, // Ensure email is unique
       lowercase: true,
       trim: true,
       match: [
@@ -173,14 +165,14 @@ const NewsletterSchema: Schema<INewsletterSubscriber> = new Schema(
       default: Date.now,
       immutable: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
     source: {
       type: String,
       enum: Object.values(SubscriptionSource),
       default: SubscriptionSource.WEBSITE,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -189,12 +181,13 @@ const NewsletterSchema: Schema<INewsletterSubscriber> = new Schema(
   }
 );
 
-// Indexing for performance
-NewsletterSchema.index({ email: 1 }, { unique: true });
+// Disable automatic index creation in production environments
+// NewsletterSchema.set("autoIndex", process.env.NODE_ENV !== "production");
 
 // Create the model
-export const NewsletterSubscriber: Model<INewsletterSubscriber> =
-  mongoose.model<INewsletterSubscriber>(
-    "NewsletterSubscriber",
-    NewsletterSchema
-  );
+const NewsletterSubscriber = mongoose.model(
+  "NewsletterSubscriber",
+  NewsletterSchema
+);
+
+export default NewsletterSubscriber;
