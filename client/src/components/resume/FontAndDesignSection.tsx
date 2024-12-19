@@ -25,6 +25,7 @@ import { useParams } from "next/navigation";
 import api from "@/lib/api";
 import ConfirmationDialog from "../ConfirmationDialog";
 import useAuth from "@/lib/hooks/useAuth";
+import { toast } from "sonner";
 
 const colorSchemes = [
   {
@@ -108,8 +109,9 @@ const FontAndDesignSection = () => {
         setInitialState(resumeStyle);
         dispatch(setDesignAndFontBoxState(false));
       }
-    } catch (error) {
-      console.log("error saving resume settings", error);
+    } catch {
+      toast.error("Failed to save resume settings");
+      // console.log("error saving resume settings", error);
     } finally {
       setIsSaving(false);
     }

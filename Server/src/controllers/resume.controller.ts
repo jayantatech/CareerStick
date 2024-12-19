@@ -240,6 +240,7 @@ const getResume = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { userId } = req.body;
+    console.log("getResume called", id);
     // console.log("user i id i got it", userId);
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({

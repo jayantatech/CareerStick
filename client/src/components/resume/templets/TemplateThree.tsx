@@ -378,7 +378,6 @@ const TemplateThree = ({
     if (styleConfig.activeSections.certificate)
       activeThreeSections = ++activeThreeSections;
   }
-  console.log("active sections", activeThreeSections);
   const hasSocialLinks =
     data?.socialLinks?.length > 0 && data?.socialLinks[0]?.url;
 

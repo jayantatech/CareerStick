@@ -17,7 +17,6 @@ const templateSlice = createSlice({
   reducers: {
     setCurrentTemplate: (state, action: PayloadAction<TemplateType>) => {
       state.currentTemplate = action.payload;
-      console.log("Current Template from redux", state.currentTemplate);
     },
   },
 });

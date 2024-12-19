@@ -73,13 +73,13 @@ export const getTokenInfo = async (retryCount = 3, initialDelayMs = 1000) => {
   for (let attempt = 0; attempt < retryCount; attempt++) {
     try {
       const accessToken = cookies().get("accessToken")?.value;
-      console.log(
-        `Attempt ${attempt + 1}: Getting token info with accessToken`,
-        accessToken
-      );
+      // console.log(
+      //   `Attempt ${attempt + 1}: Getting token info with accessToken`,
+      //   accessToken
+      // );
 
       if (!accessToken) {
-        console.log("No access token found");
+        // console.log("No access token found");
         return null;
       }
 
@@ -91,12 +91,12 @@ export const getTokenInfo = async (retryCount = 3, initialDelayMs = 1000) => {
       );
 
       if (response.data.success) {
-        console.log("Successfully retrieved token info");
+        // console.log("Successfully retrieved token info");
         return response.data.user;
       }
 
       // If we get here, the request was successful but success was false
-      console.log("Request successful but returned success: false");
+      // console.log("Request successful but returned success: false");
       throw new Error(response.data.message || "Failed to get token info");
     } catch (error) {
       lastError = error as Error;
@@ -123,14 +123,14 @@ export const getTokenInfo = async (retryCount = 3, initialDelayMs = 1000) => {
       if (attempt < retryCount - 1) {
         // Exponential backoff: wait longer between each retry
         const delayTime = initialDelayMs * Math.pow(2, attempt);
-        console.log(`Waiting ${delayTime}ms before retry...`);
+        // console.log(`Waiting ${delayTime}ms before retry...`);
         await delay(delayTime);
       }
     }
   }
 
   // If we've exhausted all retries, throw the last error
-  console.log("All retry attempts exhausted");
+  // console.log("All retry attempts exhausted");
   throw (
     lastError || new Error("Failed to get token info after all retry attempts")
   );

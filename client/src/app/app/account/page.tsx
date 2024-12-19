@@ -802,8 +802,9 @@ export default function SimplifiedProfilePage() {
           profileImageUrl: uploadedImageUrl,
         }));
         // setProfileImage(file);
-      } catch (error) {
-        console.error("Image upload failed", error);
+      } catch {
+        toast.error("Image upload failed, please try again");
+        // console.error("Image upload failed", error);
       }
     }
   };
@@ -819,7 +820,7 @@ export default function SimplifiedProfilePage() {
     if (!user?._id) return;
     if (isLoading) return;
     async function getUserInfo() {
-      console.log("triggering getUserInfo");
+      // console.log("triggering getUserInfo");
       if (!user?._id) return;
       if (isLoading) return;
       try {
@@ -828,10 +829,10 @@ export default function SimplifiedProfilePage() {
         });
         const data = response.data;
 
-        console.log("response.data for getUserInfo", data);
+        // console.log("response.data for getUserInfo", data);
         if (data.success) {
           const userInfo = data.user;
-          console.log("userInfo for getUserInfo", userInfo);
+          // console.log("userInfo for getUserInfo", userInfo);
           setUserInfo({
             firstName: userInfo.firstName,
             lastName: userInfo.lastName,
@@ -846,8 +847,8 @@ export default function SimplifiedProfilePage() {
             subscriptionPlan: userInfo.subscriptionPlan,
           });
         }
-      } catch (error) {
-        console.log("Error fetching user info:", error);
+      } catch {
+        // console.log("Error fetching user info:", error);
         toast.error("Failed to fetch user info");
       }
     }
@@ -866,16 +867,16 @@ export default function SimplifiedProfilePage() {
         profileInfo: userInfo,
       });
       const data = response.data;
-      console.log("response.data for save click", data);
+      // console.log("response.data for save click", data);
       if (data.success) {
-        console.log("test message", data.message);
+        // console.log("test message", data.message);
         toast.success("Profile updated successfully");
         // if (data.accessToken) {
         //   setAccessToken(data.accessToken);
         // }
       }
-    } catch (error) {
-      console.error("Error saving profile:", error);
+    } catch {
+      // console.error("Error saving profile:", error);
       toast.error("Failed to update profile");
     }
 

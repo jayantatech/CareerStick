@@ -13,10 +13,12 @@ import passport from "passport";
 import session from "express-session";
 import connectDB from "./config/connectDB";
 import blogRoutes from "./routes/blogRoutes";
-// import newsletterRoutes from "./routes/newsletterRoutes";
+import newsletterRoutes from "./routes/newsletterRoutes";
 import feedbackRoutes from "./routes/feedbackRoutes";
 import settingsRoutes from "./routes/settingsRoutes";
-
+import cron from "node-cron";
+import axios from "axios";
+import setupCronJobs from "./utils/cronJobs";
 dotenv.config();
 
 const app = express();
@@ -67,15 +69,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //
+app.get("/api/v1/health-check", (req, res) => {
+  res.status(200).send("Server is alive!");
+});
 app.use("/api/v1/auth", userAuthRoutes);
-// app.use("/api/v1/resumes", resumeRoutes);
+app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/ai", aiFeaturesRoutes);
 app.use("/api/v1/resume", resumeRoutes);
 app.use("/api/v1/blog", blogRoutes);
-// app.use("/api/v1/newsletter", newsletterRoutes);
+app.use("/api/v1/newsletter", newsletterRoutes);
 app.use("/api/v1/feedback", feedbackRoutes);
 app.use("/api/v1/settings", settingsRoutes);
 
+setupCronJobs(); // Initialize cron jobs
 const startServer = async () => {
   try {
     await connectDB(); // Connect to database first

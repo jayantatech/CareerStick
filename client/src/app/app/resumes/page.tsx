@@ -248,9 +248,9 @@ const MyResume = () => {
     });
     const resumes = sortedResumes.map((resume) => {
       if (!resume) return null;
-      console.log("resume data to show", resume);
+      // console.log("resume data to show", resume);
       const mappedData = mapMongoDataToReduxFormat(resume);
-      console.log("mappedData to show", mappedData);
+      // console.log("mappedData to show", mappedData);
       if (!mappedData) return null;
 
       return (

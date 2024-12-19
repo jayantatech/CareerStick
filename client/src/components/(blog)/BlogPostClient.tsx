@@ -225,8 +225,6 @@ export default function BlogPostPageTwo() {
     }
   };
 
-  console.log("pathname", pathname);
-
   const { user, isLoading, isAuthenticated } = useAuth();
 
   // useEffect(() => {
@@ -269,7 +267,6 @@ export default function BlogPostPageTwo() {
           if (!user?._id) return;
 
           // API call for admin preview with userId in body
-          console.log("admin preview is now running");
           const response = await api.post(
             `/blog/get/admin-preview/${pathname.slug}`,
             {
@@ -282,11 +279,9 @@ export default function BlogPostPageTwo() {
           }
 
           if (response.data.success) {
-            console.log("blog data from admin preview api", response.data.data);
             setBlogPost(response.data.data);
           }
         } else {
-          console.log("user blog preview is now running");
           const response = await api.get(`/blog/get/${pathname.slug}`);
 
           if (!response.data.success) {
@@ -294,7 +289,6 @@ export default function BlogPostPageTwo() {
           }
 
           if (response.data.success) {
-            console.log("blog data from api", response.data.data);
             setBlogPost(response.data.data);
           }
         }

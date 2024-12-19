@@ -58,7 +58,7 @@ const ATSOptimizationBox = () => {
         dispatch(setIsAIFeatureRequested(false));
         toast.success(response.data.message);
       }
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Failed to optimize resume:", error);
       alert("Failed to optimize resume. Please try again.");

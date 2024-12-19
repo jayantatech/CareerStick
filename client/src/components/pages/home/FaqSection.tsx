@@ -101,7 +101,7 @@ export default function FAQSection() {
               Contact Support
               <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button> */}
-            Email: example@example.com
+            Email: contact@careerstick.com
           </motion.div>
         </div>
       </ContentWrapper>

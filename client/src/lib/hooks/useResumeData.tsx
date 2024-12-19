@@ -226,6 +226,7 @@ import mapMongoDataToReduxFormat from "@/lib/features/mapMongoDataToReduxFormat"
 import { ResumeState } from "@/lib/types/resumeInput";
 import useAuth from "./useAuth";
 import { setResumeState } from "../store/slices/resumeStateChangeSlice";
+import { toast } from "sonner";
 
 interface ApiResponse {
   success: boolean;
@@ -271,7 +272,7 @@ export const useResumeData = () => {
     ) {
       return;
     }
-    console.log("Saving resume data");
+    // console.log("Saving resume data");
     try {
       const response: AxiosResponse<ApiResponse> = await api.post(
         "/resume/save-resume",
@@ -288,7 +289,7 @@ export const useResumeData = () => {
       }
 
       previousStateRef.current = JSON.parse(JSON.stringify(resumeStateData));
-      console.log("Resume data saved successfully");
+      // console.log("Resume data saved successfully");
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       console.error("Error saving resume data:", axiosError);
@@ -310,6 +311,7 @@ export const useResumeData = () => {
       }
 
       try {
+        // console.log("fetching resume data");
         const response: AxiosResponse<{
           success: boolean;
           resume: ResumeState;
@@ -322,7 +324,7 @@ export const useResumeData = () => {
           return;
         }
 
-        console.log("resume data fetched successfully", response.data.resume);
+        // console.log("resume data fetched successfully", response.data.resume);
         const mappedData = mapMongoDataToReduxFormat(response.data.resume);
 
         // Initialize all sections in Redux
@@ -360,7 +362,8 @@ export const useResumeData = () => {
           message: string;
           success: boolean;
         }>;
-        console.error("Error fetching resume data:", axiosError);
+        // console.error("Error fetching resume data:", axiosError);
+        toast.error("Error fetching resume data");
         dispatch(setResumeState(false));
         if (
           axiosError.response?.status === 404 ||

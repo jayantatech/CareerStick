@@ -409,8 +409,8 @@ const AppSidebar = () => {
       // if (response.data.success) {
       //   router.push("/login");
       // }
-    } catch (error) {
-      console.log("Error logging out:", error);
+    } catch {
+      // console.log("Error logging out:", error);
       toast.error("Failed to logout. Please try again.");
     }
     setIsUserDropdownOpen(false);

@@ -166,7 +166,7 @@ const Register: React.FC = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
       });
-      console.log("response.data for register", response.data);
+      // console.log("response.data for register", response.data);
       const data = response.data;
       if (data.success) {
         setApiMessage({
@@ -189,7 +189,7 @@ const Register: React.FC = () => {
         });
       }
     } catch (error) {
-      console.log("error from api", error);
+      // console.log("error from api", error);
       const axiosError = error as AxiosError<{
         message: string;
         success: boolean;
@@ -204,7 +204,7 @@ const Register: React.FC = () => {
         });
         return;
       }
-      console.log("axiosError.response.data", axiosError.response?.data);
+      // console.log("axiosError.response.data", axiosError.response?.data);
       if (
         axiosError.response?.status === 400 ||
         axiosError.response?.status === 409
