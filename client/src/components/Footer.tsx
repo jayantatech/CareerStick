@@ -149,10 +149,10 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
                 <a
-                  href="mailto:contact@careerstick.com"
+                  href="mailto:support@careerstick.com"
                   className="hover:text-white transition-colors"
                 >
-                  contact@careerstick.com
+                  support@careerstick.com
                 </a>
               </li>
               {/* <li className="flex items-center gap-3">
@@ -196,6 +196,12 @@ export default function Footer() {
                 className="hover:text-white transition-colors"
               >
                 Cookie Policy
+              </Link>
+              <Link
+                href="/sitemap.xml"
+                className="hover:text-white transition-colors"
+              >
+                Sitemap
               </Link>
             </div>
             <p className="text-sm text-gray-400">

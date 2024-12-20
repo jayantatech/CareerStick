@@ -588,16 +588,18 @@ const BlogHeroSection = ({
       <ContentWrapper>
         <div className="container mx-auto ">
           {/* Breadcrumbs */}
-          <nav className="flex items-center  font-heading gap-2 text-sm text-muted-foreground mb-5">
+          <nav className="flex flex-wrap items-center font-heading gap-1 text-sm text-muted-foreground mb-5">
             {breadcrumbs.map((item, index) => (
-              <div key={index} className="flex items-center gap-1">
-                {index > 0 && <ChevronRight className="h-4 w-4 text-black" />}
+              <div key={index} className="flex items-center gap-1 min-w-0">
+                {index > 0 && (
+                  <ChevronRight className="h-4 w-4 text-black flex-shrink-0" />
+                )}
                 <Link
                   href={item.href}
-                  className={`hover:text-foreground transition-colors text-[14px] capitalize ${
+                  className={`hover:text-foreground transition-colors text-[14px] capitalize truncate max-w-[200px] sm:max-w-none ${
                     item.label === "Home" || item.label === "Blog"
                       ? "text-primary"
-                      : ""
+                      : "text-gray-700"
                   }`}
                 >
                   {item.label}
@@ -625,7 +627,7 @@ const BlogHeroSection = ({
                 <Link href={"/app/resumes"}>
                   <Button
                     size="lg"
-                    className="bg-primary hover:bg-blue-700 text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
+                    className="bg-primary hover:bg-blue-700 max-md:w-full text-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
                   >
                     Generate My Resume
                   </Button>
@@ -634,7 +636,7 @@ const BlogHeroSection = ({
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-blue-200 hover:bg-white font-bold rounded hover:scale-[.98] transition-all duration-150 font-heading"
+                    className="border-blue-200 hover:bg-white font-bold max-md:w-full rounded hover:scale-[.98] transition-all duration-150 font-heading"
                   >
                     View samples
                   </Button>
@@ -656,11 +658,11 @@ const BlogHeroSection = ({
                   <span>Free to use, No credit card required.</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 text-sm  text-gray-600">
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1 rounded border">
+              <div className="flex items-center max-lg:justify-center max-md:justify-start gap-3 text-sm  text-gray-600">
+                <div className="flex items-center gap-2 bg-white/80  px-3 py-1 rounded border">
                   <Calendar className="h-4 w-4 text-gray-700" />
                   <time>{heroDate}</time>
-                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-500">•</span>
                   <LuClock8 className="h-4 w-4 text-gray-700" />
                   <span>{readTime} min read</span>
                 </div>

@@ -55,8 +55,10 @@ const ResetPassword = () => {
         message:
           "Invalid or expired reset token. Please request a new password reset.",
       });
+    } else if (resetToken.length !== 20) {
+      router.push("/forgot-password");
     }
-  }, [resetToken]);
+  }, [resetToken, router]);
 
   // Validation functions
   const validatePassword = (password: string): boolean => {

@@ -81,8 +81,6 @@ const ResumeViewer = ({
     }
   }, [shouldFetchResumeStyle, isLoading, resumeId, user?._id]);
 
-  console.log("resume.templateName to set activeTemplate", resume);
-
   useEffect(() => {
     setActiveTemplate(resume.templateName as TemplateType);
   }, [resume.templateName, resumeId]); // i changed it to resumeId and from resume to resumeTemplateName

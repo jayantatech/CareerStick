@@ -1,5 +1,12 @@
 import ContentWrapper from "@/components/ContentWrapper";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "CareerStick Cookie Policy - How We Use Cookies",
+  description:
+    "Understand how CareerStick uses cookies to improve your experience and ensure seamless functionality on our AI-powered resume platform.",
+};
 
 export default function CookiePolicy() {
   return (

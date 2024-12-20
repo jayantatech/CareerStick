@@ -9,8 +9,9 @@ import Testimonials from "@/components/pages/home/Testimonials";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home - CareerStick",
-  description: "The AI-Powered Resume Builder - CareerStick",
+  title: "AI-Powered Free Resume Generator - CareerStick",
+  description:
+    "Create professional resumes effortlessly with CareerStick, the free AI-powered resume generator. Build your perfect resume in minutes and stand out to employers.",
 };
 
 export default function Home() {

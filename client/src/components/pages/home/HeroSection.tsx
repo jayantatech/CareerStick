@@ -16,7 +16,9 @@ export default function HeroSection() {
             <div className="flex flex-col justify-center max-lg:justify-start space-y-4 text-center lg:text-left max-lg:mt-8 max-md:mt-3">
               <div className="space-y-2 ">
                 <h1 className="text-3xl font-bold max-lg:justify-start tracking-tighter sm:text-4xl font-heading capitalize md:text-5xl lg:text-6xl/none">
-                  The <span className="text-primary">AI-Powered Resume </span>{" "}
+                  {" "}
+                  Free
+                  <span className="text-primary"> AI-Powered Resume </span>{" "}
                   Builder
                   {/* — Is Yours Ready? The AI-Powered Resume Builder */}
                 </h1>

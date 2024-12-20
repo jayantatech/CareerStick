@@ -1,5 +1,12 @@
 import ContentWrapper from "@/components/ContentWrapper";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "CareerStick Terms of Service - Know Your Rights & Responsibilities",
+  description:
+    "Read the CareerStick Terms of Service to understand the rules, guidelines, and policies for using our AI-powered resume-building platform.",
+};
 
 export default function TermsOfService() {
   return (

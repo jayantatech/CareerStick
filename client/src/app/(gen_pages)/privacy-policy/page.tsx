@@ -61,7 +61,14 @@
 //   );
 // }
 import ContentWrapper from "@/components/ContentWrapper";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "CareerStick Privacy Policy - Your Data, Your Rights",
+  description:
+    "Learn how CareerStick protects your personal information and ensures your data privacy while using our AI-powered resume-building platform.",
+};
 
 export default function PrivacyPolicy() {
   return (

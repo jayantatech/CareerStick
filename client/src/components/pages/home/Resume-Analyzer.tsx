@@ -119,7 +119,7 @@ export default function ResumeAnalyzer() {
         <div className="flex lg:flex-row flex-col gap-12 items-center justify-between max-lg:items-center max-lg:justify-center">
           <div className="space-y-8 w-1/2 max-lg:w-full h-auto max-lg:items-center max-lg:justify-center">
             <div className="space-y-4 max-lg:text-center w-full h-full">
-              <h2 className="text-4xl font-extrabold font-heading tracking-tight sm:text-5xl md:text-6xl text-gray-900">
+              <h2 className="text-3xl font-bold font-heading tracking-tight sm:text-5xl md:text-6xl text-gray-900">
                 Upload. Enhance. <br />
                 <span className="text-blue-600 font-heading">
                   Land Interviews.
