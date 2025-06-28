@@ -7,6 +7,7 @@ import templateSlice from "./slices/templateChangeSlice";
 import resumeSettingsSlice from "./slices/resumeSettingsSlice";
 import resumeStyleSlice from "./slices/resumeStyle";
 import resumeStateChangeSlice from "./slices/resumeStateChangeSlice";
+import resumeDownloadSlice from "./slices/resumeDownloadSlice";
 export const store = configureStore({
   reducer: {
     resume: resumeReducer,
@@ -16,6 +17,7 @@ export const store = configureStore({
     resumeSettings: resumeSettingsSlice,
     resumeStyle: resumeStyleSlice,
     resumeSateChange: resumeStateChangeSlice,
+    resumeDownloadInfo: resumeDownloadSlice,
   },
 });
 

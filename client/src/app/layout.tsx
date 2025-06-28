@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
 import { Lora, Merriweather, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
+import { Providers } from "@/lib/providers";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "sonner";
 import Script from "next/script";
@@ -99,13 +99,11 @@ export default function RootLayout({
           />
         </noscript>
         {/* End Google Tag Manager (noscript)  */}
-        <Providers>
-          <GoogleOAuthProvider
-            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-          >
-            {children}
-          </GoogleOAuthProvider>
-        </Providers>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        >
+          <Providers>{children}</Providers>
+        </GoogleOAuthProvider>
         <Toaster />
       </body>
     </html>

@@ -373,7 +373,7 @@ const ResumeSlider = memo(() => {
       // onSelect={handlePageChange}
     >
       <div className="w-[340px] h-[34px] absolute right-0 -top-10 z-10 flex items-center justify-end">
-        <DownloadPDFComponent data={resumeData} />
+        <DownloadPDFComponent resume={resumeData} />
       </div>
 
       <CarouselContent>

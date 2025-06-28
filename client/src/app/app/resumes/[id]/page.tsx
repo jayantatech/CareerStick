@@ -99,7 +99,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/lib/store/hooks";
 import { setMobilePreview } from "@/lib/store/slices/activeResumeSectionClice";
-import ResumeViewTwo from "@/components/sections/resumes/ResumeViewTwo";
 import SelectResumeSlider from "@/components/resume/SelectResumeSlider";
 import ResumeFeatureBox from "@/components/resume/ResumeFeatureBox";
 import FontAndDesignSection from "@/components/resume/FontAndDesignSection";
@@ -110,6 +109,8 @@ import SmallScreenResumeView from "@/components/resume/SmallScreenResumeView";
 import AddSectionPopup from "@/components/app/AddSectionPopup";
 import { useResumeData } from "@/lib/hooks/useResumeData";
 import PageLoading from "@/components/loading/PageLoading";
+import ResumeSliderTwo from "@/components/resume/ResumeSliderTwo";
+import AppMobileHeader from "@/components/headers/AppMobileHeader";
 
 const AiResumeBuilder: React.FC = () => {
   const { isValidResumeId } = useResumeData();
@@ -145,17 +146,21 @@ const AiResumeBuilder: React.FC = () => {
   if (!isValidResumeId) {
     return null;
   }
-
+  // const linkedInImportBoxState = useAppSelector(
+  //   (state) => state.resumeFeatureState.linkedInImportBoxState
+  // );
   return (
     <div className="flex flex-col h-screen">
       {isLoading && !hasLoadedInSession && <PageLoading />}
       <div className="flex-1 overflow-y-auto">
         <div className="flex max-md:flex-col">
           {/* Mobile header */}
-          <div className="w-full h-[63px] md:hidden bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div>
+          <AppMobileHeader />
+          {/* <div className="w-full h-[63px] md:hidden bg-white border-b flex-shrink-0 sticky top-0 left-0 z-20"></div> */}
 
           {/* Main sections */}
           <LeftSection />
+          {/* Mobile resume view */}
           <SmallScreenResumeView />
 
           {/* Mobile preview button */}
@@ -171,11 +176,16 @@ const AiResumeBuilder: React.FC = () => {
           {/* Desktop resume view */}
           <div className="relative w-[60%] m-desktop:w-[64%] max-lg:hidden">
             <div
-              className="sticky top-0 overflow-y-auto custom-scrollbar bg-[#8b97b1]"
+              className="sticky top-0 overflow-y-auto custom-scrollbar lg:pb-16 bg-[#8b97b1]  " //bg-[#8b97b1]
               style={{ maxHeight: "calc(100vh)" }}
             >
-              <div className="min-h-screen max-h-[2040px] flex flex-row">
-                <ResumeViewTwo />
+              <div className="min-h-screen  w-auto   flex flex-row">
+                {" "}
+                {/* //max-h-[2040px] */}
+                {/* <ResumeViewTwo /> */}
+                {/* <div> */}
+                <ResumeSliderTwo />
+                {/* </div> */}
                 <ResumeFeatureBox />
               </div>
               <FontAndDesignSection />

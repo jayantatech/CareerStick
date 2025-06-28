@@ -250,6 +250,7 @@ export enum TemplateNameEnum {
   template2 = "template2",
   template3 = "template3",
   template4 = "template4",
+  template5 = "template5",
 }
 
 interface IResume extends Document {

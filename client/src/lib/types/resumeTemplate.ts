@@ -7,7 +7,15 @@ export interface StyleConfig {
     page: "compact" | "normal" | "spacious";
     section: "compact" | "normal" | "spacious";
   };
-  fontFamily: "Helvetica" | "Times-Roman" | "Courier";
+  fontFamily:
+    | "Helvetica"
+    | "Times-Roman"
+    | "Courier"
+    | "Inter"
+    | "Roboto"
+    | "Merriweather";
+  // | "font-montserrat"
+  // | "font-merriweather";
   colorScheme: {
     primary: string;
     secondary: string;

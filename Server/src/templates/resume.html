@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Template</title>
+
+    <!-- Essential Scripts -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-react/0.263.1/lucide-react.min.js"></script>
+
+    <!-- Styles -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .page {
+        width: 794px;
+        height: 1123px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="resume-root"></div>
+
+    <script>
+      window.__RESUME_DATA__ = __RESUME_DATA__;
+      window.__STYLE_CONFIG__ = __STYLE_CONFIG__;
+
+      const TemplateThree = () => {
+        const data = window.__RESUME_DATA__;
+        const styleConfig = window.__STYLE_CONFIG__;
+        const primaryColor = styleConfig?.colorScheme?.primary || "#1a5f7a";
+        const secondaryColor = styleConfig?.colorScheme?.secondary || "#86BBD8";
+
+        const placeholderText = {
+          firstName: data?.personalInfo?.firstName || "Enter your name",
+          lastName: data?.personalInfo?.lastName || "",
+          title: data?.jobIndustry?.targetJob || "Enter your job title",
+          summary:
+            data?.professionalSummary?.summaryText ||
+            "Enter your professional summary",
+          phone: data?.personalInfo?.phone || "Enter phone number",
+          email: data?.personalInfo?.email || "Enter email address",
+          location: `${data?.personalInfo?.city || "City"}, ${
+            data?.personalInfo?.country || "Country"
+          }`,
+        };
+
+        return React.createElement(
+          "div",
+          { className: "flex flex-col gap-8" },
+          React.createElement(
+            "div",
+            {
+              className:
+                "w-[794px] h-[1123px] shadow bg-white p-10 overflow-hidden mx-auto font-inter",
+            },
+            [
+              // Header Section
+              React.createElement("div", { className: "mb-4" }, [
+                React.createElement(
+                  "h1",
+                  {
+                    className: "text-4xl font-bold capitalize mb-1",
+                  },
+                  `${placeholderText.firstName} ${placeholderText.lastName}`
+                ),
+                React.createElement(
+                  "h2",
+                  {
+                    className: "text-xl mb-2",
+                    style: { color: secondaryColor },
+                  },
+                  placeholderText.title
+                ),
+                // Contact Info
+                React.createElement("div", { className: "flex gap-4 mb-1" }, [
+                  // Phone
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center gap-1" },
+                    [
+                      React.createElement(
+                        "span",
+                        { className: "text-gray-600" },
+                        placeholderText.phone
+                      ),
+                    ]
+                  ),
+                  // Email
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center gap-1" },
+                    [
+                      React.createElement(
+                        "span",
+                        { className: "text-gray-600" },
+                        placeholderText.email
+                      ),
+                    ]
+                  ),
+                  // Location
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center gap-1" },
+                    [
+                      React.createElement(
+                        "span",
+                        { className: "text-gray-600" },
+                        placeholderText.location
+                      ),
+                    ]
+                  ),
+                ]),
+              ]),
+              // Summary Section
+              React.createElement("section", { className: "mb-4" }, [
+                React.createElement(
+                  "h3",
+                  {
+                    className:
+                      "text-lg font-bold uppercase border-b border-gray-200 pb-1 mb-2",
+                    style: { color: primaryColor },
+                  },
+                  "Summary"
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-gray-600" },
+                  placeholderText.summary
+                ),
+              ]),
+              // Additional sections would be added here following the same pattern
+            ]
+          )
+        );
+      };
+
+      // Render the template
+      ReactDOM.render(
+        React.createElement(TemplateThree),
+        document.getElementById("resume-root")
+      );
+    </script>
+  </body>
+</html>

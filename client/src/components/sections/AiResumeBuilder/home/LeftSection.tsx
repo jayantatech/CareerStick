@@ -15,6 +15,7 @@ import CustomSections from "../CustomSections";
 import { useAppSelector } from "@/lib/store/hooks";
 import WorkExperienceSection from "../WorkExperienceFields";
 import ResumeTitleField from "../ResumeTitleSection";
+import AIResumePrompt from "../AIPromptBox";
 
 export interface Section {
   id: string;
@@ -62,21 +63,27 @@ const LeftSection = () => {
           </div>
 
           <div className="mb-4">
-            <PersonalInformationFields />
+            <AIResumePrompt />
           </div>
 
-          <div className="pb-4">
-            <ProfessionalSummaryField />
+          <div className="mb-4">
+            <PersonalInformationFields />
           </div>
+          {activeSections.professionalSummary && (
+            <div className="pb-4">
+              <ProfessionalSummaryField />
+            </div>
+          )}
 
           <div className="pb-4">
             {/* <WorkExperienceFields /> */}
             <WorkExperienceSection />
           </div>
-
-          <div className="pb-4">
-            <EducationSection />
-          </div>
+          {activeSections.education && (
+            <div className="pb-4">
+              <EducationSection />
+            </div>
+          )}
 
           {activeSections.socialLinks && (
             <div className="pb-4">

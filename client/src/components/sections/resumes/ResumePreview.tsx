@@ -367,7 +367,17 @@ const ResumePDF = ({
   data: ResumeState;
   styleConfig: ResumeStyleState;
 }) => {
-  const styles = createDynamicStyles(styleConfig);
+  // Map fontFamily to allowed values for StyleConfig
+  const allowedFontFamilies = ["Helvetica", "Times-Roman", "Courier"] as const;
+  const mappedStyleConfig: StyleConfig = {
+    ...styleConfig,
+    fontFamily: allowedFontFamilies.includes(
+      styleConfig.fontFamily as (typeof allowedFontFamilies)[number]
+    )
+      ? (styleConfig.fontFamily as "Helvetica" | "Times-Roman" | "Courier")
+      : "Helvetica",
+  };
+  const styles = createDynamicStyles(mappedStyleConfig);
 
   const placeholderText = {
     firstName: data?.personalInfo?.firstName || "Enter your name",

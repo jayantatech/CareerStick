@@ -17,6 +17,7 @@ const industryOptions = [
 
 const jobOptions = [
   // Software Development & Engineering
+  { value: "Software Developer", label: "Software Developer" },
   { value: "Frontend Developer", label: "Frontend Developer" },
   { value: "Backend Developer", label: "Backend Developer" },
   { value: "Full Stack Developer", label: "Full Stack Developer" },

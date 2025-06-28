@@ -305,7 +305,7 @@ const defaultStyleConfig: StyleConfig = {
     page: "normal",
     section: "normal",
   },
-  fontFamily: "Helvetica",
+  fontFamily: "Helvetica", //font-inter,
   colorScheme: {
     primary: "#111827",
     secondary: "#3B82F6",
@@ -343,8 +343,9 @@ const getSocialIcon = (platform: string) => {
 
 const TemplateThree = ({
   data,
-  styleConfig = defaultStyleConfig, // Provide default value
-}: {
+  styleConfig, // Provide default value
+}: // styleConfig = defaultStyleConfig, // Provide default value
+{
   data: ResumeState;
   styleConfig: ResumeStyleState;
 }) => {
@@ -366,18 +367,19 @@ const TemplateThree = ({
 
   const activeSections = styleConfig?.activeSections || {};
 
-  let activeThreeSections: number = 0;
-
-  if (styleConfig.activeSections) {
-    if (styleConfig.activeSections.education)
-      activeThreeSections = ++activeThreeSections;
-    if (styleConfig.activeSections.languages)
-      activeThreeSections = ++activeThreeSections;
-    if (styleConfig.activeSections.awards)
-      activeThreeSections = ++activeThreeSections;
-    if (styleConfig.activeSections.certificate)
-      activeThreeSections = ++activeThreeSections;
-  }
+  const activeThreeSections: number = 0;
+  // let activeThreeSections: number = 0;
+  // console.log("activeSections styleConfig", styleConfig);
+  // if (activeSections && styleConfig.activeSections) {
+  //   if (styleConfig.activeSections.education)
+  //     activeThreeSections = ++activeThreeSections;
+  //   if (styleConfig.activeSections.languages)
+  //     activeThreeSections = ++activeThreeSections;
+  //   if (styleConfig.activeSections.awards)
+  //     activeThreeSections = ++activeThreeSections;
+  //   if (styleConfig.activeSections.certificate)
+  //     activeThreeSections = ++activeThreeSections;
+  // }
   const hasSocialLinks =
     data?.socialLinks?.length > 0 && data?.socialLinks[0]?.url;
 

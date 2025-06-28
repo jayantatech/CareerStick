@@ -49,7 +49,7 @@ const ResumeSettingsSchema = new Schema<IResumeSettings>({
     body: {
       type: String,
       enum: ["small", "normal", "large", "extraLarge"],
-      default: "large",
+      default: "normal",
     },
     heading: {
       type: String,
@@ -71,8 +71,15 @@ const ResumeSettingsSchema = new Schema<IResumeSettings>({
   },
   fontFamily: {
     type: String,
-    enum: ["Helvetica", "Times-Roman", "Courier"],
-    default: "Helvetica",
+    enum: [
+      "Helvetica",
+      "Times-Roman",
+      "Courier",
+      "Inter",
+      "Roboto",
+      "Merriweather",
+    ],
+    default: "Inter",
   },
   colorScheme: {
     primary: { type: String, default: "#111827" },

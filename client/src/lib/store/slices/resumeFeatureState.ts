@@ -10,6 +10,7 @@ interface resumeFeatureState {
   mobileDesignAndFontBoxState: boolean;
   mobileATSOptimizationBoxState: boolean;
   mobileAISuggestionBoxState: boolean;
+  linkedInImportBoxState: boolean;
 }
 
 const initialState: resumeFeatureState = {
@@ -22,6 +23,7 @@ const initialState: resumeFeatureState = {
   mobileDesignAndFontBoxState: false,
   mobileATSOptimizationBoxState: false,
   mobileAISuggestionBoxState: false,
+  linkedInImportBoxState: false,
 };
 
 const resumeFeatureSlice = createSlice({
@@ -58,6 +60,9 @@ const resumeFeatureSlice = createSlice({
     setMobileAISuggestionBoxState: (state, action: PayloadAction<boolean>) => {
       state.mobileAISuggestionBoxState = action.payload;
     },
+    setLinkedInImportBoxState: (state, action: PayloadAction<boolean>) => {
+      state.linkedInImportBoxState = action.payload;
+    },
   },
 });
 
@@ -71,6 +76,7 @@ export const {
   setMobileDesignAndFontBoxState,
   setMobileATSOptimizationBoxState,
   setMobileAISuggestionBoxState,
+  setLinkedInImportBoxState,
 } = resumeFeatureSlice.actions;
 
 export default resumeFeatureSlice.reducer;

@@ -11,6 +11,7 @@ import { generateATSOptimizedResume } from "../utils/aiATSResumeOptimizer";
 import mongoose from "mongoose";
 import User from "../models/User";
 import { generateAiJobDescription } from "../utils/aiJobDescriptionGenerator";
+import { generateResumeWithPromptAI } from "../utils/generateResumeWithPromp";
 
 const formatDate = (dateObj: any) => {
   if (!dateObj) return null;
@@ -20,12 +21,8 @@ const formatDate = (dateObj: any) => {
   };
 };
 
-const mappedDataHelper = (
-  generatedResume: any,
-  resumeData: IResumeGenerationRequest
-) => {
+export const mappedDataHelper = (generatedResume: any) => {
   if (!generatedResume) return null;
-  if (!resumeData) return null;
   return {
     resumeTitle: generatedResume.resumeTitle,
     targetedJobAndIndustry: {
@@ -201,7 +198,7 @@ export const generateAiResume = async (
 
     const generatedResume = await generateResume(resumeData);
     console.log("AI generated resume:", generatedResume);
-    const mappedData = mappedDataHelper(generatedResume, resumeData);
+    const mappedData = mappedDataHelper(generatedResume);
     console.log("formated data from AI mappedData:", mappedData);
     // Merge existing resume settings with AI-generated content
     const mergedResume = {
@@ -320,7 +317,7 @@ export const aiATSOptimizeResume = async (
     );
     // console.log("AI generated resume:", JSON.stringify(generatedResume));
 
-    const mappedData = mappedDataHelper(generatedResume, resumeData);
+    const mappedData = mappedDataHelper(generatedResume);
     // console.log("mappedData for ats analysis", mappedData);
     // Merge existing resume settings with AI-generated content
     const mergedResume = {
@@ -438,6 +435,106 @@ export const aiJobDescription = async (req: Request, res: Response) => {
       success: false,
       message: "Failed to generate resume",
       error: error instanceof Error ? error.message : "Unknown error occurred",
+    });
+  }
+};
+
+export const createResumeWithAIPrompt = async (req: Request, res: Response) => {
+  try {
+    const { prompt, userId, resumeId, resumeData } = req.body;
+
+    console.log(
+      "prompt,",
+      prompt,
+      "userId,",
+      userId,
+      "resumeId,",
+      resumeId,
+      "resumeData,",
+      resumeData
+    );
+
+    if (!prompt || prompt.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Prompt is required",
+      });
+    }
+
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID format",
+      });
+    }
+
+    if (!mongoose.isValidObjectId(resumeId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid resume ID format",
+      });
+    }
+
+    const user = await User.findById({ _id: userId });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const resume = await generateResumeWithPromptAI(resumeData, prompt);
+
+    console.log("after resume generation  for prompt: ", resume);
+
+    const mappedData = mappedDataHelper(resume);
+    console.log("mappedData for ats analysis", mappedData);
+
+    const existingResume = await Resume.findOne({ userId, _id: resumeId });
+
+    if (!existingResume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    const mergedResume = {
+      ...existingResume.toObject(),
+      ...mappedData,
+      userId: existingResume.userId,
+      resumeSettingsId: existingResume.resumeSettingsId,
+      creationMethod: CreationMethodEnum.AI_ASSISTED,
+      templateName: existingResume.templateName || TemplateNameEnum.template3,
+      isPremiumTemplate: existingResume.isPremiumTemplate || false,
+      visibility: existingResume.visibility,
+      keywords: existingResume.keywords || [],
+      lastAtsAnalysisDate: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const updatedResume = await Resume.findByIdAndUpdate(
+      resumeId,
+      mergedResume,
+      { new: true, runValidators: true }
+    );
+    if (!updatedResume) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update resume",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Resume created successfully",
+      // data: resume,
+    });
+  } catch (error) {
+    console.error("Error generating resume with prompt:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to generate resume with prompt",
     });
   }
 };

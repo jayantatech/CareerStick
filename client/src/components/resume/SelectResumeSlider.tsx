@@ -247,6 +247,7 @@
 //   </div>
 // );
 // };
+
 import React, { useEffect, useState, useCallback } from "react";
 import {
   Carousel,
@@ -268,7 +269,7 @@ import { useParams } from "next/navigation";
 import api from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
 import Image, { StaticImageData } from "next/image";
-import { ResumeFour, ResumeOne, ResumeThree } from "../../../public/img";
+import { ResumeOne, ResumeThree, ResumeFive } from "../../../public/img";
 
 interface SelectResumeSliderProps {
   className?: string;
@@ -294,7 +295,7 @@ const templateData: TemplateInfo[] = [
   {
     id: "template4",
     name: "Minimalist",
-    imagePath: ResumeFour,
+    imagePath: ResumeFive,
   },
 ];
 

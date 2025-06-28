@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type TemplateType = "default" | "template2" | "template3" | "template4";
+export type TemplateType =
+  | "default"
+  | "template1"
+  | "template2"
+  | "template3"
+  | "template4"
+  | "template5";
+// | "template6";
 // | "template5";
 
 interface TemplateState {

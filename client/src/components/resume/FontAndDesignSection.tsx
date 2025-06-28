@@ -132,7 +132,7 @@ const FontAndDesignSection = () => {
         dispatch(setHeadingFontSize("normal"));
         dispatch(setPageMargins("normal"));
         dispatch(setSectionMargins("normal"));
-        dispatch(setFontFamily("Helvetica"));
+        dispatch(setFontFamily("Inter"));
         dispatch(setColorScheme(colorSchemes[0]));
         dispatch(setLineHeight("normal"));
         dispatch(setSectionSpacing("normal"));
@@ -317,16 +317,22 @@ const FontAndDesignSection = () => {
               <Select
                 value={resumeStyle.fontFamily}
                 onValueChange={(
-                  value: "Helvetica" | "Times-Roman" | "Courier"
+                  value:
+                    | "Helvetica"
+                    | "Times-Roman"
+                    | "Courier"
+                    | "Inter"
+                    | "Roboto"
+                    | "Merriweather"
                 ) => dispatch(setFontFamily(value))}
               >
                 <SelectTrigger className="w-full h-[33px] rounded-sm font-body text-[14px] bg-white">
                   <SelectValue placeholder="Select font" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Helvetica">Helvetica</SelectItem>
-                  <SelectItem value="Times-Roman">Times Roman</SelectItem>
-                  <SelectItem value="Courier">Courier</SelectItem>
+                  <SelectItem value="Inter">Inter</SelectItem>
+                  <SelectItem value="Roboto">Roboto</SelectItem>
+                  <SelectItem value="Merriweather">Merriweather</SelectItem>
                 </SelectContent>
               </Select>
             </div>

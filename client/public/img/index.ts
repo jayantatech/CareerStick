@@ -9,6 +9,7 @@ import profile from "./profile.jpeg";
 import ResumeOne from "./resumeOne.png";
 import ResumeThree from "./resumeThree.png";
 import ResumeFour from "./resumeFour.png";
+import ResumeFive from "./resumefive.png";
 // import ResumeThreeHero from "./resumeOne_old.png";
 import ATSRedResume from "./atsRedResume.jpg";
 import StockResume from "./stock-resume.jpg";
@@ -37,4 +38,5 @@ export {
   Error404,
   MailVerify,
   FooterLogo,
+  ResumeFive,
 };

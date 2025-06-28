@@ -43,7 +43,13 @@ export interface IResumeSettings {
     page: "compact" | "normal" | "spacious";
     section: "compact" | "normal" | "spacious";
   };
-  fontFamily: "Helvetica" | "Times-Roman" | "Courier";
+  fontFamily:
+    | "Helvetica"
+    | "Times-Roman"
+    | "Courier"
+    | "Inter"
+    | "Roboto"
+    | "Merriweather";
   colorScheme: {
     primary: string;
     secondary: string;

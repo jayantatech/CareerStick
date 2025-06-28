@@ -16,6 +16,7 @@ import {
   updateResumeSettings,
   updateResumeActiveSections,
   getResumeActiveSections,
+  generatePdf,
 } from "../controllers/resumeSettings.controller";
 const router = Router();
 
@@ -35,5 +36,8 @@ router.post("/settings/update", updateResumeSettings);
 router.post("/settings/reset/:resumeId", resetResumeSettings);
 router.post("/settings/active-sections/:resumeId", updateResumeActiveSections);
 router.post("/settings/get-active-sections/:resumeId", getResumeActiveSections);
+
+///generate-pdf
+router.post("/generate-pdf", generatePdf);
 
 export default router;

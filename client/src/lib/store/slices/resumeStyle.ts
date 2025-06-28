@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface activeSections {
   jobIndustry: boolean;
   personalInfo: boolean;
+  // summary: boolean;
   professionalSummary: boolean;
   workExperience: boolean;
   education: boolean;
@@ -25,7 +26,13 @@ export interface ResumeStyleState {
     page: "compact" | "normal" | "spacious";
     section: "compact" | "normal" | "spacious";
   };
-  fontFamily: "Helvetica" | "Times-Roman" | "Courier";
+  fontFamily:
+    | "Helvetica"
+    | "Times-Roman"
+    | "Courier"
+    | "Inter"
+    | "Roboto"
+    | "Merriweather";
   colorScheme: {
     primary: string;
     secondary: string;
@@ -46,7 +53,14 @@ export interface IResumeStyleState {
     page: "compact" | "normal" | "spacious";
     section: "compact" | "normal" | "spacious";
   };
-  fontFamily: "Helvetica" | "Times-Roman" | "Courier";
+  fontFamily:
+    | "Helvetica"
+    | "Times-Roman"
+    | "Courier"
+    | "Inter"
+    | "Roboto"
+    | "Merriweather";
+
   colorScheme: {
     primary: string;
     secondary: string;

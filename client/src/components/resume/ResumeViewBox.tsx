@@ -211,7 +211,6 @@ import {
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import api from "@/lib/api";
-import DownloadViewResume from "./ResumeViewerDownload";
 import { ResumeState } from "@/lib/types/resumeInput";
 
 const ResumeViewBox = ({
@@ -347,9 +346,28 @@ const ResumeViewBox = ({
                 )}
               </button>
               <button
+                onClick={onDelete}
+                disabled={loading}
+                className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-red-500 text-white font-normal  hover:scale-[.99] transition-all duration-150 border rounded"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete
+              </button>
+            </div>
+
+            <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
+              {/* <button
+                onClick={onDelete}
+                disabled={loading}
+                className="flex w-full h-[34px] items-center justify-center gap-2 py-1 bg-red-500 text-white font-semibold  hover:scale-[.99] transition-all duration-150 border rounded"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete
+              </button> */}
+              <button
                 onClick={handleEdit}
                 disabled={loading || isNavigating}
-                className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded"
+                className="flex w-full h-[34px] items-center justify-center gap-2 py-1 text-white bg-primary font-semibold  hover:scale-[.99] transition-all duration-150 border rounded"
               >
                 {isNavigating ? (
                   <>
@@ -359,24 +377,16 @@ const ResumeViewBox = ({
                 ) : (
                   <>
                     <Edit2 className="w-4 h-4" />
-                    Edit
+                    Edit And Download
                   </>
                 )}
               </button>
-            </div>
+              {/* <button className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 text-white bg-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded">
+                Download
+              </button> */}
 
-            <div className="w-full h-auto flex items-center justify-center flex-row gap-2">
-              <button
-                onClick={onDelete}
-                disabled={loading}
-                className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 bg-white text-red-500 hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded"
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete
-              </button>
-              <button className="flex w-1/2 h-[34px] items-center justify-center gap-2 py-1 text-white bg-primary hover:border-primary hover:scale-[.99] transition-all duration-150 border rounded">
-                <DownloadViewResume resume={resume} resumeId={resumeId} />
-              </button>
+              {/* <DownloadViewResume resume={resume} resumeId={resumeId} /> */}
+              {/* <DownloadPDF resume={resume} /> */}
             </div>
           </div>
 

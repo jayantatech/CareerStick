@@ -165,7 +165,7 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
   const id = useId();
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(value.length > 0);
+  const handleBlur = () => setIsFocused(value?.length > 0);
 
   return (
     <div className="relative">

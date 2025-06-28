@@ -16,9 +16,9 @@ import blogRoutes from "./routes/blogRoutes";
 import newsletterRoutes from "./routes/newsletterRoutes";
 import feedbackRoutes from "./routes/feedbackRoutes";
 import settingsRoutes from "./routes/settingsRoutes";
-import cron from "node-cron";
-import axios from "axios";
-import setupCronJobs from "./utils/cronJobs";
+import webScraperRoutes from "./routes/profileRoutes";
+import profileRoutes from "./routes/profileRoutes";
+import linkedinProfileRoutes from "./routes/profileRoutes";
 dotenv.config();
 
 const app = express();
@@ -80,8 +80,10 @@ app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/newsletter", newsletterRoutes);
 app.use("/api/v1/feedback", feedbackRoutes);
 app.use("/api/v1/settings", settingsRoutes);
+app.use("/api/v1/web-scraper", webScraperRoutes);
+app.use("/api/v1/web-scraper", profileRoutes);
+app.use("/api/v1/linkedin", linkedinProfileRoutes);
 
-setupCronJobs(); // Initialize cron jobs
 const startServer = async () => {
   try {
     await connectDB(); // Connect to database first

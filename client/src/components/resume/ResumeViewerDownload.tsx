@@ -1,159 +1,57 @@
-// "use client";
-// import React, { memo, useState, useEffect } from "react";
-// import { PDFDownloadLink } from "@react-pdf/renderer";
-// import ResumePDF from "../sections/resumes/ResumePreview";
-// import { MdOutlineCloudDownload } from "react-icons/md";
-// import TempletTwo from "./templets/TempletTwo";
-// import TemplateThree from "./templets/TemplateThree";
-// import TemplateFour from "./templets/TemplateFour";
-// import api from "@/lib/api";
-// import useAuth from "@/lib/hooks/useAuth";
-// import { ResumeState } from "@/lib/types/resumeInput";
-
-// // Memoized loading button component
-// const LoadingButton = memo(() => (
-//   <button disabled className="font-semibold">
-//     Loading...
-//   </button>
-// ));
-// LoadingButton.displayName = "LoadingButton";
-
-// // Memoized download button component
-// const DownloadButton = memo(() => (
-//   <div className="flex items-center gap-1">
-//     <MdOutlineCloudDownload className="text-[20px] -mt-0.5" />
-//     <span className="font-heading font-semibold text-[16px]">Download</span>
-//   </div>
-// ));
-// DownloadButton.displayName = "DownloadButton";
-
-// // Template components mapping - matches the view component
-// const templateComponents: Record<string, React.FC<any>> = {
-//   default: ResumePDF,
-//   template2: TempletTwo,
-//   template3: TemplateThree,
-//   template4: TemplateFour,
-// };
-
-// interface DownloadViewResumeProps {
-//   resume: ResumeState;
-//   resumeId: string;
-// }
-
-// const DownloadViewResume = memo(
-//   ({ resume, resumeId }: DownloadViewResumeProps) => {
-//     const [styleConfig, setStyleConfig] = useState<any>({});
-//     const [isLoading, setIsLoading] = useState(true);
-//     const { isLoading: isUserLoading, user } = useAuth();
-//     const [isClient, setIsClient] = useState(false);
-
-//     // Set isClient to true on component mount
-//     // useEffect(() => {
-//     //   setIsClient(true);
-//     // }, []);
-//     useEffect(() => {
-//       setIsClient(true);
-//       const timer = setTimeout(() => {
-//         setIsLoading(false);
-//       }, 2000);
-//       return () => clearTimeout(timer);
-//     }, []);
-
-//     // Fetch resume style configuration
-//     useEffect(() => {
-//       const fetchResumeStyle = async () => {
-//         if (!user?._id || isUserLoading) return;
-//         try {
-//           const response = await api.post("/resume/settings", {
-//             userId: user?._id,
-//             resumeId: resumeId,
-//           });
-
-//           if (response.data.success) {
-//             setStyleConfig(response.data.settings);
-//           }
-//         } catch (error) {
-//           console.error("Error fetching resume style:", error);
-//         }
-//       };
-
-//       if (user?._id && resumeId) {
-//         fetchResumeStyle();
-//       }
-//     }, [resumeId, user?._id, isUserLoading]);
-
-//     // Get the appropriate template component
-//     const TemplateComponent =
-//       templateComponents[resume.templateName || "default"];
-
-//     // Only render on client side
-//     if (!isClient) {
-//       return null;
-//     }
-
-//     return (
-//       <PDFDownloadLink
-//         document={<TemplateComponent data={resume} styleConfig={styleConfig} />}
-//         fileName={`${resume.personalInfo?.firstName || "resume"}-${
-//           new Date().toISOString().split("T")[0]
-//         }.pdf`}
-//         className="block"
-//       >
-//         {isLoading ? <LoadingButton /> : <DownloadButton />}
-//       </PDFDownloadLink>
-//     );
-//   }
-// );
-
-// DownloadViewResume.displayName = "DownloadViewResume";
-
-// export default DownloadViewResume;
-
 "use client";
 import React, { memo, useState, useEffect } from "react";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { MdOutlineCloudDownload } from "react-icons/md";
-
-import ResumePDF from "../sections/resumes/ResumePreview";
-import TempletTwo from "./templets/TempletTwo";
-import TemplateThree from "./templets/TemplateThree";
-import TemplateFour from "./templets/TemplateFour";
+import { useAppDispatch } from "@/lib/store/hooks";
 import api from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
 import { ResumeState } from "@/lib/types/resumeInput";
 import { IResumeStyleState } from "@/lib/store/slices/resumeStyle";
-// import { StyleConfig } from "@/lib/types/styleConfig"; // Assuming you have this type defined
+import dynamic from "next/dynamic";
+import DownloadPDF from "./DownloadPDF";
 
-// Memoized loading button component
-const LoadingButton = memo(() => (
-  <button disabled className="font-semibold">
-    Loading...
-  </button>
-));
-LoadingButton.displayName = "LoadingButton";
+// Dynamic imports for templates
+// const TemplateOne = dynamic(() => import("../resumeTemplates/TemplateOne"), {
+//   ssr: false,
+//   loading: () => <div>Loading...</div>,
+// });
 
-// Memoized download button component
-const DownloadButton = memo(() => (
-  <div className="flex items-center gap-1">
-    <MdOutlineCloudDownload className="text-[20px] -mt-0.5" />
-    <span className="font-heading font-semibold text-[16px]">Download</span>
-  </div>
-));
-DownloadButton.displayName = "DownloadButton";
+const TemplateThree = dynamic(
+  () => import("../resumeTemplates/TemplateThree"),
+  {
+    ssr: false,
+    loading: () => <div>Loading...</div>,
+  }
+);
 
-// Define a more specific type for template components
-type TemplateComponentProps = {
-  data: ResumeState;
-  styleConfig: IResumeStyleState;
-};
+// const TemplateFour = dynamic(() => import("../resumeTemplates/TemplateFour"), {
+//   ssr: false,
+//   loading: () => <div>Loading...</div>,
+// });
+
+// const TemplateFive = dynamic(() => import("../resumeTemplates/TemplateFive"), {
+//   ssr: false,
+//   loading: () => <div>Loading...</div>,
+// });
+
+// type TemplateComponentProps = {
+//   data: ResumeState;
+//   styleConfig: IResumeStyleState;
+//   isMultiPage: boolean;
+// };
 
 // Template components mapping
-const templateComponents: Record<string, React.FC<TemplateComponentProps>> = {
-  default: ResumePDF,
-  template2: TempletTwo,
-  template3: TemplateThree,
-  template4: TemplateFour,
-};
+// const templateComponents: Record<string, React.FC<TemplateComponentProps>> = {
+//   // default: ResumePDF as React.FC<TemplateComponentProps>,
+//   // template1: TemplateOne as React.FC<TemplateComponentProps>,
+//   // template2: TemplateOne as React.FC<TemplateComponentProps>,
+//   // template3: TemplateThree as React.FC<TemplateComponentProps>,
+//   // template4: TemplateFour as React.FC<TemplateComponentProps>,
+//   // template5: TemplateFive as React.FC<TemplateComponentProps>,
+//   template1: TemplateThree as React.FC<TemplateComponentProps>,
+//   template2: TemplateThree as React.FC<TemplateComponentProps>,
+//   template3: TemplateThree as React.FC<TemplateComponentProps>,
+//   template4: TemplateThree as React.FC<TemplateComponentProps>,
+//   template5: TemplateThree as React.FC<TemplateComponentProps>,
+// };
 
 interface DownloadViewResumeProps {
   resume: ResumeState;
@@ -166,8 +64,9 @@ const DownloadViewResume = memo(
       {} as IResumeStyleState
     );
     const [isLoading, setIsLoading] = useState(true);
-    const { user } = useAuth(); // Removed unused isLoading
+    const { user } = useAuth();
     const [isClient, setIsClient] = useState(false);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
       setIsClient(true);
@@ -200,29 +99,95 @@ const DownloadViewResume = memo(
       }
     }, [resumeId, user?._id]);
 
-    // Get the appropriate template component
-    const TemplateComponent =
-      templateComponents[resume.templateName || "default"];
+    // Effect to update template code in Redux store
+    useEffect(() => {
+      if (resume && styleConfig && !isLoading) {
+        // const TemplateComponent =
+        //   templateComponents[resume.templateName || "default"];
+        // Generate the template code and dispatch to Redux
+        // const templateCode = (
+        // <TemplateComponent
+        //   isMultiPage={true}
+        //   data={resume}
+        //   styleConfig={styleConfig}
+        //   isDownloadRequested={true}
+        // />;
+        <TemplateThree
+          data={resume}
+          styleConfig={styleConfig}
+          isDownloadRequested={true}
+        />;
+        // );
+        // dispatch(setCodeToGenerate(templateCode));
+      }
+    }, [resume, styleConfig, isLoading, dispatch]);
 
-    // Only render on client side
+    <TemplateThree
+      data={resume}
+      styleConfig={styleConfig}
+      isDownloadRequested={true}
+    />;
+
     if (!isClient) {
       return null;
     }
 
-    return (
-      <PDFDownloadLink
-        document={<TemplateComponent data={resume} styleConfig={styleConfig} />}
-        fileName={`${resume.personalInfo?.firstName || "resume"}-${
-          new Date().toISOString().split("T")[0]
-        }.pdf`}
-        className="block"
-      >
-        {isLoading ? <LoadingButton /> : <DownloadButton />}
-      </PDFDownloadLink>
-    );
+    return <DownloadPDF resume={resume} />;
   }
 );
 
 DownloadViewResume.displayName = "DownloadViewResume";
 
 export default DownloadViewResume;
+
+// "use client";
+
+// import { useState } from "react";
+// import { memo } from "react";
+
+// import { useAppDispatch } from "@/lib/store/hooks";
+// import { setCodeToGenerate } from "@/lib/store/slices/resumeDownloadSlice";
+// import { ResumeState } from "@/lib/types/resumeInput";
+// import { IResumeStyleState } from "@/lib/store/slices/resumeStyle";
+// import TemplateThree from "../resumeTemplates/TemplateThree";
+// import DownloadPDF from "./DownloadPDF";
+
+// interface DownloadViewResumeProps {
+//   resume: ResumeState;
+//   resumeId: string;
+// }
+
+// const DownloadViewResume = memo(
+//   ({ resume, resumeId }: DownloadViewResumeProps) => {
+//     const [styleConfig, setStyleConfig] = useState<IResumeStyleState>(
+//       {} as IResumeStyleState
+//     );
+//     const [templateContent, setTemplateContent] = useState<string>("");
+//     const dispatch = useAppDispatch();
+
+//     // Handle template content updates
+//     const handleContentChange = (content: string) => {
+//       console.log("content changed to generate", content);
+//       setTemplateContent(content);
+//       dispatch(setCodeToGenerate(content));
+//     };
+
+//     return (
+//       <>
+//         <div className="w-full h-full absolute left-0 top-0 opacity-80 z-30">
+//           <TemplateThree
+//             data={resume}
+//             styleConfig={styleConfig}
+//             isDownloadRequested={true}
+//             onContentChange={handleContentChange}
+//           />
+//         </div>
+//         {templateContent && <DownloadPDF resume={resume} />}
+//       </>
+//     );
+//   }
+// );
+
+// DownloadViewResume.displayName = "DownloadViewResume";
+
+// export default DownloadViewResume;

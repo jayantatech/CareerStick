@@ -23,7 +23,7 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
     <div
       className={cn(
         "group relative p-4 bg-transparent  rounded flex flex-row justify-between  border  ", ///border-gray-100 bg-white shadow-sm
-        "transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
+        "transition-all duration-300 hover:shadow-lg hover:-translate-y-1 shadow-md",
         "dark:bg-gray-800 dark:border-gray-700"
         // className
       )}
@@ -131,7 +131,7 @@ export default function FeaturesSection() {
               description={feature.description}
               className={cn(
                 // Add subtle entrance animations with different delays
-                "opacity-1 animate-in fade-in-50 duration-1000 fill-mode-forwards",
+                "opacity-1 animate-in fade-in-50 duration-1000 fill-mode-forwards shadow-lg",
                 {
                   "delay-150": index % 3 === 0,
                   "delay-300": index % 3 === 1,

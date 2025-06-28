@@ -63,9 +63,17 @@ const config: Config = {
         },
       },
       fontFamily: {
-        heading: ["Nunito", "sans-serif"],
-        blogText: ["Nunito", "sans-serif"],
+        heading: ["sans-serif"],
+        blogText: ["sans-serif"],
         body: ["Lato", "sans-serif"],
+        // font for resume`
+        montserrat: ['"Montserrat"', "sans-serif"], // Add Montserrat as a custom font
+        merriweather: ['"Merriweather"', "sans-serif"], // Add Montserrat as a custom font
+        roboto: ['"Roboto"', "sans-serif"],
+        poppins: ['"Poppins"', "sans-serif"], // not good
+        lato: ['"Lato"', "sans-serif"], // ok
+        nunito: ['"Nunito"', "sans-serif"], // ok too
+        inter: ['"Inter"', "sans-serif"], // good (main font for the resume)
       },
       borderRadius: {
         lg: "var(--radius)",

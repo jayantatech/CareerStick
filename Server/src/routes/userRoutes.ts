@@ -23,8 +23,6 @@ router.post("/reset-password/:resetToken", resetPassword);
 router.post("/refresh-token", refreshAccessToken);
 router.post("/get-token-info", getTokenInfo);
 
-
 router.post("/google", googleAuthCallback);
-
 
 export default router;

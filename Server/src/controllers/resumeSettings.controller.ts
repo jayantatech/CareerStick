@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Resume from "../models/Resumes";
 import ResumeSettings from "../models/ResumeSettings";
+import { generateResumePDF } from "../utils/pdfGenerator";
+import { generatePDF } from "../utils/generateResumePDF";
 
 const getResumeSettings = async (req: Request, res: Response) => {
   try {
@@ -329,10 +331,37 @@ const getResumeActiveSections = async (req: Request, res: Response) => {
   }
 };
 
+const generatePdf = async (req: Request, res: Response) => {
+  try {
+    const { resumeData, activeSections, fontFamily } = req.body;
+
+    const pdf = await generateResumePDF(
+      resumeData,
+      "template3",
+      {
+        format: "A4",
+        orientation: "portrait",
+      },
+      fontFamily
+    );
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
+    res.send(pdf);
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    res.status(500).json({
+      error: "Failed to generate PDF",
+      details: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
 export {
   getResumeSettings,
   updateResumeSettings,
   resetResumeSettings,
   updateResumeActiveSections,
   getResumeActiveSections,
+  generatePdf,
 };

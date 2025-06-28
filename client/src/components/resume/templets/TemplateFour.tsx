@@ -1448,6 +1448,7 @@
 
 // export default TemplateFour;
 // working perfactly before two errors - (one src)
+
 import React from "react";
 import {
   Page,
@@ -1457,7 +1458,6 @@ import {
   StyleSheet,
   Svg,
   Path,
-  Image,
   Font,
 } from "@react-pdf/renderer";
 import { ResumeState } from "@/lib/types/resumeInput";
@@ -1924,21 +1924,22 @@ const TemplateFour = ({
           {/* Profile Section */}
           {photo ? (
             <View style={styles.imageContainer}>
-              <Image
+              {/* <Image
                 src={photo}
+                
                 style={styles.image}
                 data-accessibility-label={"Profile picture of the candidate"}
-              />
+              /> */}
             </View>
           ) : (
             <View style={styles.imageContainer}>
-              <Image
+              {/* <Image
                 src={
                   "https://ai-resume.s3.us-east-1.amazonaws.com/profile/1731488429181-careerstick.com"
                 }
                 style={styles.image}
                 data-accessibility-label={"Default profile picture"}
-              />
+              /> */}
             </View>
           )}
           {/* Contact Information */}

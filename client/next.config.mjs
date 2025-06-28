@@ -40,6 +40,12 @@ const nextConfig = {
         port: "",
         pathname: "/**", // Correct path pattern
       },
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+        port: "",
+        pathname: "/**", // Correct path pattern
+      },
       // Add other domains if needed
     ],
   },
