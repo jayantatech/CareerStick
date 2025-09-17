@@ -94,7 +94,7 @@ const ResumeViewer = ({
     templateComponents[activeTemplate] || templateComponents.template3;
   // console.log("activeTemplate, resume", activeTemplate);
   return (
-    <div className="w-[400px] h-[560px] bg-blue-100/50 border border-gray-200 relative overflow-hidden">
+    <div className="w-[400px] h-[560px] max-md:w-[334px] max-md:h-[480px] bg-blue-100/50 border border-gray-200 relative overflow-hidden">
       <div className="scale-[.49] -ml-32 -mt-[282px]">
         {TemplateComponent && (
           <TemplateComponent

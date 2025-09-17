@@ -104,32 +104,7 @@ const config: Config = {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 };
 export default config;
-// import type { Config } from "tailwindcss";
-
-// const config: Config = {
-//   content: [
-//     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-//     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-//     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-//   ],
-//   theme: {
-//     extend: {
-//       colors: {
-//         background: "var(--background)",
-//         foreground: "var(--foreground)",
-// primary: "#3B41E9",
-// secondary: "#F3F5F6",
-// lightprimany: "#EFF0FD",
-//       },
-//       fontFamily: {
-//         heading: ["Nunito", "sans-serif"],
-//         body: ["Lato", "sans-serif"],
-//       },
-//     },
-//   },
-//   plugins: [],
-// };
-// export default config;
