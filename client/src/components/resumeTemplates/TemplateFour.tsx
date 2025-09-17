@@ -772,63 +772,15 @@ const TemplateFour: React.FC<TemplateThreeProps> = ({
     content,
   });
 
-  const generateSections = (): Section[] => {
+
+  useEffect(() => {
+    const generateSections = (): Section[] => {
     const sections: Section[] = [];
 
     // Header section (full width)
     sections.push(
       createSection(
         "header",
-        // <div className="w-full mb-2">
-        //   <h1
-        //     className={`font-bold capitalize ${styles.fontSize.heading}`}
-        //     style={{ color: primaryColor }}
-        //   >
-        //     {placeholderText.firstName} {placeholderText.lastName}
-        //   </h1>
-        //   <h2
-        //     className={`${styles.jobRoleSize} font-semibold capitalize mt-0`}
-        //     style={{ color: secondaryColor }}
-        //   >
-        //     {placeholderText.title}
-        //   </h2>
-        //   <div className="flex flex-wrap gap-y-0.5 gap-4">
-        //     {placeholderText.phone && (
-        //       <div className="flex items-center gap-1">
-        //         <Phone className="w-4 h-4" />
-        //         <span className="text-gray-600">{placeholderText.phone}</span>
-        //       </div>
-        //     )}
-        //     {placeholderText.email && (
-        //       <div className="flex items-center gap-1">
-        //         <Mail className="w-4 h-4" />
-        //         <span className="text-gray-600">{placeholderText.email}</span>
-        //       </div>
-        //     )}
-        //     {placeholderText.location && (
-        //       <div className="flex items-center gap-1">
-        //         <MapPin className="w-4 h-4" />
-        //         <span className="text-gray-600">
-        //           {placeholderText.location}
-        //         </span>
-        //       </div>
-        //     )}
-        //   </div>
-        //   {activeSections.socialLinks && data.socialLinks?.length > 0 && (
-        //     <div className="flex flex-wrap gap-4 mt-0 gap-y-0.5">
-        //       {data.socialLinks.map((link, index) =>
-        //         link.url ? (
-        //           <Link key={index} href={link.url} target="_blank">
-        //             <div className="flex items-center gap-1">
-        //               {getSocialIcon(link.platform)}
-        //               <span className="text-gray-600">{link.url}</span>
-        //             </div>
-        //           </Link>
-        //         ) : null
-        //       )}
-        //     </div>
-        //   )}
-        // </div>
         <div className="flex gap-4 items-start mb-1">
           {/* Profile Image Box */}
           <div className="min-w-[112px] min-h-[112px] w-[112px] h-[112px] rounded overflow-hidden flex-shrink-0 border-2 border-gray-200">
@@ -1235,7 +1187,6 @@ const TemplateFour: React.FC<TemplateThreeProps> = ({
 
     return sections;
   };
-  useEffect(() => {
     const sections = generateSections();
     const distributeContent = () => {
       let currentHeight = 0;
@@ -1271,7 +1222,6 @@ const TemplateFour: React.FC<TemplateThreeProps> = ({
   }, [
     data,
     styleConfig,
-    generateSections,
     mainContentRef?.current?.clientHeight &&
       mainContentRef?.current?.clientHeight > PAGE_HEIGHT_THRESHOLD,
   ]);

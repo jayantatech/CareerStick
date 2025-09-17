@@ -9,7 +9,6 @@ import api from "@/lib/api";
 import mapMongoDataToReduxFormat from "@/lib/features/mapMongoDataToReduxFormat";
 import useAuth from "@/lib/hooks/useAuth";
 import { ResumeState } from "@/lib/types/resumeInput";
-// import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import PageLoading from "@/components/loading/PageLoading";
 import { Plus, FileText, Loader2 } from "lucide-react";
@@ -115,19 +114,6 @@ const MyResume = () => {
 
   const router = useRouter();
   const { user, isLoading: isAuthLoading } = useAuth();
-
-  // const ResumeViewer = useMemo(
-  //   () =>
-  //     dynamic(() => import("../../../components/resume/ResumeViewer"), {
-  //       ssr: false,
-  //       loading: () => (
-  //         <div className="w-full h-full relative">
-  //           <Skeleton className="w-full h-full bg-blue-50" />
-  //         </div>
-  //       ),
-  //     }),
-  //   []
-  // );
 
   useEffect(() => {
     const hasLoaded = sessionStorage.getItem("hasLoadedMyResumes");
@@ -314,7 +300,7 @@ const MyResume = () => {
       />
       <FeedbackForm />
       <div className="w-full max-lg:pt-[60px] mx-auto px-4 sm:px-6 bg-gray-100 h-full lg:px-8 py-2 overflow-y-auto">
-        <div className="grid grid-cols-1 max-md:grid-cols-1 max-l-laptop:grid-cols-2 xl:grid-cols-3 gap-6 gap-y-2 items-center justify-items-center">
+        <div className="grid grid-cols-1 max-md:grid-cols-1 l-laptop:grid-cols-2  s-desktop:grid-cols-3 gap-6 gap-y-2 items-center justify-items-center">
           {resumeGrid}
         </div>
       </div>
@@ -323,21 +309,3 @@ const MyResume = () => {
 };
 
 export default MyResume;
-
-// "use client";
-
-// import TemplateThree from "@/components/resumeTemplates/TemplateThree";
-// import { useAppSelector } from "@/lib/store/hooks";
-// import React from "react";
-
-// const MyResume = () => {
-//   const data = useAppSelector((state) => state.resume);
-//   const styleConfig = useAppSelector((state) => state.resumeStyle);
-//   return (
-//     <div>
-//       <TemplateThree data={data} styleConfig={styleConfig} />
-//     </div>
-//   );
-// };
-
-// export default MyResume;
