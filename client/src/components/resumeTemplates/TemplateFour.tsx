@@ -1269,7 +1269,7 @@ const TemplateFour: React.FC<TemplateThreeProps> = ({
       {/* Second Page */}
       {isMultiPage && secondPageSections.length > 0 && (
         <div
-          className={`w-[794px] h-[1123px] shadow bg-white ${styles.pageMargin} overflow-hidden mx-auto ${styles.fontFamilies} ${styles.lineHeight}`}
+          className={`w-[794px] h-[1123px] scale-[.42] shadow bg-white ${styles.pageMargin} overflow-hidden mx-auto ${styles.fontFamilies} ${styles.lineHeight}`}
         >
           {secondPageSections.map(renderSection)}
         </div>
